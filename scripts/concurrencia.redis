@@ -1,0 +1,30 @@
+ECHO "=== HITO 7 - OPERACIONES ATOMICAS Y RANKING ==="
+
+ECHO "1. Reiniciar datos temporales de la prueba"
+DEL contador:partido:PAR-0001:visitas
+DEL ranking:partido:PAR-0001:figura
+
+ECHO "2. Preparar contador para la prueba concurrente"
+SET contador:partido:PAR-0001:visitas 0 EX 86400
+GET contador:partido:PAR-0001:visitas
+
+ECHO "3. Registrar votos mediante incrementos atomicos"
+ZINCRBY ranking:partido:PAR-0001:figura 1 JUG-0001
+ZINCRBY ranking:partido:PAR-0001:figura 1 JUG-0001
+ZINCRBY ranking:partido:PAR-0001:figura 1 JUG-0001
+ZINCRBY ranking:partido:PAR-0001:figura 1 JUG-0001
+ZINCRBY ranking:partido:PAR-0001:figura 1 JUG-0001
+ZINCRBY ranking:partido:PAR-0001:figura 1 JUG-0002
+ZINCRBY ranking:partido:PAR-0001:figura 1 JUG-0002
+ZINCRBY ranking:partido:PAR-0001:figura 1 JUG-0002
+ZINCRBY ranking:partido:PAR-0001:figura 1 JUG-0003
+EXPIRE ranking:partido:PAR-0001:figura 86400
+
+ECHO "4. Consultar Top 5 ordenado por puntaje"
+ZREVRANGE ranking:partido:PAR-0001:figura 0 4 WITHSCORES
+
+ECHO "5. Verificar TTL de los datos temporales"
+TTL contador:partido:PAR-0001:visitas
+TTL ranking:partido:PAR-0001:figura
+
+ECHO "=== PREPARACION DE CONCURRENCIA FINALIZADA ==="

@@ -1,0 +1,36 @@
+ECHO "=== HITO 7 - CARGA DE DATOS DE MUESTRA ==="
+
+ECHO "1. Crear sesion principal"
+HSET sesion:SES-0001 sesion_id SES-0001 usuario_id USR-0001 rol fan ultimo_acceso 2030-06-13T20:15:00Z estado activa partido_actual PAR-0001 acciones 0
+EXPIRE sesion:SES-0001 1800
+
+ECHO "2. Crear copia temporal del equipo Argentina"
+SET cache:equipo:ARG "{\"equipo_id\":\"ARG\",\"nombre\":\"Argentina\",\"confederacion\":\"CONMEBOL\"}" EX 300
+
+ECHO "3. Crear ranking temporal de muestra"
+ZADD ranking:partido:PAR-0001:figura 5 JUG-0001 3 JUG-0002 1 JUG-0003
+EXPIRE ranking:partido:PAR-0001:figura 86400
+
+ECHO "4. Crear contador temporal de visitas"
+SET contador:partido:PAR-0001:visitas 10 EX 86400
+
+ECHO "5. Verificar sesion y TTL"
+HGETALL sesion:SES-0001
+TTL sesion:SES-0001
+
+ECHO "6. Verificar copia de cache y TTL"
+GET cache:equipo:ARG
+TTL cache:equipo:ARG
+
+ECHO "7. Verificar ranking y TTL"
+ZREVRANGE ranking:partido:PAR-0001:figura 0 4 WITHSCORES
+TTL ranking:partido:PAR-0001:figura
+
+ECHO "8. Verificar contador y TTL"
+GET contador:partido:PAR-0001:visitas
+TTL contador:partido:PAR-0001:visitas
+
+ECHO "9. Inspeccionar claves mediante SCAN"
+SCAN 0 MATCH *:* COUNT 100
+
+ECHO "=== CARGA DE MUESTRA FINALIZADA ==="

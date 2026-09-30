@@ -1,0 +1,29 @@
+ECHO "=== HITO 7 - INICIALIZACION DEL AMBIENTE REDIS ==="
+
+ECHO "1. Verificacion de disponibilidad"
+PING
+
+ECHO "2. Limpieza controlada de claves de demostracion"
+DEL sesion:SES-0001
+DEL sesion:SES-EXPIRA
+DEL sesion:SES-CERRAR
+DEL cache:equipo:ARG
+DEL ranking:partido:PAR-0001:figura
+DEL contador:partido:PAR-0001:visitas
+
+ECHO "3. Verificacion de configuracion AOF"
+CONFIG GET appendonly
+
+ECHO "4. Verificacion del limite de memoria"
+CONFIG GET maxmemory
+
+ECHO "5. Verificacion de politica de memoria"
+CONFIG GET maxmemory-policy
+
+ECHO "6. Inspeccion segura de claves del modulo"
+SCAN 0 MATCH sesion:* COUNT 100
+SCAN 0 MATCH cache:equipo:* COUNT 100
+SCAN 0 MATCH ranking:partido:* COUNT 100
+SCAN 0 MATCH contador:partido:* COUNT 100
+
+ECHO "=== INICIALIZACION FINALIZADA ==="

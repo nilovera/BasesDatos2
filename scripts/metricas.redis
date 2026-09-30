@@ -1,0 +1,30 @@
+ECHO "=== HITO 7 - METRICAS Y OBSERVABILIDAD ==="
+
+ECHO "1. Generar accesos controlados para hits y misses"
+SET cache:metricas:prueba valor-temporal EX 60
+GET cache:metricas:prueba
+GET cache:metricas:prueba
+GET cache:metricas:ausente-1
+GET cache:metricas:ausente-2
+DEL cache:metricas:prueba
+
+ECHO "2. Consultar estadisticas acumuladas"
+INFO stats
+
+ECHO "3. Consultar uso de memoria"
+INFO memory
+
+ECHO "4. Consultar limite y politica de memoria"
+CONFIG GET maxmemory
+CONFIG GET maxmemory-policy
+
+ECHO "5. Consultar cantidad total de claves"
+DBSIZE
+
+ECHO "6. Inspeccionar claves del modulo sin KEYS"
+SCAN 0 MATCH sesion:* COUNT 100
+SCAN 0 MATCH cache:equipo:* COUNT 100
+SCAN 0 MATCH ranking:partido:* COUNT 100
+SCAN 0 MATCH contador:partido:* COUNT 100
+
+ECHO "=== CONSULTA DE METRICAS FINALIZADA ==="

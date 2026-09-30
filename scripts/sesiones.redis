@@ -1,0 +1,37 @@
+ECHO "=== HITO 7 - CICLO DE VIDA DE SESIONES ==="
+
+ECHO "1. Consultar sesion principal existente"
+HGETALL sesion:SES-0001
+TTL sesion:SES-0001
+
+ECHO "2. Simular proximidad a la inactividad"
+EXPIRE sesion:SES-0001 60
+TTL sesion:SES-0001
+
+ECHO "3. Renovar actividad como una secuencia MULTI EXEC"
+MULTI
+HSET sesion:SES-0001 ultimo_acceso 2030-06-13T20:20:00Z
+HINCRBY sesion:SES-0001 acciones 1
+EXPIRE sesion:SES-0001 1800
+EXEC
+
+ECHO "4. Verificar atributos y TTL renovado"
+HGETALL sesion:SES-0001
+TTL sesion:SES-0001
+
+ECHO "5. Crear sesion de expiracion corta para la prueba"
+DEL sesion:SES-EXPIRA
+HSET sesion:SES-EXPIRA sesion_id SES-EXPIRA usuario_id USR-0002 rol fan ultimo_acceso 2030-06-13T20:20:00Z estado activa partido_actual PAR-0001 acciones 0
+EXPIRE sesion:SES-EXPIRA 5
+HGETALL sesion:SES-EXPIRA
+TTL sesion:SES-EXPIRA
+
+ECHO "6. Crear y cerrar una sesion explicitamente"
+DEL sesion:SES-CERRAR
+HSET sesion:SES-CERRAR sesion_id SES-CERRAR usuario_id USR-0003 rol fan ultimo_acceso 2030-06-13T20:20:00Z estado activa partido_actual PAR-0001 acciones 0
+EXPIRE sesion:SES-CERRAR 1800
+EXISTS sesion:SES-CERRAR
+DEL sesion:SES-CERRAR
+EXISTS sesion:SES-CERRAR
+
+ECHO "=== SCRIPT DE SESIONES FINALIZADO ==="

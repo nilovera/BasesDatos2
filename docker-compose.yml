@@ -1,0 +1,27 @@
+services:
+  redis:
+    image: redis:latest
+    container_name: fixture2030-redis
+    command:
+      - redis-server
+      - --appendonly
+      - "yes"
+      - --save
+      - "60"
+      - "1"
+      - --maxmemory
+      - 256mb
+      - --maxmemory-policy
+      - noeviction
+      - --loglevel
+      - notice
+    ports:
+      - "6379:6379"
+    volumes:
+      - ~/docker/data/redis:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped

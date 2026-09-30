@@ -1,0 +1,29 @@
+ECHO "=== HITO 7 - CACHE ASIDE E INVALIDACION ==="
+
+ECHO "1. Asegurar ausencia de la copia para provocar cache miss"
+DEL cache:equipo:ARG
+
+ECHO "2. Cache miss: Redis no contiene el perfil"
+GET cache:equipo:ARG
+
+ECHO "3. Simular lectura de la fuente de verdad MongoDB y cargar la copia"
+SET cache:equipo:ARG "{\"equipo_id\":\"ARG\",\"nombre\":\"Argentina\",\"confederacion\":\"CONMEBOL\",\"version\":1}" EX 300
+
+ECHO "4. Cache hit: recuperar el perfil desde Redis"
+GET cache:equipo:ARG
+TTL cache:equipo:ARG
+
+ECHO "5. Simular cambio confirmado en MongoDB e invalidar la copia"
+DEL cache:equipo:ARG
+
+ECHO "6. Nuevo cache miss despues de la invalidacion"
+GET cache:equipo:ARG
+
+ECHO "7. Reconstruir la copia con la version actualizada de MongoDB"
+SET cache:equipo:ARG "{\"equipo_id\":\"ARG\",\"nombre\":\"Argentina\",\"confederacion\":\"CONMEBOL\",\"version\":2}" EX 300
+
+ECHO "8. Verificar copia actualizada y TTL"
+GET cache:equipo:ARG
+TTL cache:equipo:ARG
+
+ECHO "=== PRUEBA DE CACHE FINALIZADA ==="

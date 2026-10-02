@@ -1,0 +1,77 @@
+# PowerShell: ejecutar desde la raiz del modulo, con Docker Compose iniciado.
+# & ([scriptblock]::Create((Get-Content -Raw .\docs\evidencia\inicializacion.Influx)))
+# Verificacion del ambiente. La autorizacion y el modelo se definen en la siguiente etapa.
+
+$ErrorActionPreference = 'Stop'
+if (-not (Test-Path '.\docker-compose.yml')) {
+    throw 'Ejecutar desde la carpeta que contiene docker-compose.yml.'
+}
+
+Write-Output '=== HITO 8 - INICIALIZACION DEL AMBIENTE INFLUXDB ==='
+Get-Date -Format 'yyyy-MM-dd HH:mm:ss zzz'
+
+Write-Output '1. Verificacion de disponibilidad del contenedor'
+docker compose ps
+if ($LASTEXITCODE -ne 0) { throw 'No se pudo consultar Docker Compose.' }
+$containerState = docker inspect fixture2030-influxdb --format '{{.State.Status}}'
+if ($LASTEXITCODE -ne 0 -or $containerState -ne 'running') {
+    throw 'InfluxDB no esta iniciado. Ejecutar docker compose up -d y revisar los logs.'
+}
+
+Write-Output '2. Verificacion de version y CLI incluido en el contenedor'
+docker exec fixture2030-influxdb influxdb3 --version
+if ($LASTEXITCODE -ne 0) { throw 'No se pudo ejecutar el CLI de InfluxDB 3.' }
+
+Write-Output '3. Verificacion de imagen utilizada'
+$image = docker inspect fixture2030-influxdb --format '{{.Config.Image}}'
+if ($LASTEXITCODE -ne 0) { throw 'No se pudo consultar la imagen.' }
+Write-Output $image
+if ($image -ne 'influxdb:3-core') { throw 'El laboratorio requiere la imagen de la Clase 09: influxdb:3-core.' }
+
+Write-Output '4. Verificacion de montaje de persistencia y carpeta de scripts'
+$mountsJson = docker inspect fixture2030-influxdb --format '{{json .Mounts}}'
+if ($LASTEXITCODE -ne 0) { throw 'No se pudieron consultar los montajes.' }
+$mounts = $mountsJson | ConvertFrom-Json
+$mounts | Select-Object Source, Destination, RW | Format-Table -AutoSize
+$dataMount = @($mounts | Where-Object { $_.Destination -eq '/var/lib/influxdb3/data' })
+$scriptsMount = @($mounts | Where-Object { $_.Destination -eq '/scripts' })
+if ($dataMount.Count -ne 1 -or $dataMount[0].Type -ne 'bind' -or -not $dataMount[0].RW) {
+    throw 'La carpeta de datos debe ser un bind mount con lectura y escritura.'
+}
+$expectedDataPath = [IO.Path]::GetFullPath((Join-Path $env:USERPROFILE 'docker\data\influxdb'))
+$mountedDataPath = [IO.Path]::GetFullPath($dataMount[0].Source)
+if (-not [string]::Equals($expectedDataPath, $mountedDataPath, [StringComparison]::OrdinalIgnoreCase)) {
+    throw 'La persistencia debe apuntar a la carpeta docker\data\influxdb del usuario.'
+}
+if ($scriptsMount.Count -ne 1 -or $scriptsMount[0].RW) {
+    throw 'La carpeta /scripts debe estar montada como solo lectura.'
+}
+
+Write-Output '5. Verificacion de permiso de escritura del proceso'
+docker exec fixture2030-influxdb /bin/sh -c 'test -w /var/lib/influxdb3/data'
+if ($LASTEXITCODE -ne 0) { throw 'InfluxDB no tiene permiso de escritura en la carpeta de datos.' }
+Write-Output 'Directorio de datos accesible para escritura.'
+
+Write-Output '6. Verificacion de respuesta HTTP del servidor'
+$requestHeaders = @{}
+if ($env:INFLUXDB3_AUTH_TOKEN) {
+    $requestHeaders['Authorization'] = 'Bearer ' + $env:INFLUXDB3_AUTH_TOKEN
+}
+try {
+    $response = Invoke-WebRequest -Uri 'http://127.0.0.1:8181/health' -Headers $requestHeaders -UseBasicParsing -TimeoutSec 10
+    if ($response.StatusCode -ne 200) { throw 'El servidor no devolvio un estado de salud correcto.' }
+    Write-Output ('Estado HTTP: ' + $response.StatusCode)
+    Write-Output 'Servidor disponible; verificacion de salud correcta.'
+}
+catch {
+    $httpResponse = $_.Exception.Response
+    if ($httpResponse -and [int]$httpResponse.StatusCode -eq 401 -and -not $env:INFLUXDB3_AUTH_TOKEN) {
+        Write-Output 'Estado HTTP: 401. Servidor accesible; autorizacion local pendiente.'
+        Write-Output 'La salud autenticada se verificara al configurar el token local.'
+    }
+    else {
+        throw 'Fallo la verificacion HTTP. Revisar docker compose logs influxdb y la autorizacion local.'
+    }
+}
+
+Write-Output '=== VERIFICACION DEL AMBIENTE FINALIZADA ==='

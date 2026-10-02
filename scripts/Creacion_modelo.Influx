@@ -1,0 +1,20 @@
+# Creacion de las bases con los plazos definidos en la politica de retencion.
+docker exec --env INFLUXDB3_AUTH_TOKEN fixture2030-influxdb influxdb3 create database --retention-period $RetencionDetalle fixture2030_detalle
+if ($LASTEXITCODE -ne 0) { throw "No se pudo crear fixture2030_detalle. Revisa el error antes de continuar." }
+
+docker exec --env INFLUXDB3_AUTH_TOKEN fixture2030-influxdb influxdb3 create database --retention-period $RetencionHistorico fixture2030_historico
+if ($LASTEXITCODE -ne 0) { throw "No se pudo crear fixture2030_historico. Revisa el error antes de continuar." }
+
+# Creacion de las tablas, tags y fields.
+docker exec --env INFLUXDB3_AUTH_TOKEN fixture2030-influxdb influxdb3 create table --database fixture2030_detalle --tags "partido_id,equipo_id" --fields "posesion_pct:float64,pases_intervalo:int64,tiros_acumulados:int64" estadisticas_equipo
+if ($LASTEXITCODE -ne 0) { throw "No se pudo crear estadisticas_equipo." }
+
+docker exec --env INFLUXDB3_AUTH_TOKEN fixture2030-influxdb influxdb3 create table --database fixture2030_historico --tags "partido_id,equipo_id" --fields "posesion_promedio:float64,pases_total:int64,muestras:int64,ventana_inicio_ms:int64,ventana_fin_ms:int64" resumen_equipo_minuto
+if ($LASTEXITCODE -ne 0) { throw "No se pudo crear resumen_equipo_minuto." }
+
+# Verificacion del esquema real.
+docker exec --env INFLUXDB3_AUTH_TOKEN fixture2030-influxdb influxdb3 query --database fixture2030_detalle "SHOW COLUMNS FROM estadisticas_equipo"
+if ($LASTEXITCODE -ne 0) { throw "No se pudo verificar estadisticas_equipo." }
+
+docker exec --env INFLUXDB3_AUTH_TOKEN fixture2030-influxdb influxdb3 query --database fixture2030_historico "SHOW COLUMNS FROM resumen_equipo_minuto"
+if ($LASTEXITCODE -ne 0) { throw "No se pudo verificar resumen_equipo_minuto." }

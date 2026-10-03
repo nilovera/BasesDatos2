@@ -1,0 +1,12 @@
+# Datos persistentes de IRIS: nunca se versionan
+docker/data/iris/
+durable/
+*.DAT
+*.dat
+
+# Archivos locales de herramientas
+.idea/
+.vscode/
+*.log
+Thumbs.db
+.DS_Store

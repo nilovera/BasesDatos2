@@ -1,0 +1,53 @@
+ROUTINE FixtureDemo
+
+Main
+    Write "=== HITO 9 - DEMOSTRACION IRIS ===",!
+
+    Set arbitro = ##class(Fixture.Arbitro).%New()
+    Set arbitro.Documento = "ARB-DEMO"
+    Set arbitro.Nombre = "Fernando Rapallini"
+    Set arbitro.Nacionalidad = "Argentina"
+    Set arbitro.Rol = "Principal"
+    Set arbitro.LicenciaFIFA = 1
+    Set sc = arbitro.%Save()
+    If 'sc Do $System.Status.DisplayError(sc) Quit
+    Write "Arbitro guardado. ID: ",arbitro.%Id(),!
+
+    Set partido = ##class(Fixture.Partido).%New()
+    Set partido.Codigo = "PAR-DEMO"
+    Set partido.FechaHora = "2030-06-13 20:00:00"
+    Set partido.EquipoLocalId = "ARG"
+    Set partido.EquipoVisitanteId = "MEX"
+    Set partido.Estado = "EnCurso"
+    Set partido.ArbitroPrincipal = arbitro
+
+    Set sc = partido.AgregarEvento("Gol",23,"Gol de Argentina")
+    If 'sc Do $System.Status.DisplayError(sc) Quit
+
+    // Un solo guardado persiste el padre y el hijo.
+    Set sc = partido.%Save()
+    If 'sc Do $System.Status.DisplayError(sc) Quit
+    Write "Partido guardado. ID: ",partido.%Id(),!
+    Write "Eventos guardados: ",partido.Eventos.Count(),!
+
+    Set idPartido = partido.%Id()
+    Set partido = ##class(Fixture.Partido).%OpenId(idPartido)
+    Set evento = partido.Eventos.GetAt(1)
+    Write "Navegacion: ",partido.Codigo," -> ",evento.Tipo," minuto ",evento.Minuto,!
+
+    Set sc = partido.CambiarEstado("Finalizado")
+    If sc Set sc = partido.%Save()
+    If 'sc Do $System.Status.DisplayError(sc) Quit
+
+    Set sc = partido.AgregarEvento("TarjetaRoja",90,"Evento posterior")
+    If 'sc Write "Validacion correcta: evento posterior rechazado",!
+
+    Set tecnico = ##class(Fixture.Tecnico).%New()
+    Set tecnico.Documento = "TEC-ERROR"
+    Set tecnico.Nacionalidad = "Argentina"
+    Set tecnico.EquipoId = "ARG"
+    Set sc = tecnico.%Save()
+    If 'sc Write "Validacion correcta: propiedad Nombre requerida",!
+
+    Write "=== DEMOSTRACION FINALIZADA ===",!
+    Quit

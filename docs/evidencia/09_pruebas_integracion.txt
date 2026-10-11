@@ -1,0 +1,38 @@
+=== HITO 10 - PRUEBAS AUTOMATIZADAS ===
+Fecha de ejecucion: 2026-10-10T22:26:49-03:00
+Tipo: integracion con dependencias reales
+Motores: MongoDB, Neo4j, Cassandra, Redis, InfluxDB e IRIS
+Resultado: APROBADO
+Codigo de salida: 0
+
+============================= test session starts =============================
+platform win32 -- Python 3.10.11, pytest-9.1.1, pluggy-1.6.0 -- C:\fixture2030-api\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\fixture2030-api
+plugins: anyio-4.15.1, cov-7.1.0
+collecting ... collected 21 items
+
+tests/integration/test_api_live.py::test_01_health PASSED                [  4%]
+tests/integration/test_api_live.py::test_02_mongodb_equipo_existente PASSED [  9%]
+tests/integration/test_api_live.py::test_03_mongodb_equipo_inexistente PASSED [ 14%]
+tests/integration/test_api_live.py::test_04_mongodb_codigo_invalido PASSED [ 19%]
+tests/integration/test_api_live.py::test_05_mongodb_paginacion PASSED    [ 23%]
+tests/integration/test_api_live.py::test_06_mongodb_pagina_vacia PASSED  [ 28%]
+tests/integration/test_api_live.py::test_07_neo4j_partido_existente PASSED [ 33%]
+tests/integration/test_api_live.py::test_08_neo4j_partido_inexistente PASSED [ 38%]
+tests/integration/test_api_live.py::test_09_cassandra_paginacion PASSED  [ 42%]
+tests/integration/test_api_live.py::test_10_cassandra_particion_vacia PASSED [ 47%]
+tests/integration/test_api_live.py::test_11_cassandra_bucket_invalido PASSED [ 52%]
+tests/integration/test_api_live.py::test_12_redis_sesion_vigente PASSED  [ 57%]
+tests/integration/test_api_live.py::test_13_redis_cierre_explicito PASSED [ 61%]
+tests/integration/test_api_live.py::test_14_redis_sesion_expirada PASSED [ 66%]
+tests/integration/test_api_live.py::test_15_influxdb_detalle PASSED      [ 71%]
+tests/integration/test_api_live.py::test_16_influxdb_resumen_15m PASSED  [ 76%]
+tests/integration/test_api_live.py::test_17_influxdb_ventana_vacia PASSED [ 80%]
+tests/integration/test_api_live.py::test_18_influxdb_ventana_invalida PASSED [ 85%]
+tests/integration/test_api_live.py::test_19_iris_partido_existente PASSED [ 90%]
+tests/integration/test_api_live.py::test_20_iris_partido_inexistente PASSED [ 95%]
+tests/integration/test_api_live.py::test_21_limites_invalidos PASSED     [100%]
+
+- generated xml file: C:\fixture2030-api\docs\evidencia\09_pruebas_integracion.xml -
+============================= 21 passed in 2.91s ==============================

@@ -1,0 +1,51 @@
+﻿=== HITO 10 - ENDPOINT INFLUXDB ===
+Fecha de ejecucion: 2026-10-10T20:17:41-03:00
+Motor: InfluxDB 3 Core
+Detalle: un punto cada 10 segundos por equipo
+Precision temporal: segundos, normalizada a UTC
+Resumen historico: ventanas de 15 minutos
+
+
+=== CASO 1: DETALLE ARGENTINA - ESPERADO 200 ===
+HTTP/1.1 200 OK
+date: Sat, 10 Oct 2026 23:17:41 GMT
+server: uvicorn
+content-length: 590
+content-type: application/json
+x-request-id: 9453e5af-9d08-451f-942f-7e1f046e49f8
+x-process-time-ms: 33.08
+
+{"partido_codigo":"PAR-0001","granularidad":"detalle","equipo_id":"ARG","datos":[{"time":"2030-06-13T20:00:00Z","equipo_id":"ARG","posesion_pct":50.0,"pases_intervalo":1,"tiros_acumulados":0},{"time":"2030-06-13T20:00:10Z","equipo_id":"ARG","posesion_pct":50.23,"pases_intervalo":2,"tiros_acumulados":0},{"time":"2030-06-13T20:00:20Z","equipo_id":"ARG","posesion_pct":50.46,"pases_intervalo":3,"tiros_acumulados":0}],"metadata":{"limite":3,"cantidad":3,"hay_mas":true,"desde":"2030-06-13T20:00:00Z","hasta":"2030-06-13T20:01:00Z","intervalo_fuente":"10 segundos"},"fuente_datos":"InfluxDB"}
+
+=== CASO 2: RESUMEN 15 MINUTOS - ESPERADO 200 ===
+HTTP/1.1 200 OK
+date: Sat, 10 Oct 2026 23:17:41 GMT
+server: uvicorn
+content-length: 681
+content-type: application/json
+x-request-id: cf5a5eeb-e054-445d-ae64-70c8101e2147
+x-process-time-ms: 53.49
+
+{"partido_codigo":"PAR-0001","granularidad":"15m","equipo_id":null,"datos":[{"time":"2030-06-13T20:00:00Z","equipo_id":"ARG","posesion_promedio":55.71,"pases_total":223,"muestras":90},{"time":"2030-06-13T20:00:00Z","equipo_id":"MEX","posesion_promedio":44.29,"pases_total":227,"muestras":90},{"time":"2030-06-13T20:15:00Z","equipo_id":"ARG","posesion_promedio":46.15,"pases_total":227,"muestras":90},{"time":"2030-06-13T20:15:00Z","equipo_id":"MEX","posesion_promedio":53.85,"pases_total":223,"muestras":90}],"metadata":{"limite":4,"cantidad":4,"hay_mas":true,"desde":"2030-06-13T20:00:00Z","hasta":"2030-06-13T20:31:00Z","intervalo_fuente":"15 minutos"},"fuente_datos":"InfluxDB"}
+
+=== CASO 3: VENTANA VACIA - ESPERADO 200 ===
+HTTP/1.1 200 OK
+date: Sat, 10 Oct 2026 23:17:41 GMT
+server: uvicorn
+content-length: 256
+content-type: application/json
+x-request-id: 7c217270-1d35-48aa-a2dd-6d11d6aeaab0
+x-process-time-ms: 12.59
+
+{"partido_codigo":"PAR-9999","granularidad":"detalle","equipo_id":null,"datos":[],"metadata":{"limite":3,"cantidad":0,"hay_mas":false,"desde":"2030-06-13T20:00:00Z","hasta":"2030-06-13T20:01:00Z","intervalo_fuente":"10 segundos"},"fuente_datos":"InfluxDB"}
+
+=== CASO 4: VENTANA INVERTIDA - ESPERADO 422 ===
+HTTP/1.1 422 Unprocessable Entity
+date: Sat, 10 Oct 2026 23:17:41 GMT
+server: uvicorn
+x-request-id: d3cd3da3-d48a-42d1-a0ca-6b121642187f
+content-length: 163
+content-type: application/json
+x-process-time-ms: 3.24
+
+{"error":{"codigo":"VENTANA_TEMPORAL_INVALIDA","mensaje":"La fecha desde debe ser anterior a la fecha hasta.","request_id":"d3cd3da3-d48a-42d1-a0ca-6b121642187f"}}

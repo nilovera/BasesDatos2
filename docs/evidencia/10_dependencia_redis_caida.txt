@@ -1,0 +1,57 @@
+﻿**********************
+Inicio de la transcripción de Windows PowerShell
+Hora de inicio: 20261010210357
+Nombre de usuario: NICOLASLOVERA\nicol
+Usuario RunAs: NICOLASLOVERA\nicol
+Nombre de la configuración: 
+Máquina: NICOLASLOVERA (Microsoft Windows NT 10.0.26200.0)
+Aplicación host: C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\probar_dependencia_caida.ps1
+Id. de proceso: 17504
+PSVersion: 5.1.26100.9444
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.9444
+BuildVersion: 10.0.26100.9444
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+La transcripción ha comenzado. El archivo de salida es C:\fixture2030-api\docs\evidencia\10_dependencia_redis_caida.txt
+=== HITO 10 - DEPENDENCIA CAIDA ===
+Fecha de ejecucion: 2026-10-10T21:03:57-03:00
+Dependencia seleccionada: Redis
+
+=== 1. DETENER REDIS TEMPORALMENTE ===
+
+
+=== 2. ENDPOINT REDIS - ESPERADO 503 ===
+27c-ab6b786880c5"}}
+
+
+=== 3. MONGODB CONTINUA DISPONIBLE - ESPERADO 200 ===
+{"codigo":"EQ-01","nombre":"Argentina","confederacion":"CONMEBOL","ranking":1,"fuente_datos":"MongoDB"}
+
+
+=== 4. REINICIAR REDIS ===
+fixture2030-redis
+Redis recuperado: PONG
+
+=== 5. PREPARAR SESION POSTERIOR A LA RECUPERACION ===
+
+
+
+=== 6. ENDPOINT REDIS RECUPERADO - ESPERADO 200 ===
+":"PAR-0001","acciones":1,"ttl_segundos":299,"fuente_datos":"Redis"}
+
+
+=== 7. LIMPIEZA DE LA SESION DE PRUEBA ===
+
+
+=== PRUEBA FINALIZADA ===
+Redis caido: 503 esperado
+MongoDB durante la falla: 200 esperado
+Redis recuperado: 200 esperado
+**********************
+Fin de la transcripción de Windows PowerShell
+Hora de finalización: 20261010210415
+**********************

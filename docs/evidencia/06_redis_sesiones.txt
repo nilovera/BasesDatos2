@@ -1,0 +1,61 @@
+﻿=== HITO 10 - ENDPOINTS REDIS ===
+Fecha de ejecucion: 2026-10-10T20:08:08-03:00
+Motor: Redis
+TTL inicial de SES-API-EXPIRA: 4 segundos
+Se esperan 6 segundos para comprobar su expiracion.
+
+
+=== CASO 1: SESION VIGENTE - ESPERADO 200 ===
+HTTP/1.1 200 OK
+date: Sat, 10 Oct 2026 23:08:40 GMT
+server: uvicorn
+content-length: 205
+content-type: application/json
+x-request-id: 9bdd36fe-f906-40f2-956f-c4133e07bcca
+x-process-time-ms: 10.02
+
+{"sesion_id":"SES-API-0001","usuario_id":"USR-0001","rol":"fan","ultimo_acceso":"2026-10-10T23:08:05Z","estado":"activa","partido_actual":"PAR-0001","acciones":2,"ttl_segundos":1766,"fuente_datos":"Redis"}
+
+=== CASO 2: CIERRE EXPLICITO - ESPERADO 200 ===
+HTTP/1.1 200 OK
+date: Sat, 10 Oct 2026 23:08:40 GMT
+server: uvicorn
+content-length: 118
+content-type: application/json
+x-request-id: e1dbbaa2-33b8-4e66-8bb3-7c49e98a84a7
+x-process-time-ms: 24.06
+
+{"sesion_id":"SES-API-CIERRE","cerrada":true,"mensaje":"La sesión fue cerrada correctamente.","fuente_datos":"Redis"}
+
+=== CASO 3: SESION CERRADA - ESPERADO 404 ===
+HTTP/1.1 404 Not Found
+date: Sat, 10 Oct 2026 23:08:40 GMT
+server: uvicorn
+x-request-id: c7a52743-a61d-4cd9-a879-998f76d310c5
+content-length: 184
+content-type: application/json
+x-process-time-ms: 40.06
+
+{"error":{"codigo":"SESION_NO_ENCONTRADA_O_EXPIRADA","mensaje":"La sesión no existe o su tiempo de vida expiró: SES-API-CIERRE.","request_id":"c7a52743-a61d-4cd9-a879-998f76d310c5"}}
+
+=== CASO 4: SESION EXPIRADA - ESPERADO 404 ===
+HTTP/1.1 404 Not Found
+date: Sat, 10 Oct 2026 23:08:40 GMT
+server: uvicorn
+x-request-id: eed1c357-6fd1-4fe6-ab6d-352e86cce67d
+content-length: 184
+content-type: application/json
+x-process-time-ms: 21.84
+
+{"error":{"codigo":"SESION_NO_ENCONTRADA_O_EXPIRADA","mensaje":"La sesión no existe o su tiempo de vida expiró: SES-API-EXPIRA.","request_id":"eed1c357-6fd1-4fe6-ab6d-352e86cce67d"}}
+
+=== CASO 5: IDENTIFICADOR INVALIDO - ESPERADO 422 ===
+HTTP/1.1 422 Unprocessable Entity
+date: Sat, 10 Oct 2026 23:08:40 GMT
+server: uvicorn
+x-request-id: 4dc2b8e1-d297-404c-a71c-e06f2ce7df6e
+content-length: 296
+content-type: application/json
+x-process-time-ms: 3.20
+
+{"error":{"codigo":"DATOS_INVALIDOS","mensaje":"Los datos enviados no superaron la validación.","request_id":"4dc2b8e1-d297-404c-a71c-e06f2ce7df6e","detalles":[{"campo":"path.sesion_id","mensaje":"String should match pattern '^SES-[A-Z0-9]+(?:-[A-Z0-9]+)*$'","tipo":"string_pattern_mismatch"}]}}

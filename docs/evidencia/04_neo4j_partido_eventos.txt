@@ -1,0 +1,36 @@
+﻿=== HITO 10 - ENDPOINT NEO4J ===
+Fecha de ejecucion: 2026-10-10T19:49:45-03:00
+Motor: Neo4j
+
+=== CASO 1: PARTIDO EXISTENTE - ESPERADO 200 ===
+HTTP/1.1 200 OK
+date: Sat, 10 Oct 2026 22:49:44 GMT
+server: uvicorn
+content-length: 397
+content-type: application/json
+x-request-id: db9d6486-18b8-4d33-bb73-79d264a0fd0f
+x-process-time-ms: 43.09
+
+{"codigo":"PAR-0001","fecha":"2030-06-13","fase":"Grupos","equipos":[{"codigo":"EQ-01","nombre":"Argentina","confederacion":"CONMEBOL"},{"codigo":"EQ-17","nombre":"Países Bajos","confederacion":"UEFA"}],"sede":{"codigo":"SED-01","nombre":"Buenos Aires"},"eventos":[{"codigo":"EVE-0001","tipo":"Gol","minuto":17},{"codigo":"EVE-0002","tipo":"Tarjeta amarilla","minuto":26}],"fuente_datos":"Neo4j"}
+
+=== CASO 2: PARTIDO INEXISTENTE - ESPERADO 404 ===
+HTTP/1.1 404 Not Found
+date: Sat, 10 Oct 2026 22:49:44 GMT
+server: uvicorn
+x-request-id: f9f3e672-13d4-4cf5-be34-893ae722d0dc
+content-length: 163
+content-type: application/json
+x-process-time-ms: 29.53
+
+{"error":{"codigo":"RECURSO_NO_ENCONTRADO","mensaje":"No se encontró el partido con identificador PAR-9999.","request_id":"f9f3e672-13d4-4cf5-be34-893ae722d0dc"}}
+
+=== CASO 3: CODIGO INVALIDO - ESPERADO 422 ===
+HTTP/1.1 422 Unprocessable Entity
+date: Sat, 10 Oct 2026 22:49:46 GMT
+server: uvicorn
+x-request-id: 17c8d2e2-ce46-4935-857d-df1d47af134a
+content-length: 275
+content-type: application/json
+x-process-time-ms: 4.07
+
+{"error":{"codigo":"DATOS_INVALIDOS","mensaje":"Los datos enviados no superaron la validación.","request_id":"17c8d2e2-ce46-4935-857d-df1d47af134a","detalles":[{"campo":"path.codigo","mensaje":"String should match pattern '^PAR-\\d{4}$'","tipo":"string_pattern_mismatch"}]}}

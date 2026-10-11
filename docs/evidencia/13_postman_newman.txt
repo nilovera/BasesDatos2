@@ -1,0 +1,50 @@
+﻿**********************
+Inicio de la transcripción de Windows PowerShell
+Hora de inicio: 20261010215835
+Nombre de usuario: NICOLASLOVERA\nicol
+Usuario RunAs: NICOLASLOVERA\nicol
+Nombre de la configuración: 
+Máquina: NICOLASLOVERA (Microsoft Windows NT 10.0.26200.0)
+Aplicación host: C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\ejecutar_postman.ps1
+Id. de proceso: 7836
+PSVersion: 5.1.26100.9444
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.9444
+BuildVersion: 10.0.26100.9444
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+La transcripción ha comenzado. El archivo de salida es C:\fixture2030-api\docs\evidencia\13_postman_newman.txt
+=== HITO 10 - POSTMAN CON NEWMAN ===
+Fecha de ejecucion: 2026-10-10T21:58:35-03:00
+Coleccion: Fixture2030
+Ejecucion: Newman dentro de Docker
+
+=== 1. DETENER API ACTUAL ===
+
+=== 2. INICIAR API PARA DOCKER ===
+PS>ErrorTerminación(Invoke-WebRequest): "No es posible conectar con el servidor remoto"
+API temporal disponible.
+
+=== 3. PREPARAR SESION REDIS ===
+
+
+
+Sesion temporal preparada.
+
+=== 4. EJECUTAR COLECCION ===
+
+
+Codigo de salida Newman: 0
+
+=== RESULTADO: POSTMAN APROBADO ===
+
+=== 5. LIMPIEZA ===
+Restableciendo API local.
+
+**********************
+Fin de la transcripción de Windows PowerShell
+Hora de finalización: 20261010215904
+**********************

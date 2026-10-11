@@ -1,0 +1,93 @@
+{
+  "fecha_ejecucion": "2026-10-10T22:07:58-03:00",
+  "entorno": "local",
+  "base_url": "http://127.0.0.1:8000",
+  "hardware": {
+    "procesador": "Intel(R) Core(TM) 5 120U",
+    "nucleos_fisicos": "10",
+    "procesadores_logicos": "12",
+    "ram_gb": "13.7"
+  },
+  "metodo": {
+    "tipo": "medicion HTTP extremo a extremo",
+    "concurrencia": 1,
+    "solicitudes_calentamiento_por_motor": 1,
+    "solicitudes_medidas_por_motor": 10,
+    "timeout_segundos": 10.0,
+    "incluye": "API, adaptador, red local y consulta al motor"
+  },
+  "resultados": [
+    {
+      "motor": "MongoDB",
+      "solicitudes": 10,
+      "exitosas": 10,
+      "promedio_ms": 11.26,
+      "mediana_ms": 10.73,
+      "p95_ms": 15.13,
+      "minimo_ms": 9.26,
+      "maximo_ms": 15.13,
+      "rps_secuencial_estimado": 88.8
+    },
+    {
+      "motor": "Neo4j",
+      "solicitudes": 10,
+      "exitosas": 10,
+      "promedio_ms": 25.86,
+      "mediana_ms": 24.05,
+      "p95_ms": 38.86,
+      "minimo_ms": 19.06,
+      "maximo_ms": 38.86,
+      "rps_secuencial_estimado": 38.66
+    },
+    {
+      "motor": "Cassandra",
+      "solicitudes": 10,
+      "exitosas": 10,
+      "promedio_ms": 16.6,
+      "mediana_ms": 14.95,
+      "p95_ms": 27.73,
+      "minimo_ms": 13.36,
+      "maximo_ms": 27.73,
+      "rps_secuencial_estimado": 60.24
+    },
+    {
+      "motor": "Redis",
+      "solicitudes": 10,
+      "exitosas": 10,
+      "promedio_ms": 6.47,
+      "mediana_ms": 6.42,
+      "p95_ms": 8.94,
+      "minimo_ms": 5.33,
+      "maximo_ms": 8.94,
+      "rps_secuencial_estimado": 154.53
+    },
+    {
+      "motor": "InfluxDB",
+      "solicitudes": 10,
+      "exitosas": 10,
+      "promedio_ms": 25.48,
+      "mediana_ms": 22.72,
+      "p95_ms": 44.2,
+      "minimo_ms": 17.39,
+      "maximo_ms": 44.2,
+      "rps_secuencial_estimado": 39.24
+    },
+    {
+      "motor": "InterSystems IRIS",
+      "solicitudes": 10,
+      "exitosas": 10,
+      "promedio_ms": 54.86,
+      "mediana_ms": 54.13,
+      "p95_ms": 75.55,
+      "minimo_ms": 46.68,
+      "maximo_ms": 75.55,
+      "rps_secuencial_estimado": 18.23
+    }
+  ],
+  "resultado_general": {
+    "solicitudes_totales": 60,
+    "solicitudes_exitosas": 60,
+    "solicitudes_fallidas": 0,
+    "promedio_general_ms": 23.42
+  }
+}

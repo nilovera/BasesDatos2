@@ -1,0 +1,36 @@
+=== HITO 10 - MEDICION DE RENDIMIENTO ===
+Fecha de ejecucion: 2026-10-10T22:07:58-03:00
+
+=== HARDWARE ===
+Procesador: Intel(R) Core(TM) 5 120U
+Nucleos fisicos: 10
+Procesadores logicos: 12
+RAM GB: 13.7
+
+=== METODO ===
+Tipo: HTTP extremo a extremo
+Concurrencia: 1
+Calentamiento por motor: 1
+Solicitudes medidas por motor: 10
+Total de solicitudes medidas: 60
+Timeout: 10.0 segundos
+Incluye: API, adaptador, red local y consulta al motor
+
+=== RESULTADOS ===
+Motor               Exito  Prom.   Mediana  P95     Min.    Max.
+MongoDB             10/10   11.26    10.73   15.13    9.26   15.13
+Neo4j               10/10   25.86    24.05   38.86   19.06   38.86
+Cassandra           10/10   16.60    14.95   27.73   13.36   27.73
+Redis               10/10    6.47     6.42    8.94    5.33    8.94
+InfluxDB            10/10   25.48    22.72   44.20   17.39   44.20
+InterSystems IRIS   10/10   54.86    54.13   75.55   46.68   75.55
+
+=== RESULTADO GENERAL ===
+Solicitudes exitosas: 60/60
+Promedio general ms: 23.42
+Resultado: APROBADO
+
+=== EVIDENCIAS VINCULADAS ===
+C:\fixture2030-api\docs\evidencia\14_rendimiento_api.txt
+C:\fixture2030-api\docs\evidencia\14_rendimiento_api.csv
+C:\fixture2030-api\docs\evidencia\14_rendimiento_api.json

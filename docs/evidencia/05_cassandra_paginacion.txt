@@ -1,0 +1,49 @@
+﻿=== HITO 10 - ENDPOINT CASSANDRA ===
+Fecha de ejecucion: 2026-10-10T20:00:16-03:00
+Motor: Cassandra
+Particion: (partido_id, bucket_10min)
+
+
+=== CASO 1: PRIMERA PAGINA - ESPERADO 200 ===
+HTTP/1.1 200 OK
+date: Sat, 10 Oct 2026 23:00:15 GMT
+server: uvicorn
+content-length: 457
+content-type: application/json
+x-request-id: ee50d061-4861-47fa-bb3e-1be6cd36b7fb
+x-process-time-ms: 27.86
+
+{"partido_codigo":"PAR-0001","bucket_10min":"203006131800","datos":[{"comentario_id":"33333333-3333-3333-3333-00000000e0a1","creado_en":"2030-06-13T18:09:59","usuario_id":"USR-007505","usuario_nombre":"Elena Castro","contenido":"Comentario 57505 del partido PAR-0001","likes":35,"estado_moderacion":"visible"}],"paginacion":{"limite":1,"siguiente_page_state":"ABsACAAAAbwmGDDYEDMzMzMzMzMzMzMAAAAA4KHwf____vB____-","hay_mas":true},"fuente_datos":"Cassandra"}
+
+=== CASO 2: SEGUNDA PAGINA - ESPERADO 200 ===
+HTTP/1.1 200 OK
+date: Sat, 10 Oct 2026 23:00:15 GMT
+server: uvicorn
+content-length: 458
+content-type: application/json
+x-request-id: 8a1eff08-a866-4072-968e-e771beddd767
+x-process-time-ms: 21.60
+
+{"partido_codigo":"PAR-0001","bucket_10min":"203006131800","datos":[{"comentario_id":"33333333-3333-3333-3333-0000000b6ca1","creado_en":"2030-06-13T18:09:59","usuario_id":"USR-048705","usuario_nombre":"Elena Castro","contenido":"Comentario 748705 del partido PAR-0001","likes":92,"estado_moderacion":"visible"}],"paginacion":{"limite":1,"siguiente_page_state":"ABsACAAAAbwmGDDYEDMzMzMzMzMzMzMAAAALbKHwf____fB____9","hay_mas":true},"fuente_datos":"Cassandra"}
+
+=== CASO 3: PARTICION VACIA - ESPERADO 200 ===
+HTTP/1.1 200 OK
+date: Sat, 10 Oct 2026 23:00:16 GMT
+server: uvicorn
+content-length: 167
+content-type: application/json
+x-request-id: fd7070d7-3ad0-4cd4-9577-7599f9fba8e1
+x-process-time-ms: 16.96
+
+{"partido_codigo":"PAR-9999","bucket_10min":"203006131800","datos":[],"paginacion":{"limite":1,"siguiente_page_state":null,"hay_mas":false},"fuente_datos":"Cassandra"}
+
+=== CASO 4: BUCKET INVALIDO - ESPERADO 422 ===
+HTTP/1.1 422 Unprocessable Entity
+date: Sat, 10 Oct 2026 23:00:16 GMT
+server: uvicorn
+x-request-id: 522cee91-fc79-43ca-9c2a-5f9d9c3a082b
+content-length: 298
+content-type: application/json
+x-process-time-ms: 2.00
+
+{"error":{"codigo":"DATOS_INVALIDOS","mensaje":"Los datos enviados no superaron la validación.","request_id":"522cee91-fc79-43ca-9c2a-5f9d9c3a082b","detalles":[{"campo":"query.bucket_10min","mensaje":"String should match pattern '^\\d{10}(00|10|20|30|40|50)$'","tipo":"string_pattern_mismatch"}]}}

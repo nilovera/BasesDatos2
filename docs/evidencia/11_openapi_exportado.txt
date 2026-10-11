@@ -1,0 +1,22 @@
+=== HITO 10 - CONTRATO OPENAPI ===
+Fecha de ejecucion: 2026-10-10T21:51:36-03:00
+Titulo: Fixture 2030 API
+Version API: 1.0.0
+Version OpenAPI: 3.1.0
+Cantidad de rutas: 8
+Cantidad de operaciones: 9
+
+=== OPERACIONES DOCUMENTADAS ===
+DELETE /api/v1/sesiones/{sesion_id}
+GET    /api/v1/equipos/{codigo}
+GET    /api/v1/jugadores
+GET    /api/v1/partidos/{codigo}/comentarios
+GET    /api/v1/partidos/{codigo}/detalle
+GET    /api/v1/partidos/{codigo}/estadisticas
+GET    /api/v1/partidos/{codigo}/eventos
+GET    /api/v1/sesiones/{sesion_id}
+GET    /health
+
+=== ARCHIVOS GENERADOS ===
+C:\fixture2030-api\openapi\fixture2030-openapi.json
+C:\fixture2030-api\openapi\fixture2030-openapi.yaml

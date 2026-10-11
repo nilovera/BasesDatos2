@@ -1,0 +1,259 @@
+{
+  "info": {
+    "_postman_id": "6c5ed12e-70a5-4c15-9f1f-2030a10f0001",
+    "name": "Fixture 2030 - Hito 10",
+    "description": "Coleccion de pruebas de la API REST integrada con seis motores de datos.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://127.0.0.1:8000",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/health"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+              "pm.test(\"Incluye X-Request-ID\", function () { pm.expect(pm.response.headers.has(\"X-Request-ID\")).to.eql(true); });",
+              "pm.test(\"Tiempo menor a 10 segundos\", function () { pm.expect(pm.response.responseTime).to.be.below(10000); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "MongoDB - Equipo",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/api/v1/equipos/EQ-01"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+              "pm.test(\"Incluye X-Request-ID\", function () { pm.expect(pm.response.headers.has(\"X-Request-ID\")).to.eql(true); });",
+              "pm.test(\"Tiempo menor a 10 segundos\", function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+              "pm.test(\"Fuente de datos correcta\", function () { const body = pm.response.json(); pm.expect(body.fuente_datos).to.eql(\"MongoDB\"); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "MongoDB - Jugadores",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/api/v1/jugadores?equipo_codigo=EQ-01&limit=3"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+              "pm.test(\"Incluye X-Request-ID\", function () { pm.expect(pm.response.headers.has(\"X-Request-ID\")).to.eql(true); });",
+              "pm.test(\"Tiempo menor a 10 segundos\", function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+              "pm.test(\"Fuente de datos correcta\", function () { const body = pm.response.json(); pm.expect(body.fuente_datos).to.eql(\"MongoDB\"); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Neo4j - Partido y eventos",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/api/v1/partidos/PAR-0001/eventos"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+              "pm.test(\"Incluye X-Request-ID\", function () { pm.expect(pm.response.headers.has(\"X-Request-ID\")).to.eql(true); });",
+              "pm.test(\"Tiempo menor a 10 segundos\", function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+              "pm.test(\"Fuente de datos correcta\", function () { const body = pm.response.json(); pm.expect(body.fuente_datos).to.eql(\"Neo4j\"); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Cassandra - Comentarios",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/api/v1/partidos/PAR-0001/comentarios?bucket_10min=203006131800&limit=3"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+              "pm.test(\"Incluye X-Request-ID\", function () { pm.expect(pm.response.headers.has(\"X-Request-ID\")).to.eql(true); });",
+              "pm.test(\"Tiempo menor a 10 segundos\", function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+              "pm.test(\"Fuente de datos correcta\", function () { const body = pm.response.json(); pm.expect(body.fuente_datos).to.eql(\"Cassandra\"); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Redis - Consultar sesion",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/api/v1/sesiones/SES-POSTMAN-0001"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+              "pm.test(\"Incluye X-Request-ID\", function () { pm.expect(pm.response.headers.has(\"X-Request-ID\")).to.eql(true); });",
+              "pm.test(\"Tiempo menor a 10 segundos\", function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+              "pm.test(\"Fuente de datos correcta\", function () { const body = pm.response.json(); pm.expect(body.fuente_datos).to.eql(\"Redis\"); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "InfluxDB - Estadisticas",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/api/v1/partidos/PAR-0001/estadisticas?desde=2030-06-13T20%3A00%3A00Z&hasta=2030-06-13T20%3A01%3A00Z&granularidad=detalle&equipo_id=ARG&limit=10"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+              "pm.test(\"Incluye X-Request-ID\", function () { pm.expect(pm.response.headers.has(\"X-Request-ID\")).to.eql(true); });",
+              "pm.test(\"Tiempo menor a 10 segundos\", function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+              "pm.test(\"Fuente de datos correcta\", function () { const body = pm.response.json(); pm.expect(body.fuente_datos).to.eql(\"InfluxDB\"); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "IRIS - Detalle persistente",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/api/v1/partidos/PAR-0001/detalle"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+              "pm.test(\"Incluye X-Request-ID\", function () { pm.expect(pm.response.headers.has(\"X-Request-ID\")).to.eql(true); });",
+              "pm.test(\"Tiempo menor a 10 segundos\", function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+              "pm.test(\"Fuente de datos correcta\", function () { const body = pm.response.json(); pm.expect(body.fuente_datos).to.eql(\"InterSystems IRIS\"); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Redis - Cerrar sesion",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/api/v1/sesiones/SES-POSTMAN-0001"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+              "pm.test(\"Incluye X-Request-ID\", function () { pm.expect(pm.response.headers.has(\"X-Request-ID\")).to.eql(true); });",
+              "pm.test(\"Tiempo menor a 10 segundos\", function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+              "pm.test(\"Fuente de datos correcta\", function () { const body = pm.response.json(); pm.expect(body.fuente_datos).to.eql(\"Redis\"); });"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1536 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Fixture 2030 API",
+    "description": "API REST integrada del proyecto Fixture 2030. Expone casos de uso sobre MongoDB, Neo4j, Cassandra, Redis, InfluxDB e InterSystems IRIS.",
+    "version": "1.0.0",
+    "x-generated-at": "2026-10-10T21:51:36-03:00"
+  },
+  "paths": {
+    "/health": {
+      "get": {
+        "tags": [
+          "Sistema"
+        ],
+        "summary": "Comprobar disponibilidad de la API",
+        "operationId": "health_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/equipos/{codigo}": {
+      "get": {
+        "tags": [
+          "MongoDB"
+        ],
+        "summary": "Obtener un equipo por código",
+        "operationId": "get_equipo_api_v1_equipos__codigo__get",
+        "parameters": [
+          {
+            "name": "codigo",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^EQ-\\d{2}$",
+              "description": "Código del equipo.",
+              "examples": [
+                "EQ-01"
+              ],
+              "title": "Codigo"
+            },
+            "description": "Código del equipo."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EquipoResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          },
+          "504": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Gateway Timeout"
+          }
+        }
+      }
+    },
+    "/api/v1/jugadores": {
+      "get": {
+        "tags": [
+          "MongoDB"
+        ],
+        "summary": "Listar jugadores de un equipo",
+        "operationId": "list_jugadores_api_v1_jugadores_get",
+        "parameters": [
+          {
+            "name": "equipo_codigo",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^EQ-\\d{2}$",
+              "description": "Equipo requerido.",
+              "examples": [
+                "EQ-01"
+              ],
+              "title": "Equipo Codigo"
+            },
+            "description": "Equipo requerido."
+          },
+          {
+            "name": "posicion",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/PosicionJugador"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Posición deportiva opcional.",
+              "title": "Posicion"
+            },
+            "description": "Posición deportiva opcional."
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "pattern": "^JUG-\\d{4}$"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Último código recibido en la página anterior.",
+              "examples": [
+                "JUG-0003"
+              ],
+              "title": "Cursor"
+            },
+            "description": "Último código recibido en la página anterior."
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "description": "Cantidad máxima de resultados.",
+              "default": 20,
+              "title": "Limit"
+            },
+            "description": "Cantidad máxima de resultados."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JugadoresPageResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          },
+          "504": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Gateway Timeout"
+          }
+        }
+      }
+    },
+    "/api/v1/partidos/{codigo}/eventos": {
+      "get": {
+        "tags": [
+          "Neo4j"
+        ],
+        "summary": "Obtener contexto y eventos de un partido",
+        "operationId": "get_partido_eventos_api_v1_partidos__codigo__eventos_get",
+        "parameters": [
+          {
+            "name": "codigo",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^PAR-\\d{4}$",
+              "description": "Código del partido.",
+              "examples": [
+                "PAR-0001"
+              ],
+              "title": "Codigo"
+            },
+            "description": "Código del partido."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PartidoEventosResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          },
+          "504": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Gateway Timeout"
+          }
+        }
+      }
+    },
+    "/api/v1/partidos/{codigo}/comentarios": {
+      "get": {
+        "tags": [
+          "Comentarios - Cassandra"
+        ],
+        "summary": "Listar comentarios de un partido",
+        "description": "Consulta Cassandra utilizando la partición (partido_id, bucket_10min) y paginación nativa.",
+        "operationId": "get_comentarios_por_partido_api_v1_partidos__codigo__comentarios_get",
+        "parameters": [
+          {
+            "name": "codigo",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^PAR-\\d{4}$",
+              "title": "Codigo"
+            }
+          },
+          {
+            "name": "bucket_10min",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^\\d{10}(00|10|20|30|40|50)$",
+              "title": "Bucket 10Min"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 10,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "page_state",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 4096,
+                  "pattern": "^[A-Za-z0-9_-]+$"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Page State"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ComentariosPartidoResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/sesiones/{sesion_id}": {
+      "get": {
+        "tags": [
+          "Sesiones - Redis"
+        ],
+        "summary": "Consultar una sesión vigente",
+        "operationId": "get_sesion_api_v1_sesiones__sesion_id__get",
+        "parameters": [
+          {
+            "name": "sesion_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 8,
+              "maxLength": 40,
+              "pattern": "^SES-[A-Z0-9]+(?:-[A-Z0-9]+)*$",
+              "title": "Sesion Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SesionResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Sesiones - Redis"
+        ],
+        "summary": "Cerrar una sesión",
+        "operationId": "cerrar_sesion_api_v1_sesiones__sesion_id__delete",
+        "parameters": [
+          {
+            "name": "sesion_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 8,
+              "maxLength": 40,
+              "pattern": "^SES-[A-Z0-9]+(?:-[A-Z0-9]+)*$",
+              "title": "Sesion Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CierreSesionResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/partidos/{codigo}/estadisticas": {
+      "get": {
+        "tags": [
+          "Estadísticas - InfluxDB"
+        ],
+        "summary": "Consultar estadísticas temporales",
+        "description": "Consulta datos detallados cada 10 segundos o resúmenes históricos de 15 minutos.",
+        "operationId": "get_estadisticas_api_v1_partidos__codigo__estadisticas_get",
+        "parameters": [
+          {
+            "name": "codigo",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^PAR-\\d{4}$",
+              "title": "Codigo"
+            }
+          },
+          {
+            "name": "desde",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "title": "Desde"
+            }
+          },
+          {
+            "name": "hasta",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "title": "Hasta"
+            }
+          },
+          {
+            "name": "granularidad",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "detalle",
+                "15m"
+              ],
+              "type": "string",
+              "default": "detalle",
+              "title": "Granularidad"
+            }
+          },
+          {
+            "name": "equipo_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "pattern": "^[A-Z]{3}$"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Equipo Id"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 500,
+              "minimum": 1,
+              "default": 100,
+              "title": "Limit"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EstadisticasPartidoResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/partidos/{codigo}/detalle": {
+      "get": {
+        "tags": [
+          "Persistencia de objetos - IRIS"
+        ],
+        "summary": "Consultar un partido persistente",
+        "description": "Recupera desde IRIS el partido, su árbitro principal y sus eventos.",
+        "operationId": "get_partido_detalle_api_v1_partidos__codigo__detalle_get",
+        "parameters": [
+          {
+            "name": "codigo",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^PAR-[A-Z0-9]{4,12}$",
+              "title": "Codigo"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PartidoIRISResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ArbitroIRISResponse": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "documento": {
+            "type": "string",
+            "title": "Documento"
+          },
+          "nombre": {
+            "type": "string",
+            "title": "Nombre"
+          },
+          "nacionalidad": {
+            "type": "string",
+            "title": "Nacionalidad"
+          },
+          "rol": {
+            "type": "string",
+            "title": "Rol"
+          },
+          "licencia_fifa": {
+            "type": "boolean",
+            "title": "Licencia Fifa"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "documento",
+          "nombre",
+          "nacionalidad",
+          "rol",
+          "licencia_fifa"
+        ],
+        "title": "ArbitroIRISResponse"
+      },
+      "CierreSesionResponse": {
+        "properties": {
+          "sesion_id": {
+            "type": "string",
+            "title": "Sesion Id"
+          },
+          "cerrada": {
+            "type": "boolean",
+            "title": "Cerrada"
+          },
+          "mensaje": {
+            "type": "string",
+            "title": "Mensaje"
+          },
+          "fuente_datos": {
+            "type": "string",
+            "const": "Redis",
+            "title": "Fuente Datos",
+            "default": "Redis"
+          }
+        },
+        "type": "object",
+        "required": [
+          "sesion_id",
+          "cerrada",
+          "mensaje"
+        ],
+        "title": "CierreSesionResponse"
+      },
+      "ComentarioResponse": {
+        "properties": {
+          "comentario_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Comentario Id"
+          },
+          "creado_en": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Creado En"
+          },
+          "usuario_id": {
+            "type": "string",
+            "title": "Usuario Id"
+          },
+          "usuario_nombre": {
+            "type": "string",
+            "title": "Usuario Nombre"
+          },
+          "contenido": {
+            "type": "string",
+            "title": "Contenido"
+          },
+          "likes": {
+            "type": "integer",
+            "title": "Likes"
+          },
+          "estado_moderacion": {
+            "type": "string",
+            "title": "Estado Moderacion"
+          }
+        },
+        "type": "object",
+        "required": [
+          "comentario_id",
+          "creado_en",
+          "usuario_id",
+          "usuario_nombre",
+          "contenido",
+          "likes",
+          "estado_moderacion"
+        ],
+        "title": "ComentarioResponse"
+      },
+      "ComentariosPartidoResponse": {
+        "properties": {
+          "partido_codigo": {
+            "type": "string",
+            "title": "Partido Codigo"
+          },
+          "bucket_10min": {
+            "type": "string",
+            "title": "Bucket 10Min"
+          },
+          "datos": {
+            "items": {
+              "$ref": "#/components/schemas/ComentarioResponse"
+            },
+            "type": "array",
+            "title": "Datos"
+          },
+          "paginacion": {
+            "$ref": "#/components/schemas/PaginacionCassandra"
+          },
+          "fuente_datos": {
+            "type": "string",
+            "const": "Cassandra",
+            "title": "Fuente Datos",
+            "default": "Cassandra"
+          }
+        },
+        "type": "object",
+        "required": [
+          "partido_codigo",
+          "bucket_10min",
+          "datos",
+          "paginacion"
+        ],
+        "title": "ComentariosPartidoResponse"
+      },
+      "EquipoGrafoResponse": {
+        "properties": {
+          "codigo": {
+            "type": "string",
+            "title": "Codigo"
+          },
+          "nombre": {
+            "type": "string",
+            "title": "Nombre"
+          },
+          "confederacion": {
+            "type": "string",
+            "title": "Confederacion"
+          }
+        },
+        "type": "object",
+        "required": [
+          "codigo",
+          "nombre",
+          "confederacion"
+        ],
+        "title": "EquipoGrafoResponse"
+      },
+      "EquipoResponse": {
+        "properties": {
+          "codigo": {
+            "type": "string",
+            "title": "Codigo"
+          },
+          "nombre": {
+            "type": "string",
+            "title": "Nombre"
+          },
+          "confederacion": {
+            "type": "string",
+            "title": "Confederacion"
+          },
+          "ranking": {
+            "type": "integer",
+            "title": "Ranking"
+          },
+          "fuente_datos": {
+            "type": "string",
+            "const": "MongoDB",
+            "title": "Fuente Datos",
+            "default": "MongoDB"
+          }
+        },
+        "type": "object",
+        "required": [
+          "codigo",
+          "nombre",
+          "confederacion",
+          "ranking"
+        ],
+        "title": "EquipoResponse"
+      },
+      "ErrorDetail": {
+        "properties": {
+          "codigo": {
+            "type": "string",
+            "title": "Codigo"
+          },
+          "mensaje": {
+            "type": "string",
+            "title": "Mensaje"
+          },
+          "request_id": {
+            "type": "string",
+            "title": "Request Id"
+          },
+          "detalles": {
+            "anyOf": [
+              {},
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Detalles"
+          }
+        },
+        "type": "object",
+        "required": [
+          "codigo",
+          "mensaje",
+          "request_id"
+        ],
+        "title": "ErrorDetail"
+      },
+      "ErrorResponse": {
+        "properties": {
+          "error": {
+            "$ref": "#/components/schemas/ErrorDetail"
+          }
+        },
+        "type": "object",
+        "required": [
+          "error"
+        ],
+        "title": "ErrorResponse"
+      },
+      "EstadisticasPartidoResponse": {
+        "properties": {
+          "partido_codigo": {
+            "type": "string",
+            "title": "Partido Codigo"
+          },
+          "granularidad": {
+            "type": "string",
+            "enum": [
+              "detalle",
+              "15m"
+            ],
+            "title": "Granularidad"
+          },
+          "equipo_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Equipo Id"
+          },
+          "datos": {
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/PuntoDetalleResponse"
+                },
+                {
+                  "$ref": "#/components/schemas/Resumen15MinutosResponse"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Datos"
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/MetadataEstadisticas"
+          },
+          "fuente_datos": {
+            "type": "string",
+            "const": "InfluxDB",
+            "title": "Fuente Datos",
+            "default": "InfluxDB"
+          }
+        },
+        "type": "object",
+        "required": [
+          "partido_codigo",
+          "granularidad",
+          "equipo_id",
+          "datos",
+          "metadata"
+        ],
+        "title": "EstadisticasPartidoResponse"
+      },
+      "EventoGrafoResponse": {
+        "properties": {
+          "codigo": {
+            "type": "string",
+            "title": "Codigo"
+          },
+          "tipo": {
+            "type": "string",
+            "title": "Tipo"
+          },
+          "minuto": {
+            "type": "integer",
+            "title": "Minuto"
+          }
+        },
+        "type": "object",
+        "required": [
+          "codigo",
+          "tipo",
+          "minuto"
+        ],
+        "title": "EventoGrafoResponse"
+      },
+      "EventoIRISResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "tipo": {
+            "type": "string",
+            "title": "Tipo"
+          },
+          "minuto": {
+            "type": "integer",
+            "title": "Minuto"
+          },
+          "detalle": {
+            "type": "string",
+            "title": "Detalle"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "tipo",
+          "minuto",
+          "detalle"
+        ],
+        "title": "EventoIRISResponse"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "HealthResponse": {
+        "properties": {
+          "estado": {
+            "type": "string",
+            "const": "ok",
+            "title": "Estado"
+          },
+          "servicio": {
+            "type": "string",
+            "title": "Servicio"
+          },
+          "version": {
+            "type": "string",
+            "title": "Version"
+          },
+          "entorno": {
+            "type": "string",
+            "title": "Entorno"
+          }
+        },
+        "type": "object",
+        "required": [
+          "estado",
+          "servicio",
+          "version",
+          "entorno"
+        ],
+        "title": "HealthResponse"
+      },
+      "JugadorResponse": {
+        "properties": {
+          "codigo": {
+            "type": "string",
+            "title": "Codigo"
+          },
+          "nombre": {
+            "type": "string",
+            "title": "Nombre"
+          },
+          "fecha_nacimiento": {
+            "type": "string",
+            "format": "date",
+            "title": "Fecha Nacimiento"
+          },
+          "posicion": {
+            "$ref": "#/components/schemas/PosicionJugador"
+          },
+          "equipo_codigo": {
+            "type": "string",
+            "title": "Equipo Codigo"
+          }
+        },
+        "type": "object",
+        "required": [
+          "codigo",
+          "nombre",
+          "fecha_nacimiento",
+          "posicion",
+          "equipo_codigo"
+        ],
+        "title": "JugadorResponse"
+      },
+      "JugadoresPageResponse": {
+        "properties": {
+          "datos": {
+            "items": {
+              "$ref": "#/components/schemas/JugadorResponse"
+            },
+            "type": "array",
+            "title": "Datos"
+          },
+          "paginacion": {
+            "$ref": "#/components/schemas/PaginationMetadata"
+          },
+          "fuente_datos": {
+            "type": "string",
+            "const": "MongoDB",
+            "title": "Fuente Datos",
+            "default": "MongoDB"
+          }
+        },
+        "type": "object",
+        "required": [
+          "datos",
+          "paginacion"
+        ],
+        "title": "JugadoresPageResponse"
+      },
+      "MetadataEstadisticas": {
+        "properties": {
+          "limite": {
+            "type": "integer",
+            "title": "Limite"
+          },
+          "cantidad": {
+            "type": "integer",
+            "title": "Cantidad"
+          },
+          "hay_mas": {
+            "type": "boolean",
+            "title": "Hay Mas"
+          },
+          "desde": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Desde"
+          },
+          "hasta": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Hasta"
+          },
+          "intervalo_fuente": {
+            "type": "string",
+            "title": "Intervalo Fuente"
+          }
+        },
+        "type": "object",
+        "required": [
+          "limite",
+          "cantidad",
+          "hay_mas",
+          "desde",
+          "hasta",
+          "intervalo_fuente"
+        ],
+        "title": "MetadataEstadisticas"
+      },
+      "PaginacionCassandra": {
+        "properties": {
+          "limite": {
+            "type": "integer",
+            "title": "Limite"
+          },
+          "siguiente_page_state": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Siguiente Page State"
+          },
+          "hay_mas": {
+            "type": "boolean",
+            "title": "Hay Mas"
+          }
+        },
+        "type": "object",
+        "required": [
+          "limite",
+          "siguiente_page_state",
+          "hay_mas"
+        ],
+        "title": "PaginacionCassandra"
+      },
+      "PaginationMetadata": {
+        "properties": {
+          "limite": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Limite"
+          },
+          "siguiente_cursor": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Siguiente Cursor"
+          },
+          "hay_mas": {
+            "type": "boolean",
+            "title": "Hay Mas"
+          }
+        },
+        "type": "object",
+        "required": [
+          "limite",
+          "siguiente_cursor",
+          "hay_mas"
+        ],
+        "title": "PaginationMetadata"
+      },
+      "PartidoEventosResponse": {
+        "properties": {
+          "codigo": {
+            "type": "string",
+            "title": "Codigo"
+          },
+          "fecha": {
+            "type": "string",
+            "format": "date",
+            "title": "Fecha"
+          },
+          "fase": {
+            "type": "string",
+            "title": "Fase"
+          },
+          "equipos": {
+            "items": {
+              "$ref": "#/components/schemas/EquipoGrafoResponse"
+            },
+            "type": "array",
+            "title": "Equipos"
+          },
+          "sede": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SedeGrafoResponse"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "eventos": {
+            "items": {
+              "$ref": "#/components/schemas/EventoGrafoResponse"
+            },
+            "type": "array",
+            "title": "Eventos"
+          },
+          "fuente_datos": {
+            "type": "string",
+            "const": "Neo4j",
+            "title": "Fuente Datos",
+            "default": "Neo4j"
+          }
+        },
+        "type": "object",
+        "required": [
+          "codigo",
+          "fecha",
+          "fase",
+          "equipos",
+          "sede",
+          "eventos"
+        ],
+        "title": "PartidoEventosResponse"
+      },
+      "PartidoIRISResponse": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "codigo": {
+            "type": "string",
+            "title": "Codigo"
+          },
+          "fecha_hora": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Fecha Hora"
+          },
+          "equipo_local_id": {
+            "type": "string",
+            "title": "Equipo Local Id"
+          },
+          "equipo_visitante_id": {
+            "type": "string",
+            "title": "Equipo Visitante Id"
+          },
+          "estado": {
+            "type": "string",
+            "title": "Estado"
+          },
+          "arbitro_principal": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ArbitroIRISResponse"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "eventos": {
+            "items": {
+              "$ref": "#/components/schemas/EventoIRISResponse"
+            },
+            "type": "array",
+            "title": "Eventos"
+          },
+          "fuente_datos": {
+            "type": "string",
+            "const": "InterSystems IRIS",
+            "title": "Fuente Datos",
+            "default": "InterSystems IRIS"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "codigo",
+          "fecha_hora",
+          "equipo_local_id",
+          "equipo_visitante_id",
+          "estado",
+          "arbitro_principal",
+          "eventos"
+        ],
+        "title": "PartidoIRISResponse"
+      },
+      "PosicionJugador": {
+        "type": "string",
+        "enum": [
+          "Arquero",
+          "Defensor",
+          "Mediocampista",
+          "Delantero"
+        ],
+        "title": "PosicionJugador"
+      },
+      "PuntoDetalleResponse": {
+        "properties": {
+          "time": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Time"
+          },
+          "equipo_id": {
+            "type": "string",
+            "title": "Equipo Id"
+          },
+          "posesion_pct": {
+            "type": "number",
+            "title": "Posesion Pct"
+          },
+          "pases_intervalo": {
+            "type": "integer",
+            "title": "Pases Intervalo"
+          },
+          "tiros_acumulados": {
+            "type": "integer",
+            "title": "Tiros Acumulados"
+          }
+        },
+        "type": "object",
+        "required": [
+          "time",
+          "equipo_id",
+          "posesion_pct",
+          "pases_intervalo",
+          "tiros_acumulados"
+        ],
+        "title": "PuntoDetalleResponse"
+      },
+      "Resumen15MinutosResponse": {
+        "properties": {
+          "time": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Time"
+          },
+          "equipo_id": {
+            "type": "string",
+            "title": "Equipo Id"
+          },
+          "posesion_promedio": {
+            "type": "number",
+            "title": "Posesion Promedio"
+          },
+          "pases_total": {
+            "type": "integer",
+            "title": "Pases Total"
+          },
+          "muestras": {
+            "type": "integer",
+            "title": "Muestras"
+          }
+        },
+        "type": "object",
+        "required": [
+          "time",
+          "equipo_id",
+          "posesion_promedio",
+          "pases_total",
+          "muestras"
+        ],
+        "title": "Resumen15MinutosResponse"
+      },
+      "SedeGrafoResponse": {
+        "properties": {
+          "codigo": {
+            "type": "string",
+            "title": "Codigo"
+          },
+          "nombre": {
+            "type": "string",
+            "title": "Nombre"
+          }
+        },
+        "type": "object",
+        "required": [
+          "codigo",
+          "nombre"
+        ],
+        "title": "SedeGrafoResponse"
+      },
+      "SesionResponse": {
+        "properties": {
+          "sesion_id": {
+            "type": "string",
+            "title": "Sesion Id"
+          },
+          "usuario_id": {
+            "type": "string",
+            "title": "Usuario Id"
+          },
+          "rol": {
+            "type": "string",
+            "title": "Rol"
+          },
+          "ultimo_acceso": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Ultimo Acceso"
+          },
+          "estado": {
+            "type": "string",
+            "title": "Estado"
+          },
+          "partido_actual": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Partido Actual"
+          },
+          "acciones": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Acciones"
+          },
+          "ttl_segundos": {
+            "type": "integer",
+            "exclusiveMinimum": 0.0,
+            "title": "Ttl Segundos"
+          },
+          "fuente_datos": {
+            "type": "string",
+            "const": "Redis",
+            "title": "Fuente Datos",
+            "default": "Redis"
+          }
+        },
+        "type": "object",
+        "required": [
+          "sesion_id",
+          "usuario_id",
+          "rol",
+          "ultimo_acceso",
+          "estado",
+          "partido_actual",
+          "acciones",
+          "ttl_segundos"
+        ],
+        "title": "SesionResponse"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "http://127.0.0.1:8000",
+      "description": "Entorno local de Fixture 2030"
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+=== HITO 10 - INTERSYSTEMS IRIS ===
+Fecha de ejecucion: 2026-10-10T20:43:12-03:00
+Dependencia: InterSystems IRIS
+Endpoint: GET /api/v1/partidos/{codigo}/detalle
+
+=== CASO 1: PARTIDO EXISTENTE - ESPERADO 200 ===
+HTTP/1.1 200 OK
+date: Sat, 10 Oct 2026 23:43:12 GMT
+server: uvicorn
+content-length: 400
+content-type: application/json
+x-request-id: 87d54ff4-55c9-4ef1-aab4-679c9183ca8c
+x-process-time-ms: 110.99
+
+{"id":1,"codigo":"PAR-0001","fecha_hora":"2030-06-13T20:00:00","equipo_local_id":"ARG","equipo_visitante_id":"MEX","estado":"Finalizado","arbitro_principal":{"id":1,"documento":"ARB-0001","nombre":"Fernando Rapallini","nacionalidad":"Argentina","rol":"Principal","licencia_fifa":true},"eventos":[{"id":"1||1","tipo":"Gol","minuto":23,"detalle":"Gol de Argentina"}],"fuente_datos":"InterSystems IRIS"}
+
+=== CASO 2: PARTIDO INEXISTENTE - ESPERADO 404 ===
+HTTP/1.1 404 Not Found
+date: Sat, 10 Oct 2026 23:43:12 GMT
+server: uvicorn
+x-request-id: 848997a1-6860-408c-b5b9-937c1ecdd62c
+content-length: 170
+content-type: application/json
+x-process-time-ms: 34.58
+
+{"error":{"codigo":"PARTIDO_IRIS_NO_ENCONTRADO","mensaje":"No se encontró el partido persistente PAR-9999 en IRIS.","request_id":"848997a1-6860-408c-b5b9-937c1ecdd62c"}}
+
+=== CASO 3: CODIGO INVALIDO - ESPERADO 422 ===
+HTTP/1.1 422 Unprocessable Entity
+date: Sat, 10 Oct 2026 23:43:12 GMT
+server: uvicorn
+x-request-id: 92d9e697-a549-4249-b852-4b4a016b0b95
+content-length: 283
+content-type: application/json
+x-process-time-ms: 1.32
+
+{"error":{"codigo":"DATOS_INVALIDOS","mensaje":"Los datos enviados no superaron la validación.","request_id":"92d9e697-a549-4249-b852-4b4a016b0b95","detalles":[{"campo":"path.codigo","mensaje":"String should match pattern '^PAR-[A-Z0-9]{4,12}$'","tipo":"string_pattern_mismatch"}]}}

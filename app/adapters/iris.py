@@ -4,9 +4,41 @@ import iris.dbapi as iris_dbapi
 
 from app.config.settings import Settings
 from app.exceptions import (
+    DependencyMisconfiguredError,
     DependencyTimeoutError,
     DependencyUnavailableError,
 )
+
+
+DEPENDENCY_NAME = "InterSystems IRIS"
+
+
+def translate_iris_error(error: Exception) -> Exception:
+    """Clasifica errores del driver IRIS sin propagar su mensaje."""
+    message = str(error).lower()
+
+    if "timeout" in message or "timed out" in message:
+        return DependencyTimeoutError(DEPENDENCY_NAME)
+
+    if "access denied" in message or "authentication" in message:
+        return DependencyMisconfiguredError(
+            DEPENDENCY_NAME,
+            "autenticacion",
+        )
+
+    if "namespace" in message:
+        return DependencyMisconfiguredError(
+            DEPENDENCY_NAME,
+            "contexto",
+        )
+
+    if "privilege" in message or "not authorized" in message:
+        return DependencyMisconfiguredError(
+            DEPENDENCY_NAME,
+            "autorizacion",
+        )
+
+    return DependencyUnavailableError(DEPENDENCY_NAME)
 
 
 class IRISAdapter:
@@ -27,6 +59,50 @@ class IRISAdapter:
         # Las conexiones se abren y cierran por solicitud.
         return None
 
+    def _connect(self):
+        # timeout acota la espera del handshake con el Superserver
+        # (Hito 11, RNF5). Sin él, un host inalcanzable bloqueaba la
+        # solicitud durante el timeout por defecto del sistema operativo.
+        return iris_dbapi.connect(
+            self._host,
+            self._port,
+            self._namespace,
+            self._username,
+            self._password,
+            timeout=self._timeout,
+        )
+
+    def ping(self) -> str:
+        """Chequeo liviano para readiness (Hito 11).
+
+        Superserver + autenticación + namespace + retorno constante.
+        """
+        connection = None
+        cursor = None
+
+        try:
+            connection = self._connect()
+            cursor = connection.cursor()
+            cursor.setQueryTimeout(self._timeout)
+            cursor.execute("SELECT 1")
+            cursor.fetchall()
+        except iris_dbapi.Error as error:
+            raise translate_iris_error(error) from error
+        finally:
+            if cursor is not None:
+                try:
+                    cursor.close()
+                except Exception:
+                    pass
+
+            if connection is not None:
+                try:
+                    connection.close()
+                except Exception:
+                    pass
+
+        return f"superserver ok; namespace {self._namespace}"
+
     def get_partido_detalle(
         self,
         codigo: str,
@@ -35,13 +111,7 @@ class IRISAdapter:
         cursor = None
 
         try:
-            connection = iris_dbapi.connect(
-                self._host,
-                self._port,
-                self._namespace,
-                self._username,
-                self._password,
-            )
+            connection = self._connect()
 
             cursor = connection.cursor()
             cursor.setQueryTimeout(self._timeout)
@@ -139,14 +209,7 @@ class IRISAdapter:
             }
 
         except iris_dbapi.Error as error:
-            if "timeout" in str(error).lower():
-                raise DependencyTimeoutError(
-                    "InterSystems IRIS"
-                ) from error
-
-            raise DependencyUnavailableError(
-                "InterSystems IRIS"
-            ) from error
+            raise translate_iris_error(error) from error
 
         finally:
             if cursor is not None:

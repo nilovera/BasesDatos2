@@ -5,14 +5,21 @@ from pymongo import ASCENDING, MongoClient
 from pymongo.errors import (
     ExecutionTimeout,
     NetworkTimeout,
+    OperationFailure,
     PyMongoError,
 )
 
 from app.config.settings import Settings
 from app.exceptions import (
+    DependencyMisconfiguredError,
     DependencyTimeoutError,
     DependencyUnavailableError,
 )
+
+
+# Códigos de error del servidor MongoDB relevantes para el diagnóstico.
+MONGO_AUTH_FAILED = 18
+MONGO_UNAUTHORIZED = 13
 
 
 logger = logging.getLogger("fixture2030.mongodb")
@@ -46,6 +53,67 @@ class MongoAdapter:
     def close(self) -> None:
         self._client.close()
 
+    def ping(self) -> str:
+        """Chequeo liviano para readiness (Hito 11).
+
+        Verifica autenticación (ping sobre la conexión autenticada) y
+        contexto (que la database tenga la colección equipos). No lee
+        documentos de dominio.
+        """
+        try:
+            self._client.admin.command(
+                "ping",
+                maxTimeMS=self._timeout_ms,
+            )
+            colecciones = self._database.list_collection_names(
+                filter={"name": "equipos"},
+                maxTimeMS=self._timeout_ms,
+            )
+        except (ExecutionTimeout, NetworkTimeout) as error:
+            raise DependencyTimeoutError(
+                self.dependency_name
+            ) from error
+        except OperationFailure as error:
+            raise self._translate_operation_failure(
+                error
+            ) from error
+        except PyMongoError as error:
+            raise DependencyUnavailableError(
+                self.dependency_name
+            ) from error
+
+        if not colecciones:
+            # MongoDB no falla ante una database inexistente: la crea de
+            # forma perezosa y devuelve vacío. Por eso se valida aquí.
+            raise DependencyMisconfiguredError(
+                self.dependency_name,
+                "contexto",
+            )
+
+        return "ping ok; coleccion equipos presente"
+
+    def _translate_operation_failure(
+        self,
+        error: OperationFailure,
+    ) -> Exception:
+        logger.warning(
+            "MongoDB rechazó la operación: codigo=%s",
+            error.code,
+        )
+        if error.code == MONGO_AUTH_FAILED:
+            return DependencyMisconfiguredError(
+                self.dependency_name,
+                "autenticacion",
+            )
+        if error.code == MONGO_UNAUTHORIZED:
+            return DependencyMisconfiguredError(
+                self.dependency_name,
+                "autorizacion",
+            )
+        return DependencyUnavailableError(
+            self.dependency_name
+        )
+
     def get_equipo(
         self,
         codigo: str,
@@ -68,6 +136,10 @@ class MongoAdapter:
             )
             raise DependencyTimeoutError(
                 self.dependency_name
+            ) from error
+        except OperationFailure as error:
+            raise self._translate_operation_failure(
+                error
             ) from error
         except PyMongoError as error:
             logger.warning(
@@ -124,6 +196,10 @@ class MongoAdapter:
             )
             raise DependencyTimeoutError(
                 self.dependency_name
+            ) from error
+        except OperationFailure as error:
+            raise self._translate_operation_failure(
+                error
             ) from error
         except PyMongoError as error:
             logger.warning(

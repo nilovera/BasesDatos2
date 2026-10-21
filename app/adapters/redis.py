@@ -4,12 +4,17 @@ import redis as redis_client
 from redis.backoff import NoBackoff
 from redis.retry import Retry
 from redis.exceptions import (
+    AuthenticationError as RedisAuthenticationError,
+)
+from redis.exceptions import (
     ConnectionError as RedisConnectionError,
 )
+from redis.exceptions import ResponseError as RedisResponseError
 from redis.exceptions import TimeoutError as RedisTimeoutError
 
 from app.config.settings import Settings
 from app.exceptions import (
+    DependencyMisconfiguredError,
     DependencyTimeoutError,
     DependencyUnavailableError,
 )
@@ -35,6 +40,29 @@ class RedisAdapter:
     def close(self) -> None:
         self._client.close()
 
+    def ping(self) -> str:
+        """Chequeo liviano para readiness (Hito 11): PING RESP."""
+        try:
+            self._client.ping()
+        except RedisTimeoutError as error:
+            raise DependencyTimeoutError("Redis") from error
+        except RedisAuthenticationError as error:
+            raise DependencyMisconfiguredError(
+                "Redis",
+                "autenticacion",
+            ) from error
+        except RedisResponseError as error:
+            if "NOAUTH" in str(error).upper():
+                raise DependencyMisconfiguredError(
+                    "Redis",
+                    "autenticacion",
+                ) from error
+            raise DependencyUnavailableError("Redis") from error
+        except RedisConnectionError as error:
+            raise DependencyUnavailableError("Redis") from error
+
+        return "PING -> PONG"
+
     def get_sesion(
         self,
         sesion_id: str,
@@ -53,6 +81,19 @@ class RedisAdapter:
             raise DependencyTimeoutError(
                 "Redis"
             ) from error
+        except RedisAuthenticationError as error:
+            # Subclase de ConnectionError: se captura antes.
+            raise DependencyMisconfiguredError(
+                "Redis",
+                "autenticacion",
+            ) from error
+        except RedisResponseError as error:
+            if "NOAUTH" in str(error).upper():
+                raise DependencyMisconfiguredError(
+                    "Redis",
+                    "autenticacion",
+                ) from error
+            raise
         except RedisConnectionError as error:
             raise DependencyUnavailableError(
                 "Redis"
@@ -93,6 +134,19 @@ class RedisAdapter:
             raise DependencyTimeoutError(
                 "Redis"
             ) from error
+        except RedisAuthenticationError as error:
+            # Subclase de ConnectionError: se captura antes.
+            raise DependencyMisconfiguredError(
+                "Redis",
+                "autenticacion",
+            ) from error
+        except RedisResponseError as error:
+            if "NOAUTH" in str(error).upper():
+                raise DependencyMisconfiguredError(
+                    "Redis",
+                    "autenticacion",
+                ) from error
+            raise
         except RedisConnectionError as error:
             raise DependencyUnavailableError(
                 "Redis"

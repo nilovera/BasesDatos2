@@ -3,6 +3,9 @@ from typing import Any
 
 from neo4j import GraphDatabase, Query
 from neo4j.exceptions import (
+    AuthError,
+    ClientError,
+    Forbidden,
     Neo4jError,
     ServiceUnavailable,
     SessionExpired,
@@ -10,6 +13,7 @@ from neo4j.exceptions import (
 
 from app.config.settings import Settings
 from app.exceptions import (
+    DependencyMisconfiguredError,
     DependencyTimeoutError,
     DependencyUnavailableError,
 )
@@ -143,6 +147,10 @@ class Neo4jAdapter:
             raise DependencyUnavailableError(
                 self.dependency_name
             ) from error
+        except (AuthError, Forbidden, ClientError) as error:
+            raise self._translate_client_error(
+                error
+            ) from error
         except Neo4jError as error:
             logger.warning(
                 "Error del driver Neo4j: %s",
@@ -151,4 +159,71 @@ class Neo4jAdapter:
             raise DependencyUnavailableError(
                 self.dependency_name
             ) from error
+
+    def ping(self) -> str:
+        """Chequeo liviano para readiness (Hito 11).
+
+        Bolt + autenticación + database seleccionada + retorno constante.
+        """
+        try:
+            with self._driver.session(
+                database=self._database
+            ) as session:
+                session.run(
+                    Query(
+                        "RETURN 1 AS ok",
+                        timeout=self._timeout_seconds,
+                    )
+                ).single()
+        except TimeoutError as error:
+            raise DependencyTimeoutError(
+                self.dependency_name
+            ) from error
+        except (ServiceUnavailable, SessionExpired) as error:
+            raise DependencyUnavailableError(
+                self.dependency_name
+            ) from error
+        except (AuthError, Forbidden, ClientError) as error:
+            raise self._translate_client_error(
+                error
+            ) from error
+        except Neo4jError as error:
+            raise DependencyUnavailableError(
+                self.dependency_name
+            ) from error
+
+        return f"bolt ok; database {self._database}"
+
+    def _translate_client_error(
+        self,
+        error: Neo4jError,
+    ) -> Exception:
+        code = getattr(error, "code", "") or ""
+        logger.warning(
+            "Neo4j rechazó la operación: %s %s",
+            type(error).__name__,
+            code,
+        )
+        if isinstance(error, AuthError) or "Security.Unauthorized" in code:
+            return DependencyMisconfiguredError(
+                self.dependency_name,
+                "autenticacion",
+            )
+        if isinstance(error, Forbidden) or "Security.Forbidden" in code:
+            return DependencyMisconfiguredError(
+                self.dependency_name,
+                "autorizacion",
+            )
+        if "DatabaseNotFound" in code:
+            return DependencyMisconfiguredError(
+                self.dependency_name,
+                "contexto",
+            )
+        if "TransactionTimedOut" in code:
+            return DependencyTimeoutError(
+                self.dependency_name
+            )
+        return DependencyUnavailableError(
+            self.dependency_name
+        )
 

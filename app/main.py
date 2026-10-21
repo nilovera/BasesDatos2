@@ -24,6 +24,7 @@ from app.routes.iris import router as iris_router
 from app.routes.mongodb import router as mongodb_router
 from app.routes.neo4j import router as neo4j_router
 from app.routes.redis import router as redis_router
+from app.services.dependency_health import DependencyHealthChecker
 
 
 settings = get_settings()
@@ -49,9 +50,27 @@ async def lifespan(
     application.state.influxdb_adapter = influxdb_adapter
     application.state.iris_adapter = iris_adapter
 
+    # Hito 11: diagnóstico por dependencia para /health/ready y
+    # /health/dependencias. Cada chequeo tiene un límite propio levemente
+    # superior al timeout de los drivers, para que el driver informe su
+    # propio error antes de que el diagnóstico corte la espera.
+    health_checker = DependencyHealthChecker(
+        checks={
+            "MongoDB": mongo_adapter.ping,
+            "Neo4j": neo4j_adapter.ping,
+            "Cassandra": cassandra_adapter.ping,
+            "Redis": redis_adapter.ping,
+            "InfluxDB": influxdb_adapter.ping,
+            "InterSystems IRIS": iris_adapter.ping,
+        },
+        timeout_seconds=settings.dependency_timeout_seconds + 1,
+    )
+    application.state.health_checker = health_checker
+
     try:
         yield
     finally:
+        health_checker.close()
         iris_adapter.close()
         influxdb_adapter.close()
         redis_adapter.close()

@@ -53,3 +53,34 @@ class DependencyTimeoutError(ApiError):
             ),
             dependency=dependency,
         )
+
+class DependencyMisconfiguredError(ApiError):
+    """La dependencia responde, pero rechaza la identidad o el contexto.
+
+    Se diferencia de DependencyUnavailableError para que el cliente y los
+    logs distingan "el motor no responde" de "el motor responde pero la
+    configuración de la API no le permite operar" (Hito 11, RF17).
+    No incluye mensajes del driver para no filtrar datos de conexión.
+    """
+
+    MOTIVOS = {
+        "autenticacion": "La dependencia rechazó la identidad configurada.",
+        "autorizacion": "La identidad configurada no tiene permisos suficientes.",
+        "contexto": "El contexto configurado (database, keyspace o namespace) no existe.",
+    }
+
+    def __init__(self, dependency: str, motivo: str) -> None:
+        super().__init__(
+            status_code=503,
+            code="DEPENDENCIA_MAL_CONFIGURADA",
+            message=(
+                f"La dependencia {dependency} respondió, pero no pudo "
+                "utilizarse con la configuración actual."
+            ),
+            details={
+                "dependencia": dependency,
+                "capa": motivo,
+                "descripcion": self.MOTIVOS.get(motivo, motivo),
+            },
+            dependency=dependency,
+        )

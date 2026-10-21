@@ -55,8 +55,9 @@ def register_error_handlers(app: FastAPI) -> None:
             request.state.dependency = error.dependency
 
         logger.warning(
-            "request_id=%s codigo=%s status=%s",
+            "request_id=%s dependencia=%s codigo=%s status=%s",
             get_request_id(request),
+            error.dependency or "api",
             error.code,
             error.status_code,
         )

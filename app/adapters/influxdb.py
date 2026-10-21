@@ -4,6 +4,7 @@ import httpx
 
 from app.config.settings import Settings
 from app.exceptions import (
+    DependencyMisconfiguredError,
     DependencyTimeoutError,
     DependencyUnavailableError,
 )
@@ -35,6 +36,76 @@ class InfluxDBAdapter:
 
     def close(self) -> None:
         self._client.close()
+
+    def _raise_for_status(
+        self,
+        response: httpx.Response,
+    ) -> None:
+        """Traduce respuestas HTTP de error a errores diferenciados.
+
+        Hasta el Hito 10 cualquier status >= 400 se informaba como
+        "dependencia no disponible". Desde el Hito 11 se distingue
+        token inválido (401), falta de permisos (403) y database
+        inexistente (404 / mensaje "not found"), sin exponer el token.
+        """
+        status = response.status_code
+
+        if status < 400:
+            return
+
+        if status == 401:
+            raise DependencyMisconfiguredError(
+                "InfluxDB",
+                "autenticacion",
+            )
+
+        if status == 403:
+            raise DependencyMisconfiguredError(
+                "InfluxDB",
+                "autorizacion",
+            )
+
+        body = response.text.lower()
+
+        if status == 404 or (
+            "database" in body and "not found" in body
+        ):
+            raise DependencyMisconfiguredError(
+                "InfluxDB",
+                "contexto",
+            )
+
+        raise DependencyUnavailableError("InfluxDB")
+
+    def ping(self) -> str:
+        """Chequeo liviano para readiness (Hito 11).
+
+        /health con token y una consulta de retorno constante sobre la
+        database de detalle (verifica autorización y contexto).
+        """
+        try:
+            health = self._client.get("/health")
+            self._raise_for_status(health)
+
+            query = self._client.post(
+                "/api/v3/query_sql",
+                json={
+                    "db": self._detail_database,
+                    "q": "SELECT 1 AS ok",
+                    "format": "json",
+                },
+            )
+            self._raise_for_status(query)
+        except httpx.TimeoutException as error:
+            raise DependencyTimeoutError(
+                "InfluxDB"
+            ) from error
+        except httpx.RequestError as error:
+            raise DependencyUnavailableError(
+                "InfluxDB"
+            ) from error
+
+        return f"health ok; database {self._detail_database}"
 
     def get_estadisticas(
         self,
@@ -112,10 +183,7 @@ class InfluxDBAdapter:
                 "InfluxDB"
             ) from error
 
-        if response.status_code >= 400:
-            raise DependencyUnavailableError(
-                "InfluxDB"
-            )
+        self._raise_for_status(response)
 
         payload = response.json()
 

@@ -1,0 +1,4 @@
+# Token de InfluxDB y password de IRIS generados en cada notebook
+.secretos/
+# Puntos generados por datos/influxdb/generar_influx.py
+datos/influxdb/generado/

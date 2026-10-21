@@ -1,0 +1,56 @@
+ROUTINE FixtureSemillaH11
+
+Main
+    // Hito 11 - Datos de demostración que consulta la API del Hito 10.
+    // Recrea PAR-0001 (ARG vs MEX, árbitro ARB-0001, gol al minuto 23,
+    // estado Finalizado) usando los métodos de dominio del Hito 9.
+    // Es idempotente: si PAR-0001 ya existe no modifica nada.
+    Write "=== HITO 11 - SEMILLA IRIS ===",!
+
+    If ##class(Fixture.Partido).idxCodigoExists("PAR-0001") {
+        Write "PAR-0001 ya existe: sin cambios",!
+        Do Resumen
+        Quit
+    }
+
+    If ##class(Fixture.Persona).idxDocumentoExists("ARB-0001",.idArbitro) {
+        Set arbitro = ##class(Fixture.Arbitro).%OpenId(idArbitro)
+    } Else {
+        Set arbitro = ##class(Fixture.Arbitro).%New()
+        Set arbitro.Documento = "ARB-0001"
+        Set arbitro.Nombre = "Fernando Rapallini"
+        Set arbitro.Nacionalidad = "Argentina"
+        Set arbitro.Rol = "Principal"
+        Set arbitro.LicenciaFIFA = 1
+        Set sc = arbitro.%Save()
+        If 'sc Do $System.Status.DisplayError(sc) Quit
+    }
+
+    Set partido = ##class(Fixture.Partido).%New()
+    Set partido.Codigo = "PAR-0001"
+    Set partido.FechaHora = "2030-06-13 20:00:00"
+    Set partido.EquipoLocalId = "ARG"
+    Set partido.EquipoVisitanteId = "MEX"
+    Set partido.Estado = "EnCurso"
+    Set partido.ArbitroPrincipal = arbitro
+
+    Set sc = partido.AgregarEvento("Gol",23,"Gol de Argentina")
+    If 'sc Do $System.Status.DisplayError(sc) Quit
+
+    Set sc = partido.%Save()
+    If 'sc Do $System.Status.DisplayError(sc) Quit
+
+    Set sc = partido.CambiarEstado("Finalizado")
+    If 'sc Do $System.Status.DisplayError(sc) Quit
+    Set sc = partido.%Save()
+    If 'sc Do $System.Status.DisplayError(sc) Quit
+
+    Write "PAR-0001 creado. ID: ",partido.%Id(),!
+    Do Resumen
+    Quit
+
+Resumen
+    &sql(SELECT COUNT(*) INTO :partidos FROM Fixture.Partido)
+    &sql(SELECT COUNT(*) INTO :eventos FROM Fixture.EventoPartido)
+    Write "Partidos: ",partidos," | Eventos: ",eventos,!
+    Quit

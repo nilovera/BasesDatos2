@@ -8,7 +8,7 @@
 - **Sin autenticación en Cassandra y Redis:** las capas de autenticación de ambos productos se registran como `N/A`. No se simula una autenticación que no existe.
 - **Puertos expuestos:** MongoDB (27017) y Redis (6379) se publican en todas las interfaces de la notebook. InfluxDB e IRIS solo en `127.0.0.1`. Es aceptable para un laboratorio local, pero no para producción.
 - **Compose de Neo4j y Cassandra fuera del repositorio:** el mapeo de puertos de esos dos productos se toma de `docker inspect` en tiempo de ejecución (modo `tcp`) y no de un archivo versionado.
-- **Datos sintéticos:** las pruebas leen los datos de demostración cargados en los hitos 4 a 9 (EQ-01, PAR-0001, bucket `203006131800`, ventana 2030-06-13 20:00–20:01). Si otra notebook no los tiene, las lecturas dan `ADVERTENCIA` (`recurso_inexistente`) y no `FALLA`.
+- **Datos sintéticos:** las pruebas leen los datos de demostración cargados en los hitos 4 a 9 (EQ-01, PAR-0001, ventana 2030-06-13 20:00–20:01). En Cassandra la partición de demostración es `203006131800` cuando está la carga masiva del Hito 6, y `203006132000` en el entorno local consolidado, que carga solo la muestra (`CASSANDRA_BUCKET_DEMO`). Si otra notebook no los tiene, las lecturas dan `ADVERTENCIA` (`recurso_inexistente`) y no `FALLA`.
 
 ### De las herramientas
 

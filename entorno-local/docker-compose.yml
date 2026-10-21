@@ -1,0 +1,127 @@
+# =============================================================================
+# Fixture 2030 - Entorno local consolidado (hitos 4 a 9) para ejecutar el Hito 11
+# =============================================================================
+# Reúne en un único proyecto Compose los seis contenedores que el grupo levantó
+# por separado en cada hito, con los MISMOS nombres de contenedor, imágenes y
+# puertos, para poder reproducir la API del Hito 10 y el diagnóstico del Hito 11
+# en otra notebook.
+#
+# Diferencias respecto de los compose originales (documentadas en README.md):
+#   - Volúmenes Docker con nombre en lugar de carpetas ~/docker/data de WSL.
+#   - Neo4j sin los plugins APOC/GDS (las cargas del Hito 5 no los usan).
+#   - Cassandra con heap acotado para una notebook.
+#   - IRIS sin directorio durable externo (los datos viven en el contenedor y
+#     se conservan con docker stop/start).
+#
+# Credenciales de laboratorio: las de MongoDB y Neo4j son las que el grupo ya
+# documentó en los hitos 4 y 5. El token de InfluxDB y la password de IRIS se
+# generan en cada notebook con preparar_entorno.ps1 y no se versionan.
+# =============================================================================
+
+name: fixture2030
+
+services:
+  mongodb:
+    image: mongo:7.0
+    container_name: fixture2030-mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password123
+      MONGO_INITDB_DATABASE: fixture2030
+    volumes:
+      - mongodb_data:/data/db
+      - ./datos/mongodb:/scripts:ro
+
+  neo4j:
+    image: neo4j:latest
+    container_name: fixture2030-neo4j
+    restart: unless-stopped
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    environment:
+      NEO4J_AUTH: neo4j/fixture2030
+    volumes:
+      - neo4j_data:/data
+      - ./datos/neo4j:/scripts:ro
+
+  cassandra:
+    image: cassandra:latest
+    container_name: fixture2030-cassandra
+    restart: unless-stopped
+    ports:
+      - "9042:9042"
+    environment:
+      CASSANDRA_CLUSTER_NAME: Fixture2030_Cassandra
+      CASSANDRA_DC: datacenter1
+      CASSANDRA_RACK: rack1
+      CASSANDRA_ENDPOINT_SNITCH: GossipingPropertyFileSnitch
+      MAX_HEAP_SIZE: 1G
+      HEAP_NEWSIZE: 256M
+    volumes:
+      - cassandra_data:/var/lib/cassandra
+      - ./datos/cassandra:/scripts:ro
+
+  redis:
+    image: redis:latest
+    container_name: fixture2030-redis
+    restart: unless-stopped
+    command:
+      - redis-server
+      - --appendonly
+      - "yes"
+      - --save
+      - "60"
+      - "1"
+      - --maxmemory
+      - 256mb
+      - --maxmemory-policy
+      - noeviction
+      - --loglevel
+      - notice
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  influxdb:
+    image: influxdb:3-core
+    container_name: fixture2030-influxdb
+    restart: unless-stopped
+    command:
+      - influxdb3
+      - serve
+      - --node-id=fixture2030-local
+      - --object-store=file
+      - --data-dir=/var/lib/influxdb3/data
+      - --http-bind=0.0.0.0:8181
+    ports:
+      - "127.0.0.1:8181:8181"
+    volumes:
+      - influxdb_data:/var/lib/influxdb3
+      - ./datos/influxdb:/datos:ro
+
+  iris:
+    image: intersystems/iris-community:latest-cd
+    container_name: fixture2030-iris
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:1972:1972"
+      - "127.0.0.1:52773:52773"
+    volumes:
+      - ./datos/iris:/scripts:ro
+
+volumes:
+  mongodb_data:
+  neo4j_data:
+  cassandra_data:
+  redis_data:
+  influxdb_data:

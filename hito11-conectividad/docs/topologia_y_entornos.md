@@ -17,6 +17,10 @@
 
 Por eso el diagnóstico se ejecuta desde la notebook: es el **origen real** de las conexiones de la API (RNF3).
 
+### Variante: entorno local consolidado
+
+Para ejecutar el Hito 11 en otra notebook se agregó [`entorno-local/`](../../entorno-local/README.md): un único proyecto Compose (`fixture2030`) con los seis servicios, los **mismos nombres de contenedor y puertos publicados**, y los scripts de carga originales de cada hito. En esa variante los contenedores comparten la red `fixture2030_default`, pero la API sigue corriendo en la notebook y sigue usando `127.0.0.1` + puerto publicado. La topología desde el punto de vista de la API no cambia. Lo que cambia es que, entre contenedores, cada servicio también sería alcanzable por su nombre de servicio (`mongodb:27017`, `neo4j:7687`, etc.).
+
 ## 2. Diagrama
 
 ```mermaid

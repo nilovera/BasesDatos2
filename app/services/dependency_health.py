@@ -100,15 +100,26 @@ class DependencyHealthChecker:
             "timeout_por_dependencia_segundos": self._timeout,
         }
 
+    @staticmethod
+    def _timed(check: Callable[[], str], timings: dict, name: str) -> str:
+        # La duración se mide dentro del hilo: no depende del orden en que
+        # se recogen los resultados.
+        started = time.perf_counter()
+        try:
+            return check()
+        finally:
+            timings[name] = (time.perf_counter() - started) * 1000
+
     def _run_all(self) -> list[DependencyStatus]:
         futures = {}
-        started = {}
+        timings: dict[str, float] = {}
 
         for name, check in self._checks.items():
             if check is None:
                 continue
-            started[name] = time.perf_counter()
-            futures[name] = self._executor.submit(check)
+            futures[name] = self._executor.submit(
+                self._timed, check, timings, name
+            )
 
         results: list[DependencyStatus] = []
 
@@ -160,7 +171,7 @@ class DependencyHealthChecker:
                 detail = f"Error no clasificado: {type(error).__name__}."
 
             duration_ms = round(
-                (time.perf_counter() - started[name]) * 1000,
+                timings.get(name, self._timeout * 1000),
                 2,
             )
 

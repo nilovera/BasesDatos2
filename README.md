@@ -4,6 +4,8 @@ Hito 10 de Ingeniería de Datos II.
 
 API REST desarrollada con Python y FastAPI que integra seis tecnologías de persistencia utilizadas en los hitos anteriores del proyecto Fixture 2030.
 
+> **Hito 11 — Evaluación de la conectividad:** procedimiento, scripts, documentación y evidencia en [`hito11-conectividad/`](hito11-conectividad/README.md). En la API se agregaron `/health/live`, `/health/ready` y `/health/dependencias`.
+
 ## Tecnologías integradas
 
 | Motor | Responsabilidad |
@@ -30,6 +32,9 @@ Cada dependencia tiene su propio adaptador. La caída de un motor no detiene los
 | Método | Ruta | Motor |
 |---|---|---|
 | GET | `/health` | API |
+| GET | `/health/live` | API (Hito 11) |
+| GET | `/health/ready` | Diagnóstico de dependencias en caché (Hito 11) |
+| GET | `/health/dependencias` | Los seis motores, con timeout (Hito 11) |
 | GET | `/api/v1/equipos/{codigo}` | MongoDB |
 | GET | `/api/v1/jugadores` | MongoDB |
 | GET | `/api/v1/partidos/{codigo}/eventos` | Neo4j |

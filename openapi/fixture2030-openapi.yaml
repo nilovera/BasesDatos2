@@ -4,13 +4,30 @@ info:
   description: API REST integrada del proyecto Fixture 2030. Expone casos de uso sobre
     MongoDB, Neo4j, Cassandra, Redis, InfluxDB e InterSystems IRIS.
   version: 1.0.0
-  x-generated-at: '2026-10-10T21:51:36-03:00'
+  x-generated-at: '2026-10-21T17:20:54-03:00'
 paths:
+  /health/live:
+    get:
+      tags:
+      - Sistema
+      summary: 'Liveness: el proceso de la API está activo'
+      description: No consulta dependencias. Responde 200 mientras el proceso pueda
+        atender solicitudes HTTP.
+      operationId: health_health_live_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
   /health:
     get:
       tags:
       - Sistema
       summary: Comprobar disponibilidad de la API
+      description: 'Se mantiene por compatibilidad con el Hito 10. Equivale a /health/live:
+        no consulta ninguna base.'
       operationId: health_health_get
       responses:
         '200':
@@ -19,6 +36,58 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HealthResponse'
+  /health/ready:
+    get:
+      tags:
+      - Sistema
+      summary: 'Readiness: la API está preparada para recibir tráfico'
+      description: Usa el último diagnóstico por dependencia (caché de 15 s). ready=200,
+        degraded=200, not_ready=503.
+      operationId: readiness_health_ready_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadinessResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadinessResponse'
+  /health/dependencias:
+    get:
+      tags:
+      - Sistema
+      summary: Diagnóstico individual por dependencia
+      description: Ejecuta (o reutiliza de la caché) el ping liviano de cada adaptador
+        con timeout propio. No expone mensajes de drivers ni credenciales.
+      operationId: dependencias_health_dependencias_get
+      parameters:
+      - name: refrescar
+        in: query
+        required: false
+        schema:
+          type: boolean
+          description: Fuerza un nuevo chequeo. Limitado a uno cada 5 segundos.
+          default: false
+          title: Refrescar
+        description: Fuerza un nuevo chequeo. Limitado a uno cada 5 segundos.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DependenciasResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
   /api/v1/equipos/{codigo}:
     get:
       tags:
@@ -55,7 +124,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: Unprocessable Entity
+          description: Unprocessable Content
         '503':
           content:
             application/json:
@@ -138,7 +207,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: Unprocessable Entity
+          description: Unprocessable Content
         '503':
           content:
             application/json:
@@ -187,7 +256,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: Unprocessable Entity
+          description: Unprocessable Content
         '503':
           content:
             application/json:
@@ -527,6 +596,75 @@ components:
       - datos
       - paginacion
       title: ComentariosPartidoResponse
+    DependenciaEstado:
+      properties:
+        dependencia:
+          type: string
+          title: Dependencia
+        estado:
+          type: string
+          enum:
+          - up
+          - down
+          - unknown
+          - not_configured
+          title: Estado
+        clasificacion:
+          type: string
+          title: Clasificacion
+        detalle:
+          type: string
+          title: Detalle
+        duracion_ms:
+          type: number
+          title: Duracion Ms
+        verificado_en:
+          type: string
+          title: Verificado En
+      type: object
+      required:
+      - dependencia
+      - estado
+      - clasificacion
+      - detalle
+      - duracion_ms
+      - verificado_en
+      title: DependenciaEstado
+    DependenciasResponse:
+      properties:
+        estado_general:
+          type: string
+          enum:
+          - ready
+          - degraded
+          - not_ready
+          title: Estado General
+        dependencias:
+          items:
+            $ref: '#/components/schemas/DependenciaEstado'
+          type: array
+          title: Dependencias
+        desde_cache:
+          type: boolean
+          title: Desde Cache
+        antiguedad_segundos:
+          type: number
+          title: Antiguedad Segundos
+        ttl_cache_segundos:
+          type: number
+          title: Ttl Cache Segundos
+        timeout_por_dependencia_segundos:
+          type: number
+          title: Timeout Por Dependencia Segundos
+      type: object
+      required:
+      - estado_general
+      - dependencias
+      - desde_cache
+      - antiguedad_segundos
+      - ttl_cache_segundos
+      - timeout_por_dependencia_segundos
+      title: DependenciasResponse
     EquipoGrafoResponse:
       properties:
         codigo:
@@ -941,6 +1079,38 @@ components:
       - pases_intervalo
       - tiros_acumulados
       title: PuntoDetalleResponse
+    ReadinessResponse:
+      properties:
+        estado:
+          type: string
+          enum:
+          - ready
+          - degraded
+          - not_ready
+          title: Estado
+        dependencias:
+          additionalProperties:
+            type: string
+            enum:
+            - up
+            - down
+            - unknown
+            - not_configured
+          type: object
+          title: Dependencias
+        desde_cache:
+          type: boolean
+          title: Desde Cache
+        antiguedad_segundos:
+          type: number
+          title: Antiguedad Segundos
+      type: object
+      required:
+      - estado
+      - dependencias
+      - desde_cache
+      - antiguedad_segundos
+      title: ReadinessResponse
     Resumen15MinutosResponse:
       properties:
         time:

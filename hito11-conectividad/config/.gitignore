@@ -1,0 +1,4 @@
+# Configuración local con credenciales: nunca se versiona.
+*
+!.gitignore
+!configuracion-ejemplo.env

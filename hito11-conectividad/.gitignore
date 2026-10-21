@@ -1,0 +1,9 @@
+# Hito 11 - archivos locales que no se versionan
+config/conectividad.env
+*.env
+!config/configuracion-ejemplo.env
+__pycache__/
+*.py[cod]
+# Capturas sin redactar: guardarlas fuera del repo o en capturas_sin_redactar/
+docs/evidencia/capturas_sin_redactar/
+*.log

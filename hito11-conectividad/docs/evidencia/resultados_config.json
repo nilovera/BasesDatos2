@@ -1,0 +1,216 @@
+{
+  "contexto": {
+    "hito": "Hito 11 - Evaluación de la conectividad",
+    "fecha": "2026-10-21T18:47:33-03:00",
+    "modo": "configuracion",
+    "entorno": "notebook del equipo (Linux), proceso Python local",
+    "origen_de_las_pruebas": "notebook (mismo proceso/entorno desde el que corre la API)",
+    "sistema_operativo": "Linux-6.18.44-fc-v140-x86_64-with-glibc2.39",
+    "python": "3.13.16",
+    "commit": "fc497a6 (con cambios sin commit)",
+    "rama": "Conectividad",
+    "timeout_por_prueba_s": 3.0,
+    "archivos_de_configuracion": {
+      "config/conectividad.env": "ausente",
+      ".env (API)": "presente"
+    }
+  },
+  "resumen": {
+    "MongoDB": {
+      "estado": "desconocido",
+      "motivo": "las capas ejecutadas no alcanzan para concluir",
+      "conteo": {
+        "OK": 1
+      }
+    },
+    "Neo4j": {
+      "estado": "desconocido",
+      "motivo": "las capas ejecutadas no alcanzan para concluir",
+      "conteo": {
+        "OK": 1
+      }
+    },
+    "Cassandra": {
+      "estado": "desconocido",
+      "motivo": "las capas ejecutadas no alcanzan para concluir",
+      "conteo": {
+        "OK": 1
+      }
+    },
+    "Redis": {
+      "estado": "desconocido",
+      "motivo": "las capas ejecutadas no alcanzan para concluir",
+      "conteo": {
+        "OK": 1
+      }
+    },
+    "InfluxDB": {
+      "estado": "desconocido",
+      "motivo": "las capas ejecutadas no alcanzan para concluir",
+      "conteo": {
+        "OK": 1
+      }
+    },
+    "InterSystems IRIS": {
+      "estado": "desconocido",
+      "motivo": "las capas ejecutadas no alcanzan para concluir",
+      "conteo": {
+        "OK": 1
+      }
+    },
+    "Repositorio": {
+      "estado": "cumple con observaciones",
+      "motivo": "ver advertencias de seguridad",
+      "conteo": {
+        "ADVERTENCIA": 1,
+        "OK": 1
+      }
+    }
+  },
+  "resultados": [
+    {
+      "producto": "MongoDB",
+      "capa": "configuracion",
+      "prueba": "variables requeridas presentes",
+      "objetivo": "127.0.0.1:27017",
+      "estado": "OK",
+      "clasificacion": "configuracion_completa",
+      "detalle": "destino=127.0.0.1:27017; protocolo=MongoDB Wire Protocol (TCP); database=fixture2030; authSource=admin; autenticacion=SCRAM con usuario presente (valor oculto) y password presente (valor oculto); origen de valores=.env (API)",
+      "duracion_ms": null,
+      "origen": "notebook (mismo entorno que la API)",
+      "cliente": "lectura de configuración",
+      "requerida": true,
+      "pregunta": "¿El entorno sabe a qué host, puerto y contexto conectarse y con qué identidad?",
+      "no_concluye": "Que el host exista, que el puerto esté abierto o que la credencial sea válida.",
+      "hipotesis": "",
+      "siguiente_paso": "",
+      "timestamp": "2026-10-21T18:47:33-03:00"
+    },
+    {
+      "producto": "Neo4j",
+      "capa": "configuracion",
+      "prueba": "variables requeridas presentes",
+      "objetivo": "127.0.0.1:7687 (Bolt) / 127.0.0.1:7474 (HTTP Browser)",
+      "estado": "OK",
+      "clasificacion": "configuracion_completa",
+      "detalle": "destino=127.0.0.1:7687 (Bolt) / 127.0.0.1:7474 (HTTP Browser); protocolo=Bolt (aplicación) y HTTP (portal); database=neo4j; autenticacion=basic auth Bolt con usuario presente (valor oculto) y password presente (valor oculto); origen de valores=--set (override), .env (API)",
+      "duracion_ms": null,
+      "origen": "notebook (mismo entorno que la API)",
+      "cliente": "lectura de configuración",
+      "requerida": true,
+      "pregunta": "¿El entorno sabe a qué host, puerto y contexto conectarse y con qué identidad?",
+      "no_concluye": "Que el host exista, que el puerto esté abierto o que la credencial sea válida.",
+      "hipotesis": "",
+      "siguiente_paso": "",
+      "timestamp": "2026-10-21T18:47:33-03:00"
+    },
+    {
+      "producto": "Cassandra",
+      "capa": "configuracion",
+      "prueba": "variables requeridas presentes",
+      "objetivo": "127.0.0.1:9042",
+      "estado": "OK",
+      "clasificacion": "configuracion_completa",
+      "detalle": "destino=127.0.0.1:9042; protocolo=CQL native protocol (TCP); keyspace=fixture2030_comentarios; tabla=comentarios_por_partido; autenticacion=sin credenciales configuradas (el laboratorio usa AllowAllAuthenticator); origen de valores=.env (API)",
+      "duracion_ms": null,
+      "origen": "notebook (mismo entorno que la API)",
+      "cliente": "lectura de configuración",
+      "requerida": true,
+      "pregunta": "¿El entorno sabe a qué host, puerto y contexto conectarse y con qué identidad?",
+      "no_concluye": "Que el host exista, que el puerto esté abierto o que la credencial sea válida.",
+      "hipotesis": "",
+      "siguiente_paso": "",
+      "timestamp": "2026-10-21T18:47:33-03:00"
+    },
+    {
+      "producto": "Redis",
+      "capa": "configuracion",
+      "prueba": "variables requeridas presentes",
+      "objetivo": "127.0.0.1:6379",
+      "estado": "OK",
+      "clasificacion": "configuracion_completa",
+      "detalle": "destino=127.0.0.1:6379; protocolo=RESP (TCP); db=0; claves sesion:*; autenticacion=sin password configurada (requirepass vacío en el laboratorio); origen de valores=.env (API)",
+      "duracion_ms": null,
+      "origen": "notebook (mismo entorno que la API)",
+      "cliente": "lectura de configuración",
+      "requerida": true,
+      "pregunta": "¿El entorno sabe a qué host, puerto y contexto conectarse y con qué identidad?",
+      "no_concluye": "Que el host exista, que el puerto esté abierto o que la credencial sea válida.",
+      "hipotesis": "",
+      "siguiente_paso": "",
+      "timestamp": "2026-10-21T18:47:33-03:00"
+    },
+    {
+      "producto": "InfluxDB",
+      "capa": "configuracion",
+      "prueba": "variables requeridas presentes",
+      "objetivo": "127.0.0.1:8181",
+      "estado": "OK",
+      "clasificacion": "configuracion_completa",
+      "detalle": "destino=127.0.0.1:8181; protocolo=HTTP API v3 (/health, /api/v3/query_sql); databases=fixture2030_detalle, fixture2030_historico; autenticacion=token Bearer **** (valor oculto); origen de valores=.env (API)",
+      "duracion_ms": null,
+      "origen": "notebook (mismo entorno que la API)",
+      "cliente": "lectura de configuración",
+      "requerida": true,
+      "pregunta": "¿El entorno sabe a qué host, puerto y contexto conectarse y con qué identidad?",
+      "no_concluye": "Que el host exista, que el puerto esté abierto o que la credencial sea válida.",
+      "hipotesis": "",
+      "siguiente_paso": "",
+      "timestamp": "2026-10-21T18:47:33-03:00"
+    },
+    {
+      "producto": "InterSystems IRIS",
+      "capa": "configuracion",
+      "prueba": "variables requeridas presentes",
+      "objetivo": "127.0.0.1:1972 (Superserver) / 127.0.0.1:52773 (portal HTTP)",
+      "estado": "OK",
+      "clasificacion": "configuracion_completa",
+      "detalle": "destino=127.0.0.1:1972 (Superserver) / 127.0.0.1:52773 (portal HTTP); protocolo=Superserver (DB-API) y HTTP (portal); namespace=USER; autenticacion=usuario presente (valor oculto) y password presente (valor oculto); origen de valores=.env (API)",
+      "duracion_ms": null,
+      "origen": "notebook (mismo entorno que la API)",
+      "cliente": "lectura de configuración",
+      "requerida": true,
+      "pregunta": "¿El entorno sabe a qué host, puerto y contexto conectarse y con qué identidad?",
+      "no_concluye": "Que el host exista, que el puerto esté abierto o que la credencial sea válida.",
+      "hipotesis": "",
+      "siguiente_paso": "",
+      "timestamp": "2026-10-21T18:47:33-03:00"
+    },
+    {
+      "producto": "Repositorio",
+      "capa": "configuracion",
+      "prueba": "NEO4J_PASSWORD distinta de identificadores públicos",
+      "objetivo": "NEO4J_PASSWORD",
+      "estado": "ADVERTENCIA",
+      "clasificacion": "credencial_debil",
+      "detalle": "el valor de NEO4J_PASSWORD coincide con un nombre público del proyecto (database, contenedor, keyspace). Es aceptable solo en el laboratorio local; en otro entorno debe cambiarse. Ese valor no se redacta en la evidencia porque taparía los nombres de los recursos.",
+      "duracion_ms": null,
+      "origen": "notebook (mismo entorno que la API)",
+      "cliente": "lectura de configuración",
+      "requerida": false,
+      "pregunta": "¿Las credenciales configuradas son independientes de datos públicos?",
+      "no_concluye": "Nada sobre la conectividad.",
+      "hipotesis": "La credencial de laboratorio se eligió igual al nombre del proyecto.",
+      "siguiente_paso": "Usar una credencial propia fuera del laboratorio y rotarla.",
+      "timestamp": "2026-10-21T18:47:33-03:00"
+    },
+    {
+      "producto": "Repositorio",
+      "capa": "configuracion",
+      "prueba": ".env fuera de Git",
+      "objetivo": ".env",
+      "estado": "OK",
+      "clasificacion": "secretos_no_versionados",
+      "detalle": "ignorado por .gitignore y no versionado",
+      "duracion_ms": null,
+      "origen": "notebook (mismo entorno que la API)",
+      "cliente": "git check-ignore / git ls-files",
+      "requerida": false,
+      "pregunta": "¿Las credenciales locales quedan fuera del repositorio?",
+      "no_concluye": "Que no existan secretos en otros archivos o en el historial.",
+      "hipotesis": "",
+      "siguiente_paso": "",
+      "timestamp": "2026-10-21T18:47:33-03:00"
+    }
+  ]
+}

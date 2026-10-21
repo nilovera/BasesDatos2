@@ -313,7 +313,7 @@ class Config:
     def timeout(self) -> float:
         return max(0.001, self.get_float("DIAG_TIMEOUT_SECONDS", 3.0))
 
-    def secretos(self) -> list[str]:
+    def _nombres_secretos(self) -> set[str]:
         nombres = {
             var for p in PRODUCTOS.values() for var in p["secretos"]
         }
@@ -321,10 +321,31 @@ class Config:
             key for key in self._values
             if any(t in key for t in ("PASSWORD", "TOKEN", "SECRET"))
         }
+        return nombres
+
+    def secretos_debiles(self) -> list[str]:
+        """Variables secretas cuyo valor coincide con un identificador público
+        (database, contenedor, keyspace...). Se informan como advertencia de
+        seguridad y no se usan para redactar, porque taparían nombres que la
+        evidencia necesita mostrar."""
+        secretas = self._nombres_secretos()
+        publicos = [
+            str(v) for k, v in self._values.items()
+            if k not in secretas and v
+        ] + [p["contenedor_def"] for p in PRODUCTOS.values()]
+        debiles = []
+        for nombre in sorted(secretas):
+            valor = self._values.get(nombre)
+            if valor and len(valor) >= 3 and any(valor in pub for pub in publicos):
+                debiles.append(nombre)
+        return debiles
+
+    def secretos(self) -> list[str]:
+        debiles = set(self.secretos_debiles())
         valores = []
-        for nombre in nombres:
+        for nombre in self._nombres_secretos():
             value = self._values.get(nombre)
-            if value and len(value) >= 3:
+            if value and len(value) >= 3 and nombre not in debiles:
                 valores.append(value)
         return sorted(valores, key=len, reverse=True)
 
@@ -806,6 +827,10 @@ def estado_producto(resultados: list[Resultado]) -> tuple[str, str]:
     if resultados[0].producto == "Repositorio":
         if any(r.estado == FALLA for r in resultados):
             return "no cumple", "hay archivos con secretos versionados"
+        if any(r.estado == ADVERTENCIA for r in resultados):
+            return "cumple con observaciones", "ver advertencias de seguridad"
+        if all(r.estado == SKIP for r in resultados):
+            return NO_PROBADO, "la carpeta no es un repositorio Git"
         return "cumple", "archivos con secretos ignorados por Git"
 
     if any(

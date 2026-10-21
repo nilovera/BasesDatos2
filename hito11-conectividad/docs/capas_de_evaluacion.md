@@ -102,7 +102,7 @@ La clave `diag:hito11:*` es la **única escritura** del diagnóstico: no pertene
 | Autorización | `INFORMATION_SCHEMA.TABLES` del esquema `Fixture` | metadatos legibles y clases compiladas |
 | Lectura | `Fixture.Partido WHERE Codigo = ?` | entidad presente |
 | (N) | `PAR-9999` | objeto inexistente ≠ Superserver inaccesible |
-| (N) | `connect` a un namespace inexistente | namespace incorrecto ≠ credencial inválida |
+| (N) | `connect` a un namespace inexistente | IRIS responde `Access Denied`, igual que ante una credencial inválida (no revela qué namespaces existen). Como las mismas credenciales funcionan en `USER`, el rechazo se atribuye al namespace; un Superserver inaccesible, en cambio, no llega a responder |
 
 ## 3. Clientes CLI dentro del contenedor (opcional)
 

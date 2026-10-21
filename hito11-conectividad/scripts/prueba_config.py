@@ -12,6 +12,7 @@ Uso independiente:
 from __future__ import annotations
 
 import argparse
+import shutil
 import subprocess
 import sys
 
@@ -23,6 +24,7 @@ from common import (
     OK,
     PRODUCTOS,
     REPO_ROOT,
+    SKIP,
     Config,
     Redactor,
     Resultado,
@@ -186,8 +188,54 @@ def evaluar(cfg: Config, productos: list[str], redactar: Redactor) -> list[Resul
                 )
             )
 
+    # RNF7: credenciales que coinciden con identificadores públicos.
+    for variable in cfg.secretos_debiles():
+        resultados.append(
+            completar_diagnostico(
+                Resultado(
+                    producto="Repositorio",
+                    capa="configuracion",
+                    prueba=f"{variable} distinta de identificadores públicos",
+                    objetivo=variable,
+                    estado=ADVERTENCIA,
+                    clasificacion="credencial_debil",
+                    detalle=(
+                        f"el valor de {variable} coincide con un nombre público del proyecto (database, contenedor, "
+                        "keyspace). Es aceptable solo en el laboratorio local; en otro entorno debe cambiarse. "
+                        "Ese valor no se redacta en la evidencia porque taparía los nombres de los recursos."
+                    ),
+                    cliente="lectura de configuración",
+                    requerida=False,
+                    pregunta="¿Las credenciales configuradas son independientes de datos públicos?",
+                    no_concluye="Nada sobre la conectividad.",
+                    hipotesis="La credencial de laboratorio se eligió igual al nombre del proyecto.",
+                    siguiente_paso="Usar una credencial propia fuera del laboratorio y rotarla.",
+                )
+            )
+        )
+
     # RNF7: los archivos con secretos no deben estar versionados.
-    for archivo in (CONFIG_API, CONFIG_LOCAL):
+    es_repo = subprocess.run(
+        ["git", "rev-parse", "--is-inside-work-tree"],
+        cwd=REPO_ROOT, capture_output=True, text=True,
+    ).returncode == 0 if shutil.which("git") else False
+    if not es_repo:
+        resultados.append(
+            Resultado(
+                producto="Repositorio",
+                capa="configuracion",
+                prueba="archivos con secretos fuera de Git",
+                objetivo=".env, config/conectividad.env",
+                estado=SKIP,
+                clasificacion="no_es_repositorio_git",
+                detalle="la carpeta no es un clon de Git (por ejemplo, se descomprimió de un .zip): no se puede verificar.",
+                cliente="git",
+                requerida=False,
+                pregunta="¿Las credenciales locales quedan fuera del repositorio?",
+                no_concluye="Nada: la prueba no se ejecutó.",
+            )
+        )
+    for archivo in ((CONFIG_API, CONFIG_LOCAL) if es_repo else ()):
         if not archivo.exists():
             continue
         relativo = archivo.relative_to(REPO_ROOT).as_posix()

@@ -20,6 +20,7 @@ en la notebook y dentro de un contenedor.
 from __future__ import annotations
 
 import argparse
+import json
 import socket
 import subprocess
 import sys
@@ -132,26 +133,38 @@ def probar_tcp(host: str, port: int, timeout: float) -> tuple[str, str, str]:
 
 
 def estado_contenedor(nombre: str) -> tuple[str, str, str]:
+    """Estado según Docker. Se lee el JSON completo de docker inspect y se
+    interpreta en Python: las plantillas --format fallan en algunas versiones
+    de Docker cuando el contenedor no define healthcheck."""
     out = subprocess.run(
-        [
-            "docker",
-            "inspect",
-            "--format",
-            "{{.State.Status}}|{{if .State.Health}}{{.State.Health.Status}}{{else}}sin healthcheck{{end}}|"
-            "{{.State.StartedAt}}|{{range $p, $conf := .NetworkSettings.Ports}}{{$p}}->"
-            "{{range $conf}}{{.HostIp}}:{{.HostPort}} {{end}};{{end}}",
-            nombre,
-        ],
+        ["docker", "inspect", nombre],
         capture_output=True,
         text=True,
-        timeout=8,
+        encoding="utf-8",
+        errors="replace",
+        timeout=15,
     )
     if out.returncode != 0:
-        return FALLA, "contenedor_inexistente", f"docker inspect no encontró '{nombre}'"
-    status, health, started, ports = (out.stdout.strip().split("|") + ["", "", "", ""])[:4]
+        mensaje = (out.stderr or out.stdout).strip().splitlines()
+        motivo = mensaje[-1] if mensaje else f"rc={out.returncode}"
+        clase = "contenedor_inexistente" if "no such" in motivo.lower() else "error_docker"
+        return FALLA, clase, f"docker inspect {nombre}: {motivo[:200]}"
+
+    try:
+        datos = json.loads(out.stdout)[0]
+    except Exception as error:  # noqa: BLE001
+        return SKIP, "herramienta_no_disponible", f"no se pudo interpretar docker inspect: {error}"
+
+    estado = datos.get("State") or {}
+    status = estado.get("Status", "desconocido")
+    health = (estado.get("Health") or {}).get("Status") or "sin healthcheck"
+    puertos = []
+    for interno, publicados in ((datos.get("NetworkSettings") or {}).get("Ports") or {}).items():
+        for pub in publicados or []:
+            puertos.append(f"{interno}->{pub.get('HostIp', '')}:{pub.get('HostPort', '')}")
     detalle = (
-        f"contenedor={nombre}; estado={status}; health={health}; iniciado={started}; "
-        f"puertos (interno->publicado)={ports.strip() or 'ninguno publicado'}"
+        f"contenedor={nombre}; estado={status}; health={health}; iniciado={estado.get('StartedAt', '-')}; "
+        f"puertos (interno->publicado)={', '.join(sorted(set(puertos))) or 'ninguno publicado'}"
     )
     if status != "running":
         return FALLA, "contenedor_detenido", detalle

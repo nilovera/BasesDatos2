@@ -1081,10 +1081,12 @@ def evaluar_iris(cfg: Config, redactar: Redactor) -> list[Resultado]:
 
     def clasificar_mensaje(texto: str) -> str:
         t = texto.lower()
-        if "communication link" in t or "failed to connect" in t:
-            return "connection_refused"
+        # IRIS informa "Access Denied" dentro de un COMMUNICATION LINK ERROR:
+        # el Superserver respondió, así que no es un problema de red.
         if "access denied" in t or "authentication" in t or "invalid password" in t:
             return "auth_fallida"
+        if "communication link" in t or "failed to connect" in t:
+            return "connection_refused"
         if "namespace" in t:
             return "contexto_inexistente"
         if "privilege" in t or "not authorized" in t:
@@ -1241,6 +1243,13 @@ def evaluar_iris(cfg: Config, redactar: Redactor) -> list[Resultado]:
             clase = clasificar_mensaje(str(error))
             if clase == "contexto_inexistente":
                 return OK, clase, f"error esperado: {type(error).__name__}: {error}"
+            if clase == "auth_fallida" and estado.get("error") is None:
+                return OK, "contexto_inexistente", (
+                    "IRIS respondió 'Access Denied' al pedir un namespace inexistente: por seguridad usa el mismo "
+                    "mensaje que para una credencial inválida. Como las mismas credenciales funcionaron en "
+                    f"'{namespace}', el rechazo se atribuye al namespace. Distinto de Superserver inaccesible, "
+                    "que no llega a responder."
+                )
             return ADVERTENCIA, clase, f"error distinto al esperado: {type(error).__name__}: {error}"
         return ADVERTENCIA, "respuesta_inesperada", "IRIS aceptó un namespace inexistente"
 

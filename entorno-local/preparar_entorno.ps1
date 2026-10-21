@@ -34,6 +34,7 @@ $entorno = $PSScriptRoot
 $repo = Split-Path $entorno -Parent
 $secretos = Join-Path $entorno ".secretos"
 New-Item -ItemType Directory -Force $secretos | Out-Null
+$ubicacionInicial = Get-Location
 Set-Location $entorno
 
 function Titulo([string]$texto) {
@@ -47,6 +48,7 @@ function Aviso([string]$texto) { Write-Host ("[AVISO] " + $texto) -ForegroundCol
 function Falla([string]$texto) {
     Write-Host ("[FALLA] " + $texto) -ForegroundColor Red
     Write-Host "Copiá todo lo que aparece en esta ventana y compartilo para revisarlo." -ForegroundColor Red
+    Set-Location $ubicacionInicial
     exit 1
 }
 
@@ -327,3 +329,5 @@ Write-Host "  3) .\hito11-conectividad\scripts\falla_controlada.ps1 -Producto mo
 Write-Host ""
 Write-Host "Para apagar sin perder datos: docker compose -f entorno-local\docker-compose.yml stop"
 Write-Host "NO usar 'docker compose down -v': borra los volúmenes con los datos."
+
+Set-Location $ubicacionInicial

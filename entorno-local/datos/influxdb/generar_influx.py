@@ -41,7 +41,7 @@ def main() -> None:
         f"posesion_pct={pos!r},pases_intervalo={pases}i,tiros_acumulados={tiros}i {ts}"
         for ts, eq, pos, pases, tiros in puntos
     ]
-    (SALIDA / "estadisticas_equipo.lp").write_text("\n".join(detalle) + "\n", encoding="utf-8")
+    (SALIDA / "estadisticas_equipo.lp").write_text("\n".join(detalle) + "\n", encoding="utf-8", newline="\n")
 
     ventanas: dict[tuple[int, str], list[tuple[float, int]]] = {}
     inicio_ts = int(INICIO.timestamp())
@@ -58,7 +58,7 @@ def main() -> None:
             f"posesion_promedio={promedio!r},pases_total={pases}i,muestras={len(valores)}i,"
             f"ventana_inicio_ms={ventana * 1000}i,ventana_fin_ms={(ventana + 900) * 1000}i {ventana}"
         )
-    (SALIDA / "resumen_15m.lp").write_text("\n".join(resumen) + "\n", encoding="utf-8")
+    (SALIDA / "resumen_15m.lp").write_text("\n".join(resumen) + "\n", encoding="utf-8", newline="\n")
 
     print(f"detalle: {len(detalle)} puntos | resumen: {len(resumen)} filas | carpeta: {SALIDA}")
 

@@ -93,16 +93,17 @@ Ok "Docker Desktop en ejecución"
 
 $pythonExe = $null
 $pythonArgs = @()
-foreach ($candidato in @(@("py", "-3.10"), @("py", "-3.12"), @("py", "-3.11"), @("py", "-3.13"), @("py", "-3"), @("python"))) {
+# Los drivers fijados en requirements.txt publican binarios para Python 3.10 a 3.14.
+foreach ($candidato in @(@("py", "-3.12"), @("py", "-3.13"), @("py", "-3.11"), @("py", "-3.10"), @("py", "-3.14"), @("py", "-3"), @("python"))) {
     if (-not (Get-Command $candidato[0] -ErrorAction SilentlyContinue)) { continue }
     $extra = @()
     if ($candidato.Count -gt 1) { $extra = @($candidato[1]) }
     $global:LASTEXITCODE = 1
-    $null = & $candidato[0] @extra -c "import sys; assert sys.version_info >= (3, 10)" 2>&1
+    $null = & $candidato[0] @extra -c "import sys; assert (3, 10) <= sys.version_info[:2] <= (3, 14)" 2>&1
     if ($LASTEXITCODE -eq 0) { $pythonExe = $candidato[0]; $pythonArgs = $extra; break }
 }
 if (-not $pythonExe) {
-    Falla "No se encontró Python 3.10 o superior. Instalarlo desde https://www.python.org/downloads/ (marcar 'Add python.exe to PATH') y volver a ejecutar."
+    Falla "No se encontró Python entre 3.10 y 3.14 (los drivers de IRIS y Cassandra no publican binarios para versiones más nuevas). Instalar Python 3.12 desde https://www.python.org/downloads/ (marcar 'Add python.exe to PATH') y volver a ejecutar."
 }
 Ok ("Python encontrado: " + $pythonExe + " " + ($pythonArgs -join " "))
 
@@ -111,6 +112,14 @@ Titulo "2/7 Entorno virtual de la API (.venv)"
 # -----------------------------------------------------------------------------
 $python = Join-Path $repo ".venv\Scripts\python.exe"
 if (-not $SinVenv) {
+    if (Test-Path $python) {
+        $global:LASTEXITCODE = 1
+        $null = & $python -c "import sys; assert (3, 10) <= sys.version_info[:2] <= (3, 14)" 2>&1
+        if ($LASTEXITCODE -ne 0) {
+            Aviso ".venv existente creado con una versión de Python no compatible: se vuelve a crear."
+            Remove-Item -Recurse -Force (Join-Path $repo ".venv")
+        }
+    }
     if (-not (Test-Path $python)) {
         Ejecutar "No se pudo crear el entorno virtual" { & $pythonExe @pythonArgs -m venv (Join-Path $repo ".venv") } | Out-Null
     }

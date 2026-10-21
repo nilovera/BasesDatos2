@@ -19,6 +19,7 @@ hito11-conectividad/
 │   ├── prueba_clientes_nativos.py   # protocolo, auth, autorización, contexto, lectura
 │   ├── prueba_api.py                # rutas de la API con request ID y log asociado
 │   ├── falla_controlada.ps1 / .py   # dependencia detenida / configuración incorrecta
+│   ├── limpieza.py                  # limpieza opcional (modo limpieza)
 │   └── common.py                    # configuración, redacción, estados, evidencias
 ├── config/
 │   ├── configuracion-ejemplo.env    # todas las variables, sin secretos
@@ -125,6 +126,10 @@ Si PowerShell bloquea los scripts: `Set-ExecutionPolicy -Scope Process Bypass`.
 
 # F. Pruebas unitarias del diagnóstico (no requieren motores)
 .\.venv\Scripts\python.exe -m pytest tests\unit -v
+
+# G. (opcional) Limpieza: primero simula, después ejecuta
+.\hito11-conectividad\scripts\evaluar_conectividad.ps1 -Modo limpieza
+.\hito11-conectividad\scripts\evaluar_conectividad.ps1 -Modo limpieza -Confirmar
 ```
 
 Después de A y D, revisar `docs/matriz_de_conectividad.md` y `docs/evidencia/`, sacar las capturas indicadas en `docs/evidencia/capturas_redactadas/README.md` y hacer commit.
@@ -138,6 +143,7 @@ Después de A y D, revisar `docs/matriz_de_conectividad.md` y `docs/evidencia/`,
 | `-Modo tcp` | estado del contenedor (`docker inspect`), resolución y TCP |
 | `-Modo nativos` | protocolo, autenticación, autorización, contexto, lectura mínima y pruebas negativas |
 | `-Modo api` | rutas de la API con request ID, status, tiempo y log asociado |
+| `-Modo limpieza` | limpieza opcional: claves `diag:hito11:*` en Redis, logs de la API temporal y cachés; verifica que no quede la API temporal en `:8001`. Simula salvo `-Confirmar`. No toca datos de dominio, contenedores, volúmenes ni evidencias |
 | `-Producto mongodb\|neo4j\|cassandra\|redis\|influxdb\|iris` | limita la evaluación a un producto (RNF13) |
 | `-Set "CLAVE=VALOR"` | sobrescribe una variable solo en esa ejecución |
 | `-Etiqueta texto` | sufijo para no sobrescribir evidencias (ej. `antes`, `despues`) |
@@ -199,7 +205,7 @@ Estados por producto: **disponible**, **degradado**, **no disponible**, **no pro
 | RF20, RF21 | `falla_controlada.py` (tabla de cambio de estado) |
 | RF22, RNF16 | esta carpeta en la rama `Conectividad`, con historial de commits |
 | RNF1 | este README |
-| RNF2, RNF15 | un script por capa; `Cadena` en `common.py` bloquea capas posteriores |
+| RNF2, RNF15 | un script por capa (configuración, TCP, nativos, API), resumen en el orquestador y `limpieza.py` como limpieza opcional; `Cadena` en `common.py` bloquea capas posteriores |
 | RNF3 | origen registrado en cada resultado; `-DesdeContenedor`; advertencia de localhost |
 | RNF4 | un driver/protocolo por producto; sin `curl` para Bolt, CQL, RESP ni Superserver |
 | RNF5, RNF12 | `DIAG_TIMEOUT_SECONDS`, timeouts de adaptadores, sin reintentos ilimitados |

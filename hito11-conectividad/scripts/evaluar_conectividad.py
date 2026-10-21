@@ -7,6 +7,7 @@ Modos:
     tcp       proceso (Docker), resolución y TCP
     nativos   protocolo, autenticación, autorización, contexto y operación
     api       rutas de la API (cadena completa)
+    limpieza  limpieza opcional de lo que generan los scripts (simula salvo --confirmar)
 
 Cada modo puede limitarse a un producto (--producto) y no exige que todas
 las dependencias estén disponibles a la vez (RNF13).
@@ -24,6 +25,7 @@ import argparse
 import sys
 from collections import OrderedDict
 
+import limpieza
 import prueba_api
 import prueba_clientes_nativos
 import prueba_config
@@ -207,7 +209,7 @@ def main(argv: list[str] | None = None) -> int:
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=__doc__,
     )
-    parser.add_argument("--modo", default="completo", choices=["completo", "config", "tcp", "nativos", "api"])
+    parser.add_argument("--modo", default="completo", choices=["completo", "config", "tcp", "nativos", "api", "limpieza"])
     parser.add_argument("--producto", default="todos", choices=["todos", *PRODUCTOS])
     parser.add_argument("--set", action="append", default=[], metavar="CLAVE=VALOR",
                         help="sobrescribe una variable solo para esta ejecución (escenarios de falla)")
@@ -217,7 +219,14 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--desde-contenedor", default="", metavar="CONTENEDOR",
                         help="repetir la prueba TCP desde dentro de un contenedor (RNF3)")
     parser.add_argument("--sin-matriz", action="store_true", help="no regenerar docs/matriz_de_conectividad.md")
+    parser.add_argument("--confirmar", action="store_true", help="con --modo limpieza: ejecutar en lugar de simular")
     args = parser.parse_args(argv)
+
+    if args.modo == "limpieza":
+        argumentos = ["--confirmar"] if args.confirmar else []
+        for item in args.set:
+            argumentos += ["--set", item]
+        return limpieza.main(argumentos)
 
     cfg = Config(parse_overrides(args.set))
     redactar = Redactor(cfg.secretos())

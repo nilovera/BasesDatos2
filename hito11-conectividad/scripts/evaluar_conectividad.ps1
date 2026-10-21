@@ -14,6 +14,7 @@
       tcp       estado del contenedor, resolución de host y conexión TCP
       nativos   protocolo, autenticación, autorización, contexto y lectura mínima
       api       rutas de la API (cadena cliente HTTP - API - adaptador - producto)
+      limpieza  limpieza opcional de lo generado por los scripts (simula salvo -Confirmar)
 
     SKIP significa "prueba no ejecutada por falta de herramienta o
     configuración", NO "producto caído".
@@ -28,10 +29,13 @@
     .\hito11-conectividad\scripts\evaluar_conectividad.ps1 -Modo nativos -Producto cassandra
 
 .EXAMPLE
+    .\hito11-conectividad\scripts\evaluar_conectividad.ps1 -Modo limpieza -Confirmar
+
+.EXAMPLE
     .\hito11-conectividad\scripts\evaluar_conectividad.ps1 -Modo nativos -Producto neo4j -Set "NEO4J_DATABASE=noexiste" -Etiqueta contexto_incorrecto
 #>
 param(
-    [ValidateSet("completo", "config", "tcp", "nativos", "api")]
+    [ValidateSet("completo", "config", "tcp", "nativos", "api", "limpieza")]
     [string]$Modo = "completo",
 
     [ValidateSet("todos", "mongodb", "neo4j", "cassandra", "redis", "influxdb", "iris")]
@@ -47,7 +51,9 @@ param(
 
     [string]$DesdeContenedor = "",
 
-    [switch]$SinMatriz
+    [switch]$SinMatriz,
+
+    [switch]$Confirmar
 )
 
 $ErrorActionPreference = "Stop"
@@ -75,12 +81,15 @@ if ($Cli) { $argumentos += "--cli" }
 if ($SinEscritura) { $argumentos += "--sin-escritura" }
 if ($DesdeContenedor) { $argumentos += @("--desde-contenedor", $DesdeContenedor) }
 if ($SinMatriz) { $argumentos += "--sin-matriz" }
+if ($Confirmar) { $argumentos += "--confirmar" }
 
 Set-Location $repoRoot
 $env:PYTHONIOENCODING = "utf-8"
 
 & $python @argumentos
 $codigo = $LASTEXITCODE
+
+if ($Modo -eq "limpieza") { exit $codigo }
 
 Write-Host ""
 if ($codigo -eq 0) {

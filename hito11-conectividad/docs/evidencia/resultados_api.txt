@@ -1,0 +1,98 @@
+=== HITO 11 - EVALUACIÓN DE LA CONECTIVIDAD - RESULTADOS_API ===
+fecha: 2026-10-21T19:05:03-03:00
+modo: completo
+entorno: notebook Windows de Valentino - entorno-local consolidado
+origen_de_las_pruebas: notebook (mismo proceso/entorno desde el que corre la API)
+sistema_operativo: Windows-10
+python: 3.12.9
+commit: d2bed7c (con cambios sin commit)
+rama: Conectividad
+timeout_por_prueba_s: 3.0
+archivos_de_configuracion: {'config/conectividad.env': 'presente', '.env (API)': 'presente'}
+api_base_url: http://127.0.0.1:8000
+
+[OK] 2026-10-21T19:05:12-03:00 | API Fixture 2030 | api | GET /health/live (liveness) | objetivo=http://127.0.0.1:8000/health/live | cliente=httpx -> API -> adaptador API Fixture 2030 | operacion_exitosa | 29.4 ms
+    detalle: status=200 (esperado [200]); 200: la cadena cliente-API-adaptador-producto funcionó para este caso; resumen: estado=ok; X-Request-ID enviado=igual; X-Process-Time-Ms=1.06
+    responde: ¿La ruta responde según el contrato para el caso 'liveness'?
+    no permite concluir: Capacidad bajo carga, ni estado de rutas no ejecutadas.
+[OK] 2026-10-21T19:05:12-03:00 | API Fixture 2030 | api | GET /health/ready (readiness) | objetivo=http://127.0.0.1:8000/health/ready | cliente=httpx -> API -> adaptador API Fixture 2030 | operacion_exitosa | 26.0 ms
+    detalle: status=200 (esperado [200, 503]); 200: la cadena cliente-API-adaptador-producto funcionó para este caso; resumen: estado=ready; deps=MongoDB:up,Neo4j:up,Cassandra:up,Redis:up,InfluxDB:up,InterSystems IRIS:up; X-Request-ID enviado=igual; X-Process-Time-Ms=24.72
+    responde: ¿La ruta responde según el contrato para el caso 'readiness'?
+    no permite concluir: Capacidad bajo carga, ni estado de rutas no ejecutadas.
+[OK] 2026-10-21T19:05:12-03:00 | API Fixture 2030 | api | GET /health/dependencias (diagnóstico por dependencia) | objetivo=http://127.0.0.1:8000/health/dependencias?refrescar=true | cliente=httpx -> API -> adaptador API Fixture 2030 | operacion_exitosa | 2.0 ms
+    detalle: status=200 (esperado [200]); 200: la cadena cliente-API-adaptador-producto funcionó para este caso; resumen: estado_general=ready; deps=MongoDB:up,Neo4j:up,Cassandra:up,Redis:up,InfluxDB:up,InterSystems IRIS:up; X-Request-ID enviado=igual; X-Process-Time-Ms=0.69
+    responde: ¿La ruta responde según el contrato para el caso 'diagnóstico por dependencia'?
+    no permite concluir: Capacidad bajo carga, ni estado de rutas no ejecutadas.
+[OK] 2026-10-21T19:05:12-03:00 | MongoDB | api | GET /api/v1/equipos/EQ-01 (operación exitosa) | objetivo=http://127.0.0.1:8000/api/v1/equipos/EQ-01 | cliente=httpx -> API -> adaptador MongoDB | operacion_exitosa | 2.9 ms
+    detalle: status=200 (esperado [200]); 200: la cadena cliente-API-adaptador-producto funcionó para este caso; resumen: codigo=EQ-01; fuente_datos=MongoDB; X-Request-ID enviado=igual; X-Process-Time-Ms=1.76
+    responde: ¿La ruta responde según el contrato para el caso 'operación exitosa'?
+    no permite concluir: Capacidad bajo carga, ni estado de rutas no ejecutadas.
+[OK] 2026-10-21T19:05:12-03:00 | MongoDB | api | GET /api/v1/equipos/EQ-99 (recurso inexistente) | objetivo=http://127.0.0.1:8000/api/v1/equipos/EQ-99 | cliente=httpx -> API -> adaptador MongoDB | recurso_inexistente | 2.5 ms
+    detalle: status=404 (esperado [404]); 404 RECURSO_NO_ENCONTRADO: la dependencia respondió y el recurso no existe; resumen: error.codigo=RECURSO_NO_ENCONTRADO; X-Request-ID enviado=igual; X-Process-Time-Ms=1.47
+    responde: ¿La ruta responde según el contrato para el caso 'recurso inexistente'?
+    no permite concluir: Capacidad bajo carga, ni estado de rutas no ejecutadas.
+[OK] 2026-10-21T19:05:12-03:00 | MongoDB | api | GET /api/v1/equipos/ARG (error de validación) | objetivo=http://127.0.0.1:8000/api/v1/equipos/ARG | cliente=httpx -> API -> adaptador MongoDB | error_validacion | 1.5 ms
+    detalle: status=422 (esperado [422]); 422 DATOS_INVALIDOS: rechazado por la API antes de consultar la dependencia; resumen: error.codigo=DATOS_INVALIDOS; X-Request-ID enviado=igual; X-Process-Time-Ms=0.43
+    responde: ¿La ruta responde según el contrato para el caso 'error de validación'?
+    no permite concluir: Capacidad bajo carga, ni estado de rutas no ejecutadas.
+[OK] 2026-10-21T19:05:12-03:00 | MongoDB | api | GET /api/v1/jugadores (lectura paginada) | objetivo=http://127.0.0.1:8000/api/v1/jugadores?equipo_codigo=EQ-01&limit=3 | cliente=httpx -> API -> adaptador MongoDB | operacion_exitosa | 4.9 ms
+    detalle: status=200 (esperado [200]); 200: la cadena cliente-API-adaptador-producto funcionó para este caso; resumen: fuente_datos=MongoDB; datos=3; X-Request-ID enviado=igual; X-Process-Time-Ms=3.81
+    responde: ¿La ruta responde según el contrato para el caso 'lectura paginada'?
+    no permite concluir: Capacidad bajo carga, ni estado de rutas no ejecutadas.
+[OK] 2026-10-21T19:05:12-03:00 | Neo4j | api | GET /api/v1/partidos/PAR-0001/eventos (operación exitosa) | objetivo=http://127.0.0.1:8000/api/v1/partidos/PAR-0001/eventos | cliente=httpx -> API -> adaptador Neo4j | operacion_exitosa | 5.7 ms
+    detalle: status=200 (esperado [200]); 200: la cadena cliente-API-adaptador-producto funcionó para este caso; resumen: codigo=PAR-0001; fuente_datos=Neo4j; eventos=2; X-Request-ID enviado=igual; X-Process-Time-Ms=4.40
+    responde: ¿La ruta responde según el contrato para el caso 'operación exitosa'?
+    no permite concluir: Capacidad bajo carga, ni estado de rutas no ejecutadas.
+[OK] 2026-10-21T19:05:12-03:00 | Neo4j | api | GET /api/v1/partidos/PAR-9999/eventos (recurso inexistente) | objetivo=http://127.0.0.1:8000/api/v1/partidos/PAR-9999/eventos | cliente=httpx -> API -> adaptador Neo4j | recurso_inexistente | 4.3 ms
+    detalle: status=404 (esperado [404]); 404 RECURSO_NO_ENCONTRADO: la dependencia respondió y el recurso no existe; resumen: error.codigo=RECURSO_NO_ENCONTRADO; X-Request-ID enviado=igual; X-Process-Time-Ms=3.07
+    responde: ¿La ruta responde según el contrato para el caso 'recurso inexistente'?
+    no permite concluir: Capacidad bajo carga, ni estado de rutas no ejecutadas.
+[OK] 2026-10-21T19:05:12-03:00 | Cassandra | api | GET /api/v1/partidos/PAR-0001/comentarios (operación exitosa) | objetivo=http://127.0.0.1:8000/api/v1/partidos/PAR-0001/comentarios?bucket_10min=203006132000&limit=3 | cliente=httpx -> API -> adaptador Cassandra | operacion_exitosa | 11.7 ms
+    detalle: status=200 (esperado [200]); 200: la cadena cliente-API-adaptador-producto funcionó para este caso; resumen: fuente_datos=Cassandra; datos=3; X-Request-ID enviado=igual; X-Process-Time-Ms=10.34
+    responde: ¿La ruta responde según el contrato para el caso 'operación exitosa'?
+    no permite concluir: Capacidad bajo carga, ni estado de rutas no ejecutadas.
+[OK] 2026-10-21T19:05:12-03:00 | Cassandra | api | GET /api/v1/partidos/PAR-9999/comentarios (respuesta vacía válida) | objetivo=http://127.0.0.1:8000/api/v1/partidos/PAR-9999/comentarios?bucket_10min=203006132000&limit=3 | cliente=httpx -> API -> adaptador Cassandra | vacio_valido | 14.9 ms
+    detalle: status=200 (esperado [200]); 200 con lista vacía: ausencia válida de datos, no un error; resumen: fuente_datos=Cassandra; datos=0; X-Request-ID enviado=igual; X-Process-Time-Ms=13.40
+    responde: ¿La ruta responde según el contrato para el caso 'respuesta vacía válida'?
+    no permite concluir: Capacidad bajo carga, ni estado de rutas no ejecutadas.
+[OK] 2026-10-21T19:05:12-03:00 | Cassandra | api | GET /api/v1/partidos/PAR-0001/comentarios (error de validación) | objetivo=http://127.0.0.1:8000/api/v1/partidos/PAR-0001/comentarios?bucket_10min=203006132005 | cliente=httpx -> API -> adaptador Cassandra | error_validacion | 1.7 ms
+    detalle: status=422 (esperado [422]); 422 DATOS_INVALIDOS: rechazado por la API antes de consultar la dependencia; resumen: error.codigo=DATOS_INVALIDOS; X-Request-ID enviado=igual; X-Process-Time-Ms=0.37
+    responde: ¿La ruta responde según el contrato para el caso 'error de validación'?
+    no permite concluir: Capacidad bajo carga, ni estado de rutas no ejecutadas.
+[OK] 2026-10-21T19:05:12-03:00 | Redis | api | GET /api/v1/sesiones/SES-API-0001 (operación exitosa o clave ausente (200 si la sesión fue preparada; 404 si no existe o expiró)) | objetivo=http://127.0.0.1:8000/api/v1/sesiones/SES-API-0001 | cliente=httpx -> API -> adaptador Redis | operacion_exitosa | 2.5 ms
+    detalle: status=200 (esperado [200, 404]); 200: la cadena cliente-API-adaptador-producto funcionó para este caso; resumen: estado=activa; fuente_datos=Redis; X-Request-ID enviado=igual; X-Process-Time-Ms=1.40
+    responde: ¿La ruta responde según el contrato para el caso 'operación exitosa o clave ausente (200 si la sesión fue preparada; 404 si no existe o expiró)'?
+    no permite concluir: Capacidad bajo carga, ni estado de rutas no ejecutadas.
+[OK] 2026-10-21T19:05:12-03:00 | Redis | api | GET /api/v1/sesiones/SES-DIAG-INEXISTENTE (clave ausente) | objetivo=http://127.0.0.1:8000/api/v1/sesiones/SES-DIAG-INEXISTENTE | cliente=httpx -> API -> adaptador Redis | recurso_inexistente | 2.3 ms
+    detalle: status=404 (esperado [404]); 404 SESION_NO_ENCONTRADA_O_EXPIRADA: la dependencia respondió y el recurso no existe; resumen: error.codigo=SESION_NO_ENCONTRADA_O_EXPIRADA; X-Request-ID enviado=igual; X-Process-Time-Ms=1.13
+    responde: ¿La ruta responde según el contrato para el caso 'clave ausente'?
+    no permite concluir: Capacidad bajo carga, ni estado de rutas no ejecutadas.
+[OK] 2026-10-21T19:05:12-03:00 | InfluxDB | api | GET /api/v1/partidos/PAR-0001/estadisticas (operación exitosa) | objetivo=http://127.0.0.1:8000/api/v1/partidos/PAR-0001/estadisticas?desde=2030-06-13T20:00:00Z&hasta=2030-06-13T20:01:00Z&limit=10 | cliente=httpx -> API -> adaptador InfluxDB | operacion_exitosa | 7.9 ms
+    detalle: status=200 (esperado [200]); 200: la cadena cliente-API-adaptador-producto funcionó para este caso; resumen: fuente_datos=InfluxDB; datos=10; X-Request-ID enviado=igual; X-Process-Time-Ms=6.71
+    responde: ¿La ruta responde según el contrato para el caso 'operación exitosa'?
+    no permite concluir: Capacidad bajo carga, ni estado de rutas no ejecutadas.
+[OK] 2026-10-21T19:05:12-03:00 | InfluxDB | api | GET /api/v1/partidos/PAR-0001/estadisticas (respuesta vacía válida) | objetivo=http://127.0.0.1:8000/api/v1/partidos/PAR-0001/estadisticas?desde=2031-01-01T00:00:00Z&hasta=2031-01-01T00:01:00Z | cliente=httpx -> API -> adaptador InfluxDB | vacio_valido | 6.2 ms
+    detalle: status=200 (esperado [200]); 200 con lista vacía: ausencia válida de datos, no un error; resumen: fuente_datos=InfluxDB; datos=0; X-Request-ID enviado=igual; X-Process-Time-Ms=4.89
+    responde: ¿La ruta responde según el contrato para el caso 'respuesta vacía válida'?
+    no permite concluir: Capacidad bajo carga, ni estado de rutas no ejecutadas.
+[OK] 2026-10-21T19:05:12-03:00 | InfluxDB | api | GET /api/v1/partidos/PAR-0001/estadisticas (error de validación) | objetivo=http://127.0.0.1:8000/api/v1/partidos/PAR-0001/estadisticas?desde=2030-06-13T20:01:00Z&hasta=2030-06-13T20:00:00Z | cliente=httpx -> API -> adaptador InfluxDB | error_validacion | 1.9 ms
+    detalle: status=422 (esperado [422]); 422 VENTANA_TEMPORAL_INVALIDA: rechazado por la API antes de consultar la dependencia; resumen: error.codigo=VENTANA_TEMPORAL_INVALIDA; X-Request-ID enviado=igual; X-Process-Time-Ms=0.72
+    responde: ¿La ruta responde según el contrato para el caso 'error de validación'?
+    no permite concluir: Capacidad bajo carga, ni estado de rutas no ejecutadas.
+[OK] 2026-10-21T19:05:12-03:00 | InterSystems IRIS | api | GET /api/v1/partidos/PAR-0001/detalle (operación exitosa) | objetivo=http://127.0.0.1:8000/api/v1/partidos/PAR-0001/detalle | cliente=httpx -> API -> adaptador InterSystems IRIS | operacion_exitosa | 25.0 ms
+    detalle: status=200 (esperado [200]); 200: la cadena cliente-API-adaptador-producto funcionó para este caso; resumen: estado=Finalizado; codigo=PAR-0001; fuente_datos=InterSystems IRIS; eventos=1; X-Request-ID enviado=igual; X-Process-Time-Ms=23.72
+    responde: ¿La ruta responde según el contrato para el caso 'operación exitosa'?
+    no permite concluir: Capacidad bajo carga, ni estado de rutas no ejecutadas.
+[OK] 2026-10-21T19:05:13-03:00 | InterSystems IRIS | api | GET /api/v1/partidos/PAR-9999/detalle (recurso inexistente) | objetivo=http://127.0.0.1:8000/api/v1/partidos/PAR-9999/detalle | cliente=httpx -> API -> adaptador InterSystems IRIS | recurso_inexistente | 104.4 ms
+    detalle: status=404 (esperado [404]); 404 PARTIDO_IRIS_NO_ENCONTRADO: la dependencia respondió y el recurso no existe; resumen: error.codigo=PARTIDO_IRIS_NO_ENCONTRADO; X-Request-ID enviado=igual; X-Process-Time-Ms=102.84
+    responde: ¿La ruta responde según el contrato para el caso 'recurso inexistente'?
+    no permite concluir: Capacidad bajo carga, ni estado de rutas no ejecutadas.
+
+=== RESUMEN ===
+API Fixture 2030: disponible - todas las capas requeridas probadas terminaron OK {'OK': 3}
+MongoDB: disponible - todas las capas requeridas probadas terminaron OK {'OK': 4}
+Neo4j: disponible - todas las capas requeridas probadas terminaron OK {'OK': 2}
+Cassandra: disponible - todas las capas requeridas probadas terminaron OK {'OK': 3}
+Redis: disponible - todas las capas requeridas probadas terminaron OK {'OK': 2}
+InfluxDB: disponible - todas las capas requeridas probadas terminaron OK {'OK': 3}
+InterSystems IRIS: disponible - todas las capas requeridas probadas terminaron OK {'OK': 2}

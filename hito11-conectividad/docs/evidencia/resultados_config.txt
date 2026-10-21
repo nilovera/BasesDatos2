@@ -1,46 +1,51 @@
 === HITO 11 - EVALUACIÓN DE LA CONECTIVIDAD - RESULTADOS_CONFIG ===
-fecha: 2026-10-21T18:47:33-03:00
-modo: configuracion
-entorno: notebook del equipo (Linux), proceso Python local
+fecha: 2026-10-21T19:05:03-03:00
+modo: completo
+entorno: notebook Windows de Valentino - entorno-local consolidado
 origen_de_las_pruebas: notebook (mismo proceso/entorno desde el que corre la API)
-sistema_operativo: Linux-6.18.44-fc-v140-x86_64-with-glibc2.39
-python: 3.13.16
-commit: fc497a6 (con cambios sin commit)
+sistema_operativo: Windows-10
+python: 3.12.9
+commit: d2bed7c (con cambios sin commit)
 rama: Conectividad
 timeout_por_prueba_s: 3.0
-archivos_de_configuracion: {'config/conectividad.env': 'ausente', '.env (API)': 'presente'}
+archivos_de_configuracion: {'config/conectividad.env': 'presente', '.env (API)': 'presente'}
+api_base_url: http://127.0.0.1:8000
 
-[OK] 2026-10-21T18:47:33-03:00 | MongoDB | configuracion | variables requeridas presentes | objetivo=127.0.0.1:27017 | cliente=lectura de configuración | configuracion_completa | -
+[OK] 2026-10-21T19:05:03-03:00 | MongoDB | configuracion | variables requeridas presentes | objetivo=127.0.0.1:27017 | cliente=lectura de configuración | configuracion_completa | -
     detalle: destino=127.0.0.1:27017; protocolo=MongoDB Wire Protocol (TCP); database=fixture2030; authSource=admin; autenticacion=SCRAM con usuario presente (valor oculto) y password presente (valor oculto); origen de valores=.env (API)
     responde: ¿El entorno sabe a qué host, puerto y contexto conectarse y con qué identidad?
     no permite concluir: Que el host exista, que el puerto esté abierto o que la credencial sea válida.
-[OK] 2026-10-21T18:47:33-03:00 | Neo4j | configuracion | variables requeridas presentes | objetivo=127.0.0.1:7687 (Bolt) / 127.0.0.1:7474 (HTTP Browser) | cliente=lectura de configuración | configuracion_completa | -
-    detalle: destino=127.0.0.1:7687 (Bolt) / 127.0.0.1:7474 (HTTP Browser); protocolo=Bolt (aplicación) y HTTP (portal); database=neo4j; autenticacion=basic auth Bolt con usuario presente (valor oculto) y password presente (valor oculto); origen de valores=--set (override), .env (API)
+[OK] 2026-10-21T19:05:03-03:00 | Neo4j | configuracion | variables requeridas presentes | objetivo=127.0.0.1:7687 (Bolt) / 127.0.0.1:7474 (HTTP Browser) | cliente=lectura de configuración | configuracion_completa | -
+    detalle: destino=127.0.0.1:7687 (Bolt) / 127.0.0.1:7474 (HTTP Browser); protocolo=Bolt (aplicación) y HTTP (portal); database=neo4j; autenticacion=basic auth Bolt con usuario presente (valor oculto) y password presente (valor oculto); origen de valores=.env (API)
     responde: ¿El entorno sabe a qué host, puerto y contexto conectarse y con qué identidad?
     no permite concluir: Que el host exista, que el puerto esté abierto o que la credencial sea válida.
-[OK] 2026-10-21T18:47:33-03:00 | Cassandra | configuracion | variables requeridas presentes | objetivo=127.0.0.1:9042 | cliente=lectura de configuración | configuracion_completa | -
+[OK] 2026-10-21T19:05:03-03:00 | Cassandra | configuracion | variables requeridas presentes | objetivo=127.0.0.1:9042 | cliente=lectura de configuración | configuracion_completa | -
     detalle: destino=127.0.0.1:9042; protocolo=CQL native protocol (TCP); keyspace=fixture2030_comentarios; tabla=comentarios_por_partido; autenticacion=sin credenciales configuradas (el laboratorio usa AllowAllAuthenticator); origen de valores=.env (API)
     responde: ¿El entorno sabe a qué host, puerto y contexto conectarse y con qué identidad?
     no permite concluir: Que el host exista, que el puerto esté abierto o que la credencial sea válida.
-[OK] 2026-10-21T18:47:33-03:00 | Redis | configuracion | variables requeridas presentes | objetivo=127.0.0.1:6379 | cliente=lectura de configuración | configuracion_completa | -
+[OK] 2026-10-21T19:05:03-03:00 | Redis | configuracion | variables requeridas presentes | objetivo=127.0.0.1:6379 | cliente=lectura de configuración | configuracion_completa | -
     detalle: destino=127.0.0.1:6379; protocolo=RESP (TCP); db=0; claves sesion:*; autenticacion=sin password configurada (requirepass vacío en el laboratorio); origen de valores=.env (API)
     responde: ¿El entorno sabe a qué host, puerto y contexto conectarse y con qué identidad?
     no permite concluir: Que el host exista, que el puerto esté abierto o que la credencial sea válida.
-[OK] 2026-10-21T18:47:33-03:00 | InfluxDB | configuracion | variables requeridas presentes | objetivo=127.0.0.1:8181 | cliente=lectura de configuración | configuracion_completa | -
+[OK] 2026-10-21T19:05:03-03:00 | InfluxDB | configuracion | variables requeridas presentes | objetivo=127.0.0.1:8181 | cliente=lectura de configuración | configuracion_completa | -
     detalle: destino=127.0.0.1:8181; protocolo=HTTP API v3 (/health, /api/v3/query_sql); databases=fixture2030_detalle, fixture2030_historico; autenticacion=token Bearer **** (valor oculto); origen de valores=.env (API)
     responde: ¿El entorno sabe a qué host, puerto y contexto conectarse y con qué identidad?
     no permite concluir: Que el host exista, que el puerto esté abierto o que la credencial sea válida.
-[OK] 2026-10-21T18:47:33-03:00 | InterSystems IRIS | configuracion | variables requeridas presentes | objetivo=127.0.0.1:1972 (Superserver) / 127.0.0.1:52773 (portal HTTP) | cliente=lectura de configuración | configuracion_completa | -
+[OK] 2026-10-21T19:05:03-03:00 | InterSystems IRIS | configuracion | variables requeridas presentes | objetivo=127.0.0.1:1972 (Superserver) / 127.0.0.1:52773 (portal HTTP) | cliente=lectura de configuración | configuracion_completa | -
     detalle: destino=127.0.0.1:1972 (Superserver) / 127.0.0.1:52773 (portal HTTP); protocolo=Superserver (DB-API) y HTTP (portal); namespace=USER; autenticacion=usuario presente (valor oculto) y password presente (valor oculto); origen de valores=.env (API)
     responde: ¿El entorno sabe a qué host, puerto y contexto conectarse y con qué identidad?
     no permite concluir: Que el host exista, que el puerto esté abierto o que la credencial sea válida.
-[ADVERTENCIA] 2026-10-21T18:47:33-03:00 | Repositorio | configuracion | NEO4J_PASSWORD distinta de identificadores públicos (complementaria) | objetivo=NEO4J_PASSWORD | cliente=lectura de configuración | credencial_debil | -
+[ADVERTENCIA] 2026-10-21T19:05:03-03:00 | Repositorio | configuracion | NEO4J_PASSWORD distinta de identificadores públicos (complementaria) | objetivo=NEO4J_PASSWORD | cliente=lectura de configuración | credencial_debil | -
     detalle: el valor de NEO4J_PASSWORD coincide con un nombre público del proyecto (database, contenedor, keyspace). Es aceptable solo en el laboratorio local; en otro entorno debe cambiarse. Ese valor no se redacta en la evidencia porque taparía los nombres de los recursos.
     responde: ¿Las credenciales configuradas son independientes de datos públicos?
     no permite concluir: Nada sobre la conectividad.
     hipotesis: La credencial de laboratorio se eligió igual al nombre del proyecto.
     siguiente paso: Usar una credencial propia fuera del laboratorio y rotarla.
-[OK] 2026-10-21T18:47:33-03:00 | Repositorio | configuracion | .env fuera de Git (complementaria) | objetivo=.env | cliente=git check-ignore / git ls-files | secretos_no_versionados | -
+[OK] 2026-10-21T19:05:03-03:00 | Repositorio | configuracion | .env fuera de Git (complementaria) | objetivo=.env | cliente=git check-ignore / git ls-files | secretos_no_versionados | -
+    detalle: ignorado por .gitignore y no versionado
+    responde: ¿Las credenciales locales quedan fuera del repositorio?
+    no permite concluir: Que no existan secretos en otros archivos o en el historial.
+[OK] 2026-10-21T19:05:04-03:00 | Repositorio | configuracion | hito11-conectividad/config/conectividad.env fuera de Git (complementaria) | objetivo=hito11-conectividad/config/conectividad.env | cliente=git check-ignore / git ls-files | secretos_no_versionados | -
     detalle: ignorado por .gitignore y no versionado
     responde: ¿Las credenciales locales quedan fuera del repositorio?
     no permite concluir: Que no existan secretos en otros archivos o en el historial.
@@ -52,4 +57,4 @@ Cassandra: desconocido - las capas ejecutadas no alcanzan para concluir {'OK': 1
 Redis: desconocido - las capas ejecutadas no alcanzan para concluir {'OK': 1}
 InfluxDB: desconocido - las capas ejecutadas no alcanzan para concluir {'OK': 1}
 InterSystems IRIS: desconocido - las capas ejecutadas no alcanzan para concluir {'OK': 1}
-Repositorio: cumple con observaciones - ver advertencias de seguridad {'ADVERTENCIA': 1, 'OK': 1}
+Repositorio: cumple con observaciones - ver advertencias de seguridad {'ADVERTENCIA': 1, 'OK': 2}

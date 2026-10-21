@@ -1,0 +1,209 @@
+=== HITO 11 - EVALUACIÓN DE LA CONECTIVIDAD - RESULTADOS_CLIENTES ===
+fecha: 2026-10-21T19:05:03-03:00
+modo: completo
+entorno: notebook Windows de Valentino - entorno-local consolidado
+origen_de_las_pruebas: notebook (mismo proceso/entorno desde el que corre la API)
+sistema_operativo: Windows-10
+python: 3.12.9
+commit: d2bed7c (con cambios sin commit)
+rama: Conectividad
+timeout_por_prueba_s: 3.0
+archivos_de_configuracion: {'config/conectividad.env': 'presente', '.env (API)': 'presente'}
+api_base_url: http://127.0.0.1:8000
+
+[OK] 2026-10-21T19:05:04-03:00 | MongoDB | protocolo | comando hello sin credenciales | objetivo=127.0.0.1:27017/fixture2030 | cliente=pymongo 4.18.3 | handshake_ok | 4.7 ms
+    detalle: hello respondió: isWritablePrimary=True, maxWireVersion=21, version servidor=7.0.40
+    responde: ¿El listener habla MongoDB Wire Protocol?
+    no permite concluir: Que la identidad configurada sea válida.
+[OK] 2026-10-21T19:05:04-03:00 | MongoDB | autenticacion | connectionStatus con credenciales | objetivo=127.0.0.1:27017/fixture2030 | cliente=pymongo 4.18.3 | autenticado | 23.4 ms
+    detalle: 1 identidad autenticada contra authSource=admin; roles=root (nombre de usuario omitido)
+    responde: ¿El servidor acepta usuario/password contra la base de autenticación configurada?
+    no permite concluir: Que el usuario tenga permisos sobre la database del Fixture ni que la database exista.
+[OK] 2026-10-21T19:05:04-03:00 | MongoDB | autorizacion | listCollections sobre fixture2030 | objetivo=127.0.0.1:27017/fixture2030 | cliente=pymongo 4.18.3 | autorizado | 0.7 ms
+    detalle: listCollections permitido sobre 'fixture2030' (2 colecciones)
+    responde: ¿La identidad tiene permiso para operar sobre la database del Fixture?
+    no permite concluir: Que la database contenga los datos esperados (MongoDB no falla ante una database inexistente).
+[OK] 2026-10-21T19:05:04-03:00 | MongoDB | contexto | database y colecciones del módulo | objetivo=127.0.0.1:27017/fixture2030 | cliente=pymongo 4.18.3 | contexto_ok | 1.1 ms
+    detalle: database 'fixture2030' existe con colecciones equipos y jugadores
+    responde: ¿La database configurada existe y contiene las colecciones del módulo documental?
+    no permite concluir: Que una consulta concreta devuelva datos.
+[OK] 2026-10-21T19:05:04-03:00 | MongoDB | operacion | find_one equipos {_id:EQ-01} con proyección | objetivo=127.0.0.1:27017/fixture2030 | cliente=pymongo 4.18.3 | lectura_ok | 2.0 ms
+    detalle: find_one({_id:'EQ-01'}) devolvió campos ['_id', 'confederacion', 'nombre', 'ranking']; conteo estimado equipos=64, jugadores=1024
+    responde: ¿El cliente puede leer un documento del módulo equipos/jugadores con límite de tiempo?
+    no permite concluir: Rendimiento con volumen o concurrencia (Hito 12).
+[OK] 2026-10-21T19:05:04-03:00 | MongoDB | operacion | prueba negativa controlada: documento inexistente EQ-99 (complementaria) | objetivo=127.0.0.1:27017/fixture2030 | cliente=pymongo 4.18.3 | recurso_inexistente | 0.7 ms
+    detalle: EQ-99 devolvió None: ausencia válida, no es un error de conexión
+    responde: ¿Un documento inexistente se distingue de una falla?
+    no permite concluir: -
+[OK] 2026-10-21T19:05:04-03:00 | MongoDB | contexto | prueba negativa controlada: database inexistente (complementaria) | objetivo=127.0.0.1:27017/fixture2030 | cliente=pymongo 4.18.3 | contexto_inexistente_silencioso | 0.7 ms
+    detalle: database 'fixture2030_diag_inexistente': list_collection_names devolvió 0 colecciones sin error. MongoDB no falla ante una database o colección inexistente; por eso la API valida el contexto en /health/dependencias.
+    responde: ¿Cómo responde MongoDB si el contexto configurado está mal escrito?
+    no permite concluir: -
+[OK] 2026-10-21T19:05:05-03:00 | Neo4j | protocolo | portal HTTP / Browser (complementaria) | objetivo=http://127.0.0.1:7474 | cliente=httpx | portal_http_ok | 338.1 ms
+    detalle: HTTP 200; neo4j_version=2026.10.0; bolt anunciado=bolt://127.0.0.1:7687
+    responde: ¿Responde el portal HTTP que usa una persona desde el navegador?
+    no permite concluir: Nada sobre Bolt: la API no usa HTTP. Un portal accesible no implica Bolt accesible.
+[OK] 2026-10-21T19:05:05-03:00 | Neo4j | protocolo | handshake Bolt (sin credenciales) | objetivo=127.0.0.1:7687/neo4j | cliente=socket (handshake Bolt manual) | handshake_ok | 3.1 ms
+    detalle: handshake Bolt aceptado; versión negociada 6.0
+    responde: ¿El puerto configurado habla Bolt y negocia una versión compatible?
+    no permite concluir: Que la identidad configurada sea válida.
+[OK] 2026-10-21T19:05:05-03:00 | Neo4j | autenticacion | verify_authentication | objetivo=127.0.0.1:7687/neo4j | cliente=neo4j-python-driver 6.4.0 | autenticado | 68.4 ms
+    detalle: credenciales aceptadas; agent=Neo4j/2026.10.0; protocolo Bolt=(6, 1)
+    responde: ¿El servidor acepta la identidad configurada por Bolt?
+    no permite concluir: Que la database seleccionada exista ni que la identidad pueda leerla.
+[OK] 2026-10-21T19:05:05-03:00 | Neo4j | contexto | selección de database neo4j | objetivo=127.0.0.1:7687/neo4j | cliente=neo4j-python-driver 6.4.0 | contexto_ok | 2.3 ms
+    detalle: database 'neo4j' seleccionada y operativa (RETURN 1)
+    responde: ¿La database configurada existe y acepta transacciones?
+    no permite concluir: Que contenga el grafo del Fixture.
+[OK] 2026-10-21T19:05:05-03:00 | Neo4j | autorizacion | lectura en modo READ sobre :Equipo | objetivo=127.0.0.1:7687/neo4j | cliente=neo4j-python-driver 6.4.0 | autorizado | 1.8 ms
+    detalle: lectura permitida; nodos :Equipo=64
+    responde: ¿La identidad puede leer nodos del dominio en esa database?
+    no permite concluir: Que exista el partido de demostración.
+[OK] 2026-10-21T19:05:05-03:00 | Neo4j | operacion | Cypher parametrizado partido PAR-0001 | objetivo=127.0.0.1:7687/neo4j | cliente=neo4j-python-driver 6.4.0 | lectura_ok | 2.1 ms
+    detalle: Cypher parametrizado ($codigo=PAR-0001): equipos=2, eventos=2
+    responde: ¿Se puede ejecutar la lectura acotada que usa el módulo de partidos/eventos?
+    no permite concluir: Rendimiento con volumen (Hito 12).
+[OK] 2026-10-21T19:05:05-03:00 | Neo4j | operacion | prueba negativa controlada: partido inexistente PAR-9999 (complementaria) | objetivo=127.0.0.1:7687/neo4j | cliente=neo4j-python-driver 6.4.0 | recurso_inexistente | 3.8 ms
+    detalle: PAR-9999: resultado vacío sin error (ausencia válida ≠ error de conexión)
+    responde: ¿Un partido inexistente se distingue de un error de conexión?
+    no permite concluir: -
+[OK] 2026-10-21T19:05:05-03:00 | Neo4j | contexto | prueba negativa controlada: database inexistente (complementaria) | objetivo=127.0.0.1:7687/neo4j | cliente=neo4j-python-driver 6.4.0 | contexto_inexistente | 2.9 ms
+    detalle: error esperado: Neo.ClientError.Database.DatabaseNotFound
+    responde: ¿Una database mal configurada produce un error identificable?
+    no permite concluir: -
+[OK] 2026-10-21T19:05:07-03:00 | Cassandra | protocolo | sesión CQL sin keyspace (system.local) | objetivo=127.0.0.1:9042/fixture2030_comentarios | cliente=cassandra-driver 3.30.1 | handshake_ok | 1501.8 ms
+    detalle: sesión CQL establecida; protocolo nativo v5; Cassandra 5.0.9; cluster=Fixture2030_Cassandra; dc=datacenter1
+    responde: ¿El puerto habla el protocolo nativo CQL y se puede abrir una sesión?
+    no permite concluir: Que el keyspace del módulo exista.
+[NO_APLICA] 2026-10-21T19:05:07-03:00 | Cassandra | autenticacion | mecanismo de autenticación | objetivo=127.0.0.1:9042/fixture2030_comentarios | cliente=cassandra-driver 3.30.1 | sin_autenticacion_configurada | 0.0 ms
+    detalle: el cluster aceptó la sesión sin credenciales: en este laboratorio no exige autenticación (AllowAllAuthenticator). En producción esta capa debería existir.
+    responde: ¿El cluster exige identidad y la configurada es aceptada?
+    no permite concluir: Permisos sobre el keyspace.
+[OK] 2026-10-21T19:05:07-03:00 | Cassandra | contexto | keyspace fixture2030_comentarios | objetivo=127.0.0.1:9042/fixture2030_comentarios | cliente=cassandra-driver 3.30.1 | contexto_ok | 29.4 ms
+    detalle: keyspace 'fixture2030_comentarios' seleccionado; replicación={'class': 'org.apache.cassandra.locator.SimpleStrategy', 'replication_factor': '1'}
+    responde: ¿El keyspace configurado existe y puede seleccionarse?
+    no permite concluir: Que la tabla y su clave de partición sean las esperadas.
+[OK] 2026-10-21T19:05:07-03:00 | Cassandra | contexto | tabla comentarios_por_partido y patrón de partición | objetivo=127.0.0.1:9042/fixture2030_comentarios | cliente=cassandra-driver 3.30.1 | contexto_ok | 16.4 ms
+    detalle: tabla comentarios_por_partido: PRIMARY KEY ((partido_id, bucket_10min), creado_en DESC, comentario_id ASC)
+    responde: ¿Existe la tabla del módulo y qué clave de partición exige la consulta?
+    no permite concluir: Que la partición de demostración tenga datos.
+[OK] 2026-10-21T19:05:07-03:00 | Cassandra | autorizacion | SELECT LIMIT 1 sobre comentarios_por_partido | objetivo=127.0.0.1:9042/fixture2030_comentarios | cliente=cassandra-driver 3.30.1 | autorizado | 15.4 ms
+    detalle: SELECT permitido sobre fixture2030_comentarios.comentarios_por_partido
+    responde: ¿La sesión puede leer la tabla del módulo?
+    no permite concluir: Que una partición concreta tenga filas.
+[OK] 2026-10-21T19:05:07-03:00 | Cassandra | operacion | lectura limitada partición (PAR-0001, 203006132000) | objetivo=127.0.0.1:9042/fixture2030_comentarios | cliente=cassandra-driver 3.30.1 | lectura_ok | 15.0 ms
+    detalle: partición (partido_id=PAR-0001, bucket_10min=203006132000): 3 filas (LIMIT 3)
+    responde: ¿Se puede leer una partición del módulo de comentarios con LIMIT?
+    no permite concluir: Rendimiento con volumen (Hito 12).
+[OK] 2026-10-21T19:05:07-03:00 | Cassandra | operacion | prueba negativa controlada: partición vacía (complementaria) | objetivo=127.0.0.1:9042/fixture2030_comentarios | cliente=cassandra-driver 3.30.1 | vacio_valido | 15.2 ms
+    detalle: partición inexistente PAR-9999: 0 filas, sin error (lista vacía ≠ timeout)
+    responde: ¿Una partición sin datos se distingue de un timeout?
+    no permite concluir: -
+[OK] 2026-10-21T19:05:07-03:00 | Cassandra | contexto | prueba negativa controlada: keyspace inexistente (complementaria) | objetivo=127.0.0.1:9042/fixture2030_comentarios | cliente=cassandra-driver 3.30.1 | contexto_inexistente | 14.6 ms
+    detalle: error esperado: InvalidRequest
+    responde: ¿Un keyspace mal configurado produce un error identificable?
+    no permite concluir: -
+[OK] 2026-10-21T19:05:07-03:00 | Cassandra | contexto | prueba negativa controlada: tabla inexistente (complementaria) | objetivo=127.0.0.1:9042/fixture2030_comentarios | cliente=cassandra-driver 3.30.1 | tabla_inexistente | 15.3 ms
+    detalle: error esperado: InvalidRequest
+    responde: ¿Una tabla inexistente se distingue de un problema de red?
+    no permite concluir: -
+[OK] 2026-10-21T19:05:07-03:00 | Cassandra | operacion | prueba negativa controlada: consulta CQL inválida (complementaria) | objetivo=127.0.0.1:9042/fixture2030_comentarios | cliente=cassandra-driver 3.30.1 | consulta_invalida | 15.6 ms
+    detalle: SyntaxException en 15.5 ms: rechazo inmediato del servidor, no un timeout de conexión
+    responde: ¿Se distingue una consulta inválida de un timeout de conexión?
+    no permite concluir: -
+[OK] 2026-10-21T19:05:07-03:00 | Redis | protocolo | PING en RESP crudo | objetivo=127.0.0.1:6379/db0 | cliente=socket (RESP manual) | handshake_ok | 2.1 ms
+    detalle: RESP: PING -> +PONG sin credenciales
+    responde: ¿El puerto habla RESP (protocolo de Redis)?
+    no permite concluir: Que la base lógica tenga datos ni que la credencial sea válida.
+[NO_APLICA] 2026-10-21T19:05:07-03:00 | Redis | autenticacion | AUTH / requirepass | objetivo=127.0.0.1:6379/db0 | cliente=redis-py 8.1.0 | sin_autenticacion_configurada | 0.0 ms
+    detalle: el servidor respondió PONG sin AUTH: requirepass vacío en el laboratorio
+    responde: ¿Redis exige identidad y la configurada es aceptada?
+    no permite concluir: Permisos ACL sobre comandos concretos.
+[OK] 2026-10-21T19:05:07-03:00 | Redis | contexto | base lógica db0 | objetivo=127.0.0.1:6379/db0 | cliente=redis-py 8.1.0 | contexto_ok | 4.3 ms
+    detalle: SELECT 0 implícito; claves en db0=3; redis_version=8.10.2
+    responde: ¿La base lógica configurada es accesible y cuántas claves contiene?
+    no permite concluir: Que exista la clave de sesión de demostración.
+[OK] 2026-10-21T19:05:07-03:00 | Redis | operacion | EXISTS + TTL sesion:SES-API-0001 | objetivo=127.0.0.1:6379/db0 | cliente=redis-py 8.1.0 | clave_vigente | 0.6 ms
+    detalle: sesion:SES-API-0001: EXISTS=1, TTL=1795 s
+    responde: ¿Se puede leer la clave de sesión que usa el módulo y su expiración?
+    no permite concluir: Rendimiento o comportamiento bajo concurrencia (Hito 12).
+[OK] 2026-10-21T19:05:09-03:00 | Redis | operacion | prueba negativa controlada: expiración de clave diag:hito11:* (TTL 2 s) (complementaria) | objetivo=127.0.0.1:6379/db0 | cliente=redis-py 8.1.0 | clave_expirada | 2503.3 ms
+    detalle: diag:hito11:1dbe2004 creada con EX 2 (TTL inicial 2); a los 2.5 s EXISTS=0, TTL=-2. Clave expirada y clave ausente se ven igual en Redis; ambas difieren de Redis no disponible (ConnectionError en la capa TCP/protocolo).
+    responde: ¿Cómo se ve una clave expirada frente a una ausente y frente a Redis caído?
+    no permite concluir: -
+[OK] 2026-10-21T19:05:10-03:00 | InfluxDB | protocolo | GET /health (sin token) | objetivo=http://127.0.0.1:8181 db=fixture2030_detalle | cliente=httpx 0.28.1 (API HTTP v3) | health_requiere_token | 21.1 ms
+    detalle: GET /health sin token -> 401: el servicio HTTP responde y exige token
+    responde: ¿El endpoint HTTP de salud responde?
+    no permite concluir: Que el token sea válido ni que exista la database.
+[OK] 2026-10-21T19:05:10-03:00 | InfluxDB | autenticacion | GET /health con token Bearer | objetivo=http://127.0.0.1:8181 db=fixture2030_detalle | cliente=httpx 0.28.1 (API HTTP v3) | autenticado | 1.2 ms
+    detalle: GET /health con token -> 200: token aceptado (valor oculto)
+    responde: ¿El servidor acepta el token configurado?
+    no permite concluir: Que el token tenga permiso sobre la database ni que la database exista.
+[OK] 2026-10-21T19:05:10-03:00 | InfluxDB | autenticacion | prueba negativa controlada: token inválido (complementaria) | objetivo=http://127.0.0.1:8181 db=fixture2030_detalle | cliente=httpx 0.28.1 (API HTTP v3) | auth_fallida | 1.1 ms
+    detalle: token inválido -> 401: el servidor diferencia token válido de inválido
+    responde: ¿Un token inválido produce un rechazo identificable?
+    no permite concluir: -
+[OK] 2026-10-21T19:05:10-03:00 | InfluxDB | contexto | databases configuradas | objetivo=http://127.0.0.1:8181 db=fixture2030_detalle | cliente=httpx 0.28.1 (API HTTP v3) | contexto_ok | 1.1 ms
+    detalle: databases presentes: fixture2030_detalle, fixture2030_historico
+    responde: ¿Existen las databases de detalle e histórico configuradas?
+    no permite concluir: Que haya puntos en la ventana consultada.
+[OK] 2026-10-21T19:05:10-03:00 | InfluxDB | autorizacion | SELECT 1 sobre fixture2030_detalle | objetivo=http://127.0.0.1:8181 db=fixture2030_detalle | cliente=httpx 0.28.1 (API HTTP v3) | ok | 2.7 ms
+    detalle: query_sql permitido sobre 'fixture2030_detalle'
+    responde: ¿El token puede consultar la database de detalle?
+    no permite concluir: Que la tabla tenga datos.
+[OK] 2026-10-21T19:05:10-03:00 | InfluxDB | operacion | SQL acotado estadisticas_equipo (1 minuto) | objetivo=http://127.0.0.1:8181 db=fixture2030_detalle | cliente=httpx 0.28.1 (API HTTP v3) | lectura_ok | 4.5 ms
+    detalle: estadisticas_equipo: partido_id=PAR-0001, rango [2030-06-13T20:00:00Z, 2030-06-13T20:01:00Z), agregación COUNT/MIN/MAX -> 12 puntos (primero=2030-06-13T20:00:00, último=2030-06-13T20:00:50)
+    responde: ¿Se puede ejecutar una consulta temporal acotada con agregación?
+    no permite concluir: Rendimiento con ventanas grandes o concurrencia (Hito 12).
+[OK] 2026-10-21T19:05:10-03:00 | InfluxDB | operacion | SQL acotado resumen_equipo_minuto (resúmenes 15 min) (complementaria) | objetivo=http://127.0.0.1:8181 db=fixture2030_detalle | cliente=httpx 0.28.1 (API HTTP v3) | lectura_ok | 4.7 ms
+    detalle: fixture2030_historico.resumen_equipo_minuto: 6 resúmenes en 31 minutos
+    responde: ¿La database histórica (downsampling) es consultable?
+    no permite concluir: -
+[OK] 2026-10-21T19:05:10-03:00 | InfluxDB | operacion | prueba negativa controlada: ventana sin puntos (complementaria) | objetivo=http://127.0.0.1:8181 db=fixture2030_detalle | cliente=httpx 0.28.1 (API HTTP v3) | vacio_valido | 3.4 ms
+    detalle: ventana 2031-01-01 sin datos: 0 puntos y HTTP 200 (ausencia de puntos ≠ error)
+    responde: ¿Una ventana sin datos se distingue de un error?
+    no permite concluir: -
+[OK] 2026-10-21T19:05:10-03:00 | InfluxDB | contexto | prueba negativa controlada: database inexistente (complementaria) | objetivo=http://127.0.0.1:8181 db=fixture2030_detalle | cliente=httpx 0.28.1 (API HTTP v3) | contexto_inexistente | 1.2 ms
+    detalle: HTTP 404: {"error":"query error: database not found: fixture2030_diag_inexistente"}
+    responde: ¿Una database inexistente se distingue de token inválido y de servicio caído?
+    no permite concluir: -
+[OK] 2026-10-21T19:05:10-03:00 | InterSystems IRIS | protocolo | portal HTTP (Management Portal) (complementaria) | objetivo=127.0.0.1:52773 | cliente=httpx | portal_http_ok | 278.1 ms
+    detalle: Management Portal respondió HTTP 200 (200/302/401 indican portal activo; no usa la identidad de la API)
+    responde: ¿Responde el portal web de IRIS?
+    no permite concluir: Nada sobre el Superserver (1972) que usa la API: el portal puede estar accesible y el Superserver no.
+[OK] 2026-10-21T19:05:10-03:00 | InterSystems IRIS | protocolo | handshake Superserver (DB-API connect) | objetivo=127.0.0.1:1972/USER | cliente=intersystems-irispython 5.4.1 (DB-API) | protocolo_ok | 0.0 ms
+    detalle: handshake con el Superserver completado; inferido del mismo connect() (23.2 ms)
+    responde: ¿El puerto del Superserver acepta el protocolo del driver?
+    no permite concluir: Que la identidad sea válida (se evalúa en la capa siguiente).
+[OK] 2026-10-21T19:05:10-03:00 | InterSystems IRIS | autenticacion | usuario/password en connect | objetivo=127.0.0.1:1972/USER | cliente=intersystems-irispython 5.4.1 (DB-API) | autenticacion_ok | 0.0 ms
+    detalle: credenciales aceptadas (valores ocultos); inferido del mismo connect() (23.2 ms)
+    responde: ¿IRIS acepta la identidad configurada?
+    no permite concluir: Que el namespace exista o que la identidad pueda leer las clases.
+[OK] 2026-10-21T19:05:10-03:00 | InterSystems IRIS | contexto | namespace USER | objetivo=127.0.0.1:1972/USER | cliente=intersystems-irispython 5.4.1 (DB-API) | contexto_ok | 0.0 ms
+    detalle: namespace 'USER' seleccionado; inferido del mismo connect() (23.2 ms)
+    responde: ¿El namespace configurado existe y se seleccionó?
+    no permite concluir: Que las clases Fixture.* estén compiladas en ese namespace.
+[OK] 2026-10-21T19:05:10-03:00 | InterSystems IRIS | autorizacion | lectura de metadatos (INFORMATION_SCHEMA) | objetivo=127.0.0.1:1972/USER | cliente=intersystems-irispython 5.4.1 (DB-API) | autorizado | 1.5 ms
+    detalle: metadato legible: 5 tablas/clases proyectadas en el esquema Fixture
+    responde: ¿La identidad puede leer el catálogo y existen las clases del Fixture?
+    no permite concluir: Que exista el partido de demostración.
+[OK] 2026-10-21T19:05:10-03:00 | InterSystems IRIS | operacion | lectura Fixture.Partido PAR-0001 | objetivo=127.0.0.1:1972/USER | cliente=intersystems-irispython 5.4.1 (DB-API) | lectura_ok | 2.3 ms
+    detalle: Fixture.Partido PAR-0001: estado=Finalizado; total partidos=1
+    responde: ¿Se puede leer la entidad persistente que usa la API?
+    no permite concluir: Rendimiento con volumen (Hito 12).
+[OK] 2026-10-21T19:05:10-03:00 | InterSystems IRIS | operacion | prueba negativa controlada: objeto inexistente PAR-9999 (complementaria) | objetivo=127.0.0.1:1972/USER | cliente=intersystems-irispython 5.4.1 (DB-API) | recurso_inexistente | 1.1 ms
+    detalle: PAR-9999: 0 filas sin error (objeto inexistente ≠ Superserver inaccesible)
+    responde: ¿Un objeto inexistente se distingue de una falla de conexión?
+    no permite concluir: -
+[OK] 2026-10-21T19:05:12-03:00 | InterSystems IRIS | contexto | prueba negativa controlada: namespace incorrecto (complementaria) | objetivo=127.0.0.1:1972/USER | cliente=intersystems-irispython 5.4.1 (DB-API) | contexto_inexistente | 2019.8 ms
+    detalle: IRIS respondió 'Access Denied' al pedir un namespace inexistente: por seguridad usa el mismo mensaje que para una credencial inválida. Como las mismas credenciales funcionaron en 'USER', el rechazo se atribuye al namespace. Distinto de Superserver inaccesible, que no llega a responder.
+    responde: ¿Un namespace mal configurado produce un error distinto a credencial inválida o Superserver caído?
+    no permite concluir: -
+
+=== RESUMEN ===
+MongoDB: disponible - todas las capas requeridas probadas terminaron OK {'OK': 7}
+Neo4j: disponible - todas las capas requeridas probadas terminaron OK {'OK': 8}
+Cassandra: disponible - todas las capas requeridas probadas terminaron OK {'OK': 9, 'NO_APLICA': 1}
+Redis: disponible - todas las capas requeridas probadas terminaron OK {'OK': 4, 'NO_APLICA': 1}
+InfluxDB: disponible - todas las capas requeridas probadas terminaron OK {'OK': 9}
+InterSystems IRIS: disponible - todas las capas requeridas probadas terminaron OK {'OK': 8}

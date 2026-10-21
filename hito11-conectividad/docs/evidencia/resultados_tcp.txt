@@ -1,0 +1,118 @@
+=== HITO 11 - EVALUACIÓN DE LA CONECTIVIDAD - RESULTADOS_TCP ===
+fecha: 2026-10-21T19:05:03-03:00
+modo: completo
+entorno: notebook Windows de Valentino - entorno-local consolidado
+origen_de_las_pruebas: notebook (mismo proceso/entorno desde el que corre la API)
+sistema_operativo: Windows-10
+python: 3.12.9
+commit: d2bed7c (con cambios sin commit)
+rama: Conectividad
+timeout_por_prueba_s: 3.0
+archivos_de_configuracion: {'config/conectividad.env': 'presente', '.env (API)': 'presente'}
+api_base_url: http://127.0.0.1:8000
+
+[OK] 2026-10-21T19:05:04-03:00 | MongoDB | proceso | estado del contenedor (docker inspect) (complementaria) | objetivo=fixture2030-mongodb | cliente=docker CLI | contenedor_en_ejecucion | -
+    detalle: contenedor=fixture2030-mongodb; estado=running; health=sin healthcheck; iniciado=2026-10-21T21:59:16.866613884Z; puertos (interno->publicado)=27017/tcp->0.0.0.0:27017, 27017/tcp->:::27017
+    responde: ¿Docker informa el contenedor como iniciado y qué puertos publica?
+    no permite concluir: Que el producto acepte conexiones, autentique o responda consultas: un contenedor activo no equivale a una dependencia disponible.
+[OK] 2026-10-21T19:05:04-03:00 | Neo4j | proceso | estado del contenedor (docker inspect) (complementaria) | objetivo=fixture2030-neo4j | cliente=docker CLI | contenedor_en_ejecucion | -
+    detalle: contenedor=fixture2030-neo4j; estado=running; health=sin healthcheck; iniciado=2026-10-21T21:29:51.551610933Z; puertos (interno->publicado)=7474/tcp->0.0.0.0:7474, 7474/tcp->:::7474, 7687/tcp->0.0.0.0:7687, 7687/tcp->:::7687
+    responde: ¿Docker informa el contenedor como iniciado y qué puertos publica?
+    no permite concluir: Que el producto acepte conexiones, autentique o responda consultas: un contenedor activo no equivale a una dependencia disponible.
+[OK] 2026-10-21T19:05:04-03:00 | Cassandra | proceso | estado del contenedor (docker inspect) (complementaria) | objetivo=fixture2030-cassandra | cliente=docker CLI | contenedor_en_ejecucion | -
+    detalle: contenedor=fixture2030-cassandra; estado=running; health=sin healthcheck; iniciado=2026-10-21T21:29:51.42084251Z; puertos (interno->publicado)=9042/tcp->0.0.0.0:9042, 9042/tcp->:::9042
+    responde: ¿Docker informa el contenedor como iniciado y qué puertos publica?
+    no permite concluir: Que el producto acepte conexiones, autentique o responda consultas: un contenedor activo no equivale a una dependencia disponible.
+[OK] 2026-10-21T19:05:04-03:00 | Redis | proceso | estado del contenedor (docker inspect) (complementaria) | objetivo=fixture2030-redis | cliente=docker CLI | contenedor_en_ejecucion | -
+    detalle: contenedor=fixture2030-redis; estado=running; health=healthy; iniciado=2026-10-21T21:29:51.553480903Z; puertos (interno->publicado)=6379/tcp->0.0.0.0:6379, 6379/tcp->:::6379
+    responde: ¿Docker informa el contenedor como iniciado y qué puertos publica?
+    no permite concluir: Que el producto acepte conexiones, autentique o responda consultas: un contenedor activo no equivale a una dependencia disponible.
+[OK] 2026-10-21T19:05:04-03:00 | InfluxDB | proceso | estado del contenedor (docker inspect) (complementaria) | objetivo=fixture2030-influxdb | cliente=docker CLI | contenedor_en_ejecucion | -
+    detalle: contenedor=fixture2030-influxdb; estado=running; health=sin healthcheck; iniciado=2026-10-21T21:29:51.544292257Z; puertos (interno->publicado)=8181/tcp->127.0.0.1:8181
+    responde: ¿Docker informa el contenedor como iniciado y qué puertos publica?
+    no permite concluir: Que el producto acepte conexiones, autentique o responda consultas: un contenedor activo no equivale a una dependencia disponible.
+[OK] 2026-10-21T19:05:04-03:00 | InterSystems IRIS | proceso | estado del contenedor (docker inspect) (complementaria) | objetivo=fixture2030-iris | cliente=docker CLI | contenedor_en_ejecucion | -
+    detalle: contenedor=fixture2030-iris; estado=running; health=healthy; iniciado=2026-10-21T21:29:51.555106564Z; puertos (interno->publicado)=1972/tcp->127.0.0.1:1972, 52773/tcp->127.0.0.1:52773
+    responde: ¿Docker informa el contenedor como iniciado y qué puertos publica?
+    no permite concluir: Que el producto acepte conexiones, autentique o responda consultas: un contenedor activo no equivale a una dependencia disponible.
+[OK] 2026-10-21T19:05:04-03:00 | MongoDB | resolucion | resolución de 127.0.0.1 | objetivo=127.0.0.1 | cliente=socket.getaddrinfo | host_resuelto | 3.3 ms
+    detalle: 127.0.0.1 -> 127.0.0.1
+    responde: ¿El nombre configurado se convierte en una dirección IP desde este entorno?
+    no permite concluir: Que haya un proceso escuchando en el puerto.
+[OK] 2026-10-21T19:05:04-03:00 | MongoDB | tcp | puerto MongoDB (MongoDB wire) | objetivo=127.0.0.1:27017 | cliente=socket TCP | conexion_exitosa | 1.1 ms
+    detalle: listener aceptó la conexión en 127.0.0.1:27017 (origen 127.0.0.1) en 1.0 ms
+    responde: ¿Existe un listener que acepte conexiones TCP en host:puerto desde este entorno?
+    no permite concluir: Que el listener sea el producto correcto (puerto equivocado), que la identidad sea válida, que exista el contexto o que una consulta funcione.
+[OK] 2026-10-21T19:05:04-03:00 | Neo4j | resolucion | resolución de 127.0.0.1 | objetivo=127.0.0.1 | cliente=socket.getaddrinfo | host_resuelto | 0.0 ms
+    detalle: 127.0.0.1 -> 127.0.0.1
+    responde: ¿El nombre configurado se convierte en una dirección IP desde este entorno?
+    no permite concluir: Que haya un proceso escuchando en el puerto.
+[OK] 2026-10-21T19:05:04-03:00 | Neo4j | tcp | puerto Bolt (usado por la API) (Bolt) | objetivo=127.0.0.1:7687 | cliente=socket TCP | conexion_exitosa | 0.4 ms
+    detalle: listener aceptó la conexión en 127.0.0.1:7687 (origen 127.0.0.1) en 0.4 ms
+    responde: ¿Existe un listener que acepte conexiones TCP en host:puerto desde este entorno?
+    no permite concluir: Que el listener sea el producto correcto (puerto equivocado), que la identidad sea válida, que exista el contexto o que una consulta funcione.
+[OK] 2026-10-21T19:05:04-03:00 | Neo4j | resolucion | resolución de 127.0.0.1 (complementaria) | objetivo=127.0.0.1 | cliente=socket.getaddrinfo | host_resuelto | 0.0 ms
+    detalle: 127.0.0.1 -> 127.0.0.1
+    responde: ¿El nombre configurado se convierte en una dirección IP desde este entorno?
+    no permite concluir: Que haya un proceso escuchando en el puerto.
+[OK] 2026-10-21T19:05:04-03:00 | Neo4j | tcp | puerto HTTP Browser (no usado por la API) (HTTP) (complementaria) | objetivo=127.0.0.1:7474 | cliente=socket TCP | conexion_exitosa | 0.3 ms
+    detalle: listener aceptó la conexión en 127.0.0.1:7474 (origen 127.0.0.1) en 0.3 ms
+    responde: ¿Existe un listener que acepte conexiones TCP en host:puerto desde este entorno?
+    no permite concluir: Que el listener sea el producto correcto (puerto equivocado), que la identidad sea válida, que exista el contexto o que una consulta funcione.
+[OK] 2026-10-21T19:05:04-03:00 | Cassandra | resolucion | resolución de 127.0.0.1 | objetivo=127.0.0.1 | cliente=socket.getaddrinfo | host_resuelto | 0.0 ms
+    detalle: 127.0.0.1 -> 127.0.0.1
+    responde: ¿El nombre configurado se convierte en una dirección IP desde este entorno?
+    no permite concluir: Que haya un proceso escuchando en el puerto.
+[OK] 2026-10-21T19:05:04-03:00 | Cassandra | tcp | puerto CQL (CQL) | objetivo=127.0.0.1:9042 | cliente=socket TCP | conexion_exitosa | 0.3 ms
+    detalle: listener aceptó la conexión en 127.0.0.1:9042 (origen 127.0.0.1) en 0.3 ms
+    responde: ¿Existe un listener que acepte conexiones TCP en host:puerto desde este entorno?
+    no permite concluir: Que el listener sea el producto correcto (puerto equivocado), que la identidad sea válida, que exista el contexto o que una consulta funcione.
+[OK] 2026-10-21T19:05:04-03:00 | Redis | resolucion | resolución de 127.0.0.1 | objetivo=127.0.0.1 | cliente=socket.getaddrinfo | host_resuelto | 0.0 ms
+    detalle: 127.0.0.1 -> 127.0.0.1
+    responde: ¿El nombre configurado se convierte en una dirección IP desde este entorno?
+    no permite concluir: Que haya un proceso escuchando en el puerto.
+[OK] 2026-10-21T19:05:04-03:00 | Redis | tcp | puerto RESP (RESP) | objetivo=127.0.0.1:6379 | cliente=socket TCP | conexion_exitosa | 0.3 ms
+    detalle: listener aceptó la conexión en 127.0.0.1:6379 (origen 127.0.0.1) en 0.3 ms
+    responde: ¿Existe un listener que acepte conexiones TCP en host:puerto desde este entorno?
+    no permite concluir: Que el listener sea el producto correcto (puerto equivocado), que la identidad sea válida, que exista el contexto o que una consulta funcione.
+[OK] 2026-10-21T19:05:04-03:00 | InfluxDB | resolucion | resolución de 127.0.0.1 | objetivo=127.0.0.1 | cliente=socket.getaddrinfo | host_resuelto | 0.0 ms
+    detalle: 127.0.0.1 -> 127.0.0.1
+    responde: ¿El nombre configurado se convierte en una dirección IP desde este entorno?
+    no permite concluir: Que haya un proceso escuchando en el puerto.
+[OK] 2026-10-21T19:05:04-03:00 | InfluxDB | tcp | puerto HTTP API v3 (HTTP) | objetivo=127.0.0.1:8181 | cliente=socket TCP | conexion_exitosa | 0.3 ms
+    detalle: listener aceptó la conexión en 127.0.0.1:8181 (origen 127.0.0.1) en 0.3 ms
+    responde: ¿Existe un listener que acepte conexiones TCP en host:puerto desde este entorno?
+    no permite concluir: Que el listener sea el producto correcto (puerto equivocado), que la identidad sea válida, que exista el contexto o que una consulta funcione.
+[OK] 2026-10-21T19:05:04-03:00 | InterSystems IRIS | resolucion | resolución de 127.0.0.1 | objetivo=127.0.0.1 | cliente=socket.getaddrinfo | host_resuelto | 0.0 ms
+    detalle: 127.0.0.1 -> 127.0.0.1
+    responde: ¿El nombre configurado se convierte en una dirección IP desde este entorno?
+    no permite concluir: Que haya un proceso escuchando en el puerto.
+[OK] 2026-10-21T19:05:04-03:00 | InterSystems IRIS | tcp | Superserver (usado por la API) (Superserver) | objetivo=127.0.0.1:1972 | cliente=socket TCP | conexion_exitosa | 0.4 ms
+    detalle: listener aceptó la conexión en 127.0.0.1:1972 (origen 127.0.0.1) en 0.4 ms
+    responde: ¿Existe un listener que acepte conexiones TCP en host:puerto desde este entorno?
+    no permite concluir: Que el listener sea el producto correcto (puerto equivocado), que la identidad sea válida, que exista el contexto o que una consulta funcione.
+[OK] 2026-10-21T19:05:04-03:00 | InterSystems IRIS | resolucion | resolución de 127.0.0.1 (complementaria) | objetivo=127.0.0.1 | cliente=socket.getaddrinfo | host_resuelto | 0.0 ms
+    detalle: 127.0.0.1 -> 127.0.0.1
+    responde: ¿El nombre configurado se convierte en una dirección IP desde este entorno?
+    no permite concluir: Que haya un proceso escuchando en el puerto.
+[OK] 2026-10-21T19:05:04-03:00 | InterSystems IRIS | tcp | portal HTTP (no usado por la API) (HTTP) (complementaria) | objetivo=127.0.0.1:52773 | cliente=socket TCP | conexion_exitosa | 0.5 ms
+    detalle: listener aceptó la conexión en 127.0.0.1:52773 (origen 127.0.0.1) en 0.4 ms
+    responde: ¿Existe un listener que acepte conexiones TCP en host:puerto desde este entorno?
+    no permite concluir: Que el listener sea el producto correcto (puerto equivocado), que la identidad sea válida, que exista el contexto o que una consulta funcione.
+[OK] 2026-10-21T19:05:04-03:00 | API Fixture 2030 | resolucion | resolución de 127.0.0.1 | objetivo=127.0.0.1 | cliente=socket.getaddrinfo | host_resuelto | 0.0 ms
+    detalle: 127.0.0.1 -> 127.0.0.1
+    responde: ¿El nombre configurado se convierte en una dirección IP desde este entorno?
+    no permite concluir: Que haya un proceso escuchando en el puerto.
+[OK] 2026-10-21T19:05:04-03:00 | API Fixture 2030 | tcp | puerto de la API (uvicorn) (HTTP) | objetivo=127.0.0.1:8000 | cliente=socket TCP | conexion_exitosa | 0.4 ms
+    detalle: listener aceptó la conexión en 127.0.0.1:8000 (origen 127.0.0.1) en 0.4 ms
+    responde: ¿Existe un listener que acepte conexiones TCP en host:puerto desde este entorno?
+    no permite concluir: Que el listener sea el producto correcto (puerto equivocado), que la identidad sea válida, que exista el contexto o que una consulta funcione.
+
+=== RESUMEN ===
+MongoDB: desconocido - las capas ejecutadas no alcanzan para concluir {'OK': 3}
+Neo4j: desconocido - las capas ejecutadas no alcanzan para concluir {'OK': 5}
+Cassandra: desconocido - las capas ejecutadas no alcanzan para concluir {'OK': 3}
+Redis: desconocido - las capas ejecutadas no alcanzan para concluir {'OK': 3}
+InfluxDB: desconocido - las capas ejecutadas no alcanzan para concluir {'OK': 3}
+InterSystems IRIS: desconocido - las capas ejecutadas no alcanzan para concluir {'OK': 5}
+API Fixture 2030: desconocido - las capas ejecutadas no alcanzan para concluir {'OK': 2}

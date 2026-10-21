@@ -1,19 +1,20 @@
 {
   "contexto": {
     "hito": "Hito 11 - Evaluación de la conectividad",
-    "fecha": "2026-10-21T18:47:33-03:00",
-    "modo": "configuracion",
-    "entorno": "notebook del equipo (Linux), proceso Python local",
+    "fecha": "2026-10-21T19:05:03-03:00",
+    "modo": "completo",
+    "entorno": "notebook Windows de Valentino - entorno-local consolidado",
     "origen_de_las_pruebas": "notebook (mismo proceso/entorno desde el que corre la API)",
-    "sistema_operativo": "Linux-6.18.44-fc-v140-x86_64-with-glibc2.39",
-    "python": "3.13.16",
-    "commit": "fc497a6 (con cambios sin commit)",
+    "sistema_operativo": "Windows-10",
+    "python": "3.12.9",
+    "commit": "d2bed7c (con cambios sin commit)",
     "rama": "Conectividad",
     "timeout_por_prueba_s": 3.0,
     "archivos_de_configuracion": {
-      "config/conectividad.env": "ausente",
+      "config/conectividad.env": "presente",
       ".env (API)": "presente"
-    }
+    },
+    "api_base_url": "http://127.0.0.1:8000"
   },
   "resumen": {
     "MongoDB": {
@@ -63,7 +64,7 @@
       "motivo": "ver advertencias de seguridad",
       "conteo": {
         "ADVERTENCIA": 1,
-        "OK": 1
+        "OK": 2
       }
     }
   },
@@ -84,7 +85,7 @@
       "no_concluye": "Que el host exista, que el puerto esté abierto o que la credencial sea válida.",
       "hipotesis": "",
       "siguiente_paso": "",
-      "timestamp": "2026-10-21T18:47:33-03:00"
+      "timestamp": "2026-10-21T19:05:03-03:00"
     },
     {
       "producto": "Neo4j",
@@ -93,7 +94,7 @@
       "objetivo": "127.0.0.1:7687 (Bolt) / 127.0.0.1:7474 (HTTP Browser)",
       "estado": "OK",
       "clasificacion": "configuracion_completa",
-      "detalle": "destino=127.0.0.1:7687 (Bolt) / 127.0.0.1:7474 (HTTP Browser); protocolo=Bolt (aplicación) y HTTP (portal); database=neo4j; autenticacion=basic auth Bolt con usuario presente (valor oculto) y password presente (valor oculto); origen de valores=--set (override), .env (API)",
+      "detalle": "destino=127.0.0.1:7687 (Bolt) / 127.0.0.1:7474 (HTTP Browser); protocolo=Bolt (aplicación) y HTTP (portal); database=neo4j; autenticacion=basic auth Bolt con usuario presente (valor oculto) y password presente (valor oculto); origen de valores=.env (API)",
       "duracion_ms": null,
       "origen": "notebook (mismo entorno que la API)",
       "cliente": "lectura de configuración",
@@ -102,7 +103,7 @@
       "no_concluye": "Que el host exista, que el puerto esté abierto o que la credencial sea válida.",
       "hipotesis": "",
       "siguiente_paso": "",
-      "timestamp": "2026-10-21T18:47:33-03:00"
+      "timestamp": "2026-10-21T19:05:03-03:00"
     },
     {
       "producto": "Cassandra",
@@ -120,7 +121,7 @@
       "no_concluye": "Que el host exista, que el puerto esté abierto o que la credencial sea válida.",
       "hipotesis": "",
       "siguiente_paso": "",
-      "timestamp": "2026-10-21T18:47:33-03:00"
+      "timestamp": "2026-10-21T19:05:03-03:00"
     },
     {
       "producto": "Redis",
@@ -138,7 +139,7 @@
       "no_concluye": "Que el host exista, que el puerto esté abierto o que la credencial sea válida.",
       "hipotesis": "",
       "siguiente_paso": "",
-      "timestamp": "2026-10-21T18:47:33-03:00"
+      "timestamp": "2026-10-21T19:05:03-03:00"
     },
     {
       "producto": "InfluxDB",
@@ -156,7 +157,7 @@
       "no_concluye": "Que el host exista, que el puerto esté abierto o que la credencial sea válida.",
       "hipotesis": "",
       "siguiente_paso": "",
-      "timestamp": "2026-10-21T18:47:33-03:00"
+      "timestamp": "2026-10-21T19:05:03-03:00"
     },
     {
       "producto": "InterSystems IRIS",
@@ -174,7 +175,7 @@
       "no_concluye": "Que el host exista, que el puerto esté abierto o que la credencial sea válida.",
       "hipotesis": "",
       "siguiente_paso": "",
-      "timestamp": "2026-10-21T18:47:33-03:00"
+      "timestamp": "2026-10-21T19:05:03-03:00"
     },
     {
       "producto": "Repositorio",
@@ -192,7 +193,7 @@
       "no_concluye": "Nada sobre la conectividad.",
       "hipotesis": "La credencial de laboratorio se eligió igual al nombre del proyecto.",
       "siguiente_paso": "Usar una credencial propia fuera del laboratorio y rotarla.",
-      "timestamp": "2026-10-21T18:47:33-03:00"
+      "timestamp": "2026-10-21T19:05:03-03:00"
     },
     {
       "producto": "Repositorio",
@@ -210,7 +211,25 @@
       "no_concluye": "Que no existan secretos en otros archivos o en el historial.",
       "hipotesis": "",
       "siguiente_paso": "",
-      "timestamp": "2026-10-21T18:47:33-03:00"
+      "timestamp": "2026-10-21T19:05:03-03:00"
+    },
+    {
+      "producto": "Repositorio",
+      "capa": "configuracion",
+      "prueba": "hito11-conectividad/config/conectividad.env fuera de Git",
+      "objetivo": "hito11-conectividad/config/conectividad.env",
+      "estado": "OK",
+      "clasificacion": "secretos_no_versionados",
+      "detalle": "ignorado por .gitignore y no versionado",
+      "duracion_ms": null,
+      "origen": "notebook (mismo entorno que la API)",
+      "cliente": "git check-ignore / git ls-files",
+      "requerida": false,
+      "pregunta": "¿Las credenciales locales quedan fuera del repositorio?",
+      "no_concluye": "Que no existan secretos en otros archivos o en el historial.",
+      "hipotesis": "",
+      "siguiente_paso": "",
+      "timestamp": "2026-10-21T19:05:04-03:00"
     }
   ]
 }

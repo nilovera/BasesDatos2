@@ -1,0 +1,845 @@
+{
+  "contexto": {
+    "hito": "Hito 11 - Evaluación de la conectividad",
+    "fecha": "2026-10-21T19:05:03-03:00",
+    "modo": "completo",
+    "entorno": "notebook Windows de Valentino - entorno-local consolidado",
+    "origen_de_las_pruebas": "notebook (mismo proceso/entorno desde el que corre la API)",
+    "sistema_operativo": "Windows-10",
+    "python": "3.12.9",
+    "commit": "d2bed7c (con cambios sin commit)",
+    "rama": "Conectividad",
+    "timeout_por_prueba_s": 3.0,
+    "archivos_de_configuracion": {
+      "config/conectividad.env": "presente",
+      ".env (API)": "presente"
+    },
+    "api_base_url": "http://127.0.0.1:8000"
+  },
+  "resumen": {
+    "API Fixture 2030": {
+      "estado": "disponible",
+      "motivo": "todas las capas requeridas probadas terminaron OK",
+      "conteo": {
+        "OK": 3
+      }
+    },
+    "MongoDB": {
+      "estado": "disponible",
+      "motivo": "todas las capas requeridas probadas terminaron OK",
+      "conteo": {
+        "OK": 4
+      }
+    },
+    "Neo4j": {
+      "estado": "disponible",
+      "motivo": "todas las capas requeridas probadas terminaron OK",
+      "conteo": {
+        "OK": 2
+      }
+    },
+    "Cassandra": {
+      "estado": "disponible",
+      "motivo": "todas las capas requeridas probadas terminaron OK",
+      "conteo": {
+        "OK": 3
+      }
+    },
+    "Redis": {
+      "estado": "disponible",
+      "motivo": "todas las capas requeridas probadas terminaron OK",
+      "conteo": {
+        "OK": 2
+      }
+    },
+    "InfluxDB": {
+      "estado": "disponible",
+      "motivo": "todas las capas requeridas probadas terminaron OK",
+      "conteo": {
+        "OK": 3
+      }
+    },
+    "InterSystems IRIS": {
+      "estado": "disponible",
+      "motivo": "todas las capas requeridas probadas terminaron OK",
+      "conteo": {
+        "OK": 2
+      }
+    }
+  },
+  "resultados": [
+    {
+      "producto": "API Fixture 2030",
+      "capa": "api",
+      "prueba": "GET /health/live (liveness)",
+      "objetivo": "http://127.0.0.1:8000/health/live",
+      "estado": "OK",
+      "clasificacion": "operacion_exitosa",
+      "detalle": "status=200 (esperado [200]); 200: la cadena cliente-API-adaptador-producto funcionó para este caso; resumen: estado=ok; X-Request-ID enviado=igual; X-Process-Time-Ms=1.06",
+      "duracion_ms": 29.41,
+      "origen": "notebook (cliente HTTP)",
+      "cliente": "httpx -> API -> adaptador API Fixture 2030",
+      "requerida": true,
+      "pregunta": "¿La ruta responde según el contrato para el caso 'liveness'?",
+      "no_concluye": "Capacidad bajo carga, ni estado de rutas no ejecutadas.",
+      "hipotesis": "",
+      "siguiente_paso": "",
+      "timestamp": "2026-10-21T19:05:12-03:00"
+    },
+    {
+      "producto": "API Fixture 2030",
+      "capa": "api",
+      "prueba": "GET /health/ready (readiness)",
+      "objetivo": "http://127.0.0.1:8000/health/ready",
+      "estado": "OK",
+      "clasificacion": "operacion_exitosa",
+      "detalle": "status=200 (esperado [200, 503]); 200: la cadena cliente-API-adaptador-producto funcionó para este caso; resumen: estado=ready; deps=MongoDB:up,Neo4j:up,Cassandra:up,Redis:up,InfluxDB:up,InterSystems IRIS:up; X-Request-ID enviado=igual; X-Process-Time-Ms=24.72",
+      "duracion_ms": 26.04,
+      "origen": "notebook (cliente HTTP)",
+      "cliente": "httpx -> API -> adaptador API Fixture 2030",
+      "requerida": true,
+      "pregunta": "¿La ruta responde según el contrato para el caso 'readiness'?",
+      "no_concluye": "Capacidad bajo carga, ni estado de rutas no ejecutadas.",
+      "hipotesis": "",
+      "siguiente_paso": "",
+      "timestamp": "2026-10-21T19:05:12-03:00"
+    },
+    {
+      "producto": "API Fixture 2030",
+      "capa": "api",
+      "prueba": "GET /health/dependencias (diagnóstico por dependencia)",
+      "objetivo": "http://127.0.0.1:8000/health/dependencias?refrescar=true",
+      "estado": "OK",
+      "clasificacion": "operacion_exitosa",
+      "detalle": "status=200 (esperado [200]); 200: la cadena cliente-API-adaptador-producto funcionó para este caso; resumen: estado_general=ready; deps=MongoDB:up,Neo4j:up,Cassandra:up,Redis:up,InfluxDB:up,InterSystems IRIS:up; X-Request-ID enviado=igual; X-Process-Time-Ms=0.69",
+      "duracion_ms": 2.02,
+      "origen": "notebook (cliente HTTP)",
+      "cliente": "httpx -> API -> adaptador API Fixture 2030",
+      "requerida": true,
+      "pregunta": "¿La ruta responde según el contrato para el caso 'diagnóstico por dependencia'?",
+      "no_concluye": "Capacidad bajo carga, ni estado de rutas no ejecutadas.",
+      "hipotesis": "",
+      "siguiente_paso": "",
+      "timestamp": "2026-10-21T19:05:12-03:00"
+    },
+    {
+      "producto": "MongoDB",
+      "capa": "api",
+      "prueba": "GET /api/v1/equipos/EQ-01 (operación exitosa)",
+      "objetivo": "http://127.0.0.1:8000/api/v1/equipos/EQ-01",
+      "estado": "OK",
+      "clasificacion": "operacion_exitosa",
+      "detalle": "status=200 (esperado [200]); 200: la cadena cliente-API-adaptador-producto funcionó para este caso; resumen: codigo=EQ-01; fuente_datos=MongoDB; X-Request-ID enviado=igual; X-Process-Time-Ms=1.76",
+      "duracion_ms": 2.88,
+      "origen": "notebook (cliente HTTP)",
+      "cliente": "httpx -> API -> adaptador MongoDB",
+      "requerida": true,
+      "pregunta": "¿La ruta responde según el contrato para el caso 'operación exitosa'?",
+      "no_concluye": "Capacidad bajo carga, ni estado de rutas no ejecutadas.",
+      "hipotesis": "",
+      "siguiente_paso": "",
+      "timestamp": "2026-10-21T19:05:12-03:00"
+    },
+    {
+      "producto": "MongoDB",
+      "capa": "api",
+      "prueba": "GET /api/v1/equipos/EQ-99 (recurso inexistente)",
+      "objetivo": "http://127.0.0.1:8000/api/v1/equipos/EQ-99",
+      "estado": "OK",
+      "clasificacion": "recurso_inexistente",
+      "detalle": "status=404 (esperado [404]); 404 RECURSO_NO_ENCONTRADO: la dependencia respondió y el recurso no existe; resumen: error.codigo=RECURSO_NO_ENCONTRADO; X-Request-ID enviado=igual; X-Process-Time-Ms=1.47",
+      "duracion_ms": 2.53,
+      "origen": "notebook (cliente HTTP)",
+      "cliente": "httpx -> API -> adaptador MongoDB",
+      "requerida": true,
+      "pregunta": "¿La ruta responde según el contrato para el caso 'recurso inexistente'?",
+      "no_concluye": "Capacidad bajo carga, ni estado de rutas no ejecutadas.",
+      "hipotesis": "",
+      "siguiente_paso": "",
+      "timestamp": "2026-10-21T19:05:12-03:00"
+    },
+    {
+      "producto": "MongoDB",
+      "capa": "api",
+      "prueba": "GET /api/v1/equipos/ARG (error de validación)",
+      "objetivo": "http://127.0.0.1:8000/api/v1/equipos/ARG",
+      "estado": "OK",
+      "clasificacion": "error_validacion",
+      "detalle": "status=422 (esperado [422]); 422 DATOS_INVALIDOS: rechazado por la API antes de consultar la dependencia; resumen: error.codigo=DATOS_INVALIDOS; X-Request-ID enviado=igual; X-Process-Time-Ms=0.43",
+      "duracion_ms": 1.52,
+      "origen": "notebook (cliente HTTP)",
+      "cliente": "httpx -> API -> adaptador MongoDB",
+      "requerida": true,
+      "pregunta": "¿La ruta responde según el contrato para el caso 'error de validación'?",
+      "no_concluye": "Capacidad bajo carga, ni estado de rutas no ejecutadas.",
+      "hipotesis": "",
+      "siguiente_paso": "",
+      "timestamp": "2026-10-21T19:05:12-03:00"
+    },
+    {
+      "producto": "MongoDB",
+      "capa": "api",
+      "prueba": "GET /api/v1/jugadores (lectura paginada)",
+      "objetivo": "http://127.0.0.1:8000/api/v1/jugadores?equipo_codigo=EQ-01&limit=3",
+      "estado": "OK",
+      "clasificacion": "operacion_exitosa",
+      "detalle": "status=200 (esperado [200]); 200: la cadena cliente-API-adaptador-producto funcionó para este caso; resumen: fuente_datos=MongoDB; datos=3; X-Request-ID enviado=igual; X-Process-Time-Ms=3.81",
+      "duracion_ms": 4.92,
+      "origen": "notebook (cliente HTTP)",
+      "cliente": "httpx -> API -> adaptador MongoDB",
+      "requerida": true,
+      "pregunta": "¿La ruta responde según el contrato para el caso 'lectura paginada'?",
+      "no_concluye": "Capacidad bajo carga, ni estado de rutas no ejecutadas.",
+      "hipotesis": "",
+      "siguiente_paso": "",
+      "timestamp": "2026-10-21T19:05:12-03:00"
+    },
+    {
+      "producto": "Neo4j",
+      "capa": "api",
+      "prueba": "GET /api/v1/partidos/PAR-0001/eventos (operación exitosa)",
+      "objetivo": "http://127.0.0.1:8000/api/v1/partidos/PAR-0001/eventos",
+      "estado": "OK",
+      "clasificacion": "operacion_exitosa",
+      "detalle": "status=200 (esperado [200]); 200: la cadena cliente-API-adaptador-producto funcionó para este caso; resumen: codigo=PAR-0001; fuente_datos=Neo4j; eventos=2; X-Request-ID enviado=igual; X-Process-Time-Ms=4.40",
+      "duracion_ms": 5.72,
+      "origen": "notebook (cliente HTTP)",
+      "cliente": "httpx -> API -> adaptador Neo4j",
+      "requerida": true,
+      "pregunta": "¿La ruta responde según el contrato para el caso 'operación exitosa'?",
+      "no_concluye": "Capacidad bajo carga, ni estado de rutas no ejecutadas.",
+      "hipotesis": "",
+      "siguiente_paso": "",
+      "timestamp": "2026-10-21T19:05:12-03:00"
+    },
+    {
+      "producto": "Neo4j",
+      "capa": "api",
+      "prueba": "GET /api/v1/partidos/PAR-9999/eventos (recurso inexistente)",
+      "objetivo": "http://127.0.0.1:8000/api/v1/partidos/PAR-9999/eventos",
+      "estado": "OK",
+      "clasificacion": "recurso_inexistente",
+      "detalle": "status=404 (esperado [404]); 404 RECURSO_NO_ENCONTRADO: la dependencia respondió y el recurso no existe; resumen: error.codigo=RECURSO_NO_ENCONTRADO; X-Request-ID enviado=igual; X-Process-Time-Ms=3.07",
+      "duracion_ms": 4.32,
+      "origen": "notebook (cliente HTTP)",
+      "cliente": "httpx -> API -> adaptador Neo4j",
+      "requerida": true,
+      "pregunta": "¿La ruta responde según el contrato para el caso 'recurso inexistente'?",
+      "no_concluye": "Capacidad bajo carga, ni estado de rutas no ejecutadas.",
+      "hipotesis": "",
+      "siguiente_paso": "",
+      "timestamp": "2026-10-21T19:05:12-03:00"
+    },
+    {
+      "producto": "Cassandra",
+      "capa": "api",
+      "prueba": "GET /api/v1/partidos/PAR-0001/comentarios (operación exitosa)",
+      "objetivo": "http://127.0.0.1:8000/api/v1/partidos/PAR-0001/comentarios?bucket_10min=203006132000&limit=3",
+      "estado": "OK",
+      "clasificacion": "operacion_exitosa",
+      "detalle": "status=200 (esperado [200]); 200: la cadena cliente-API-adaptador-producto funcionó para este caso; resumen: fuente_datos=Cassandra; datos=3; X-Request-ID enviado=igual; X-Process-Time-Ms=10.34",
+      "duracion_ms": 11.69,
+      "origen": "notebook (cliente HTTP)",
+      "cliente": "httpx -> API -> adaptador Cassandra",
+      "requerida": true,
+      "pregunta": "¿La ruta responde según el contrato para el caso 'operación exitosa'?",
+      "no_concluye": "Capacidad bajo carga, ni estado de rutas no ejecutadas.",
+      "hipotesis": "",
+      "siguiente_paso": "",
+      "timestamp": "2026-10-21T19:05:12-03:00"
+    },
+    {
+      "producto": "Cassandra",
+      "capa": "api",
+      "prueba": "GET /api/v1/partidos/PAR-9999/comentarios (respuesta vacía válida)",
+      "objetivo": "http://127.0.0.1:8000/api/v1/partidos/PAR-9999/comentarios?bucket_10min=203006132000&limit=3",
+      "estado": "OK",
+      "clasificacion": "vacio_valido",
+      "detalle": "status=200 (esperado [200]); 200 con lista vacía: ausencia válida de datos, no un error; resumen: fuente_datos=Cassandra; datos=0; X-Request-ID enviado=igual; X-Process-Time-Ms=13.40",
+      "duracion_ms": 14.87,
+      "origen": "notebook (cliente HTTP)",
+      "cliente": "httpx -> API -> adaptador Cassandra",
+      "requerida": true,
+      "pregunta": "¿La ruta responde según el contrato para el caso 'respuesta vacía válida'?",
+      "no_concluye": "Capacidad bajo carga, ni estado de rutas no ejecutadas.",
+      "hipotesis": "",
+      "siguiente_paso": "",
+      "timestamp": "2026-10-21T19:05:12-03:00"
+    },
+    {
+      "producto": "Cassandra",
+      "capa": "api",
+      "prueba": "GET /api/v1/partidos/PAR-0001/comentarios (error de validación)",
+      "objetivo": "http://127.0.0.1:8000/api/v1/partidos/PAR-0001/comentarios?bucket_10min=203006132005",
+      "estado": "OK",
+      "clasificacion": "error_validacion",
+      "detalle": "status=422 (esperado [422]); 422 DATOS_INVALIDOS: rechazado por la API antes de consultar la dependencia; resumen: error.codigo=DATOS_INVALIDOS; X-Request-ID enviado=igual; X-Process-Time-Ms=0.37",
+      "duracion_ms": 1.69,
+      "origen": "notebook (cliente HTTP)",
+      "cliente": "httpx -> API -> adaptador Cassandra",
+      "requerida": true,
+      "pregunta": "¿La ruta responde según el contrato para el caso 'error de validación'?",
+      "no_concluye": "Capacidad bajo carga, ni estado de rutas no ejecutadas.",
+      "hipotesis": "",
+      "siguiente_paso": "",
+      "timestamp": "2026-10-21T19:05:12-03:00"
+    },
+    {
+      "producto": "Redis",
+      "capa": "api",
+      "prueba": "GET /api/v1/sesiones/SES-API-0001 (operación exitosa o clave ausente (200 si la sesión fue preparada; 404 si no existe o expiró))",
+      "objetivo": "http://127.0.0.1:8000/api/v1/sesiones/SES-API-0001",
+      "estado": "OK",
+      "clasificacion": "operacion_exitosa",
+      "detalle": "status=200 (esperado [200, 404]); 200: la cadena cliente-API-adaptador-producto funcionó para este caso; resumen: estado=activa; fuente_datos=Redis; X-Request-ID enviado=igual; X-Process-Time-Ms=1.40",
+      "duracion_ms": 2.46,
+      "origen": "notebook (cliente HTTP)",
+      "cliente": "httpx -> API -> adaptador Redis",
+      "requerida": true,
+      "pregunta": "¿La ruta responde según el contrato para el caso 'operación exitosa o clave ausente (200 si la sesión fue preparada; 404 si no existe o expiró)'?",
+      "no_concluye": "Capacidad bajo carga, ni estado de rutas no ejecutadas.",
+      "hipotesis": "",
+      "siguiente_paso": "",
+      "timestamp": "2026-10-21T19:05:12-03:00"
+    },
+    {
+      "producto": "Redis",
+      "capa": "api",
+      "prueba": "GET /api/v1/sesiones/SES-DIAG-INEXISTENTE (clave ausente)",
+      "objetivo": "http://127.0.0.1:8000/api/v1/sesiones/SES-DIAG-INEXISTENTE",
+      "estado": "OK",
+      "clasificacion": "recurso_inexistente",
+      "detalle": "status=404 (esperado [404]); 404 SESION_NO_ENCONTRADA_O_EXPIRADA: la dependencia respondió y el recurso no existe; resumen: error.codigo=SESION_NO_ENCONTRADA_O_EXPIRADA; X-Request-ID enviado=igual; X-Process-Time-Ms=1.13",
+      "duracion_ms": 2.32,
+      "origen": "notebook (cliente HTTP)",
+      "cliente": "httpx -> API -> adaptador Redis",
+      "requerida": true,
+      "pregunta": "¿La ruta responde según el contrato para el caso 'clave ausente'?",
+      "no_concluye": "Capacidad bajo carga, ni estado de rutas no ejecutadas.",
+      "hipotesis": "",
+      "siguiente_paso": "",
+      "timestamp": "2026-10-21T19:05:12-03:00"
+    },
+    {
+      "producto": "InfluxDB",
+      "capa": "api",
+      "prueba": "GET /api/v1/partidos/PAR-0001/estadisticas (operación exitosa)",
+      "objetivo": "http://127.0.0.1:8000/api/v1/partidos/PAR-0001/estadisticas?desde=2030-06-13T20:00:00Z&hasta=2030-06-13T20:01:00Z&limit=10",
+      "estado": "OK",
+      "clasificacion": "operacion_exitosa",
+      "detalle": "status=200 (esperado [200]); 200: la cadena cliente-API-adaptador-producto funcionó para este caso; resumen: fuente_datos=InfluxDB; datos=10; X-Request-ID enviado=igual; X-Process-Time-Ms=6.71",
+      "duracion_ms": 7.93,
+      "origen": "notebook (cliente HTTP)",
+      "cliente": "httpx -> API -> adaptador InfluxDB",
+      "requerida": true,
+      "pregunta": "¿La ruta responde según el contrato para el caso 'operación exitosa'?",
+      "no_concluye": "Capacidad bajo carga, ni estado de rutas no ejecutadas.",
+      "hipotesis": "",
+      "siguiente_paso": "",
+      "timestamp": "2026-10-21T19:05:12-03:00"
+    },
+    {
+      "producto": "InfluxDB",
+      "capa": "api",
+      "prueba": "GET /api/v1/partidos/PAR-0001/estadisticas (respuesta vacía válida)",
+      "objetivo": "http://127.0.0.1:8000/api/v1/partidos/PAR-0001/estadisticas?desde=2031-01-01T00:00:00Z&hasta=2031-01-01T00:01:00Z",
+      "estado": "OK",
+      "clasificacion": "vacio_valido",
+      "detalle": "status=200 (esperado [200]); 200 con lista vacía: ausencia válida de datos, no un error; resumen: fuente_datos=InfluxDB; datos=0; X-Request-ID enviado=igual; X-Process-Time-Ms=4.89",
+      "duracion_ms": 6.17,
+      "origen": "notebook (cliente HTTP)",
+      "cliente": "httpx -> API -> adaptador InfluxDB",
+      "requerida": true,
+      "pregunta": "¿La ruta responde según el contrato para el caso 'respuesta vacía válida'?",
+      "no_concluye": "Capacidad bajo carga, ni estado de rutas no ejecutadas.",
+      "hipotesis": "",
+      "siguiente_paso": "",
+      "timestamp": "2026-10-21T19:05:12-03:00"
+    },
+    {
+      "producto": "InfluxDB",
+      "capa": "api",
+      "prueba": "GET /api/v1/partidos/PAR-0001/estadisticas (error de validación)",
+      "objetivo": "http://127.0.0.1:8000/api/v1/partidos/PAR-0001/estadisticas?desde=2030-06-13T20:01:00Z&hasta=2030-06-13T20:00:00Z",
+      "estado": "OK",
+      "clasificacion": "error_validacion",
+      "detalle": "status=422 (esperado [422]); 422 VENTANA_TEMPORAL_INVALIDA: rechazado por la API antes de consultar la dependencia; resumen: error.codigo=VENTANA_TEMPORAL_INVALIDA; X-Request-ID enviado=igual; X-Process-Time-Ms=0.72",
+      "duracion_ms": 1.9,
+      "origen": "notebook (cliente HTTP)",
+      "cliente": "httpx -> API -> adaptador InfluxDB",
+      "requerida": true,
+      "pregunta": "¿La ruta responde según el contrato para el caso 'error de validación'?",
+      "no_concluye": "Capacidad bajo carga, ni estado de rutas no ejecutadas.",
+      "hipotesis": "",
+      "siguiente_paso": "",
+      "timestamp": "2026-10-21T19:05:12-03:00"
+    },
+    {
+      "producto": "InterSystems IRIS",
+      "capa": "api",
+      "prueba": "GET /api/v1/partidos/PAR-0001/detalle (operación exitosa)",
+      "objetivo": "http://127.0.0.1:8000/api/v1/partidos/PAR-0001/detalle",
+      "estado": "OK",
+      "clasificacion": "operacion_exitosa",
+      "detalle": "status=200 (esperado [200]); 200: la cadena cliente-API-adaptador-producto funcionó para este caso; resumen: estado=Finalizado; codigo=PAR-0001; fuente_datos=InterSystems IRIS; eventos=1; X-Request-ID enviado=igual; X-Process-Time-Ms=23.72",
+      "duracion_ms": 24.98,
+      "origen": "notebook (cliente HTTP)",
+      "cliente": "httpx -> API -> adaptador InterSystems IRIS",
+      "requerida": true,
+      "pregunta": "¿La ruta responde según el contrato para el caso 'operación exitosa'?",
+      "no_concluye": "Capacidad bajo carga, ni estado de rutas no ejecutadas.",
+      "hipotesis": "",
+      "siguiente_paso": "",
+      "timestamp": "2026-10-21T19:05:12-03:00"
+    },
+    {
+      "producto": "InterSystems IRIS",
+      "capa": "api",
+      "prueba": "GET /api/v1/partidos/PAR-9999/detalle (recurso inexistente)",
+      "objetivo": "http://127.0.0.1:8000/api/v1/partidos/PAR-9999/detalle",
+      "estado": "OK",
+      "clasificacion": "recurso_inexistente",
+      "detalle": "status=404 (esperado [404]); 404 PARTIDO_IRIS_NO_ENCONTRADO: la dependencia respondió y el recurso no existe; resumen: error.codigo=PARTIDO_IRIS_NO_ENCONTRADO; X-Request-ID enviado=igual; X-Process-Time-Ms=102.84",
+      "duracion_ms": 104.42,
+      "origen": "notebook (cliente HTTP)",
+      "cliente": "httpx -> API -> adaptador InterSystems IRIS",
+      "requerida": true,
+      "pregunta": "¿La ruta responde según el contrato para el caso 'recurso inexistente'?",
+      "no_concluye": "Capacidad bajo carga, ni estado de rutas no ejecutadas.",
+      "hipotesis": "",
+      "siguiente_paso": "",
+      "timestamp": "2026-10-21T19:05:13-03:00"
+    }
+  ],
+  "solicitudes": [
+    {
+      "metodo": "GET",
+      "path": "/health/live",
+      "parametros": {},
+      "caso": "liveness",
+      "dependencia_esperada": "API Fixture 2030",
+      "status": 200,
+      "status_esperado": [
+        200
+      ],
+      "tiempo_cliente_ms": 29.41,
+      "x_process_time_ms": "1.06",
+      "request_id": "be68c756-59e9-4147-ab2c-791fc377d950",
+      "request_id_devuelto_igual": true,
+      "resumen": "estado=ok",
+      "clasificacion": "operacion_exitosa",
+      "interpretacion": "200: la cadena cliente-API-adaptador-producto funcionó para este caso",
+      "log_asociado": [
+        "2026-10-21 19:05:12,795 | INFO | fixture2030.request | {\"evento\": \"http_request\", \"request_id\": \"be68c756-59e9-4147-ab2c-791fc377d950\", \"metodo\": \"GET\", \"ruta\": \"/health/live\", \"dependencia\": \"api\", \"resultado\": 200, \"duracion_ms\": 1.06}"
+      ]
+    },
+    {
+      "metodo": "GET",
+      "path": "/health/ready",
+      "parametros": {},
+      "caso": "readiness",
+      "dependencia_esperada": "API Fixture 2030",
+      "status": 200,
+      "status_esperado": [
+        200,
+        503
+      ],
+      "tiempo_cliente_ms": 26.04,
+      "x_process_time_ms": "24.72",
+      "request_id": "169174b3-73d8-4993-9ef3-0262c115e714",
+      "request_id_devuelto_igual": true,
+      "resumen": "estado=ready; deps=MongoDB:up,Neo4j:up,Cassandra:up,Redis:up,InfluxDB:up,InterSystems IRIS:up",
+      "clasificacion": "operacion_exitosa",
+      "interpretacion": "200: la cadena cliente-API-adaptador-producto funcionó para este caso",
+      "log_asociado": [
+        "2026-10-21 19:05:12,821 | INFO | fixture2030.request | {\"evento\": \"http_request\", \"request_id\": \"169174b3-73d8-4993-9ef3-0262c115e714\", \"metodo\": \"GET\", \"ruta\": \"/health/ready\", \"dependencia\": \"health\", \"resultado\": 200, \"duracion_ms\": 24.72}"
+      ]
+    },
+    {
+      "metodo": "GET",
+      "path": "/health/dependencias",
+      "parametros": {
+        "refrescar": "true"
+      },
+      "caso": "diagnóstico por dependencia",
+      "dependencia_esperada": "API Fixture 2030",
+      "status": 200,
+      "status_esperado": [
+        200
+      ],
+      "tiempo_cliente_ms": 2.02,
+      "x_process_time_ms": "0.69",
+      "request_id": "e6e466b3-5b4b-4a2f-8e25-d284c5fc1f10",
+      "request_id_devuelto_igual": true,
+      "resumen": "estado_general=ready; deps=MongoDB:up,Neo4j:up,Cassandra:up,Redis:up,InfluxDB:up,InterSystems IRIS:up",
+      "clasificacion": "operacion_exitosa",
+      "interpretacion": "200: la cadena cliente-API-adaptador-producto funcionó para este caso",
+      "log_asociado": [
+        "2026-10-21 19:05:12,824 | INFO | fixture2030.request | {\"evento\": \"http_request\", \"request_id\": \"e6e466b3-5b4b-4a2f-8e25-d284c5fc1f10\", \"metodo\": \"GET\", \"ruta\": \"/health/dependencias\", \"dependencia\": \"health\", \"resultado\": 200, \"duracion_ms\": 0.69}"
+      ]
+    },
+    {
+      "metodo": "GET",
+      "path": "/api/v1/equipos/EQ-01",
+      "parametros": {},
+      "caso": "operación exitosa",
+      "dependencia_esperada": "MongoDB",
+      "status": 200,
+      "status_esperado": [
+        200
+      ],
+      "tiempo_cliente_ms": 2.88,
+      "x_process_time_ms": "1.76",
+      "request_id": "bf05aa91-4c26-4465-b034-58dc2cbcbab5",
+      "request_id_devuelto_igual": true,
+      "resumen": "codigo=EQ-01; fuente_datos=MongoDB",
+      "clasificacion": "operacion_exitosa",
+      "interpretacion": "200: la cadena cliente-API-adaptador-producto funcionó para este caso",
+      "log_asociado": [
+        "2026-10-21 19:05:12,827 | INFO | fixture2030.request | {\"evento\": \"http_request\", \"request_id\": \"bf05aa91-4c26-4465-b034-58dc2cbcbab5\", \"metodo\": \"GET\", \"ruta\": \"/api/v1/equipos/EQ-01\", \"dependencia\": \"MongoDB\", \"resultado\": 200, \"duracion_ms\": 1.76}"
+      ]
+    },
+    {
+      "metodo": "GET",
+      "path": "/api/v1/equipos/EQ-99",
+      "parametros": {},
+      "caso": "recurso inexistente",
+      "dependencia_esperada": "MongoDB",
+      "status": 404,
+      "status_esperado": [
+        404
+      ],
+      "tiempo_cliente_ms": 2.53,
+      "x_process_time_ms": "1.47",
+      "request_id": "c95a3160-1a3f-4a78-a33d-383b727431d7",
+      "request_id_devuelto_igual": true,
+      "resumen": "error.codigo=RECURSO_NO_ENCONTRADO",
+      "clasificacion": "recurso_inexistente",
+      "interpretacion": "404 RECURSO_NO_ENCONTRADO: la dependencia respondió y el recurso no existe",
+      "log_asociado": [
+        "2026-10-21 19:05:12,829 | WARNING | fixture2030.error | request_id=c95a3160-1a3f-4a78-a33d-383b727431d7 dependencia=api codigo=RECURSO_NO_ENCONTRADO status=404",
+        "2026-10-21 19:05:12,829 | INFO | fixture2030.request | {\"evento\": \"http_request\", \"request_id\": \"c95a3160-1a3f-4a78-a33d-383b727431d7\", \"metodo\": \"GET\", \"ruta\": \"/api/v1/equipos/EQ-99\", \"dependencia\": \"MongoDB\", \"resultado\": 404, \"duracion_ms\": 1.47}"
+      ]
+    },
+    {
+      "metodo": "GET",
+      "path": "/api/v1/equipos/ARG",
+      "parametros": {},
+      "caso": "error de validación",
+      "dependencia_esperada": "MongoDB",
+      "status": 422,
+      "status_esperado": [
+        422
+      ],
+      "tiempo_cliente_ms": 1.52,
+      "x_process_time_ms": "0.43",
+      "request_id": "f2ba1597-e24e-405f-a9aa-44fd9b677538",
+      "request_id_devuelto_igual": true,
+      "resumen": "error.codigo=DATOS_INVALIDOS",
+      "clasificacion": "error_validacion",
+      "interpretacion": "422 DATOS_INVALIDOS: rechazado por la API antes de consultar la dependencia",
+      "log_asociado": [
+        "2026-10-21 19:05:12,831 | INFO | fixture2030.request | {\"evento\": \"http_request\", \"request_id\": \"f2ba1597-e24e-405f-a9aa-44fd9b677538\", \"metodo\": \"GET\", \"ruta\": \"/api/v1/equipos/ARG\", \"dependencia\": \"MongoDB\", \"resultado\": 422, \"duracion_ms\": 0.43}"
+      ]
+    },
+    {
+      "metodo": "GET",
+      "path": "/api/v1/jugadores",
+      "parametros": {
+        "equipo_codigo": "EQ-01",
+        "limit": 3
+      },
+      "caso": "lectura paginada",
+      "dependencia_esperada": "MongoDB",
+      "status": 200,
+      "status_esperado": [
+        200
+      ],
+      "tiempo_cliente_ms": 4.92,
+      "x_process_time_ms": "3.81",
+      "request_id": "eafff12d-00d3-4d3c-b0fd-e2dc468e9b1c",
+      "request_id_devuelto_igual": true,
+      "resumen": "fuente_datos=MongoDB; datos=3",
+      "clasificacion": "operacion_exitosa",
+      "interpretacion": "200: la cadena cliente-API-adaptador-producto funcionó para este caso",
+      "log_asociado": [
+        "2026-10-21 19:05:12,836 | INFO | fixture2030.request | {\"evento\": \"http_request\", \"request_id\": \"eafff12d-00d3-4d3c-b0fd-e2dc468e9b1c\", \"metodo\": \"GET\", \"ruta\": \"/api/v1/jugadores\", \"dependencia\": \"MongoDB\", \"resultado\": 200, \"duracion_ms\": 3.81}"
+      ]
+    },
+    {
+      "metodo": "GET",
+      "path": "/api/v1/partidos/PAR-0001/eventos",
+      "parametros": {},
+      "caso": "operación exitosa",
+      "dependencia_esperada": "Neo4j",
+      "status": 200,
+      "status_esperado": [
+        200
+      ],
+      "tiempo_cliente_ms": 5.72,
+      "x_process_time_ms": "4.40",
+      "request_id": "868e7dbf-1374-4bc8-b1c4-d46f0a793714",
+      "request_id_devuelto_igual": true,
+      "resumen": "codigo=PAR-0001; fuente_datos=Neo4j; eventos=2",
+      "clasificacion": "operacion_exitosa",
+      "interpretacion": "200: la cadena cliente-API-adaptador-producto funcionó para este caso",
+      "log_asociado": [
+        "2026-10-21 19:05:12,841 | INFO | fixture2030.request | {\"evento\": \"http_request\", \"request_id\": \"868e7dbf-1374-4bc8-b1c4-d46f0a793714\", \"metodo\": \"GET\", \"ruta\": \"/api/v1/partidos/PAR-0001/eventos\", \"dependencia\": \"Neo4j\", \"resultado\": 200, \"duracion_ms\": 4.4}"
+      ]
+    },
+    {
+      "metodo": "GET",
+      "path": "/api/v1/partidos/PAR-9999/eventos",
+      "parametros": {},
+      "caso": "recurso inexistente",
+      "dependencia_esperada": "Neo4j",
+      "status": 404,
+      "status_esperado": [
+        404
+      ],
+      "tiempo_cliente_ms": 4.32,
+      "x_process_time_ms": "3.07",
+      "request_id": "a95d955d-ba3f-489d-ba95-741ee5e66d79",
+      "request_id_devuelto_igual": true,
+      "resumen": "error.codigo=RECURSO_NO_ENCONTRADO",
+      "clasificacion": "recurso_inexistente",
+      "interpretacion": "404 RECURSO_NO_ENCONTRADO: la dependencia respondió y el recurso no existe",
+      "log_asociado": [
+        "2026-10-21 19:05:12,846 | WARNING | fixture2030.error | request_id=a95d955d-ba3f-489d-ba95-741ee5e66d79 dependencia=api codigo=RECURSO_NO_ENCONTRADO status=404",
+        "2026-10-21 19:05:12,846 | INFO | fixture2030.request | {\"evento\": \"http_request\", \"request_id\": \"a95d955d-ba3f-489d-ba95-741ee5e66d79\", \"metodo\": \"GET\", \"ruta\": \"/api/v1/partidos/PAR-9999/eventos\", \"dependencia\": \"Neo4j\", \"resultado\": 404, \"duracion_ms\": 3.07}"
+      ]
+    },
+    {
+      "metodo": "GET",
+      "path": "/api/v1/partidos/PAR-0001/comentarios",
+      "parametros": {
+        "bucket_10min": "203006132000",
+        "limit": 3
+      },
+      "caso": "operación exitosa",
+      "dependencia_esperada": "Cassandra",
+      "status": 200,
+      "status_esperado": [
+        200
+      ],
+      "tiempo_cliente_ms": 11.69,
+      "x_process_time_ms": "10.34",
+      "request_id": "f7c9d595-c5a2-4b2a-b5ab-b20a71ef32ed",
+      "request_id_devuelto_igual": true,
+      "resumen": "fuente_datos=Cassandra; datos=3",
+      "clasificacion": "operacion_exitosa",
+      "interpretacion": "200: la cadena cliente-API-adaptador-producto funcionó para este caso",
+      "log_asociado": [
+        "2026-10-21 19:05:12,858 | INFO | fixture2030.request | {\"evento\": \"http_request\", \"request_id\": \"f7c9d595-c5a2-4b2a-b5ab-b20a71ef32ed\", \"metodo\": \"GET\", \"ruta\": \"/api/v1/partidos/PAR-0001/comentarios\", \"dependencia\": \"Cassandra\", \"resultado\": 200, \"duracion_ms\": 10.34}"
+      ]
+    },
+    {
+      "metodo": "GET",
+      "path": "/api/v1/partidos/PAR-9999/comentarios",
+      "parametros": {
+        "bucket_10min": "203006132000",
+        "limit": 3
+      },
+      "caso": "respuesta vacía válida",
+      "dependencia_esperada": "Cassandra",
+      "status": 200,
+      "status_esperado": [
+        200
+      ],
+      "tiempo_cliente_ms": 14.87,
+      "x_process_time_ms": "13.40",
+      "request_id": "3465eef4-28cd-455e-b368-5b94fcafc51b",
+      "request_id_devuelto_igual": true,
+      "resumen": "fuente_datos=Cassandra; datos=0",
+      "clasificacion": "vacio_valido",
+      "interpretacion": "200 con lista vacía: ausencia válida de datos, no un error",
+      "log_asociado": [
+        "2026-10-21 19:05:12,873 | INFO | fixture2030.request | {\"evento\": \"http_request\", \"request_id\": \"3465eef4-28cd-455e-b368-5b94fcafc51b\", \"metodo\": \"GET\", \"ruta\": \"/api/v1/partidos/PAR-9999/comentarios\", \"dependencia\": \"Cassandra\", \"resultado\": 200, \"duracion_ms\": 13.4}"
+      ]
+    },
+    {
+      "metodo": "GET",
+      "path": "/api/v1/partidos/PAR-0001/comentarios",
+      "parametros": {
+        "bucket_10min": "203006132005"
+      },
+      "caso": "error de validación",
+      "dependencia_esperada": "Cassandra",
+      "status": 422,
+      "status_esperado": [
+        422
+      ],
+      "tiempo_cliente_ms": 1.69,
+      "x_process_time_ms": "0.37",
+      "request_id": "8a2c54a2-4473-4d83-bf85-324a826babe1",
+      "request_id_devuelto_igual": true,
+      "resumen": "error.codigo=DATOS_INVALIDOS",
+      "clasificacion": "error_validacion",
+      "interpretacion": "422 DATOS_INVALIDOS: rechazado por la API antes de consultar la dependencia",
+      "log_asociado": [
+        "2026-10-21 19:05:12,875 | INFO | fixture2030.request | {\"evento\": \"http_request\", \"request_id\": \"8a2c54a2-4473-4d83-bf85-324a826babe1\", \"metodo\": \"GET\", \"ruta\": \"/api/v1/partidos/PAR-0001/comentarios\", \"dependencia\": \"api\", \"resultado\": 422, \"duracion_ms\": 0.37}"
+      ]
+    },
+    {
+      "metodo": "GET",
+      "path": "/api/v1/sesiones/SES-API-0001",
+      "parametros": {},
+      "caso": "operación exitosa o clave ausente (200 si la sesión fue preparada; 404 si no existe o expiró)",
+      "dependencia_esperada": "Redis",
+      "status": 200,
+      "status_esperado": [
+        200,
+        404
+      ],
+      "tiempo_cliente_ms": 2.46,
+      "x_process_time_ms": "1.40",
+      "request_id": "8402599e-99fc-4098-a10c-330738b4b020",
+      "request_id_devuelto_igual": true,
+      "resumen": "estado=activa; fuente_datos=Redis",
+      "clasificacion": "operacion_exitosa",
+      "interpretacion": "200: la cadena cliente-API-adaptador-producto funcionó para este caso",
+      "log_asociado": [
+        "2026-10-21 19:05:12,877 | INFO | fixture2030.request | {\"evento\": \"http_request\", \"request_id\": \"8402599e-99fc-4098-a10c-330738b4b020\", \"metodo\": \"GET\", \"ruta\": \"/api/v1/sesiones/SES-API-0001\", \"dependencia\": \"Redis\", \"resultado\": 200, \"duracion_ms\": 1.4}"
+      ]
+    },
+    {
+      "metodo": "GET",
+      "path": "/api/v1/sesiones/SES-DIAG-INEXISTENTE",
+      "parametros": {},
+      "caso": "clave ausente",
+      "dependencia_esperada": "Redis",
+      "status": 404,
+      "status_esperado": [
+        404
+      ],
+      "tiempo_cliente_ms": 2.32,
+      "x_process_time_ms": "1.13",
+      "request_id": "fd471ff4-1c91-40e8-a51c-ba63beb446b8",
+      "request_id_devuelto_igual": true,
+      "resumen": "error.codigo=SESION_NO_ENCONTRADA_O_EXPIRADA",
+      "clasificacion": "recurso_inexistente",
+      "interpretacion": "404 SESION_NO_ENCONTRADA_O_EXPIRADA: la dependencia respondió y el recurso no existe",
+      "log_asociado": [
+        "2026-10-21 19:05:12,879 | WARNING | fixture2030.error | request_id=fd471ff4-1c91-40e8-a51c-ba63beb446b8 dependencia=api codigo=SESION_NO_ENCONTRADA_O_EXPIRADA status=404",
+        "2026-10-21 19:05:12,880 | INFO | fixture2030.request | {\"evento\": \"http_request\", \"request_id\": \"fd471ff4-1c91-40e8-a51c-ba63beb446b8\", \"metodo\": \"GET\", \"ruta\": \"/api/v1/sesiones/SES-DIAG-INEXISTENTE\", \"dependencia\": \"Redis\", \"resultado\": 404, \"duracion_ms\": 1.13}"
+      ]
+    },
+    {
+      "metodo": "GET",
+      "path": "/api/v1/partidos/PAR-0001/estadisticas",
+      "parametros": {
+        "desde": "2030-06-13T20:00:00Z",
+        "hasta": "2030-06-13T20:01:00Z",
+        "limit": 10
+      },
+      "caso": "operación exitosa",
+      "dependencia_esperada": "InfluxDB",
+      "status": 200,
+      "status_esperado": [
+        200
+      ],
+      "tiempo_cliente_ms": 7.93,
+      "x_process_time_ms": "6.71",
+      "request_id": "398f553b-8b32-4d83-8e5c-72689f2491fa",
+      "request_id_devuelto_igual": true,
+      "resumen": "fuente_datos=InfluxDB; datos=10",
+      "clasificacion": "operacion_exitosa",
+      "interpretacion": "200: la cadena cliente-API-adaptador-producto funcionó para este caso",
+      "log_asociado": [
+        "2026-10-21 19:05:12,888 | INFO | fixture2030.request | {\"evento\": \"http_request\", \"request_id\": \"398f553b-8b32-4d83-8e5c-72689f2491fa\", \"metodo\": \"GET\", \"ruta\": \"/api/v1/partidos/PAR-0001/estadisticas\", \"dependencia\": \"InfluxDB\", \"resultado\": 200, \"duracion_ms\": 6.71}"
+      ]
+    },
+    {
+      "metodo": "GET",
+      "path": "/api/v1/partidos/PAR-0001/estadisticas",
+      "parametros": {
+        "desde": "2031-01-01T00:00:00Z",
+        "hasta": "2031-01-01T00:01:00Z"
+      },
+      "caso": "respuesta vacía válida",
+      "dependencia_esperada": "InfluxDB",
+      "status": 200,
+      "status_esperado": [
+        200
+      ],
+      "tiempo_cliente_ms": 6.17,
+      "x_process_time_ms": "4.89",
+      "request_id": "63287acd-cb3f-4654-a14f-5fcc04d22fd4",
+      "request_id_devuelto_igual": true,
+      "resumen": "fuente_datos=InfluxDB; datos=0",
+      "clasificacion": "vacio_valido",
+      "interpretacion": "200 con lista vacía: ausencia válida de datos, no un error",
+      "log_asociado": [
+        "2026-10-21 19:05:12,894 | INFO | fixture2030.request | {\"evento\": \"http_request\", \"request_id\": \"63287acd-cb3f-4654-a14f-5fcc04d22fd4\", \"metodo\": \"GET\", \"ruta\": \"/api/v1/partidos/PAR-0001/estadisticas\", \"dependencia\": \"InfluxDB\", \"resultado\": 200, \"duracion_ms\": 4.89}"
+      ]
+    },
+    {
+      "metodo": "GET",
+      "path": "/api/v1/partidos/PAR-0001/estadisticas",
+      "parametros": {
+        "desde": "2030-06-13T20:01:00Z",
+        "hasta": "2030-06-13T20:00:00Z"
+      },
+      "caso": "error de validación",
+      "dependencia_esperada": "InfluxDB",
+      "status": 422,
+      "status_esperado": [
+        422
+      ],
+      "tiempo_cliente_ms": 1.9,
+      "x_process_time_ms": "0.72",
+      "request_id": "894056ec-da47-48cd-95c9-9bdba456a302",
+      "request_id_devuelto_igual": true,
+      "resumen": "error.codigo=VENTANA_TEMPORAL_INVALIDA",
+      "clasificacion": "error_validacion",
+      "interpretacion": "422 VENTANA_TEMPORAL_INVALIDA: rechazado por la API antes de consultar la dependencia",
+      "log_asociado": [
+        "2026-10-21 19:05:12,896 | WARNING | fixture2030.error | request_id=894056ec-da47-48cd-95c9-9bdba456a302 dependencia=api codigo=VENTANA_TEMPORAL_INVALIDA status=422",
+        "2026-10-21 19:05:12,896 | INFO | fixture2030.request | {\"evento\": \"http_request\", \"request_id\": \"894056ec-da47-48cd-95c9-9bdba456a302\", \"metodo\": \"GET\", \"ruta\": \"/api/v1/partidos/PAR-0001/estadisticas\", \"dependencia\": \"InfluxDB\", \"resultado\": 422, \"duracion_ms\": 0.72}"
+      ]
+    },
+    {
+      "metodo": "GET",
+      "path": "/api/v1/partidos/PAR-0001/detalle",
+      "parametros": {},
+      "caso": "operación exitosa",
+      "dependencia_esperada": "InterSystems IRIS",
+      "status": 200,
+      "status_esperado": [
+        200
+      ],
+      "tiempo_cliente_ms": 24.98,
+      "x_process_time_ms": "23.72",
+      "request_id": "2535fc0e-0b10-4fa0-8e42-5ee7391a0986",
+      "request_id_devuelto_igual": true,
+      "resumen": "estado=Finalizado; codigo=PAR-0001; fuente_datos=InterSystems IRIS; eventos=1",
+      "clasificacion": "operacion_exitosa",
+      "interpretacion": "200: la cadena cliente-API-adaptador-producto funcionó para este caso",
+      "log_asociado": [
+        "2026-10-21 19:05:12,921 | INFO | fixture2030.request | {\"evento\": \"http_request\", \"request_id\": \"2535fc0e-0b10-4fa0-8e42-5ee7391a0986\", \"metodo\": \"GET\", \"ruta\": \"/api/v1/partidos/PAR-0001/detalle\", \"dependencia\": \"InterSystems IRIS\", \"resultado\": 200, \"duracion_ms\": 23.72}"
+      ]
+    },
+    {
+      "metodo": "GET",
+      "path": "/api/v1/partidos/PAR-9999/detalle",
+      "parametros": {},
+      "caso": "recurso inexistente",
+      "dependencia_esperada": "InterSystems IRIS",
+      "status": 404,
+      "status_esperado": [
+        404
+      ],
+      "tiempo_cliente_ms": 104.42,
+      "x_process_time_ms": "102.84",
+      "request_id": "ae9883ef-c20a-4248-b549-1d3cbb76d7a2",
+      "request_id_devuelto_igual": true,
+      "resumen": "error.codigo=PARTIDO_IRIS_NO_ENCONTRADO",
+      "clasificacion": "recurso_inexistente",
+      "interpretacion": "404 PARTIDO_IRIS_NO_ENCONTRADO: la dependencia respondió y el recurso no existe",
+      "log_asociado": [
+        "2026-10-21 19:05:12,944 | WARNING | fixture2030.error | request_id=ae9883ef-c20a-4248-b549-1d3cbb76d7a2 dependencia=api codigo=PARTIDO_IRIS_NO_ENCONTRADO status=404",
+        "2026-10-21 19:05:13,025 | INFO | fixture2030.request | {\"evento\": \"http_request\", \"request_id\": \"ae9883ef-c20a-4248-b549-1d3cbb76d7a2\", \"metodo\": \"GET\", \"ruta\": \"/api/v1/partidos/PAR-9999/detalle\", \"dependencia\": \"InterSystems IRIS\", \"resultado\": 404, \"duracion_ms\": 102.84}"
+      ]
+    }
+  ]
+}

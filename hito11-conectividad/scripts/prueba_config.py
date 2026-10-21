@@ -85,7 +85,7 @@ def destino_producto(cfg: Config, clave: str) -> tuple[str, str, str]:
 
 def mecanismo_auth(cfg: Config, clave: str) -> str:
     def estado(var: str) -> str:
-        return "definida (valor oculto)" if cfg.definida(var) else "NO definida"
+        return "presente (valor oculto)" if cfg.definida(var) else "AUSENTE"
 
     # Nota: se evita escribir "password:" o "token=" seguidos de texto para
     # no confundir al redactor de secretos.

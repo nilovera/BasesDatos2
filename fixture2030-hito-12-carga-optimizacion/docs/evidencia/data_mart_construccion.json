@@ -1,0 +1,32 @@
+{
+  "lote_id": "DM-20261024-203358-5374c1",
+  "duracion_s": 3.89,
+  "conteos_fuente": {
+    "comentarios_cassandra": 28809,
+    "eventos_neo4j": 192,
+    "partidos_neo4j": 96,
+    "equipos_neo4j_o_mongo": 64,
+    "filas_influx": 18
+  },
+  "conteos_destino": {
+    "comentarios": 28809,
+    "eventos": 192,
+    "filas_fact": 1440,
+    "partidos": 96,
+    "equipos": 64,
+    "huerfanos": 0,
+    "duplicados": 0
+  },
+  "validaciones": {
+    "comentarios_fuente_igual_destino": true,
+    "eventos_fuente_igual_destino": true,
+    "una_fila_por_partido_y_ventana": true,
+    "sin_hechos_huerfanos": true
+  },
+  "observaciones": {
+    "equipos_con_nombre_distinto_neo4j_vs_mongo": 64,
+    "partidos_con_fecha_neo4j_distinta_al_dia_de_actividad": 92,
+    "filas_influx_con_equipo_no_conciliado": 9
+  },
+  "archivo": "datos-o-generadores\\data_mart_fixture.sqlite"
+}

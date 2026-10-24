@@ -1,0 +1,258 @@
+{
+  "fecha": "2026-10-24T20:34:54-03:00",
+  "lote_data_mart": "DM-20261024-203358-5374c1",
+  "lote_publicado_en": "2026-10-24T20:34:02-03:00",
+  "operacional": {
+    "llamadas_http": 1536,
+    "concurrencia": 8,
+    "repeticiones": 3,
+    "ms_mediana": 8723.4,
+    "ms_todas": [
+      8821.8,
+      8723.4,
+      8666.4
+    ]
+  },
+  "data_mart": {
+    "consultas_sql": 2,
+    "repeticiones": 50,
+    "ms_mediana": 0.574,
+    "ms_p95": 0.739
+  },
+  "misma_respuesta": true,
+  "top10": [
+    {
+      "partido": "PAR-0094",
+      "ventana": 3,
+      "comentarios": 25,
+      "likes": 921,
+      "eventos": 1,
+      "goles": 1,
+      "tarjetas": 0,
+      "fase": "Grupos",
+      "sede": "Tánger"
+    },
+    {
+      "partido": "PAR-0093",
+      "ventana": 3,
+      "comentarios": 25,
+      "likes": 820,
+      "eventos": 1,
+      "goles": 1,
+      "tarjetas": 0,
+      "fase": "Grupos",
+      "sede": "Tánger"
+    },
+    {
+      "partido": "PAR-0002",
+      "ventana": 2,
+      "comentarios": 25,
+      "likes": 819,
+      "eventos": 1,
+      "goles": 1,
+      "tarjetas": 0,
+      "fase": "Grupos",
+      "sede": "Buenos Aires"
+    },
+    {
+      "partido": "PAR-0092",
+      "ventana": 9,
+      "comentarios": 25,
+      "likes": 819,
+      "eventos": 0,
+      "goles": 0,
+      "tarjetas": 0,
+      "fase": "Grupos",
+      "sede": "Tánger"
+    },
+    {
+      "partido": "PAR-0084",
+      "ventana": 8,
+      "comentarios": 25,
+      "likes": 816,
+      "eventos": 0,
+      "goles": 0,
+      "tarjetas": 0,
+      "fase": "Grupos",
+      "sede": "Rabat"
+    },
+    {
+      "partido": "PAR-0021",
+      "ventana": 5,
+      "comentarios": 25,
+      "likes": 803,
+      "eventos": 0,
+      "goles": 0,
+      "tarjetas": 0,
+      "fase": "Grupos",
+      "sede": "Madrid"
+    },
+    {
+      "partido": "PAR-0077",
+      "ventana": 5,
+      "comentarios": 25,
+      "likes": 803,
+      "eventos": 1,
+      "goles": 1,
+      "tarjetas": 0,
+      "fase": "Grupos",
+      "sede": "Casablanca"
+    },
+    {
+      "partido": "PAR-0028",
+      "ventana": 7,
+      "comentarios": 25,
+      "likes": 795,
+      "eventos": 0,
+      "goles": 0,
+      "tarjetas": 0,
+      "fase": "Grupos",
+      "sede": "Barcelona"
+    },
+    {
+      "partido": "PAR-0052",
+      "ventana": 3,
+      "comentarios": 25,
+      "likes": 795,
+      "eventos": 0,
+      "goles": 0,
+      "tarjetas": 0,
+      "fase": "Grupos",
+      "sede": "San Sebastián"
+    },
+    {
+      "partido": "PAR-0051",
+      "ventana": 3,
+      "comentarios": 25,
+      "likes": 794,
+      "eventos": 0,
+      "goles": 0,
+      "tarjetas": 0,
+      "fase": "Grupos",
+      "sede": "San Sebastián"
+    }
+  ],
+  "par0001_por_ventana": [
+    {
+      "ventana": 0,
+      "comentarios": 25,
+      "likes": 529,
+      "eventos": 0,
+      "goles": 0,
+      "tarjetas": 0
+    },
+    {
+      "ventana": 1,
+      "comentarios": 25,
+      "likes": 670,
+      "eventos": 1,
+      "goles": 1,
+      "tarjetas": 0
+    },
+    {
+      "ventana": 2,
+      "comentarios": 25,
+      "likes": 678,
+      "eventos": 1,
+      "goles": 0,
+      "tarjetas": 1
+    },
+    {
+      "ventana": 3,
+      "comentarios": 25,
+      "likes": 577,
+      "eventos": 0,
+      "goles": 0,
+      "tarjetas": 0
+    },
+    {
+      "ventana": 4,
+      "comentarios": 25,
+      "likes": 652,
+      "eventos": 0,
+      "goles": 0,
+      "tarjetas": 0
+    },
+    {
+      "ventana": 5,
+      "comentarios": 25,
+      "likes": 517,
+      "eventos": 0,
+      "goles": 0,
+      "tarjetas": 0
+    },
+    {
+      "ventana": 6,
+      "comentarios": 25,
+      "likes": 723,
+      "eventos": 0,
+      "goles": 0,
+      "tarjetas": 0
+    },
+    {
+      "ventana": 7,
+      "comentarios": 25,
+      "likes": 393,
+      "eventos": 0,
+      "goles": 0,
+      "tarjetas": 0
+    },
+    {
+      "ventana": 8,
+      "comentarios": 25,
+      "likes": 560,
+      "eventos": 0,
+      "goles": 0,
+      "tarjetas": 0
+    },
+    {
+      "ventana": 9,
+      "comentarios": 25,
+      "likes": 642,
+      "eventos": 0,
+      "goles": 0,
+      "tarjetas": 0
+    },
+    {
+      "ventana": 10,
+      "comentarios": 25,
+      "likes": 640,
+      "eventos": 0,
+      "goles": 0,
+      "tarjetas": 0
+    },
+    {
+      "ventana": 11,
+      "comentarios": 25,
+      "likes": 653,
+      "eventos": 0,
+      "goles": 0,
+      "tarjetas": 0
+    },
+    {
+      "ventana": 12,
+      "comentarios": 6,
+      "likes": 25,
+      "eventos": 0,
+      "goles": 0,
+      "tarjetas": 0
+    },
+    {
+      "ventana": 13,
+      "comentarios": 3,
+      "likes": 10,
+      "eventos": 0,
+      "goles": 0,
+      "tarjetas": 0
+    },
+    {
+      "ventana": 14,
+      "comentarios": 0,
+      "likes": 0,
+      "eventos": 0,
+      "goles": 0,
+      "tarjetas": 0
+    }
+  ],
+  "nota": "El Data Mart responde con datos del último lote publicado (retraso = antigüedad del lote)."
+}

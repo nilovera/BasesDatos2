@@ -1,0 +1,670 @@
+[
+  {
+    "corrida": "optimizada_20261024-200735",
+    "commit": "542a1d8",
+    "iris_pool_size": 5,
+    "global_medido": {
+      "solicitudes": 80063,
+      "exitosas": 80063,
+      "fallidas": 0,
+      "tasa_error_pct": 0.0,
+      "errores_por_tipo": {},
+      "throughput_ok_rps": 266.88,
+      "latencia_ms": {
+        "min": 4.6,
+        "promedio": 44.63,
+        "p50": 27.76,
+        "p90": 74.56,
+        "p95": 119.88,
+        "p99": 264.49,
+        "max": 4509.83
+      },
+      "api_ms": {
+        "p50": 8.49,
+        "p95": 25.98,
+        "p99": 77.69
+      },
+      "integridad": {
+        "ok": 80063,
+        "alterada": 0,
+        "no_verificable": 0
+      }
+    },
+    "por_fase": {
+      "calentamiento": {
+        "solicitudes": 1301,
+        "exitosas": 1301,
+        "fallidas": 0,
+        "tasa_error_pct": 0.0,
+        "errores_por_tipo": {},
+        "throughput_ok_rps": 43.37,
+        "latencia_ms": {
+          "min": 4.64,
+          "promedio": 12.43,
+          "p50": 10.29,
+          "p90": 20.69,
+          "p95": 24.27,
+          "p99": 33.49,
+          "max": 80.73
+        },
+        "api_ms": {
+          "p50": 6.36,
+          "p95": 19.98,
+          "p99": 27.84
+        },
+        "integridad": {
+          "ok": 1301,
+          "alterada": 0,
+          "no_verificable": 0
+        }
+      },
+      "rampa": {
+        "solicitudes": 11259,
+        "exitosas": 11259,
+        "fallidas": 0,
+        "tasa_error_pct": 0.0,
+        "errores_por_tipo": {},
+        "throughput_ok_rps": 187.65,
+        "latencia_ms": {
+          "min": 4.6,
+          "promedio": 21.53,
+          "p50": 19.29,
+          "p90": 36.69,
+          "p95": 45.22,
+          "p99": 67.5,
+          "max": 141.6
+        },
+        "api_ms": {
+          "p50": 7.14,
+          "p95": 19.7,
+          "p99": 32.24
+        },
+        "integridad": {
+          "ok": 11259,
+          "alterada": 0,
+          "no_verificable": 0
+        }
+      },
+      "sostenimiento": {
+        "solicitudes": 57223,
+        "exitosas": 57223,
+        "fallidas": 0,
+        "tasa_error_pct": 0.0,
+        "errores_por_tipo": {},
+        "throughput_ok_rps": 317.91,
+        "latencia_ms": {
+          "min": 4.74,
+          "promedio": 30.73,
+          "p50": 27.35,
+          "p90": 52.34,
+          "p95": 62.73,
+          "p99": 83.71,
+          "max": 206.12
+        },
+        "api_ms": {
+          "p50": 8.56,
+          "p95": 22.54,
+          "p99": 35.49
+        },
+        "integridad": {
+          "ok": 57223,
+          "alterada": 0,
+          "no_verificable": 0
+        }
+      },
+      "pico_post_gol": {
+        "solicitudes": 9208,
+        "exitosas": 9208,
+        "fallidas": 0,
+        "tasa_error_pct": 0.0,
+        "errores_por_tipo": {},
+        "throughput_ok_rps": 306.93,
+        "latencia_ms": {
+          "min": 10.21,
+          "promedio": 164.43,
+          "p50": 105.9,
+          "p90": 247.88,
+          "p95": 312.27,
+          "p99": 614.33,
+          "max": 4509.83
+        },
+        "api_ms": {
+          "p50": 10.89,
+          "p95": 111.59,
+          "p99": 219.16
+        },
+        "integridad": {
+          "ok": 9208,
+          "alterada": 0,
+          "no_verificable": 0
+        }
+      },
+      "recuperacion": {
+        "solicitudes": 2373,
+        "exitosas": 2373,
+        "fallidas": 0,
+        "tasa_error_pct": 0.0,
+        "errores_por_tipo": {},
+        "throughput_ok_rps": 79.1,
+        "latencia_ms": {
+          "min": 4.66,
+          "promedio": 24.5,
+          "p50": 13.12,
+          "p90": 42.92,
+          "p95": 60.61,
+          "p99": 266.35,
+          "max": 727.46
+        },
+        "api_ms": {
+          "p50": 6.59,
+          "p95": 40.06,
+          "p99": 130.69
+        },
+        "integridad": {
+          "ok": 2373,
+          "alterada": 0,
+          "no_verificable": 0
+        }
+      }
+    },
+    "sostenimiento_por_operacion": {
+      "comentarios_cassandra": {
+        "solicitudes": 17042,
+        "exitosas": 17042,
+        "fallidas": 0,
+        "tasa_error_pct": 0.0,
+        "errores_por_tipo": {},
+        "throughput_ok_rps": 94.68,
+        "latencia_ms": {
+          "min": 6.99,
+          "promedio": 35.05,
+          "p50": 31.57,
+          "p90": 55.43,
+          "p95": 65.83,
+          "p99": 86.52,
+          "max": 144.91
+        },
+        "api_ms": {
+          "p50": 13.18,
+          "p95": 25.6,
+          "p99": 40.39
+        },
+        "integridad": {
+          "ok": 17042,
+          "alterada": 0,
+          "no_verificable": 0
+        }
+      },
+      "estadisticas_influxdb": {
+        "solicitudes": 11592,
+        "exitosas": 11592,
+        "fallidas": 0,
+        "tasa_error_pct": 0.0,
+        "errores_por_tipo": {},
+        "throughput_ok_rps": 64.4,
+        "latencia_ms": {
+          "min": 9.99,
+          "promedio": 33.41,
+          "p50": 29.41,
+          "p90": 54.77,
+          "p95": 65.3,
+          "p99": 86.28,
+          "max": 203.04
+        },
+        "api_ms": {
+          "p50": 10.96,
+          "p95": 23.4,
+          "p99": 40.99
+        },
+        "integridad": {
+          "ok": 11592,
+          "alterada": 0,
+          "no_verificable": 0
+        }
+      },
+      "sesion_redis": {
+        "solicitudes": 8505,
+        "exitosas": 8505,
+        "fallidas": 0,
+        "tasa_error_pct": 0.0,
+        "errores_por_tipo": {},
+        "throughput_ok_rps": 47.25,
+        "latencia_ms": {
+          "min": 4.74,
+          "promedio": 25.45,
+          "p50": 21.78,
+          "p90": 46.89,
+          "p95": 58.19,
+          "p99": 77.9,
+          "max": 206.12
+        },
+        "api_ms": {
+          "p50": 2.92,
+          "p95": 13.55,
+          "p99": 24.31
+        },
+        "integridad": {
+          "ok": 8505,
+          "alterada": 0,
+          "no_verificable": 0
+        }
+      },
+      "eventos_neo4j": {
+        "solicitudes": 8677,
+        "exitosas": 8677,
+        "fallidas": 0,
+        "tasa_error_pct": 0.0,
+        "errores_por_tipo": {},
+        "throughput_ok_rps": 48.21,
+        "latencia_ms": {
+          "min": 5.75,
+          "promedio": 28.48,
+          "p50": 24.71,
+          "p90": 50.5,
+          "p95": 60.98,
+          "p99": 84.29,
+          "max": 158.53
+        },
+        "api_ms": {
+          "p50": 5.3,
+          "p95": 19.87,
+          "p99": 34.9
+        },
+        "integridad": {
+          "ok": 8677,
+          "alterada": 0,
+          "no_verificable": 0
+        }
+      },
+      "detalle_iris": {
+        "solicitudes": 5684,
+        "exitosas": 5684,
+        "fallidas": 0,
+        "tasa_error_pct": 0.0,
+        "errores_por_tipo": {},
+        "throughput_ok_rps": 31.58,
+        "latencia_ms": {
+          "min": 6.32,
+          "promedio": 27.66,
+          "p50": 24.07,
+          "p90": 48.74,
+          "p95": 58.72,
+          "p99": 77.08,
+          "max": 142.88
+        },
+        "api_ms": {
+          "p50": 5.26,
+          "p95": 15.8,
+          "p99": 26.87
+        },
+        "integridad": {
+          "ok": 5684,
+          "alterada": 0,
+          "no_verificable": 0
+        }
+      },
+      "equipo_mongodb": {
+        "solicitudes": 5723,
+        "exitosas": 5723,
+        "fallidas": 0,
+        "tasa_error_pct": 0.0,
+        "errores_por_tipo": {},
+        "throughput_ok_rps": 31.79,
+        "latencia_ms": {
+          "min": 5.18,
+          "promedio": 26.71,
+          "p50": 22.74,
+          "p90": 48.73,
+          "p95": 60.52,
+          "p99": 81.14,
+          "max": 126.49
+        },
+        "api_ms": {
+          "p50": 3.87,
+          "p95": 17.34,
+          "p99": 31.44
+        },
+        "integridad": {
+          "ok": 5723,
+          "alterada": 0,
+          "no_verificable": 0
+        }
+      }
+    },
+    "integridad_aprobada": true
+  },
+  {
+    "corrida": "optimizada_20261024-202348",
+    "commit": "542a1d8",
+    "iris_pool_size": 5,
+    "global_medido": {
+      "solicitudes": 81554,
+      "exitosas": 81554,
+      "fallidas": 0,
+      "tasa_error_pct": 0.0,
+      "errores_por_tipo": {},
+      "throughput_ok_rps": 271.85,
+      "latencia_ms": {
+        "min": 4.6,
+        "promedio": 42.11,
+        "p50": 28.13,
+        "p90": 79.85,
+        "p95": 124.4,
+        "p99": 256.13,
+        "max": 1021.4
+      },
+      "api_ms": {
+        "p50": 8.42,
+        "p95": 23.38,
+        "p99": 46.51
+      },
+      "integridad": {
+        "ok": 81554,
+        "alterada": 0,
+        "no_verificable": 0
+      }
+    },
+    "por_fase": {
+      "calentamiento": {
+        "solicitudes": 1306,
+        "exitosas": 1306,
+        "fallidas": 0,
+        "tasa_error_pct": 0.0,
+        "errores_por_tipo": {},
+        "throughput_ok_rps": 43.53,
+        "latencia_ms": {
+          "min": 4.54,
+          "promedio": 12.31,
+          "p50": 9.94,
+          "p90": 21.14,
+          "p95": 26.42,
+          "p99": 33.74,
+          "max": 67.36
+        },
+        "api_ms": {
+          "p50": 4.56,
+          "p95": 21.34,
+          "p99": 29.36
+        },
+        "integridad": {
+          "ok": 1306,
+          "alterada": 0,
+          "no_verificable": 0
+        }
+      },
+      "rampa": {
+        "solicitudes": 11060,
+        "exitosas": 11060,
+        "fallidas": 0,
+        "tasa_error_pct": 0.0,
+        "errores_por_tipo": {},
+        "throughput_ok_rps": 184.33,
+        "latencia_ms": {
+          "min": 4.6,
+          "promedio": 23.87,
+          "p50": 19.15,
+          "p90": 37.1,
+          "p95": 47.24,
+          "p99": 80.86,
+          "max": 733.6
+        },
+        "api_ms": {
+          "p50": 7.1,
+          "p95": 20.39,
+          "p99": 42.46
+        },
+        "integridad": {
+          "ok": 11060,
+          "alterada": 0,
+          "no_verificable": 0
+        }
+      },
+      "sostenimiento": {
+        "solicitudes": 57004,
+        "exitosas": 57004,
+        "fallidas": 0,
+        "tasa_error_pct": 0.0,
+        "errores_por_tipo": {},
+        "throughput_ok_rps": 316.69,
+        "latencia_ms": {
+          "min": 4.73,
+          "promedio": 31.31,
+          "p50": 27.52,
+          "p90": 53.52,
+          "p95": 64.84,
+          "p99": 90.11,
+          "max": 346.65
+        },
+        "api_ms": {
+          "p50": 8.7,
+          "p95": 22.85,
+          "p99": 40.29
+        },
+        "integridad": {
+          "ok": 57004,
+          "alterada": 0,
+          "no_verificable": 0
+        }
+      },
+      "pico_post_gol": {
+        "solicitudes": 10919,
+        "exitosas": 10919,
+        "fallidas": 0,
+        "tasa_error_pct": 0.0,
+        "errores_por_tipo": {},
+        "throughput_ok_rps": 363.97,
+        "latencia_ms": {
+          "min": 10.49,
+          "promedio": 123.56,
+          "p50": 98.38,
+          "p90": 227.33,
+          "p95": 286.61,
+          "p99": 432.12,
+          "max": 1021.4
+        },
+        "api_ms": {
+          "p50": 8.99,
+          "p95": 40.11,
+          "p99": 60.19
+        },
+        "integridad": {
+          "ok": 10919,
+          "alterada": 0,
+          "no_verificable": 0
+        }
+      },
+      "recuperacion": {
+        "solicitudes": 2571,
+        "exitosas": 2571,
+        "fallidas": 0,
+        "tasa_error_pct": 0.0,
+        "errores_por_tipo": {},
+        "throughput_ok_rps": 85.7,
+        "latencia_ms": {
+          "min": 4.63,
+          "promedio": 14.02,
+          "p50": 11.55,
+          "p90": 22.0,
+          "p95": 26.75,
+          "p99": 36.01,
+          "max": 185.6
+        },
+        "api_ms": {
+          "p50": 5.81,
+          "p95": 19.88,
+          "p99": 27.87
+        },
+        "integridad": {
+          "ok": 2571,
+          "alterada": 0,
+          "no_verificable": 0
+        }
+      }
+    },
+    "sostenimiento_por_operacion": {
+      "comentarios_cassandra": {
+        "solicitudes": 16960,
+        "exitosas": 16960,
+        "fallidas": 0,
+        "tasa_error_pct": 0.0,
+        "errores_por_tipo": {},
+        "throughput_ok_rps": 94.22,
+        "latencia_ms": {
+          "min": 6.6,
+          "promedio": 35.56,
+          "p50": 31.74,
+          "p90": 56.66,
+          "p95": 67.71,
+          "p99": 91.4,
+          "max": 293.38
+        },
+        "api_ms": {
+          "p50": 13.13,
+          "p95": 25.83,
+          "p99": 45.01
+        },
+        "integridad": {
+          "ok": 16960,
+          "alterada": 0,
+          "no_verificable": 0
+        }
+      },
+      "estadisticas_influxdb": {
+        "solicitudes": 11555,
+        "exitosas": 11555,
+        "fallidas": 0,
+        "tasa_error_pct": 0.0,
+        "errores_por_tipo": {},
+        "throughput_ok_rps": 64.19,
+        "latencia_ms": {
+          "min": 10.08,
+          "promedio": 34.14,
+          "p50": 29.87,
+          "p90": 56.07,
+          "p95": 67.64,
+          "p99": 94.04,
+          "max": 192.24
+        },
+        "api_ms": {
+          "p50": 11.2,
+          "p95": 23.79,
+          "p99": 43.69
+        },
+        "integridad": {
+          "ok": 11555,
+          "alterada": 0,
+          "no_verificable": 0
+        }
+      },
+      "sesion_redis": {
+        "solicitudes": 8465,
+        "exitosas": 8465,
+        "fallidas": 0,
+        "tasa_error_pct": 0.0,
+        "errores_por_tipo": {},
+        "throughput_ok_rps": 47.03,
+        "latencia_ms": {
+          "min": 4.73,
+          "promedio": 25.8,
+          "p50": 21.85,
+          "p90": 47.41,
+          "p95": 58.11,
+          "p99": 82.14,
+          "max": 303.03
+        },
+        "api_ms": {
+          "p50": 2.98,
+          "p95": 13.44,
+          "p99": 25.29
+        },
+        "integridad": {
+          "ok": 8465,
+          "alterada": 0,
+          "no_verificable": 0
+        }
+      },
+      "eventos_neo4j": {
+        "solicitudes": 8659,
+        "exitosas": 8659,
+        "fallidas": 0,
+        "tasa_error_pct": 0.0,
+        "errores_por_tipo": {},
+        "throughput_ok_rps": 48.11,
+        "latencia_ms": {
+          "min": 5.65,
+          "promedio": 29.08,
+          "p50": 24.74,
+          "p90": 51.86,
+          "p95": 64.54,
+          "p99": 91.68,
+          "max": 306.39
+        },
+        "api_ms": {
+          "p50": 5.5,
+          "p95": 20.51,
+          "p99": 39.59
+        },
+        "integridad": {
+          "ok": 8659,
+          "alterada": 0,
+          "no_verificable": 0
+        }
+      },
+      "detalle_iris": {
+        "solicitudes": 5673,
+        "exitosas": 5673,
+        "fallidas": 0,
+        "tasa_error_pct": 0.0,
+        "errores_por_tipo": {},
+        "throughput_ok_rps": 31.52,
+        "latencia_ms": {
+          "min": 6.47,
+          "promedio": 28.93,
+          "p50": 24.56,
+          "p90": 51.26,
+          "p95": 63.39,
+          "p99": 88.73,
+          "max": 200.09
+        },
+        "api_ms": {
+          "p50": 5.42,
+          "p95": 16.79,
+          "p99": 33.99
+        },
+        "integridad": {
+          "ok": 5673,
+          "alterada": 0,
+          "no_verificable": 0
+        }
+      },
+      "equipo_mongodb": {
+        "solicitudes": 5692,
+        "exitosas": 5692,
+        "fallidas": 0,
+        "tasa_error_pct": 0.0,
+        "errores_por_tipo": {},
+        "throughput_ok_rps": 31.62,
+        "latencia_ms": {
+          "min": 5.18,
+          "promedio": 26.85,
+          "p50": 22.82,
+          "p90": 48.59,
+          "p95": 60.44,
+          "p99": 84.27,
+          "max": 346.65
+        },
+        "api_ms": {
+          "p50": 3.87,
+          "p95": 16.98,
+          "p99": 36.9
+        },
+        "integridad": {
+          "ok": 5692,
+          "alterada": 0,
+          "no_verificable": 0
+        }
+      }
+    },
+    "integridad_aprobada": true
+  }
+]

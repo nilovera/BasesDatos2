@@ -1,0 +1,50 @@
+{
+  "corrida": "optimizada_20261024-200735",
+  "fecha_validacion": "2026-10-24T20:13:45-03:00",
+  "conteos": {
+    "generadas": 81364,
+    "con_respuesta": 81364,
+    "sin_respuesta": 0,
+    "exitosas_y_correctas": 81364,
+    "rechazadas_por_causa": {}
+  },
+  "integridad_contenido": {
+    "ok": 81364
+  },
+  "request_id_duplicados": 0,
+  "log_api": {
+    "respuestas_cliente": 81364,
+    "encontradas_en_log": 81364,
+    "no_encontradas": 0,
+    "codigo_distinto": 0
+  },
+  "relectura_catalogo_post_carga": {
+    "claves": 1895,
+    "iguales": 1895,
+    "distintas": 0,
+    "faltantes": 0,
+    "detalle": {}
+  },
+  "conteo_directo_en_fuentes": {
+    "redis_sesiones_h12": 300,
+    "iris_partidos_h12": 100,
+    "iris_eventos_h12": 907,
+    "cassandra_comentarios_h12": 28800
+  },
+  "esperado_segun_preparacion": {
+    "redis_sesiones_h12": 300,
+    "iris_partidos_h12": 100,
+    "cassandra_comentarios_h12": 28800
+  },
+  "chequeos": {
+    "sin_request_id_duplicados": true,
+    "sin_respuestas_alteradas": true,
+    "api_registro_todas_las_respuestas": true,
+    "mismo_codigo_http_cliente_y_api": true,
+    "catalogo_identico_tras_la_carga": true,
+    "redis_sesiones_completas": true,
+    "iris_partidos_completos": true,
+    "cassandra_comentarios_completos": true
+  },
+  "aprobado": true
+}

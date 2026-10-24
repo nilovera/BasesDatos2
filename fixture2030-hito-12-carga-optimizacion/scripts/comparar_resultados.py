@@ -112,6 +112,10 @@ def graficos(a: dict, b: dict) -> list[str]:
             ax.plot(xs, ys, color=colores[k], label=etiquetas[k], linewidth=1.6)
         ax.set_title(titulo)
         ax.set_xlabel("segundos desde el inicio")
+        if campo != "rps_ok":
+            # escala logarítmica: un congelamiento de ~4 s no debe tapar diferencias de decenas de ms
+            ax.set_yscale("log")
+            ylab += " (escala logarítmica)"
         ax.set_ylabel(ylab)
         ax.legend(loc="upper left")
         ax.grid(alpha=.3)
@@ -233,9 +237,29 @@ def main() -> int:
         L.append(f"| solicitudes generadas / exitosas y correctas | {ia['conteos']['generadas']} / {ia['conteos']['exitosas_y_correctas']} | "
                  f"{ib['conteos']['generadas']} / {ib['conteos']['exitosas_y_correctas']} |")
 
+    # ---- repeticiones: todas las corridas de cada tipo, para ver la variación entre ejecuciones
+    def fila_rep(corrida: Path) -> str | None:
+        try:
+            r = json.loads((corrida / "resumen.json").read_text(encoding="utf-8"))
+        except FileNotFoundError:
+            return None
+        g, sos, pico = r["global_medido"], r["por_fase"].get("sostenimiento", {}), r["por_fase"].get("pico_post_gol", {})
+        iris = r["sostenimiento_por_operacion"].get("detalle_iris", {})
+        integ = json.loads((corrida / "integridad.json").read_text(encoding="utf-8"))["aprobado"] \
+            if (corrida / "integridad.json").exists() else "-"
+        return (f"| `{corrida.name}` | {r.get('iris_pool_size')} | {g['throughput_ok_rps']} | {g['latencia_ms']['p95']} | "
+                f"{sos.get('latencia_ms', {}).get('p95')} | {pico.get('latencia_ms', {}).get('p95')} | {g['latencia_ms']['max']} | "
+                f"{iris.get('api_ms', {}).get('p50')} | {iris.get('latencia_ms', {}).get('p95')} | {g['tasa_error_pct']} | {integ} |")
+    corridas = sorted(p for pref in ("linea_base", "optimizada") for p in comun.EVIDENCIA_DIR.glob(f"{pref}_2*") if p.is_dir())
+    if len(corridas) > 2:
+        L.append("\n## 6. Repeticiones (todas las corridas completas con el generador de 4 procesos)\n")
+        L.append("| Corrida | Pool IRIS | req/s | P95 global | P95 sostenimiento | P95 pico | Máx | IRIS API P50 (sost.) | IRIS P95 (sost.) | error % | integridad |")
+        L.append("|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|")
+        L.extend(x for x in (fila_rep(c) for c in corridas) if x)
+
     hechos = graficos(a, b)
     if hechos:
-        L.append("\n## 6. Gráficos\n")
+        L.append("\n## 7. Gráficos\n")
         for h in hechos:
             L.append(f"![{h}]({h})\n")
 

@@ -23,3 +23,4 @@ Start-Sleep -Seconds 3
 if ($LASTEXITCODE -ne 0) { throw "La carga termino con error" }
 & $py (Join-Path $PSScriptRoot "validar_integridad.py") optimizada
 & $py (Join-Path $PSScriptRoot "comparar_resultados.py")
+& $py (Join-Path $PSScriptRoot "resumir_evidencia.py")

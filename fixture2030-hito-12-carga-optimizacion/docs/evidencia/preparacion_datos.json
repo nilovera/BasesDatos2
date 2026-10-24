@@ -1,0 +1,26 @@
+{
+  "fecha": "2026-10-24T19:36:17-03:00",
+  "semilla": 2030,
+  "sesiones_redis_sinteticas": 300,
+  "partidos_iris_sinteticos": 100,
+  "comentarios_cassandra_sinteticos_por_tabla": 28800,
+  "claves_por_tipo": {
+    "equipo_mongodb": 64,
+    "eventos_neo4j": 96,
+    "comentarios_cassandra": 1154,
+    "estadisticas_influxdb": 180,
+    "sesion_redis": 300,
+    "detalle_iris": 101
+  },
+  "elementos_devueltos_por_tipo": {
+    "equipo_mongodb": 64,
+    "eventos_neo4j": 192,
+    "comentarios_cassandra": 23049,
+    "estadisticas_influxdb": 1080,
+    "sesion_redis": 300,
+    "detalle_iris": 908
+  },
+  "claves_no_deterministas": {},
+  "total_claves": 1895,
+  "duracion_s": 63.2
+}

@@ -1,0 +1,86 @@
+{
+  "descripcion": "Escenario 'Pico alrededor de un partido' del Fixture 2030 (Hito 12). Copiar a configuracion.json para cambiar valores locales; esta versión es la que se usó en las pruebas.",
+  "api_base_url": "http://127.0.0.1:8000",
+  "procesos_generador": 4,
+  "timeout_segundos": 10,
+  "semilla": 2030,
+  "think_time_ms": [
+    50,
+    150
+  ],
+  "probabilidad_clave_caliente": 0.5,
+  "partido_caliente": "PAR-0001",
+  "equipo_caliente": "EQ-01",
+  "intervalo_muestreo_recursos_s": 2,
+  "mezcla_operaciones": {
+    "comentarios_cassandra": 30,
+    "estadisticas_influxdb": 20,
+    "sesion_redis": 15,
+    "eventos_neo4j": 15,
+    "detalle_iris": 10,
+    "equipo_mongodb": 10
+  },
+  "escenarios": {
+    "humo": [
+      {
+        "nombre": "humo",
+        "duracion_s": 20,
+        "vus_inicio": 2,
+        "vus_fin": 2,
+        "medir": true
+      }
+    ],
+    "completo": [
+      {
+        "nombre": "calentamiento",
+        "duracion_s": 30,
+        "vus_inicio": 5,
+        "vus_fin": 5,
+        "medir": false
+      },
+      {
+        "nombre": "rampa",
+        "duracion_s": 60,
+        "vus_inicio": 5,
+        "vus_fin": 40,
+        "medir": true
+      },
+      {
+        "nombre": "sostenimiento",
+        "duracion_s": 180,
+        "vus_inicio": 40,
+        "vus_fin": 40,
+        "medir": true
+      },
+      {
+        "nombre": "pico_post_gol",
+        "duracion_s": 30,
+        "vus_inicio": 80,
+        "vus_fin": 80,
+        "medir": true
+      },
+      {
+        "nombre": "recuperacion",
+        "duracion_s": 30,
+        "vus_inicio": 10,
+        "vus_fin": 10,
+        "medir": true
+      }
+    ]
+  },
+  "corte_seguro": {
+    "tasa_error_maxima": 0.5,
+    "ventana_s": 20,
+    "descripcion": "Si en los últimos 20 s más del 50% de las solicitudes falla, la prueba se corta sola para no saturar la notebook."
+  },
+  "datos_sinteticos": {
+    "sesiones_redis": 300,
+    "ttl_sesiones_s": 14400,
+    "partidos_iris": 100,
+    "eventos_por_partido_iris": [
+      6,
+      12
+    ],
+    "comentarios_por_bucket_cassandra": 25
+  }
+}

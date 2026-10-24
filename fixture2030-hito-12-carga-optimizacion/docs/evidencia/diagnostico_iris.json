@@ -1,0 +1,67 @@
+{
+  "fecha": "2026-10-24T20:01:43-03:00",
+  "hardware": {
+    "sistema": "Windows 10 (10.0.19045)",
+    "procesador": "AMD64 Family 25 Model 33 Stepping 2, AuthenticAMD",
+    "nucleos_fisicos": 6,
+    "procesadores_logicos": 12,
+    "ram_total_gb": 15.9
+  },
+  "pool_size": 5,
+  "resultados": [
+    {
+      "escenario": "A1 conexion por operacion, 1 hilo",
+      "operaciones": 200,
+      "hilos": 1,
+      "exitosas": 200,
+      "errores": {},
+      "ops_por_s": 45.2,
+      "connect_ms_prom": 19.1,
+      "consulta_ms_prom": 2.96,
+      "total_ms_p50": 22.02,
+      "total_ms_p95": 22.95
+    },
+    {
+      "escenario": "B1 conexion reutilizada, 1 hilo",
+      "operaciones": 200,
+      "hilos": 1,
+      "exitosas": 200,
+      "errores": {},
+      "ops_por_s": 815.6,
+      "connect_ms_prom": 0.0,
+      "consulta_ms_prom": 1.21,
+      "total_ms_p50": 1.2,
+      "total_ms_p95": 1.31
+    },
+    {
+      "escenario": "A20 conexion por operacion, 20 hilos",
+      "operaciones": 200,
+      "hilos": 20,
+      "exitosas": 200,
+      "errores": {},
+      "ops_por_s": 223.8,
+      "connect_ms_prom": 81.92,
+      "consulta_ms_prom": 3.63,
+      "total_ms_p50": 81.89,
+      "total_ms_p95": 105.57
+    },
+    {
+      "escenario": "B20 pool de 5 conexiones, 20 hilos",
+      "operaciones": 200,
+      "hilos": 20,
+      "exitosas": 200,
+      "errores": {},
+      "ops_por_s": 3188.5,
+      "connect_ms_prom": 0.0,
+      "consulta_ms_prom": 1.49,
+      "total_ms_p50": 1.44,
+      "total_ms_p95": 56.64
+    }
+  ],
+  "licencias": {
+    "conexiones_simultaneas_aceptadas": 8,
+    "tope_probado": 30,
+    "rechazo": "Unable to allocate a license",
+    "nota": "medido con la API levantada (que tambien puede usar conexiones)"
+  }
+}

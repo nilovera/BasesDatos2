@@ -1,0 +1,296 @@
+{
+  "etiqueta": "humo",
+  "escenario": "humo",
+  "commit": "657a285",
+  "iris_pool_size": 0,
+  "global_medido": {
+    "solicitudes": 341,
+    "exitosas": 341,
+    "fallidas": 0,
+    "tasa_error_pct": 0.0,
+    "errores_por_tipo": {},
+    "throughput_ok_rps": 17.05,
+    "latencia_ms": {
+      "min": 4.74,
+      "promedio": 15.45,
+      "p50": 13.66,
+      "p90": 29.88,
+      "p95": 31.99,
+      "p99": 38.46,
+      "max": 62.73
+    },
+    "api_ms": {
+      "p50": 8.08,
+      "p95": 26.15,
+      "p99": 31.34
+    },
+    "integridad": {
+      "ok": 341,
+      "alterada": 0,
+      "no_verificable": 0
+    }
+  },
+  "por_fase": {
+    "humo": {
+      "solicitudes": 341,
+      "exitosas": 341,
+      "fallidas": 0,
+      "tasa_error_pct": 0.0,
+      "errores_por_tipo": {},
+      "throughput_ok_rps": 17.05,
+      "latencia_ms": {
+        "min": 4.74,
+        "promedio": 15.45,
+        "p50": 13.66,
+        "p90": 29.88,
+        "p95": 31.99,
+        "p99": 38.46,
+        "max": 62.73
+      },
+      "api_ms": {
+        "p50": 8.08,
+        "p95": 26.15,
+        "p99": 31.34
+      },
+      "integridad": {
+        "ok": 341,
+        "alterada": 0,
+        "no_verificable": 0
+      }
+    }
+  },
+  "por_operacion": {
+    "comentarios_cassandra": {
+      "solicitudes": 118,
+      "exitosas": 118,
+      "fallidas": 0,
+      "tasa_error_pct": 0.0,
+      "errores_por_tipo": {},
+      "throughput_ok_rps": 5.9,
+      "latencia_ms": {
+        "min": 6.42,
+        "promedio": 18.71,
+        "p50": 18.95,
+        "p90": 20.83,
+        "p95": 21.21,
+        "p99": 26.89,
+        "max": 48.71
+      },
+      "api_ms": {
+        "p50": 14.56,
+        "p95": 15.55,
+        "p99": 16.43
+      },
+      "integridad": {
+        "ok": 118,
+        "alterada": 0,
+        "no_verificable": 0
+      }
+    },
+    "estadisticas_influxdb": {
+      "solicitudes": 60,
+      "exitosas": 60,
+      "fallidas": 0,
+      "tasa_error_pct": 0.0,
+      "errores_por_tipo": {},
+      "throughput_ok_rps": 3.0,
+      "latencia_ms": {
+        "min": 10.24,
+        "promedio": 13.66,
+        "p50": 12.16,
+        "p90": 15.09,
+        "p95": 18.44,
+        "p99": 38.52,
+        "max": 38.95
+      },
+      "api_ms": {
+        "p50": 7.73,
+        "p95": 10.62,
+        "p99": 32.1
+      },
+      "integridad": {
+        "ok": 60,
+        "alterada": 0,
+        "no_verificable": 0
+      }
+    },
+    "sesion_redis": {
+      "solicitudes": 48,
+      "exitosas": 48,
+      "fallidas": 0,
+      "tasa_error_pct": 0.0,
+      "errores_por_tipo": {},
+      "throughput_ok_rps": 2.4,
+      "latencia_ms": {
+        "min": 4.74,
+        "promedio": 6.0,
+        "p50": 5.58,
+        "p90": 8.09,
+        "p95": 8.39,
+        "p99": 9.17,
+        "max": 9.7
+      },
+      "api_ms": {
+        "p50": 1.31,
+        "p95": 2.07,
+        "p99": 2.7
+      },
+      "integridad": {
+        "ok": 48,
+        "alterada": 0,
+        "no_verificable": 0
+      }
+    },
+    "eventos_neo4j": {
+      "solicitudes": 45,
+      "exitosas": 45,
+      "fallidas": 0,
+      "tasa_error_pct": 0.0,
+      "errores_por_tipo": {},
+      "throughput_ok_rps": 2.25,
+      "latencia_ms": {
+        "min": 7.23,
+        "promedio": 10.9,
+        "p50": 9.52,
+        "p90": 12.5,
+        "p95": 13.54,
+        "p99": 41.54,
+        "max": 62.73
+      },
+      "api_ms": {
+        "p50": 5.02,
+        "p95": 7.23,
+        "p99": 35.46
+      },
+      "integridad": {
+        "ok": 45,
+        "alterada": 0,
+        "no_verificable": 0
+      }
+    },
+    "detalle_iris": {
+      "solicitudes": 39,
+      "exitosas": 39,
+      "fallidas": 0,
+      "tasa_error_pct": 0.0,
+      "errores_por_tipo": {},
+      "throughput_ok_rps": 1.95,
+      "latencia_ms": {
+        "min": 28.59,
+        "promedio": 31.45,
+        "p50": 30.52,
+        "p90": 33.75,
+        "p95": 36.36,
+        "p99": 37.93,
+        "max": 38.62
+      },
+      "api_ms": {
+        "p50": 25.76,
+        "p95": 29.1,
+        "p99": 32.15
+      },
+      "integridad": {
+        "ok": 39,
+        "alterada": 0,
+        "no_verificable": 0
+      }
+    },
+    "equipo_mongodb": {
+      "solicitudes": 31,
+      "exitosas": 31,
+      "fallidas": 0,
+      "tasa_error_pct": 0.0,
+      "errores_por_tipo": {},
+      "throughput_ok_rps": 1.55,
+      "latencia_ms": {
+        "min": 5.3,
+        "promedio": 7.61,
+        "p50": 5.9,
+        "p90": 9.26,
+        "p95": 10.51,
+        "p99": 26.49,
+        "max": 33.22
+      },
+      "api_ms": {
+        "p50": 1.97,
+        "p95": 3.23,
+        "p99": 20.84
+      },
+      "integridad": {
+        "ok": 31,
+        "alterada": 0,
+        "no_verificable": 0
+      }
+    }
+  },
+  "sostenimiento_por_operacion": {},
+  "recursos": {
+    "lag_loop_max_ms": {
+      "promedio": 19.2,
+      "max": 22.5
+    },
+    "sistema_cpu_pct": {
+      "promedio": 8.3,
+      "max": 11.4
+    },
+    "api_cpu_pct": {
+      "promedio": 4.1,
+      "max": 7.0
+    },
+    "api_ram_mb": {
+      "promedio": 152.4,
+      "max": 153.1
+    },
+    "generador_cpu_pct": {
+      "promedio": 18.1,
+      "max": 97.7
+    },
+    "generador_ram_mb": {
+      "promedio": 55.0,
+      "max": 55.4
+    },
+    "iris_cpu_pct": {
+      "promedio": 2.4,
+      "max": 5.1
+    },
+    "influxdb_cpu_pct": {
+      "promedio": 1.5,
+      "max": 2.5
+    },
+    "cassandra_cpu_pct": {
+      "promedio": 4.6,
+      "max": 7.8
+    },
+    "neo4j_cpu_pct": {
+      "promedio": 2.0,
+      "max": 3.8
+    },
+    "mongo-express_cpu_pct": {
+      "promedio": 0.0,
+      "max": 0.1
+    },
+    "mongodb_cpu_pct": {
+      "promedio": 0.3,
+      "max": 0.4
+    },
+    "redis_cpu_pct": {
+      "promedio": 0.7,
+      "max": 3.4
+    }
+  },
+  "recursos_sostenimiento": {
+    "lag_loop_max_ms": null,
+    "sistema_cpu_pct": null,
+    "api_cpu_pct": null,
+    "api_ram_mb": null,
+    "generador_cpu_pct": null,
+    "generador_ram_mb": null,
+    "iris_cpu_pct": null,
+    "influxdb_cpu_pct": null,
+    "cassandra_cpu_pct": null,
+    "neo4j_cpu_pct": null,
+    "mongo-express_cpu_pct": null,
+    "mongodb_cpu_pct": null,
+    "redis_cpu_pct": null
+  }
+}

@@ -1,0 +1,238 @@
+{
+  "etiqueta": "linea_base",
+  "escenario": "completo",
+  "inicio": "2026-10-24T19:55:01-03:00",
+  "git": {
+    "commit": "657a285",
+    "rama": "Carga",
+    "codigo_api_modificado_sin_commit": false,
+    "archivos_api_modificados": []
+  },
+  "config_api": {
+    "dependency_timeout_seconds": 5.0,
+    "iris_pool_size": 0,
+    "uvicorn_workers": 1,
+    "nota": "credenciales omitidas a propósito"
+  },
+  "versiones": {
+    "python": "3.11.9",
+    "fastapi": "0.143.0",
+    "uvicorn": "0.54.0",
+    "starlette": "1.7.0",
+    "httpx": "0.28.1",
+    "pymongo": "4.18.3",
+    "neo4j": "6.4.0",
+    "cassandra-driver": "3.30.1",
+    "redis": "8.1.0",
+    "intersystems_irispython": "5.4.1",
+    "psutil": "7.0.0",
+    "matplotlib": "3.10.3"
+  },
+  "hardware": {
+    "sistema": "Windows 10 (10.0.19045)",
+    "procesador": "AMD64 Family 25 Model 33 Stepping 2, AuthenticAMD",
+    "nucleos_fisicos": 6,
+    "procesadores_logicos": 12,
+    "ram_total_gb": 15.9
+  },
+  "contenedores": [
+    {
+      "nombre": "fixture2030-iris",
+      "imagen": "intersystems/iris-community:latest-cd",
+      "estado": "Up 44 minutes (healthy)"
+    },
+    {
+      "nombre": "fixture2030-influxdb",
+      "imagen": "influxdb:3-core",
+      "estado": "Up 44 minutes"
+    },
+    {
+      "nombre": "fixture2030-cassandra",
+      "imagen": "cassandra:latest",
+      "estado": "Up 44 minutes"
+    },
+    {
+      "nombre": "fixture2030-neo4j",
+      "imagen": "neo4j:latest",
+      "estado": "Up 45 minutes"
+    },
+    {
+      "nombre": "fixture2030-mongo-express",
+      "imagen": "mongo-express:1.0.0",
+      "estado": "Up 45 minutes"
+    },
+    {
+      "nombre": "fixture2030-mongodb",
+      "imagen": "mongo:7.0",
+      "estado": "Up 45 minutes"
+    },
+    {
+      "nombre": "fixture2030-redis",
+      "imagen": "redis:latest",
+      "estado": "Up 44 minutes (healthy)"
+    }
+  ],
+  "health_ready_previo": {
+    "http": 200,
+    "cuerpo": {
+      "estado": "ready",
+      "dependencias": {
+        "MongoDB": "up",
+        "Neo4j": "up",
+        "Cassandra": "up",
+        "Redis": "up",
+        "InfluxDB": "up",
+        "InterSystems IRIS": "up"
+      },
+      "desde_cache": false,
+      "antiguedad_segundos": 0.0
+    }
+  },
+  "config_prueba": {
+    "descripcion": "Escenario 'Pico alrededor de un partido' del Fixture 2030 (Hito 12). Copiar a configuracion.json para cambiar valores locales; esta versión es la que se usó en las pruebas.",
+    "api_base_url": "http://127.0.0.1:8000",
+    "procesos_generador": 4,
+    "timeout_segundos": 10,
+    "semilla": 2030,
+    "think_time_ms": [
+      50,
+      150
+    ],
+    "probabilidad_clave_caliente": 0.5,
+    "partido_caliente": "PAR-0001",
+    "equipo_caliente": "EQ-01",
+    "intervalo_muestreo_recursos_s": 2,
+    "mezcla_operaciones": {
+      "comentarios_cassandra": 30,
+      "estadisticas_influxdb": 20,
+      "sesion_redis": 15,
+      "eventos_neo4j": 15,
+      "detalle_iris": 10,
+      "equipo_mongodb": 10
+    },
+    "corte_seguro": {
+      "tasa_error_maxima": 0.5,
+      "ventana_s": 20,
+      "descripcion": "Si en los últimos 20 s más del 50% de las solicitudes falla, la prueba se corta sola para no saturar la notebook."
+    },
+    "datos_sinteticos": {
+      "sesiones_redis": 300,
+      "ttl_sesiones_s": 14400,
+      "partidos_iris": 100,
+      "eventos_por_partido_iris": [
+        6,
+        12
+      ],
+      "comentarios_por_bucket_cassandra": 25
+    },
+    "_archivo": "config\\configuracion-ejemplo.json",
+    "fases": [
+      {
+        "nombre": "calentamiento",
+        "duracion_s": 30,
+        "vus_inicio": 5,
+        "vus_fin": 5,
+        "medir": false
+      },
+      {
+        "nombre": "rampa",
+        "duracion_s": 60,
+        "vus_inicio": 5,
+        "vus_fin": 40,
+        "medir": true
+      },
+      {
+        "nombre": "sostenimiento",
+        "duracion_s": 180,
+        "vus_inicio": 40,
+        "vus_fin": 40,
+        "medir": true
+      },
+      {
+        "nombre": "pico_post_gol",
+        "duracion_s": 30,
+        "vus_inicio": 80,
+        "vus_fin": 80,
+        "medir": true
+      },
+      {
+        "nombre": "recuperacion",
+        "duracion_s": 30,
+        "vus_inicio": 10,
+        "vus_fin": 10,
+        "medir": true
+      }
+    ]
+  },
+  "catalogo": {
+    "fecha": "2026-10-24T19:36:17-03:00",
+    "semilla": 2030,
+    "sesiones_redis_sinteticas": 300,
+    "partidos_iris_sinteticos": 100,
+    "comentarios_cassandra_sinteticos_por_tabla": 28800,
+    "claves_por_tipo": {
+      "equipo_mongodb": 64,
+      "eventos_neo4j": 96,
+      "comentarios_cassandra": 1154,
+      "estadisticas_influxdb": 180,
+      "sesion_redis": 300,
+      "detalle_iris": 101
+    },
+    "elementos_devueltos_por_tipo": {
+      "equipo_mongodb": 64,
+      "eventos_neo4j": 192,
+      "comentarios_cassandra": 23049,
+      "estadisticas_influxdb": 1080,
+      "sesion_redis": 300,
+      "detalle_iris": 908
+    },
+    "claves_no_deterministas": {},
+    "total_claves": 1895,
+    "duracion_s": 63.2
+  },
+  "herramienta": "generador propio asyncio + httpx, modelo cerrado, 4 procesos",
+  "fin": "2026-10-24T20:00:38-03:00",
+  "duraciones_reales": [
+    {
+      "nombre": "calentamiento",
+      "duracion_s": 30,
+      "vus_inicio": 5,
+      "vus_fin": 5,
+      "medir": false,
+      "duracion_real_s": 30
+    },
+    {
+      "nombre": "rampa",
+      "duracion_s": 60,
+      "vus_inicio": 5,
+      "vus_fin": 40,
+      "medir": true,
+      "duracion_real_s": 60
+    },
+    {
+      "nombre": "sostenimiento",
+      "duracion_s": 180,
+      "vus_inicio": 40,
+      "vus_fin": 40,
+      "medir": true,
+      "duracion_real_s": 180
+    },
+    {
+      "nombre": "pico_post_gol",
+      "duracion_s": 30,
+      "vus_inicio": 80,
+      "vus_fin": 80,
+      "medir": true,
+      "duracion_real_s": 30
+    },
+    {
+      "nombre": "recuperacion",
+      "duracion_s": 30,
+      "vus_inicio": 10,
+      "vus_fin": 10,
+      "medir": true,
+      "duracion_real_s": 30
+    }
+  ],
+  "corte": "no"
+}

@@ -1,0 +1,11 @@
+# Hito 12 - no subir secretos ni temporales
+.env
+.env.*
+config/configuracion.json
+*.token
+.influxdb3-token
+.iris-password
+__pycache__/
+*.py[cod]
+*.log
+*.tmp

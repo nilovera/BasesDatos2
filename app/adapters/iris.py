@@ -1,3 +1,5 @@
+import queue
+import threading
 from typing import Any
 
 import iris.dbapi as iris_dbapi
@@ -55,9 +57,77 @@ class IRISAdapter:
             int(settings.dependency_timeout_seconds),
         )
 
+        # Hito 12 - optimización: pool de conexiones reutilizables.
+        # Abrir una conexión con IRIS cuesta ~19 ms (más de 75 ms con
+        # concurrencia) contra ~3 ms de la consulta. Con pool_size > 0
+        # se reutilizan hasta pool_size conexiones; con 0 se mantiene el
+        # comportamiento original (abrir y cerrar en cada solicitud).
+        self._pool_size = max(0, int(settings.iris_pool_size))
+        self._pool: queue.LifoQueue = queue.LifoQueue(
+            maxsize=max(1, self._pool_size)
+        )
+        self._creadas = 0
+        self._lock = threading.Lock()
+
     def close(self) -> None:
-        # Las conexiones se abren y cierran por solicitud.
-        return None
+        # Sin pool no hay nada abierto. Con pool se cierran las inactivas.
+        while True:
+            try:
+                connection = self._pool.get_nowait()
+            except queue.Empty:
+                break
+            try:
+                connection.close()
+            except Exception:
+                pass
+
+    def _acquire(self):
+        """Entrega una conexión: del pool si hay, nueva si hay cupo, o espera."""
+        if self._pool_size == 0:
+            return self._connect()
+
+        try:
+            return self._pool.get_nowait()
+        except queue.Empty:
+            pass
+
+        with self._lock:
+            crear = self._creadas < self._pool_size
+            if crear:
+                self._creadas += 1
+
+        if crear:
+            try:
+                return self._connect()
+            except Exception:
+                with self._lock:
+                    self._creadas -= 1
+                raise
+
+        # Pool lleno y todas en uso: se espera como máximo el timeout
+        # de dependencia; si no se libera ninguna, se responde 504.
+        try:
+            return self._pool.get(timeout=self._timeout)
+        except queue.Empty as error:
+            raise DependencyTimeoutError(DEPENDENCY_NAME) from error
+
+    def _release(self, connection, sana: bool) -> None:
+        """Devuelve la conexión al pool, o la cierra si no hay pool o falló."""
+        if self._pool_size > 0 and sana:
+            try:
+                self._pool.put_nowait(connection)
+                return
+            except queue.Full:
+                pass
+
+        try:
+            connection.close()
+        except Exception:
+            pass
+
+        if self._pool_size > 0:
+            with self._lock:
+                self._creadas = max(0, self._creadas - 1)
 
     def _connect(self):
         # timeout acota la espera del handshake con el Superserver
@@ -109,9 +179,10 @@ class IRISAdapter:
     ) -> dict[str, Any] | None:
         connection = None
         cursor = None
+        sana = True
 
         try:
-            connection = self._connect()
+            connection = self._acquire()
 
             cursor = connection.cursor()
             cursor.setQueryTimeout(self._timeout)
@@ -209,6 +280,8 @@ class IRISAdapter:
             }
 
         except iris_dbapi.Error as error:
+            # Una conexión que falló no vuelve al pool.
+            sana = False
             raise translate_iris_error(error) from error
 
         finally:
@@ -219,7 +292,4 @@ class IRISAdapter:
                     pass
 
             if connection is not None:
-                try:
-                    connection.close()
-                except Exception:
-                    pass
+                self._release(connection, sana)

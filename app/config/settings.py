@@ -57,6 +57,10 @@ class Settings(BaseSettings):
     iris_namespace: str
     iris_username: str
     iris_password: SecretStr
+    # Hito 12: tamaño del pool de conexiones de IRIS.
+    # 0 = comportamiento original (una conexión nueva por solicitud).
+    # IRIS Community acepta 8 conexiones simultáneas en total (medido en el Hito 12).
+    iris_pool_size: int = 0
 
     @property
     def cassandra_contact_points(self) -> list[str]:

@@ -1,4 +1,12 @@
-﻿# Fixture 2030 - Hito 11: Evaluación de la conectividad
+# Fixture 2030 - Rama `Carga` (Hito 12: pruebas de carga y optimización)
+
+Esta rama parte de `Conectividad` (Hito 11) y agrega el **Hito 12** en [`fixture2030-hito-12-carga-optimizacion/`](fixture2030-hito-12-carga-optimizacion/README.md): prueba de carga reproducible sobre la API integrada, línea base, cuello de botella en IRIS, pool de conexiones (−84 % de tiempo de IRIS dentro de la API, −96 % de CPU de IRIS), repetición, validación de integridad, prototipo de Data Mart medido y comparación relacional.
+
+Único cambio sobre la API: pool de conexiones opcional en `app/adapters/iris.py`, controlado por `IRIS_POOL_SIZE` (0 = comportamiento anterior).
+
+---
+
+# Fixture 2030 - Hito 11: Evaluación de la conectividad
 
 Ingeniería de Datos II · Grupo 10 · Rama `Conectividad`
 

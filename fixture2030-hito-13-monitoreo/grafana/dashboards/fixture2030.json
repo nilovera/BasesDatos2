@@ -717,7 +717,7 @@
         "h": 4,
         "w": 8,
         "x": 16,
-        "y": 19
+        "y": 23
       },
       "targets": [
         {
@@ -1174,9 +1174,9 @@
       }
     },
     {
-      "type": "stat",
-      "title": "% de solicitudes con 5xx (2 min)",
-      "description": "Proporción de respuestas 5xx sobre el total en los últimos 2 min (misma ventana que la alerta). Amarillo desde 1 %, rojo desde 5 % (umbral de la alerta FixtureErrores5xxAltos). Hito 12: 0 %.",
+      "type": "timeseries",
+      "title": "Corte rápido: 503 inmediatos por base",
+      "description": "rate(fixture_corte_rapido_rechazos_total[1m]): solicitudes que la API rechazó al instante porque el circuito de esa base estaba abierto (CORTE_RAPIDO_SEGUNDOS > 0). Mejora transversal del Hito 13: evita que una base caída ocupe hilos de la API ~2 s por solicitud.",
       "id": 21,
       "datasource": {
         "type": "prometheus",
@@ -1187,6 +1187,61 @@
         "w": 6,
         "x": 18,
         "y": 44
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus-fixture"
+          },
+          "expr": "sum by (dependencia) (rate(fixture_corte_rapido_rechazos_total[1m]))",
+          "legendFormat": "{{dependencia}}",
+          "refId": "A",
+          "range": true,
+          "instant": false
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "reqps",
+          "custom": {
+            "drawStyle": "line",
+            "lineWidth": 2,
+            "fillOpacity": 20,
+            "showPoints": "never",
+            "spanNulls": false,
+            "axisSoftMin": 0
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true,
+          "calcs": []
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      }
+    },
+    {
+      "type": "stat",
+      "title": "% de solicitudes con 5xx (2 min)",
+      "description": "Proporción de respuestas 5xx sobre el total en los últimos 2 min (misma ventana que la alerta). Amarillo desde 1 %, rojo desde 5 % (umbral de la alerta FixtureErrores5xxAltos). Hito 12: 0 %.",
+      "id": 22,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus-fixture"
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 0,
+        "y": 52
       },
       "targets": [
         {
@@ -1237,15 +1292,151 @@
       }
     },
     {
+      "type": "stat",
+      "title": "Respuestas 5xx en el período, por base",
+      "description": "increase() de respuestas 5xx de negocio en el rango elegido, por base que atiende la ruta.",
+      "id": 23,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus-fixture"
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 9,
+        "x": 6,
+        "y": 52
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus-fixture"
+          },
+          "expr": "sum by (dependencia) (increase(fixture_http_requests_total{ruta=~\"/api/v1/.*\", dependencia=~\"$dependencia\", codigo=~\"5..\"}[$__range]))",
+          "legendFormat": "{{dependencia}}",
+          "refId": "A",
+          "range": false,
+          "instant": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "textMode": "value_and_name",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        }
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Circuito de corte rápido por base",
+      "description": "fixture_corte_rapido_abierto: ABIERTO = la API responde 503 al instante sin intentar conectarse a esa base. Vacío si CORTE_RAPIDO_SEGUNDOS = 0.",
+      "id": 24,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus-fixture"
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 9,
+        "x": 15,
+        "y": 52
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus-fixture"
+          },
+          "expr": "max by (dependencia) (fixture_corte_rapido_abierto)",
+          "legendFormat": "{{dependencia}}",
+          "refId": "A",
+          "range": false,
+          "instant": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 1
+              }
+            ]
+          },
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "cerrado",
+                  "color": "green",
+                  "index": 0
+                },
+                "1": {
+                  "text": "ABIERTO",
+                  "color": "orange",
+                  "index": 1
+                }
+              }
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "textMode": "value_and_name",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        }
+      }
+    },
+    {
       "type": "row",
       "title": "5 · Comparación entre bases (métricas internas de cada motor)",
-      "id": 22,
+      "id": 25,
       "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 52
+        "y": 58
       },
       "panels": []
     },
@@ -1253,7 +1444,7 @@
       "type": "timeseries",
       "title": "MongoDB: operaciones por segundo",
       "description": "mongodb_op_counters_total (exporter de Percona, modo compatible), rate 1 min por tipo de operación. Equipos y jugadores (Hito 4): se espera mayoría de 'query'.",
-      "id": 23,
+      "id": 26,
       "datasource": {
         "type": "prometheus",
         "uid": "prometheus-fixture"
@@ -1262,7 +1453,7 @@
         "h": 7,
         "w": 8,
         "x": 0,
-        "y": 53
+        "y": 59
       },
       "targets": [
         {
@@ -1308,7 +1499,7 @@
       "type": "timeseries",
       "title": "Redis: comandos por segundo y clientes",
       "description": "rate(redis_commands_processed_total[1m]) (eje izq.) y redis_connected_clients (eje der.). Sesiones (Hito 7).",
-      "id": 24,
+      "id": 27,
       "datasource": {
         "type": "prometheus",
         "uid": "prometheus-fixture"
@@ -1317,7 +1508,7 @@
         "h": 7,
         "w": 8,
         "x": 8,
-        "y": 53
+        "y": 59
       },
       "targets": [
         {
@@ -1391,7 +1582,7 @@
       "type": "timeseries",
       "title": "IRIS: referencias a globales/s y procesos",
       "description": "iris_glo_ref_per_sec (accesos a globales, el almacenamiento de los objetos del Hito 9) y iris_process_count. Métricas nativas de /api/monitor/metrics.",
-      "id": 25,
+      "id": 28,
       "datasource": {
         "type": "prometheus",
         "uid": "prometheus-fixture"
@@ -1400,7 +1591,7 @@
         "h": 7,
         "w": 8,
         "x": 16,
-        "y": 53
+        "y": 59
       },
       "targets": [
         {
@@ -1470,7 +1661,7 @@
       "type": "gauge",
       "title": "Redis: memoria usada / maxmemory",
       "description": "redis_memory_used_bytes / redis_memory_max_bytes. Con noeviction (Hito 7) al 100 % se rechazan escrituras de sesiones. Amarillo 70 %, rojo 85 % (umbral de RedisMemoriaCercaDelLimite).",
-      "id": 26,
+      "id": 29,
       "datasource": {
         "type": "prometheus",
         "uid": "prometheus-fixture"
@@ -1479,7 +1670,7 @@
         "h": 7,
         "w": 6,
         "x": 0,
-        "y": 60
+        "y": 66
       },
       "targets": [
         {
@@ -1534,7 +1725,7 @@
       "type": "gauge",
       "title": "IRIS: % de licencias en uso",
       "description": "iris_license_percent_used. IRIS Community admite 8 conexiones simultáneas (medido en el Hito 12): por eso el pool de la API quedó en 5. Rojo desde 75 % (umbral de IrisLicenciasCasiAgotadas).",
-      "id": 27,
+      "id": 30,
       "datasource": {
         "type": "prometheus",
         "uid": "prometheus-fixture"
@@ -1543,7 +1734,7 @@
         "h": 7,
         "w": 6,
         "x": 6,
-        "y": 60
+        "y": 66
       },
       "targets": [
         {
@@ -1597,8 +1788,8 @@
     {
       "type": "timeseries",
       "title": "Conexiones abiertas por base (según cada motor)",
-      "description": "MongoDB: mongodb_connections{state=\"current\"}; Redis: redis_connected_clients; IRIS: iris_license_current (licencias consumidas). Cada motor cuenta distinto: comparar tendencias, no valores absolutos.",
-      "id": 28,
+      "description": "MongoDB: mongodb_connections{state=\"current\"}; Redis: redis_connected_clients; IRIS: iris_license_consumed (licencias consumidas). Cada motor cuenta distinto: comparar tendencias, no valores absolutos.",
+      "id": 31,
       "datasource": {
         "type": "prometheus",
         "uid": "prometheus-fixture"
@@ -1607,7 +1798,7 @@
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 60
+        "y": 66
       },
       "targets": [
         {
@@ -1637,7 +1828,7 @@
             "type": "prometheus",
             "uid": "prometheus-fixture"
           },
-          "expr": "sum(iris_license_current)",
+          "expr": "sum(iris_license_consumed)",
           "legendFormat": "IRIS (licencias)",
           "refId": "C",
           "range": true,
@@ -1673,18 +1864,101 @@
     },
     {
       "type": "timeseries",
-      "title": "Latencia de la sonda TCP por base",
-      "description": "probe_duration_seconds del blackbox exporter: tiempo en abrir la conexión TCP al puerto de cada base (incluye el reenvío de puertos de Docker Desktop).",
-      "id": 29,
+      "title": "InfluxDB 3: solicitudes HTTP/s y P95 de consultas",
+      "description": "Métricas nativas de /metrics de InfluxDB 3 Core: rate(http_requests_total[1m]) (eje izq.) y P95 de influxdb_iox_query_log_end2end_duration_seconds (eje der.), tiempo de punta a punta de cada consulta SQL. Estadísticas temporales (Hito 8).",
+      "id": 32,
       "datasource": {
         "type": "prometheus",
         "uid": "prometheus-fixture"
       },
       "gridPos": {
         "h": 7,
-        "w": 12,
+        "w": 8,
         "x": 0,
-        "y": 67
+        "y": 73
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus-fixture"
+          },
+          "expr": "sum(rate(http_requests_total{job=\"influxdb\"}[1m]))",
+          "legendFormat": "solicitudes HTTP/s",
+          "refId": "A",
+          "range": true,
+          "instant": false
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus-fixture"
+          },
+          "expr": "histogram_quantile(0.95, sum by (le) (rate(influxdb_iox_query_log_end2end_duration_seconds_bucket{job=\"influxdb\"}[1m])))",
+          "legendFormat": "P95 consulta",
+          "refId": "B",
+          "range": true,
+          "instant": false
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "reqps",
+          "custom": {
+            "drawStyle": "line",
+            "lineWidth": 2,
+            "fillOpacity": 10,
+            "showPoints": "never",
+            "spanNulls": false,
+            "axisSoftMin": 0
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "P95 consulta"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "s"
+              },
+              {
+                "id": "custom.axisPlacement",
+                "value": "right"
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true,
+          "calcs": []
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "Latencia de la sonda TCP por base",
+      "description": "probe_duration_seconds del blackbox exporter: tiempo en abrir la conexión TCP al puerto de cada base (incluye el reenvío de puertos de Docker Desktop).",
+      "id": 33,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus-fixture"
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 8,
+        "x": 8,
+        "y": 73
       },
       "targets": [
         {
@@ -1733,16 +2007,16 @@
       "type": "timeseries",
       "title": "Duración del scraping por target",
       "description": "scrape_duration_seconds: cuánto tarda Prometheus en leer cada target. Un aumento brusco en 'fixture-api' suele indicar una base lenta en el diagnóstico de dependencias.",
-      "id": 30,
+      "id": 34,
       "datasource": {
         "type": "prometheus",
         "uid": "prometheus-fixture"
       },
       "gridPos": {
         "h": 7,
-        "w": 12,
-        "x": 12,
-        "y": 67
+        "w": 8,
+        "x": 16,
+        "y": 73
       },
       "targets": [
         {
@@ -1790,13 +2064,13 @@
     {
       "type": "row",
       "title": "6 · Saturación de recursos (¿el límite está en la API o en la base?)",
-      "id": 31,
+      "id": 35,
       "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 74
+        "y": 80
       },
       "panels": []
     },
@@ -1804,7 +2078,7 @@
       "type": "timeseries",
       "title": "CPU del proceso de la API",
       "description": "rate(fixture_api_proceso_cpu_segundos_total[1m]) × 100 = % de UN núcleo (psutil). Hito 12: 70-86 % en sostenimiento con 40 usuarios: la API (un solo proceso uvicorn) es el primer cuello de botella.",
-      "id": 32,
+      "id": 36,
       "datasource": {
         "type": "prometheus",
         "uid": "prometheus-fixture"
@@ -1813,7 +2087,7 @@
         "h": 7,
         "w": 8,
         "x": 0,
-        "y": 75
+        "y": 81
       },
       "targets": [
         {
@@ -1876,7 +2150,7 @@
       "type": "timeseries",
       "title": "CPU y memoria de la máquina Docker",
       "description": "node-exporter: CPU usada (100 − idle) y memoria usada. En Windows con Docker Desktop corresponde a la VM Linux donde corren las seis bases, no a Windows.",
-      "id": 33,
+      "id": 37,
       "datasource": {
         "type": "prometheus",
         "uid": "prometheus-fixture"
@@ -1885,7 +2159,7 @@
         "h": 7,
         "w": 8,
         "x": 8,
-        "y": 75
+        "y": 81
       },
       "targets": [
         {
@@ -1944,7 +2218,7 @@
       "type": "timeseries",
       "title": "CPU por contenedor (cAdvisor, opcional)",
       "description": "sum by (name) (rate(container_cpu_usage_seconds_total[1m])) × 100. Solo con el perfil 'contenedores'; si está vacío, cAdvisor no está levantado (ver README).",
-      "id": 34,
+      "id": 38,
       "datasource": {
         "type": "prometheus",
         "uid": "prometheus-fixture"
@@ -1953,7 +2227,7 @@
         "h": 7,
         "w": 8,
         "x": 16,
-        "y": 75
+        "y": 81
       },
       "targets": [
         {

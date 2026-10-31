@@ -48,6 +48,7 @@ class FixtureCollector:
 
     def __init__(self) -> None:
         self.health_checker = None
+        self.corte_rapido = None
         self._proceso = psutil.Process(os.getpid()) if psutil else None
 
     def describe(self):
@@ -66,6 +67,7 @@ class FixtureCollector:
                 "version": settings.app_version,
                 "entorno": settings.app_env,
                 "iris_pool_size": str(settings.iris_pool_size),
+                "corte_rapido_segundos": str(settings.corte_rapido_segundos),
             },
         )
         yield info
@@ -85,6 +87,16 @@ class FixtureCollector:
             )
             memoria.add_metric([], self._proceso.memory_info().rss)
             yield memoria
+
+        if self.corte_rapido is not None and self.corte_rapido.activo:
+            abierto = GaugeMetricFamily(
+                "fixture_corte_rapido_abierto",
+                "1 si el circuito de la base está abierto (503 inmediato).",
+                labels=["dependencia"],
+            )
+            for dependencia, valor in self.corte_rapido.estado().items():
+                abierto.add_metric([dependencia], 1.0 if valor else 0.0)
+            yield abierto
 
         if self.health_checker is None:
             return
@@ -139,6 +151,7 @@ def metrics(request: Request) -> Response:
         "health_checker",
         None,
     )
+    COLECTOR.corte_rapido = getattr(request.app.state, "corte_rapido", None)
     return Response(
         content=generate_latest(REGISTRY),
         media_type=CONTENT_TYPE_LATEST,

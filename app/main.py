@@ -26,6 +26,7 @@ from app.routes.metrics import router as metrics_router
 from app.routes.mongodb import router as mongodb_router
 from app.routes.neo4j import router as neo4j_router
 from app.routes.redis import router as redis_router
+from app.services.corte_rapido import AdaptadorProtegido, CorteRapido
 from app.services.dependency_health import DependencyHealthChecker
 
 
@@ -38,12 +39,17 @@ configure_logging(settings.log_level)
 async def lifespan(
     application: FastAPI,
 ) -> AsyncIterator[None]:
-    mongo_adapter = MongoAdapter(settings)
-    neo4j_adapter = Neo4jAdapter(settings)
-    cassandra_adapter = CassandraAdapter(settings)
-    redis_adapter = RedisAdapter(settings)
-    influxdb_adapter = InfluxDBAdapter(settings)
-    iris_adapter = IRISAdapter(settings)
+    # Hito 13: cada adaptador queda envuelto por el corte rápido. Con
+    # CORTE_RAPIDO_SEGUNDOS=0 el envoltorio no cambia el comportamiento.
+    corte_rapido = CorteRapido(settings.corte_rapido_segundos)
+    application.state.corte_rapido = corte_rapido
+
+    mongo_adapter = AdaptadorProtegido(MongoAdapter(settings), "MongoDB", corte_rapido)
+    neo4j_adapter = AdaptadorProtegido(Neo4jAdapter(settings), "Neo4j", corte_rapido)
+    cassandra_adapter = AdaptadorProtegido(CassandraAdapter(settings), "Cassandra", corte_rapido)
+    redis_adapter = AdaptadorProtegido(RedisAdapter(settings), "Redis", corte_rapido)
+    influxdb_adapter = AdaptadorProtegido(InfluxDBAdapter(settings), "InfluxDB", corte_rapido)
+    iris_adapter = AdaptadorProtegido(IRISAdapter(settings), "InterSystems IRIS", corte_rapido)
 
     application.state.mongo_adapter = mongo_adapter
     application.state.neo4j_adapter = neo4j_adapter

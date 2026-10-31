@@ -61,6 +61,9 @@ class Settings(BaseSettings):
     # 0 = comportamiento original (una conexión nueva por solicitud).
     # IRIS Community acepta 8 conexiones simultáneas en total (medido en el Hito 12).
     iris_pool_size: int = 0
+    # Hito 13: ventana del corte rápido por dependencia (segundos).
+    # 0 = desactivado (cada solicitud intenta conectarse aunque la base esté caída).
+    corte_rapido_segundos: float = 0
 
     @property
     def cassandra_contact_points(self) -> list[str]:

@@ -300,6 +300,14 @@ def main() -> int:
         return 1
 
     print("Refrescando sesiones sintéticas de Redis del Hito 12...", refrescar_sesiones_redis())
+    try:
+        info_api = httpx.get(f"{cm.API}/metrics", timeout=10).text
+        linea_info = next(l for l in info_api.splitlines() if l.startswith("fixture_api_info{"))
+        config_api = dict(par.split("=", 1) for par in linea_info[linea_info.index("{") + 1:linea_info.index("}")].replace('"', "").split(","))
+    except Exception:  # noqa: BLE001
+        config_api = {}
+    corte = config_api.get("corte_rapido_segundos", "0")
+    print(f"Configuración de la API: IRIS_POOL_SIZE={config_api.get('iris_pool_size')} | CORTE_RAPIDO_SEGUNDOS={corte}")
 
     duracion = args.normal + (args.falla + args.recuperacion if con_falla else 0)
     salud_registro = {"antes": salud(True)}
@@ -339,6 +347,7 @@ def main() -> int:
         "p95_global": f"histogram_quantile(0.95, sum by (le) (rate(fixture_http_request_duration_seconds_bucket{{{neg}}}[1m])))",
         "p95_por_base": f"histogram_quantile(0.95, sum by (le, dependencia) (rate(fixture_http_request_duration_seconds_bucket{{{neg}}}[1m])))",
         "cpu_api_pct": "rate(fixture_api_proceso_cpu_segundos_total[1m]) * 100",
+        "corte_rapido_rechazos": "sum by (dependencia) (rate(fixture_corte_rapido_rechazos_total[1m]))",
         "alertas": 'ALERTS{alertname=~"Fixture.*|Redis.*|Iris.*"}',
     }
     series = {}
@@ -381,6 +390,7 @@ def main() -> int:
     resumen = {
         "fecha": cm.ahora_iso(), "commit": cm.commit_actual(), "producto": args.producto, "contenedor": contenedor,
         "parametros": {k: v for k, v in vars(args).items()},
+        "config_api": config_api,
         "mezcla_y_claves": "Hito 12: configuracion-ejemplo.json + catalogo_claves.json (solo lecturas GET)",
         "cliente_por_tramo": {n: resumen_cliente(gen.filas, a, b) for n, (a, b) in tramos(eventos).items()},
         "cliente_total": resumen_cliente(gen.filas, eventos["t0"], eventos["fin_carga"]),
@@ -396,7 +406,8 @@ def main() -> int:
                            else "hubo errores en otras bases: revisar"),
         }
 
-    carpeta = cm.EVIDENCIA_DIR / f"prueba_de_falla_{args.producto}_{cm.sello()}"
+    etiqueta_corte = f"corte{int(float(corte))}" if con_falla else f"{args.usuarios}vus"
+    carpeta = cm.EVIDENCIA_DIR / f"prueba_de_falla_{args.producto}_{etiqueta_corte}_{cm.sello()}"
     carpeta.mkdir(parents=True, exist_ok=True)
     cm.escribir_json(carpeta / "resumen.json", resumen)
     cm.escribir_json(carpeta / "linea_de_tiempo.json", linea)
@@ -429,6 +440,8 @@ def escribir_markdown(r: dict, carpeta: Path) -> None:
     rel = carpeta.relative_to(cm.EVIDENCIA_DIR).as_posix()
     md = [f"# Prueba controlada - {r['producto']} ({r['fecha']})", "",
           f"Generado por `scripts/ejecutar_prueba_controlada.py` · commit `{r['commit']}` · carpeta [`{rel}/`]({rel}/)", "",
+          f"Configuración de la API: `IRIS_POOL_SIZE={r['config_api'].get('iris_pool_size')}`, "
+          f"`CORTE_RAPIDO_SEGUNDOS={r['config_api'].get('corte_rapido_segundos', '0 (no existía)')}`.", "",
           f"Parámetros: {r['parametros']['usuarios']} usuarios virtuales constantes, {r['parametros']['normal']} s normales"
           + (f", {r['parametros']['falla']} s con `{r['contenedor']}` detenido, {r['parametros']['recuperacion']} s de recuperación."
              if r["contenedor"] else "."), "",

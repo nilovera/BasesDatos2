@@ -1,0 +1,51 @@
+{
+  "fecha": "2026-10-30T23:30:38-03:00",
+  "momento": "despues",
+  "commit": "27b8139 (con cambios sin commitear)",
+  "referencia": "catalogo_claves.json del Hito 12 (2026-10-24T19:36:17-03:00)",
+  "metodo": "SHA-256 del JSON canónico de la respuesta de la API (sin campos volátiles como el TTL)",
+  "por_base": {
+    "Cassandra": {
+      "claves_verificadas": 15,
+      "huella_igual": 15,
+      "huella_distinta": [],
+      "errores": [],
+      "estado": "intacto"
+    },
+    "InterSystems IRIS": {
+      "claves_verificadas": 15,
+      "huella_igual": 15,
+      "huella_distinta": [],
+      "errores": [],
+      "estado": "intacto"
+    },
+    "MongoDB": {
+      "claves_verificadas": 15,
+      "huella_igual": 15,
+      "huella_distinta": [],
+      "errores": [],
+      "estado": "intacto"
+    },
+    "InfluxDB": {
+      "claves_verificadas": 15,
+      "huella_igual": 15,
+      "huella_distinta": [],
+      "errores": [],
+      "estado": "intacto"
+    },
+    "Neo4j": {
+      "claves_verificadas": 15,
+      "huella_igual": 15,
+      "huella_distinta": [],
+      "errores": [],
+      "estado": "intacto"
+    },
+    "Redis": {
+      "claves_verificadas": 15,
+      "huella_igual": 15,
+      "huella_distinta": [],
+      "errores": [],
+      "estado": "intacto"
+    }
+  }
+}

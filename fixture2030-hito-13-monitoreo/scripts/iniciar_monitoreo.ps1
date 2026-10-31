@@ -6,9 +6,11 @@
 #   ... -PoolIris 5        tamano del pool de IRIS (decision del Hito 12; 0 = sin pool)
 #   ... -SinReiniciarApi   no toca la API si ya esta corriendo con /metrics
 #   ... -DistroWsl ""      no despertar ninguna distro de WSL (por defecto "Ubuntu")
+#   ... -CorteRapido 10    ventana del corte rapido por base, en segundos (0 = desactivado)
 param(
     [switch]$Contenedores,
     [int]$PoolIris = 5,
+    [int]$CorteRapido = 10,
     [switch]$SinReiniciarApi,
     [string]$DistroWsl = "Ubuntu"
 )
@@ -68,8 +70,9 @@ Write-Host "5) Secretos locales para los exporters y Grafana (.env y .secretos, 
 if ($LASTEXITCODE -ne 0) { throw "No se pudieron generar los secretos locales" }
 
 if (-not $SinReiniciarApi) {
-    Write-Host "6) Reiniciando la API instrumentada (IRIS_POOL_SIZE=$PoolIris)..."
+    Write-Host "6) Reiniciando la API instrumentada (IRIS_POOL_SIZE=$PoolIris, CORTE_RAPIDO_SEGUNDOS=$CorteRapido)..."
     $env:IRIS_POOL_SIZE = "$PoolIris"
+    $env:CORTE_RAPIDO_SEGUNDOS = "$CorteRapido"
     # Igual que en el Hito 12: se llama sin tuberia para que la consola no quede esperando a uvicorn.
     & (Join-Path $api "scripts\reiniciar_api.ps1")
     Set-Location $api

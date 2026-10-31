@@ -1,0 +1,196 @@
+{
+  "fecha": "2026-10-30T23:23:47-03:00",
+  "commit": "27b8139 (con cambios sin commitear)",
+  "targets": [
+    {
+      "job": "fixture-api",
+      "componente": "API",
+      "capa": "aplicacion",
+      "mecanismo": "endpoint_propio",
+      "instance": "host.docker.internal:8000",
+      "estado": "UP",
+      "ultimo_scraping": "2026-10-31T02:23:44",
+      "duracion_scraping_s": 0.005,
+      "error": ""
+    },
+    {
+      "job": "cadvisor",
+      "componente": "Contenedores",
+      "capa": "infraestructura",
+      "mecanismo": "exporter",
+      "instance": "cadvisor:8080",
+      "estado": "DOWN",
+      "ultimo_scraping": "2026-10-31T02:23:37",
+      "duracion_scraping_s": 3.296,
+      "error": "Get \"http://cadvisor:8080/metrics\": dial tcp: lookup cadvisor on 127.0.0.11:53: no such host"
+    },
+    {
+      "job": "influxdb",
+      "componente": "InfluxDB",
+      "capa": "infraestructura",
+      "mecanismo": "metricas_nativas",
+      "instance": "host.docker.internal:8181",
+      "estado": "UP",
+      "ultimo_scraping": "2026-10-31T02:23:38",
+      "duracion_scraping_s": 0.015,
+      "error": ""
+    },
+    {
+      "job": "iris",
+      "componente": "InterSystems IRIS",
+      "capa": "infraestructura",
+      "mecanismo": "metricas_nativas",
+      "instance": "host.docker.internal:52773",
+      "estado": "UP",
+      "ultimo_scraping": "2026-10-31T02:23:36",
+      "duracion_scraping_s": 0.041,
+      "error": ""
+    },
+    {
+      "job": "mongodb",
+      "componente": "MongoDB",
+      "capa": "infraestructura",
+      "mecanismo": "exporter",
+      "instance": "mongodb-exporter:9216",
+      "estado": "UP",
+      "ultimo_scraping": "2026-10-31T02:23:34",
+      "duracion_scraping_s": 0.124,
+      "error": ""
+    },
+    {
+      "job": "node-exporter",
+      "componente": "Host Docker",
+      "capa": "infraestructura",
+      "mecanismo": "exporter",
+      "instance": "node-exporter:9100",
+      "estado": "UP",
+      "ultimo_scraping": "2026-10-31T02:23:35",
+      "duracion_scraping_s": 0.016,
+      "error": ""
+    },
+    {
+      "job": "redis",
+      "componente": "Redis",
+      "capa": "infraestructura",
+      "mecanismo": "exporter",
+      "instance": "redis-exporter:9121",
+      "estado": "UP",
+      "ultimo_scraping": "2026-10-31T02:23:37",
+      "duracion_scraping_s": 0.016,
+      "error": ""
+    },
+    {
+      "job": "prometheus",
+      "componente": "Prometheus",
+      "capa": "monitoreo",
+      "mecanismo": "endpoint_propio",
+      "instance": "prometheus:9090",
+      "estado": "UP",
+      "ultimo_scraping": "2026-10-31T02:23:43",
+      "duracion_scraping_s": 0.004,
+      "error": ""
+    },
+    {
+      "job": "sonda-http",
+      "componente": "API",
+      "capa": "red",
+      "mecanismo": "sonda_http",
+      "instance": "http://host.docker.internal:8000/health/live",
+      "estado": "UP",
+      "ultimo_scraping": "2026-10-31T02:23:38",
+      "duracion_scraping_s": 0.006,
+      "error": ""
+    },
+    {
+      "job": "sonda-tcp",
+      "componente": "Cassandra",
+      "capa": "red",
+      "mecanismo": "sonda_tcp",
+      "instance": "host.docker.internal:9042",
+      "estado": "UP",
+      "ultimo_scraping": "2026-10-31T02:23:37",
+      "duracion_scraping_s": 0.002,
+      "error": ""
+    },
+    {
+      "job": "sonda-tcp",
+      "componente": "InfluxDB",
+      "capa": "red",
+      "mecanismo": "sonda_tcp",
+      "instance": "host.docker.internal:8181",
+      "estado": "UP",
+      "ultimo_scraping": "2026-10-31T02:23:39",
+      "duracion_scraping_s": 0.003,
+      "error": ""
+    },
+    {
+      "job": "sonda-tcp",
+      "componente": "InterSystems IRIS",
+      "capa": "red",
+      "mecanismo": "sonda_tcp",
+      "instance": "host.docker.internal:1972",
+      "estado": "UP",
+      "ultimo_scraping": "2026-10-31T02:23:34",
+      "duracion_scraping_s": 0.003,
+      "error": ""
+    },
+    {
+      "job": "sonda-tcp",
+      "componente": "MongoDB",
+      "capa": "red",
+      "mecanismo": "sonda_tcp",
+      "instance": "host.docker.internal:27017",
+      "estado": "UP",
+      "ultimo_scraping": "2026-10-31T02:23:36",
+      "duracion_scraping_s": 0.011,
+      "error": ""
+    },
+    {
+      "job": "sonda-tcp",
+      "componente": "Neo4j",
+      "capa": "red",
+      "mecanismo": "sonda_tcp",
+      "instance": "host.docker.internal:7687",
+      "estado": "UP",
+      "ultimo_scraping": "2026-10-31T02:23:42",
+      "duracion_scraping_s": 0.004,
+      "error": ""
+    },
+    {
+      "job": "sonda-tcp",
+      "componente": "Redis",
+      "capa": "red",
+      "mecanismo": "sonda_tcp",
+      "instance": "host.docker.internal:6379",
+      "estado": "UP",
+      "ultimo_scraping": "2026-10-31T02:23:44",
+      "duracion_scraping_s": 0.003,
+      "error": ""
+    }
+  ],
+  "disponibilidad": {
+    "api_puede_usar_la_base (fixture_dependencia_up)": {
+      "MongoDB": "1",
+      "Neo4j": "1",
+      "Cassandra": "1",
+      "Redis": "1",
+      "InfluxDB": "1",
+      "InterSystems IRIS": "1"
+    },
+    "puerto_acepta_conexiones (probe_success sonda-tcp)": {
+      "InterSystems IRIS": "1",
+      "MongoDB": "1",
+      "Cassandra": "1",
+      "InfluxDB": "1",
+      "Neo4j": "1",
+      "Redis": "1"
+    },
+    "exporter_llega_al_motor": {
+      "MongoDB (mongodb_up)": "1",
+      "Redis (redis_up)": "1"
+    }
+  },
+  "reglas_cargadas": 13,
+  "alertas": [],
+  "jobs_esperados_no_up": []
+}

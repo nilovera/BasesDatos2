@@ -1,0 +1,13 @@
+# Proveedor de dashboards: Grafana carga al iniciar todo JSON de
+# /var/lib/grafana/dashboards (montado desde ../dashboards).
+apiVersion: 1
+providers:
+  - name: fixture2030
+    folder: Fixture 2030
+    type: file
+    disableDeletion: true
+    allowUiUpdates: true
+    updateIntervalSeconds: 30
+    options:
+      path: /var/lib/grafana/dashboards
+      foldersFromFilesStructure: false

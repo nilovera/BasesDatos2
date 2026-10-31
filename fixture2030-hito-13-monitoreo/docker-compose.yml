@@ -1,0 +1,139 @@
+# =============================================================================
+# Fixture 2030 - Hito 13: stack de monitoreo (Prometheus + Grafana + exporters)
+# =============================================================================
+# Parte del docker-compose visto en la Clase 14 (Prometheus, Grafana y
+# node-exporter) y agrega lo necesario para observar las bases del Fixture.
+#
+# Las seis bases NO se levantan acá: siguen en sus propios compose (hitos 4 a 9
+# o entorno-local/). Este proyecto solo las OBSERVA. Como cada base vive en su
+# propia red Docker, los exporters y Prometheus las alcanzan por los puertos
+# publicados en la máquina, a través de host.docker.internal.
+#
+# Diferencias con el compose de la clase (ver README.md):
+#   - Volúmenes Docker con nombre en lugar de ${HOME}/docker/data/... (en
+#     PowerShell la variable HOME no siempre existe y la ruta queda vacía).
+#   - Versiones fijas de cada imagen (reproducibilidad).
+#   - Contraseña de Grafana y credenciales de los exporters en .env (no
+#     versionado); el archivo se genera con scripts/iniciar_monitoreo.ps1.
+#   - Retención de Prometheus explícita: 15 días.
+# =============================================================================
+
+name: fixture2030-monitoreo
+
+x-host-docker: &host-docker
+  extra_hosts:
+    # Docker Desktop ya resuelve host.docker.internal; esto lo garantiza en Linux.
+    - "host.docker.internal:host-gateway"
+
+services:
+  prometheus:
+    image: prom/prometheus:v3.5.0
+    container_name: fixture2030-prometheus
+    restart: unless-stopped
+    <<: *host-docker
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./prometheus:/etc/prometheus/reglas:ro
+      - ./.secretos:/etc/prometheus/secretos:ro
+      - prometheus_data:/prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--storage.tsdb.retention.time=15d"
+      - "--web.enable-lifecycle"
+
+  grafana:
+    image: grafana/grafana:11.6.0
+    container_name: fixture2030-grafana
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD:?Ejecutar scripts/iniciar_monitoreo.ps1 para generar .env}
+      GF_USERS_ALLOW_SIGN_UP: "false"
+      # Lectura sin login para la demo ante la FIFA; editar requiere admin.
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+      GF_AUTH_ANONYMOUS_ORG_ROLE: Viewer
+      GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH: /var/lib/grafana/dashboards/fixture2030.json
+      GF_ANALYTICS_REPORTING_ENABLED: "false"
+      GF_NEWS_NEWS_FEED_ENABLED: "false"
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./grafana/dashboards:/var/lib/grafana/dashboards:ro
+    depends_on:
+      - prometheus
+
+  # Métricas del "host" Docker. En Windows con Docker Desktop mide la máquina
+  # virtual Linux donde corren los contenedores, no Windows (ver limitaciones).
+  node-exporter:
+    image: prom/node-exporter:v1.9.1
+    container_name: fixture2030-node-exporter
+    restart: unless-stopped
+    ports:
+      - "9100:9100"
+
+  # Sondas de red: ¿el puerto de cada base acepta conexiones? ¿la API responde?
+  blackbox-exporter:
+    image: prom/blackbox-exporter:v0.27.0
+    container_name: fixture2030-blackbox-exporter
+    restart: unless-stopped
+    <<: *host-docker
+    ports:
+      - "9115:9115"
+    volumes:
+      - ./blackbox/blackbox.yml:/etc/blackbox_exporter/config.yml:ro
+
+  # MongoDB (Hito 4): estado interno del servidor (operaciones, conexiones, memoria).
+  mongodb-exporter:
+    image: percona/mongodb_exporter:0.40.0
+    container_name: fixture2030-mongodb-exporter
+    restart: unless-stopped
+    <<: *host-docker
+    ports:
+      - "9216:9216"
+    environment:
+      MONGODB_URI: ${MONGODB_EXPORTER_URI:?Ejecutar scripts/iniciar_monitoreo.ps1 para generar .env}
+    command:
+      - "--collect-all"
+      - "--compatible-mode"
+      - "--mongodb.direct-connect=true"
+
+  # Redis (Hito 7): memoria usada frente al límite de 256 MB, clientes, comandos.
+  redis-exporter:
+    image: oliver006/redis_exporter:v1.62.0
+    container_name: fixture2030-redis-exporter
+    restart: unless-stopped
+    <<: *host-docker
+    ports:
+      - "9121:9121"
+    environment:
+      REDIS_ADDR: redis://host.docker.internal:6379
+
+  # CPU y memoria por contenedor (opcional): permite comparar cuánto consume
+  # cada base durante la carga. Se levanta con:  --profile contenedores
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:v0.49.1
+    container_name: fixture2030-cadvisor
+    restart: unless-stopped
+    profiles: ["contenedores"]
+    privileged: true
+    devices:
+      - /dev/kmsg
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /dev/disk/:/dev/disk:ro
+    command:
+      - "--docker_only=true"
+      - "--housekeeping_interval=10s"
+      - "--store_container_labels=false"
+
+volumes:
+  prometheus_data:
+  grafana_data:

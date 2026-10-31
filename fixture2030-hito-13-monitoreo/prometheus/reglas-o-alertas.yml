@@ -1,0 +1,143 @@
+# =============================================================================
+# Fixture 2030 - Hito 13: reglas de registro y alertas
+# =============================================================================
+# Prometheus las evalúa cada 15 s y las muestra en http://localhost:9090/alerts
+# (y en el panel "Alertas activas" del dashboard). No se configuró Alertmanager:
+# en el laboratorio la notificación es la propia pantalla; en producción cada
+# alerta iría al responsable indicado en la etiqueta "atiende".
+#
+# Justificación completa de cada umbral: docs/alertas_y_umbral.md
+# Pruebas unitarias de estas reglas: prometheus/pruebas-reglas.yml (promtool)
+# =============================================================================
+
+groups:
+  # ------------------------------------------------------------------------
+  # Reglas de REGISTRO: precalculan las series que usan el dashboard y las
+  # alertas, para que ambos midan exactamente lo mismo.
+  # Solo rutas de negocio (/api/v1/...): /health y /metrics no son tráfico.
+  # ------------------------------------------------------------------------
+  - name: fixture2030-registro
+    rules:
+      - record: fixture:solicitudes:rate1m
+        expr: sum by (dependencia) (rate(fixture_http_requests_total{ruta=~"/api/v1/.*"}[1m]))
+
+      - record: fixture:errores_5xx:rate1m
+        expr: sum by (dependencia) (rate(fixture_http_requests_total{ruta=~"/api/v1/.*", codigo=~"5.."}[1m]))
+
+      - record: fixture:latencia_p95_segundos:5m
+        expr: histogram_quantile(0.95, sum by (le, dependencia) (rate(fixture_http_request_duration_seconds_bucket{ruta=~"/api/v1/.*"}[5m])))
+
+      - record: fixture:latencia_p95_global_segundos:5m
+        expr: histogram_quantile(0.95, sum by (le) (rate(fixture_http_request_duration_seconds_bucket{ruta=~"/api/v1/.*"}[5m])))
+
+      # Ventana de 2 min: con 5 min una caída de una sola base (~15 % del
+      # tráfico) tardaría más de 2 minutos en superar el 5 %.
+      - record: fixture:proporcion_errores_5xx:2m
+        expr: |
+          sum(rate(fixture_http_requests_total{ruta=~"/api/v1/.*", codigo=~"5.."}[2m]))
+          /
+          sum(rate(fixture_http_requests_total{ruta=~"/api/v1/.*"}[2m]))
+
+  # ------------------------------------------------------------------------
+  # ALERTAS
+  # ------------------------------------------------------------------------
+  - name: fixture2030-disponibilidad
+    rules:
+      - alert: FixtureApiCaida
+        expr: up{job="fixture-api"} == 0
+        for: 30s
+        labels:
+          severidad: critica
+          atiende: equipo-api
+        annotations:
+          resumen: "La API del Fixture no responde a Prometheus"
+          impacto: "Ningún front, Swagger ni cliente puede consultar partidos, comentarios, sesiones ni estadísticas."
+          accion: "Ver logs\\api.stderr.log, reiniciar con scripts\\reiniciar_api.ps1 y confirmar /health/live."
+
+      - alert: FixtureBaseNoDisponibleParaLaApi
+        expr: fixture_dependencia_up == 0
+        for: 1m
+        labels:
+          severidad: critica
+          atiende: dba-de-la-base
+        annotations:
+          resumen: "La API no puede usar {{ $labels.dependencia }}"
+          impacto: "Las rutas de {{ $labels.dependencia }} responden 503; el resto de los módulos sigue funcionando (aislamiento por adaptador)."
+          accion: "GET /health/dependencias para ver la clasificación (timeout, autenticación, no_disponible); revisar 'docker ps' y los logs del contenedor."
+
+      - alert: FixturePuertoDeBaseCerrado
+        expr: probe_success{job="sonda-tcp"} == 0
+        for: 1m
+        labels:
+          severidad: critica
+          atiende: infraestructura
+        annotations:
+          resumen: "El puerto de {{ $labels.componente }} ({{ $labels.instance }}) no acepta conexiones"
+          impacto: "La base está detenida o el puerto no está publicado: falla de infraestructura, no de la API."
+          accion: "docker ps -a --filter name=fixture2030; docker start <contenedor>; revisar 'docker logs'."
+
+      - alert: FixtureSinVisibilidadDeUnComponente
+        expr: up{job=~"mongodb|redis|iris|influxdb|node-exporter"} == 0
+        for: 2m
+        labels:
+          severidad: advertencia
+          atiende: equipo-monitoreo
+        annotations:
+          resumen: "Prometheus no puede leer las métricas de {{ $labels.componente }} (job {{ $labels.job }})"
+          impacto: "No es una caída del Fixture: se pierde visibilidad. Si además falla la sonda TCP, la base está caída."
+          accion: "Revisar scripts\\verificar_targets.ps1 y el procedimiento 'target DOWN' del README."
+
+  - name: fixture2030-rendimiento
+    rules:
+      - alert: FixtureLatenciaP95Alta
+        # Con poco tráfico el percentil no es representativo: se exige > 1 req/s.
+        expr: |
+          fixture:latencia_p95_global_segundos:5m > 0.25
+          and on()
+          sum(fixture:solicitudes:rate1m) > 1
+        for: 2m
+        labels:
+          severidad: advertencia
+          atiende: equipo-api
+        annotations:
+          resumen: "P95 de la API = {{ $value | humanizeDuration }} (umbral 250 ms)"
+          impacto: "La consulta del partido en vivo se percibe lenta; en el Hito 12 el P95 con 80 usuarios fue 120-135 ms."
+          accion: "Ver el panel 'P95 por base' para identificar el motor; comparar CPU de la API (proceso) con la de la base."
+
+      - alert: FixtureErrores5xxAltos
+        expr: |
+          fixture:proporcion_errores_5xx:2m > 0.05
+          and on()
+          sum(fixture:solicitudes:rate1m) > 1
+        for: 1m
+        labels:
+          severidad: critica
+          atiende: equipo-api
+        annotations:
+          resumen: "{{ $value | humanizePercentage }} de las solicitudes terminan en 5xx (umbral 5 %)"
+          impacto: "Usuarios reciben errores. En las corridas del Hito 12 la tasa de error fue 0 %."
+          accion: "Ver 'Errores 5xx por base': si se concentran en una base, revisar esa dependencia; si son de todas, revisar la API."
+
+  - name: fixture2030-capacidad
+    rules:
+      - alert: RedisMemoriaCercaDelLimite
+        expr: redis_memory_used_bytes / (redis_memory_max_bytes > 0) > 0.85
+        for: 5m
+        labels:
+          severidad: advertencia
+          atiende: dba-redis
+        annotations:
+          resumen: "Redis usa {{ $value | humanizePercentage }} de su maxmemory (256 MB)"
+          impacto: "Con la política noeviction del Hito 7, al llegar al 100 % Redis rechaza escrituras: no se pueden crear sesiones nuevas."
+          accion: "Revisar TTL de las sesiones (sesiones sin expiración), subir maxmemory o escalar Redis."
+
+      - alert: IrisLicenciasCasiAgotadas
+        expr: iris_license_percent_used > 75
+        for: 5m
+        labels:
+          severidad: advertencia
+          atiende: dba-iris
+        annotations:
+          resumen: "IRIS usa {{ $value }} % de sus licencias"
+          impacto: "IRIS Community admite 8 conexiones simultáneas (medido en el Hito 12). Si se agotan, el detalle de partidos responde 503."
+          accion: "Revisar IRIS_POOL_SIZE de cada instancia de la API (5 por instancia) y conexiones abiertas por otros clientes."

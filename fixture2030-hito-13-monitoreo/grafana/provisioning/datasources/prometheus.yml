@@ -1,0 +1,13 @@
+# Datasource de Grafana provisionado: Prometheus del stack (misma red Compose).
+apiVersion: 1
+datasources:
+  - name: Prometheus Fixture 2030
+    uid: prometheus-fixture
+    type: prometheus
+    access: proxy
+    url: http://prometheus:9090
+    isDefault: true
+    editable: false
+    jsonData:
+      timeInterval: 15s        # igual al scrape_interval de prometheus.yml
+      httpMethod: POST

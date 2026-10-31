@@ -1,0 +1,4 @@
+# Se instalan en el mismo .venv de la API (que ya tiene httpx y redis).
+prometheus_client==0.26.0   # /metrics de la API (también en requirements.txt de la API)
+psutil==7.0.0               # CPU y memoria del proceso de la API
+matplotlib==3.10.3          # gráfico de la prueba controlada

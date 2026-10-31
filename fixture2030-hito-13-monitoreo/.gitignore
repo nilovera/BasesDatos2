@@ -1,0 +1,6 @@
+# Secretos locales del monitoreo (se generan con scripts/iniciar_monitoreo.ps1)
+.env
+.secretos/
+# Archivos temporales de las pruebas
+__pycache__/
+*.tmp

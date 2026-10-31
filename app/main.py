@@ -14,6 +14,7 @@ from app.config.settings import get_settings
 from app.middleware.error_handlers import (
     register_error_handlers,
 )
+from app.middleware.metrics import PrometheusMiddleware
 from app.middleware.request_context import (
     RequestContextMiddleware,
 )
@@ -21,6 +22,7 @@ from app.routes.cassandra import router as cassandra_router
 from app.routes.health import router as health_router
 from app.routes.influxdb import router as influxdb_router
 from app.routes.iris import router as iris_router
+from app.routes.metrics import router as metrics_router
 from app.routes.mongodb import router as mongodb_router
 from app.routes.neo4j import router as neo4j_router
 from app.routes.redis import router as redis_router
@@ -94,10 +96,14 @@ app = FastAPI(
 )
 
 app.add_middleware(RequestContextMiddleware)
+# Hito 13: métricas de aplicación para Prometheus (queda por fuera del
+# contexto de solicitud, así mide también el costo de ese middleware).
+app.add_middleware(PrometheusMiddleware)
 
 register_error_handlers(app)
 
 app.include_router(health_router)
+app.include_router(metrics_router)
 app.include_router(mongodb_router)
 app.include_router(neo4j_router)
 app.include_router(cassandra_router)

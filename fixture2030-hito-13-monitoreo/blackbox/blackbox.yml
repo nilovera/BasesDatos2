@@ -1,0 +1,18 @@
+# Módulos del blackbox exporter usados por los jobs sonda-tcp y sonda-http.
+modules:
+  # ¿El puerto acepta una conexión TCP? No autentica ni consulta: eso lo mide
+  # la API con fixture_dependencia_up (ver docs/metricas_y_consultas.md).
+  tcp_connect:
+    prober: tcp
+    timeout: 5s
+    tcp:
+      preferred_ip_protocol: ip4
+
+  # ¿La URL responde 2xx en menos de 5 s?
+  http_2xx:
+    prober: http
+    timeout: 5s
+    http:
+      preferred_ip_protocol: ip4
+      valid_status_codes: []   # vacío = cualquier 2xx
+      method: GET

@@ -1,0 +1,115 @@
+# Pruebas unitarias de las reglas con promtool (no necesitan las bases ni Docker
+# Desktop levantado más que para correr la imagen de Prometheus):
+#
+#   docker run --rm -v "${PWD}\prometheus:/r" --entrypoint promtool prom/prometheus:v3.5.0 test rules /r/pruebas-reglas.yml
+#
+# Cada caso simula series de tiempo y verifica que la alerta se dispare (o no)
+# en el momento esperado.
+
+rule_files:
+  - reglas-o-alertas.yml
+
+evaluation_interval: 15s
+
+tests:
+  # 1) Redis se cae durante 3 minutos: la API lo ve caído y la alerta se dispara
+  #    recién después del "for: 1m" (no ante un parpadeo de un scraping).
+  - interval: 15s
+    input_series:
+      - series: 'fixture_dependencia_up{job="fixture-api", dependencia="Redis"}'
+        values: '1x3 0x12 1x8'
+      - series: 'fixture_dependencia_up{job="fixture-api", dependencia="MongoDB"}'
+        values: '1x23'
+    alert_rule_test:
+      - eval_time: 1m30s
+        alertname: FixtureBaseNoDisponibleParaLaApi
+        exp_alerts: []                     # caída hace 45 s: todavía "pending"
+      - eval_time: 2m30s
+        alertname: FixtureBaseNoDisponibleParaLaApi
+        exp_alerts:
+          - exp_labels:
+              severidad: critica
+              atiende: dba-de-la-base
+              job: fixture-api
+              dependencia: Redis
+            exp_annotations:
+              resumen: "La API no puede usar Redis"
+              impacto: "Las rutas de Redis responden 503; el resto de los módulos sigue funcionando (aislamiento por adaptador)."
+              accion: "GET /health/dependencias para ver la clasificación (timeout, autenticación, no_disponible); revisar 'docker ps' y los logs del contenedor."
+      - eval_time: 5m45s
+        alertname: FixtureBaseNoDisponibleParaLaApi
+        exp_alerts: []                     # Redis volvió: la alerta se resuelve
+
+  # 2) 10 % de 5xx con 20 req/s sostenidos: alerta crítica de errores.
+  - interval: 15s
+    input_series:
+      - series: 'fixture_http_requests_total{ruta="/api/v1/sesiones/{sesion_id}", codigo="200", dependencia="Redis"}'
+        values: '0+270x40'                 # 18 req/s correctas
+      - series: 'fixture_http_requests_total{ruta="/api/v1/sesiones/{sesion_id}", codigo="503", dependencia="Redis"}'
+        values: '0+30x40'                  #  2 req/s con 503
+    alert_rule_test:
+      - eval_time: 8m
+        alertname: FixtureErrores5xxAltos
+        exp_alerts:
+          - exp_labels:
+              severidad: critica
+              atiende: equipo-api
+            exp_annotations:
+              resumen: "10% de las solicitudes terminan en 5xx (umbral 5 %)"
+              impacto: "Usuarios reciben errores. En las corridas del Hito 12 la tasa de error fue 0 %."
+              accion: "Ver 'Errores 5xx por base': si se concentran en una base, revisar esa dependencia; si son de todas, revisar la API."
+
+  # 3) Pocos errores con poco tráfico NO alertan (1 error cada 60 s, 0,2 req/s).
+  - interval: 15s
+    input_series:
+      - series: 'fixture_http_requests_total{ruta="/api/v1/equipos/{codigo}", codigo="200", dependencia="MongoDB"}'
+        values: '0+2x40'
+      - series: 'fixture_http_requests_total{ruta="/api/v1/equipos/{codigo}", codigo="503", dependencia="MongoDB"}'
+        values: '0+1x40'
+    alert_rule_test:
+      - eval_time: 8m
+        alertname: FixtureErrores5xxAltos
+        exp_alerts: []
+
+  # 4) Latencia: todas las solicitudes tardan entre 0,25 y 0,5 s -> P95 > 250 ms.
+  - interval: 15s
+    input_series:
+      - series: 'fixture_http_requests_total{ruta="/api/v1/partidos/{codigo}/comentarios", codigo="200", dependencia="Cassandra"}'
+        values: '0+150x40'                 # 10 req/s
+      - series: 'fixture_http_request_duration_seconds_bucket{ruta="/api/v1/partidos/{codigo}/comentarios", dependencia="Cassandra", le="0.25"}'
+        values: '0x40'
+      - series: 'fixture_http_request_duration_seconds_bucket{ruta="/api/v1/partidos/{codigo}/comentarios", dependencia="Cassandra", le="0.5"}'
+        values: '0+150x40'
+      - series: 'fixture_http_request_duration_seconds_bucket{ruta="/api/v1/partidos/{codigo}/comentarios", dependencia="Cassandra", le="+Inf"}'
+        values: '0+150x40'
+    alert_rule_test:
+      - eval_time: 8m
+        alertname: FixtureLatenciaP95Alta
+        exp_alerts:
+          - exp_labels:
+              severidad: advertencia
+              atiende: equipo-api
+            exp_annotations:
+              resumen: "P95 de la API = 487.5ms (umbral 250 ms)"
+              impacto: "La consulta del partido en vivo se percibe lenta; en el Hito 12 el P95 con 80 usuarios fue 120-135 ms."
+              accion: "Ver el panel 'P95 por base' para identificar el motor; comparar CPU de la API (proceso) con la de la base."
+
+  # 5) Redis al 90 % de maxmemory durante más de 5 minutos.
+  - interval: 1m
+    input_series:
+      - series: 'redis_memory_used_bytes{job="redis"}'
+        values: '241591910x10'             # ~230 MB
+      - series: 'redis_memory_max_bytes{job="redis"}'
+        values: '268435456x10'             # 256 MB
+    alert_rule_test:
+      - eval_time: 7m
+        alertname: RedisMemoriaCercaDelLimite
+        exp_alerts:
+          - exp_labels:
+              severidad: advertencia
+              atiende: dba-redis
+              job: redis
+            exp_annotations:
+              resumen: "Redis usa 90% de su maxmemory (256 MB)"
+              impacto: "Con la política noeviction del Hito 7, al llegar al 100 % Redis rechaza escrituras: no se pueden crear sesiones nuevas."
+              accion: "Revisar TTL de las sesiones (sesiones sin expiración), subir maxmemory o escalar Redis."

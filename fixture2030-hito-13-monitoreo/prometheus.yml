@@ -1,0 +1,125 @@
+# =============================================================================
+# Fixture 2030 - Hito 13: configuración de Prometheus
+# =============================================================================
+# Cada job corresponde a UN componente observado. Etiquetas comunes:
+#   capa        aplicacion | infraestructura | red | monitoreo
+#   componente  nombre de la base o servicio (igual que en la API)
+#   modelo      modelo de datos de la base (documental, grafo, ...)
+#   mecanismo   endpoint_propio | exporter | metricas_nativas | sonda_tcp | sonda_http
+#
+# Las bases corren en otros proyectos Compose y se alcanzan por
+# host.docker.internal:<puerto publicado>. La API corre en Windows (uvicorn)
+# y también se alcanza por host.docker.internal:8000.
+#
+# Validar sin levantar nada:  docker run --rm -v ${PWD}:/c --entrypoint promtool prom/prometheus:v3.5.0 check config /c/prometheus.yml
+# =============================================================================
+
+global:
+  scrape_interval: 15s       # cada cuánto se pide /metrics a cada target
+  scrape_timeout: 10s        # el ping a una base caída tarda hasta ~6 s
+  evaluation_interval: 15s   # cada cuánto se evalúan las reglas de alerta
+  external_labels:
+    proyecto: fixture2030
+
+rule_files:
+  - /etc/prometheus/reglas/reglas-o-alertas.yml
+
+scrape_configs:
+  # ---------------------------------------------------------------- monitoreo
+  - job_name: prometheus
+    static_configs:
+      - targets: ["prometheus:9090"]
+        labels: { capa: monitoreo, componente: Prometheus, mecanismo: endpoint_propio }
+
+  # ---------------------------------------------------------------- aplicación
+  # API integrada (Hitos 10-12), instrumentada en el Hito 13 con
+  # app/middleware/metrics.py y app/routes/metrics.py.
+  - job_name: fixture-api
+    metrics_path: /metrics
+    static_configs:
+      - targets: ["host.docker.internal:8000"]
+        labels: { capa: aplicacion, componente: API, modelo: integracion, mecanismo: endpoint_propio }
+
+  # ---------------------------------------------------------- infraestructura
+  # MongoDB (Hito 4) - equipos y jugadores - exporter de Percona.
+  - job_name: mongodb
+    static_configs:
+      - targets: ["mongodb-exporter:9216"]
+        labels: { capa: infraestructura, componente: MongoDB, modelo: documental, mecanismo: exporter }
+
+  # Redis (Hito 7) - sesiones con TTL - redis_exporter.
+  - job_name: redis
+    static_configs:
+      - targets: ["redis-exporter:9121"]
+        labels: { capa: infraestructura, componente: Redis, modelo: clave-valor, mecanismo: exporter }
+
+  # InterSystems IRIS (Hito 9) - objetos persistentes - endpoint nativo /api/monitor/metrics.
+  - job_name: iris
+    metrics_path: /api/monitor/metrics
+    basic_auth:
+      username: _SYSTEM
+      password_file: /etc/prometheus/secretos/iris_password
+    static_configs:
+      - targets: ["host.docker.internal:52773"]
+        labels: { capa: infraestructura, componente: InterSystems IRIS, modelo: objetos-multimodelo, mecanismo: metricas_nativas }
+
+  # InfluxDB 3 Core (Hito 8) - estadísticas temporales - endpoint nativo /metrics (requiere token).
+  - job_name: influxdb
+    metrics_path: /metrics
+    authorization:
+      type: Bearer
+      credentials_file: /etc/prometheus/secretos/influxdb_token
+    static_configs:
+      - targets: ["host.docker.internal:8181"]
+        labels: { capa: infraestructura, componente: InfluxDB, modelo: series-temporales, mecanismo: metricas_nativas }
+
+  # Máquina donde corren los contenedores (en Docker Desktop: la VM Linux).
+  - job_name: node-exporter
+    static_configs:
+      - targets: ["node-exporter:9100"]
+        labels: { capa: infraestructura, componente: Host Docker, mecanismo: exporter }
+
+  # CPU/memoria por contenedor. Solo responde si se levantó el perfil "contenedores".
+  - job_name: cadvisor
+    static_configs:
+      - targets: ["cadvisor:8080"]
+        labels: { capa: infraestructura, componente: Contenedores, mecanismo: exporter }
+
+  # --------------------------------------------------------------------- red
+  # Sondas TCP del blackbox exporter: ¿el puerto publicado de cada base acepta
+  # conexiones? Es la única señal directa para Neo4j y Cassandra, que no tienen
+  # exporter en este laboratorio (ver docs/limitaciones_y_evidencia.md).
+  - job_name: sonda-tcp
+    metrics_path: /probe
+    params:
+      module: [tcp_connect]
+    static_configs:
+      - targets: ["host.docker.internal:27017"]
+        labels: { capa: red, componente: MongoDB, modelo: documental, mecanismo: sonda_tcp }
+      - targets: ["host.docker.internal:7687"]
+        labels: { capa: red, componente: Neo4j, modelo: grafo, mecanismo: sonda_tcp }
+      - targets: ["host.docker.internal:9042"]
+        labels: { capa: red, componente: Cassandra, modelo: columnar-distribuido, mecanismo: sonda_tcp }
+      - targets: ["host.docker.internal:6379"]
+        labels: { capa: red, componente: Redis, modelo: clave-valor, mecanismo: sonda_tcp }
+      - targets: ["host.docker.internal:8181"]
+        labels: { capa: red, componente: InfluxDB, modelo: series-temporales, mecanismo: sonda_tcp }
+      - targets: ["host.docker.internal:1972"]
+        labels: { capa: red, componente: InterSystems IRIS, modelo: objetos-multimodelo, mecanismo: sonda_tcp }
+    relabel_configs: &sonda
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__address__]
+        target_label: instance
+      - target_label: __address__
+        replacement: blackbox-exporter:9115
+
+  # Sonda HTTP: liveness de la API (/health/live) vista desde afuera.
+  - job_name: sonda-http
+    metrics_path: /probe
+    params:
+      module: [http_2xx]
+    static_configs:
+      - targets: ["http://host.docker.internal:8000/health/live"]
+        labels: { capa: red, componente: API, modelo: integracion, mecanismo: sonda_http }
+    relabel_configs: *sonda

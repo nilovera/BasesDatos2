@@ -1,3 +1,21 @@
+# Fixture 2030 - Rama `monitoreo` (Hito 13: monitoreo y defensa final)
+
+Esta rama parte de `carga-optimizacion` (Hito 12) y agrega el **Hito 13** en [`fixture2030-hito-13-monitoreo/`](fixture2030-hito-13-monitoreo/README.md):
+
+- Prometheus y Grafana con 14 targets (API instrumentada, MongoDB, Redis, IRIS, InfluxDB, host Docker y sondas de red a las 6 bases).
+- Dashboard provisionado de 32 paneles en 6 secciones y 8 alertas con impacto y acción.
+- Tres pruebas controladas de falla de Redis con carga.
+- Una mejora transversal medida: el **corte rápido por base** sostuvo 138 req/s durante la falla, contra 47 req/s sin él, con 0 errores en las otras 5 bases.
+- El material de la defensa ante la FIFA (`docs/defensa_final.md`, `defensa/`).
+
+Cambios sobre la API: endpoint `/metrics` (`app/middleware/metrics.py`, `app/routes/metrics.py`) y corte rápido opcional (`app/services/corte_rapido.py`, `CORTE_RAPIDO_SEGUNDOS`, 0 = comportamiento anterior).
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File .\fixture2030-hito-13-monitoreo\scripts\iniciar_monitoreo.ps1   # Grafana http://localhost:3000 · Prometheus http://localhost:9090
+```
+
+---
+
 # Fixture 2030 - Rama `Carga` (Hito 12: pruebas de carga y optimización)
 
 Esta rama parte de `Conectividad` (Hito 11) y agrega el **Hito 12** en [`fixture2030-hito-12-carga-optimizacion/`](fixture2030-hito-12-carga-optimizacion/README.md): prueba de carga reproducible sobre la API integrada, línea base, cuello de botella en IRIS, pool de conexiones (−84 % de tiempo de IRIS dentro de la API, −96 % de CPU de IRIS), repetición, validación de integridad, prototipo de Data Mart medido y comparación relacional.

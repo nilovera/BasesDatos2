@@ -1,7 +1,7 @@
 {
-  "fecha": "2026-10-30T23:44:46-03:00",
+  "fecha": "2026-10-30T23:54:20-03:00",
   "momento": "antes",
-  "commit": "2303e8c (con cambios sin commitear)",
+  "commit": "c2363f2",
   "referencia": "catalogo_claves.json del Hito 12 (2026-10-24T19:36:17-03:00)",
   "metodo": "SHA-256 del JSON canónico de la respuesta de la API (sin campos volátiles como el TTL)",
   "por_base": {

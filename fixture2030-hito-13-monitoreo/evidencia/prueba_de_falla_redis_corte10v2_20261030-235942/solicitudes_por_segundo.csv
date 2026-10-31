@@ -1,0 +1,1610 @@
+segundo,base,codigo_http,solicitudes
+0,Cassandra,200,22
+0,InterSystems IRIS,200,6
+0,MongoDB,200,5
+0,InfluxDB,200,13
+0,Neo4j,200,7
+0,Redis,200,11
+1,Cassandra,200,60
+1,InterSystems IRIS,200,16
+1,MongoDB,200,14
+1,InfluxDB,200,26
+1,Neo4j,200,18
+1,Redis,200,16
+2,Cassandra,200,42
+2,InterSystems IRIS,200,12
+2,MongoDB,200,7
+2,InfluxDB,200,15
+2,Neo4j,200,21
+2,Redis,200,27
+3,Cassandra,200,51
+3,InterSystems IRIS,200,12
+3,MongoDB,200,7
+3,InfluxDB,200,17
+3,Neo4j,200,21
+3,Redis,200,13
+4,Cassandra,200,44
+4,InterSystems IRIS,200,20
+4,MongoDB,200,11
+4,InfluxDB,200,23
+4,Neo4j,200,20
+4,Redis,200,15
+5,Cassandra,200,39
+5,InterSystems IRIS,200,14
+5,MongoDB,200,13
+5,InfluxDB,200,21
+5,Neo4j,200,23
+5,Redis,200,20
+6,Cassandra,200,51
+6,InterSystems IRIS,200,18
+6,MongoDB,200,14
+6,InfluxDB,200,17
+6,Neo4j,200,26
+6,Redis,200,24
+7,Cassandra,200,45
+7,InterSystems IRIS,200,17
+7,MongoDB,200,13
+7,InfluxDB,200,23
+7,Neo4j,200,15
+7,Redis,200,27
+8,Cassandra,200,44
+8,InterSystems IRIS,200,12
+8,MongoDB,200,7
+8,InfluxDB,200,24
+8,Neo4j,200,15
+8,Redis,200,18
+9,Cassandra,200,42
+9,InterSystems IRIS,200,16
+9,MongoDB,200,10
+9,InfluxDB,200,24
+9,Neo4j,200,19
+9,Redis,200,21
+10,Cassandra,200,41
+10,InterSystems IRIS,200,17
+10,MongoDB,200,10
+10,InfluxDB,200,33
+10,Neo4j,200,14
+10,Redis,200,15
+11,Cassandra,200,34
+11,InterSystems IRIS,200,10
+11,MongoDB,200,20
+11,InfluxDB,200,28
+11,Neo4j,200,23
+11,Redis,200,25
+12,Cassandra,200,37
+12,InterSystems IRIS,200,10
+12,MongoDB,200,15
+12,InfluxDB,200,21
+12,Neo4j,200,24
+12,Redis,200,18
+13,Cassandra,200,36
+13,InterSystems IRIS,200,16
+13,MongoDB,200,13
+13,InfluxDB,200,29
+13,Neo4j,200,18
+13,Redis,200,19
+14,Cassandra,200,42
+14,InterSystems IRIS,200,16
+14,MongoDB,200,14
+14,InfluxDB,200,33
+14,Neo4j,200,20
+14,Redis,200,24
+15,Cassandra,200,46
+15,InterSystems IRIS,200,13
+15,MongoDB,200,11
+15,InfluxDB,200,39
+15,Neo4j,200,22
+15,Redis,200,20
+16,Cassandra,200,37
+16,InterSystems IRIS,200,23
+16,MongoDB,200,16
+16,InfluxDB,200,25
+16,Neo4j,200,23
+16,Redis,200,14
+17,Cassandra,200,40
+17,InterSystems IRIS,200,14
+17,MongoDB,200,16
+17,InfluxDB,200,26
+17,Neo4j,200,20
+17,Redis,200,18
+18,Cassandra,200,38
+18,InterSystems IRIS,200,9
+18,MongoDB,200,16
+18,InfluxDB,200,29
+18,Neo4j,200,22
+18,Redis,200,16
+19,Cassandra,200,39
+19,InterSystems IRIS,200,11
+19,MongoDB,200,14
+19,InfluxDB,200,33
+19,Neo4j,200,17
+19,Redis,200,18
+20,Cassandra,200,46
+20,InterSystems IRIS,200,11
+20,MongoDB,200,19
+20,InfluxDB,200,24
+20,Neo4j,200,19
+20,Redis,200,21
+21,Cassandra,200,38
+21,InterSystems IRIS,200,12
+21,MongoDB,200,15
+21,InfluxDB,200,34
+21,Neo4j,200,21
+21,Redis,200,22
+22,Cassandra,200,48
+22,InterSystems IRIS,200,10
+22,MongoDB,200,10
+22,InfluxDB,200,24
+22,Neo4j,200,24
+22,Redis,200,22
+23,Cassandra,200,41
+23,InterSystems IRIS,200,9
+23,MongoDB,200,15
+23,InfluxDB,200,17
+23,Neo4j,200,15
+23,Redis,200,25
+24,Cassandra,200,37
+24,InterSystems IRIS,200,18
+24,MongoDB,200,15
+24,InfluxDB,200,26
+24,Neo4j,200,26
+24,Redis,200,21
+25,Cassandra,200,46
+25,InterSystems IRIS,200,7
+25,MongoDB,200,17
+25,InfluxDB,200,26
+25,Neo4j,200,24
+25,Redis,200,13
+26,Cassandra,200,44
+26,InterSystems IRIS,200,9
+26,MongoDB,200,14
+26,InfluxDB,200,33
+26,Neo4j,200,26
+26,Redis,200,14
+27,Cassandra,200,42
+27,InterSystems IRIS,200,13
+27,MongoDB,200,13
+27,InfluxDB,200,32
+27,Neo4j,200,25
+27,Redis,200,19
+28,Cassandra,200,33
+28,InterSystems IRIS,200,7
+28,MongoDB,200,15
+28,InfluxDB,200,28
+28,Neo4j,200,28
+28,Redis,200,21
+29,Cassandra,200,29
+29,InterSystems IRIS,200,16
+29,MongoDB,200,21
+29,InfluxDB,200,38
+29,Neo4j,200,18
+29,Redis,200,19
+30,Cassandra,200,44
+30,InterSystems IRIS,200,15
+30,MongoDB,200,20
+30,InfluxDB,200,22
+30,Neo4j,200,22
+30,Redis,200,15
+31,Cassandra,200,47
+31,InterSystems IRIS,200,12
+31,MongoDB,200,11
+31,InfluxDB,200,23
+31,Neo4j,200,20
+31,Redis,200,16
+32,Cassandra,200,47
+32,InterSystems IRIS,200,10
+32,MongoDB,200,15
+32,InfluxDB,200,19
+32,Neo4j,200,21
+32,Redis,200,28
+33,Cassandra,200,36
+33,InterSystems IRIS,200,8
+33,MongoDB,200,12
+33,InfluxDB,200,27
+33,Neo4j,200,23
+33,Redis,200,17
+34,Cassandra,200,53
+34,InterSystems IRIS,200,16
+34,MongoDB,200,9
+34,InfluxDB,200,19
+34,Neo4j,200,22
+34,Redis,200,20
+35,Cassandra,200,37
+35,InterSystems IRIS,200,13
+35,MongoDB,200,13
+35,InfluxDB,200,23
+35,Neo4j,200,21
+35,Redis,200,18
+36,Cassandra,200,36
+36,InterSystems IRIS,200,19
+36,MongoDB,200,12
+36,InfluxDB,200,27
+36,Neo4j,200,20
+36,Redis,200,18
+37,Cassandra,200,32
+37,InterSystems IRIS,200,19
+37,MongoDB,200,9
+37,InfluxDB,200,26
+37,Neo4j,200,16
+37,Redis,200,25
+38,Cassandra,200,35
+38,InterSystems IRIS,200,7
+38,MongoDB,200,11
+38,InfluxDB,200,24
+38,Neo4j,200,25
+38,Redis,200,22
+39,Cassandra,200,41
+39,InterSystems IRIS,200,12
+39,MongoDB,200,12
+39,InfluxDB,200,22
+39,Neo4j,200,27
+39,Redis,200,24
+40,Cassandra,200,30
+40,InterSystems IRIS,200,15
+40,MongoDB,200,15
+40,InfluxDB,200,26
+40,Neo4j,200,20
+40,Redis,200,21
+41,Cassandra,200,34
+41,InterSystems IRIS,200,15
+41,MongoDB,200,14
+41,InfluxDB,200,37
+41,Neo4j,200,20
+41,Redis,200,24
+42,Cassandra,200,54
+42,InterSystems IRIS,200,15
+42,MongoDB,200,12
+42,InfluxDB,200,30
+42,Neo4j,200,21
+42,Redis,200,20
+43,Cassandra,200,43
+43,InterSystems IRIS,200,10
+43,MongoDB,200,12
+43,InfluxDB,200,25
+43,Neo4j,200,16
+43,Redis,200,18
+44,Cassandra,200,40
+44,InterSystems IRIS,200,17
+44,MongoDB,200,21
+44,InfluxDB,200,27
+44,Neo4j,200,24
+44,Redis,200,18
+45,Cassandra,200,44
+45,InterSystems IRIS,200,17
+45,MongoDB,200,12
+45,InfluxDB,200,30
+45,Neo4j,200,21
+45,Redis,200,20
+46,Cassandra,200,51
+46,InterSystems IRIS,200,11
+46,MongoDB,200,20
+46,InfluxDB,200,24
+46,Neo4j,200,16
+46,Redis,200,18
+47,Cassandra,200,35
+47,InterSystems IRIS,200,14
+47,MongoDB,200,14
+47,InfluxDB,200,20
+47,Neo4j,200,43
+47,Redis,200,23
+48,Cassandra,200,53
+48,InterSystems IRIS,200,6
+48,MongoDB,200,6
+48,InfluxDB,200,27
+48,Neo4j,200,24
+48,Redis,200,25
+49,Cassandra,200,34
+49,InterSystems IRIS,200,11
+49,MongoDB,200,16
+49,InfluxDB,200,31
+49,Neo4j,200,23
+49,Redis,200,28
+50,Cassandra,200,42
+50,InterSystems IRIS,200,9
+50,MongoDB,200,16
+50,InfluxDB,200,31
+50,Neo4j,200,20
+50,Redis,200,27
+51,Cassandra,200,40
+51,InterSystems IRIS,200,11
+51,MongoDB,200,19
+51,InfluxDB,200,34
+51,Neo4j,200,31
+51,Redis,200,18
+52,Cassandra,200,40
+52,InterSystems IRIS,200,14
+52,MongoDB,200,14
+52,InfluxDB,200,23
+52,Neo4j,200,22
+52,Redis,200,21
+53,Cassandra,200,46
+53,InterSystems IRIS,200,11
+53,MongoDB,200,10
+53,InfluxDB,200,31
+53,Neo4j,200,20
+53,Redis,200,11
+54,Cassandra,200,42
+54,InterSystems IRIS,200,12
+54,MongoDB,200,9
+54,InfluxDB,200,39
+54,Neo4j,200,17
+54,Redis,200,17
+55,Cassandra,200,45
+55,InterSystems IRIS,200,12
+55,MongoDB,200,18
+55,InfluxDB,200,19
+55,Neo4j,200,17
+55,Redis,200,18
+56,Cassandra,200,45
+56,InterSystems IRIS,200,18
+56,MongoDB,200,16
+56,InfluxDB,200,27
+56,Neo4j,200,22
+56,Redis,200,21
+57,Cassandra,200,39
+57,InterSystems IRIS,200,10
+57,MongoDB,200,17
+57,InfluxDB,200,29
+57,Neo4j,200,23
+57,Redis,200,22
+58,Cassandra,200,36
+58,InterSystems IRIS,200,10
+58,MongoDB,200,16
+58,InfluxDB,200,33
+58,Neo4j,200,18
+58,Redis,200,18
+59,Cassandra,200,39
+59,InterSystems IRIS,200,14
+59,MongoDB,200,12
+59,InfluxDB,200,27
+59,Neo4j,200,23
+59,Redis,200,30
+60,Cassandra,200,24
+60,InterSystems IRIS,200,12
+60,MongoDB,200,11
+60,InfluxDB,200,24
+60,Neo4j,200,21
+60,Redis,200,13
+61,Cassandra,200,41
+61,InterSystems IRIS,200,11
+61,MongoDB,200,11
+61,InfluxDB,200,31
+61,Neo4j,200,22
+61,Redis,503,21
+62,Cassandra,200,44
+62,InterSystems IRIS,200,15
+62,MongoDB,200,14
+62,InfluxDB,200,26
+62,Neo4j,200,22
+62,Redis,503,15
+63,Cassandra,200,36
+63,InterSystems IRIS,200,14
+63,MongoDB,200,18
+63,InfluxDB,200,19
+63,Neo4j,200,18
+63,Redis,503,25
+64,Cassandra,200,51
+64,InterSystems IRIS,200,14
+64,MongoDB,200,14
+64,InfluxDB,200,32
+64,Neo4j,200,17
+64,Redis,503,18
+65,Cassandra,200,44
+65,InterSystems IRIS,200,8
+65,MongoDB,200,11
+65,InfluxDB,200,33
+65,Neo4j,200,17
+65,Redis,503,26
+66,Cassandra,200,53
+66,InterSystems IRIS,200,14
+66,MongoDB,200,21
+66,InfluxDB,200,32
+66,Neo4j,200,15
+66,Redis,503,17
+67,Cassandra,200,34
+67,InterSystems IRIS,200,15
+67,MongoDB,200,15
+67,InfluxDB,200,32
+67,Neo4j,200,22
+67,Redis,503,22
+68,Cassandra,200,36
+68,InterSystems IRIS,200,21
+68,MongoDB,200,8
+68,InfluxDB,200,26
+68,Neo4j,200,21
+68,Redis,503,20
+69,Cassandra,200,39
+69,InterSystems IRIS,200,10
+69,MongoDB,200,13
+69,InfluxDB,200,36
+69,Neo4j,200,20
+69,Redis,503,17
+70,Cassandra,200,27
+70,InterSystems IRIS,200,17
+70,MongoDB,200,12
+70,InfluxDB,200,19
+70,Neo4j,200,23
+70,Redis,503,28
+71,Cassandra,200,38
+71,InterSystems IRIS,200,11
+71,MongoDB,200,12
+71,InfluxDB,200,30
+71,Neo4j,200,21
+71,Redis,503,24
+72,Cassandra,200,49
+72,InterSystems IRIS,200,12
+72,MongoDB,200,16
+72,InfluxDB,200,28
+72,Neo4j,200,23
+72,Redis,503,13
+73,Cassandra,200,40
+73,InterSystems IRIS,200,15
+73,MongoDB,200,14
+73,InfluxDB,200,25
+73,Neo4j,200,19
+73,Redis,503,24
+74,Cassandra,200,38
+74,InterSystems IRIS,200,12
+74,MongoDB,200,9
+74,InfluxDB,200,33
+74,Neo4j,200,25
+74,Redis,503,22
+75,Cassandra,200,38
+75,InterSystems IRIS,200,11
+75,MongoDB,200,6
+75,InfluxDB,200,23
+75,Neo4j,200,26
+75,Redis,503,26
+76,Cassandra,200,46
+76,InterSystems IRIS,200,12
+76,MongoDB,200,16
+76,InfluxDB,200,31
+76,Neo4j,200,30
+76,Redis,503,21
+77,Cassandra,200,39
+77,InterSystems IRIS,200,13
+77,MongoDB,200,17
+77,InfluxDB,200,35
+77,Neo4j,200,21
+77,Redis,503,17
+78,Cassandra,200,38
+78,InterSystems IRIS,200,10
+78,MongoDB,200,13
+78,InfluxDB,200,29
+78,Neo4j,200,20
+78,Redis,503,28
+79,Cassandra,200,39
+79,InterSystems IRIS,200,20
+79,MongoDB,200,18
+79,InfluxDB,200,31
+79,Neo4j,200,15
+79,Redis,503,18
+80,Cassandra,200,37
+80,InterSystems IRIS,200,9
+80,MongoDB,200,14
+80,InfluxDB,200,29
+80,Neo4j,200,26
+80,Redis,503,29
+81,Cassandra,200,37
+81,InterSystems IRIS,200,16
+81,MongoDB,200,9
+81,InfluxDB,200,23
+81,Neo4j,200,18
+81,Redis,503,25
+82,Cassandra,200,34
+82,InterSystems IRIS,200,12
+82,MongoDB,200,16
+82,InfluxDB,200,39
+82,Neo4j,200,17
+82,Redis,503,28
+83,Cassandra,200,37
+83,InterSystems IRIS,200,9
+83,MongoDB,200,17
+83,InfluxDB,200,18
+83,Neo4j,200,21
+83,Redis,503,28
+84,Cassandra,200,33
+84,InterSystems IRIS,200,12
+84,MongoDB,200,22
+84,InfluxDB,200,30
+84,Neo4j,200,17
+84,Redis,503,14
+85,Cassandra,200,35
+85,InterSystems IRIS,200,22
+85,MongoDB,200,14
+85,InfluxDB,200,31
+85,Neo4j,200,30
+85,Redis,503,25
+86,Cassandra,200,46
+86,InterSystems IRIS,200,12
+86,MongoDB,200,18
+86,InfluxDB,200,33
+86,Neo4j,200,19
+86,Redis,503,15
+87,Cassandra,200,42
+87,InterSystems IRIS,200,11
+87,MongoDB,200,10
+87,InfluxDB,200,26
+87,Neo4j,200,22
+87,Redis,503,26
+88,Cassandra,200,43
+88,InterSystems IRIS,200,16
+88,MongoDB,200,13
+88,InfluxDB,200,27
+88,Neo4j,200,17
+88,Redis,503,18
+89,Cassandra,200,42
+89,InterSystems IRIS,200,18
+89,MongoDB,200,15
+89,InfluxDB,200,27
+89,Neo4j,200,21
+89,Redis,503,25
+90,Cassandra,200,43
+90,InterSystems IRIS,200,24
+90,MongoDB,200,10
+90,InfluxDB,200,18
+90,Neo4j,200,21
+90,Redis,503,23
+91,Cassandra,200,36
+91,InterSystems IRIS,200,13
+91,MongoDB,200,19
+91,InfluxDB,200,36
+91,Neo4j,200,15
+91,Redis,503,22
+92,Cassandra,200,43
+92,InterSystems IRIS,200,9
+92,MongoDB,200,15
+92,InfluxDB,200,38
+92,Neo4j,200,18
+92,Redis,503,22
+93,Cassandra,200,46
+93,InterSystems IRIS,200,14
+93,MongoDB,200,9
+93,InfluxDB,200,27
+93,Neo4j,200,13
+93,Redis,503,23
+94,Cassandra,200,44
+94,InterSystems IRIS,200,21
+94,MongoDB,200,14
+94,InfluxDB,200,21
+94,Neo4j,200,17
+94,Redis,503,21
+95,Cassandra,200,43
+95,InterSystems IRIS,200,14
+95,MongoDB,200,10
+95,InfluxDB,200,27
+95,Neo4j,200,25
+95,Redis,503,23
+96,Cassandra,200,41
+96,InterSystems IRIS,200,11
+96,MongoDB,200,14
+96,InfluxDB,200,12
+96,Neo4j,200,29
+96,Redis,503,24
+97,Cassandra,200,30
+97,InterSystems IRIS,200,14
+97,MongoDB,200,18
+97,InfluxDB,200,27
+97,Neo4j,200,17
+97,Redis,503,24
+98,Cassandra,200,54
+98,InterSystems IRIS,200,6
+98,MongoDB,200,14
+98,InfluxDB,200,29
+98,Neo4j,200,19
+98,Redis,503,15
+99,Cassandra,200,46
+99,InterSystems IRIS,200,13
+99,MongoDB,200,14
+99,InfluxDB,200,29
+99,Neo4j,200,15
+99,Redis,503,21
+100,Cassandra,200,38
+100,InterSystems IRIS,200,16
+100,MongoDB,200,8
+100,InfluxDB,200,25
+100,Neo4j,200,26
+100,Redis,503,21
+101,Cassandra,200,41
+101,InterSystems IRIS,200,16
+101,MongoDB,200,9
+101,InfluxDB,200,21
+101,Neo4j,200,20
+101,Redis,503,25
+102,Cassandra,200,36
+102,InterSystems IRIS,200,15
+102,MongoDB,200,13
+102,InfluxDB,200,34
+102,Neo4j,200,26
+102,Redis,503,12
+103,Cassandra,200,36
+103,InterSystems IRIS,200,17
+103,MongoDB,200,14
+103,InfluxDB,200,24
+103,Neo4j,200,19
+103,Redis,503,21
+104,Cassandra,200,45
+104,InterSystems IRIS,200,6
+104,MongoDB,200,19
+104,InfluxDB,200,26
+104,Neo4j,200,23
+104,Redis,503,20
+105,Cassandra,200,46
+105,InterSystems IRIS,200,15
+105,MongoDB,200,10
+105,InfluxDB,200,28
+105,Neo4j,200,21
+105,Redis,503,14
+106,Cassandra,200,51
+106,InterSystems IRIS,200,11
+106,MongoDB,200,13
+106,InfluxDB,200,28
+106,Neo4j,200,16
+106,Redis,503,26
+107,Cassandra,200,46
+107,InterSystems IRIS,200,14
+107,MongoDB,200,10
+107,InfluxDB,200,27
+107,Neo4j,200,28
+107,Redis,503,22
+108,Cassandra,200,32
+108,InterSystems IRIS,200,10
+108,MongoDB,200,17
+108,InfluxDB,200,31
+108,Neo4j,200,15
+108,Redis,503,12
+109,Cassandra,200,46
+109,InterSystems IRIS,200,10
+109,MongoDB,200,18
+109,InfluxDB,200,34
+109,Neo4j,200,19
+109,Redis,503,21
+110,Cassandra,200,44
+110,InterSystems IRIS,200,17
+110,MongoDB,200,15
+110,InfluxDB,200,32
+110,Neo4j,200,14
+110,Redis,503,19
+111,Cassandra,200,37
+111,InterSystems IRIS,200,14
+111,MongoDB,200,8
+111,InfluxDB,200,23
+111,Neo4j,200,22
+111,Redis,503,31
+112,Cassandra,200,43
+112,InterSystems IRIS,200,13
+112,MongoDB,200,18
+112,InfluxDB,200,28
+112,Neo4j,200,25
+112,Redis,503,19
+113,Cassandra,200,40
+113,InterSystems IRIS,200,10
+113,MongoDB,200,16
+113,InfluxDB,200,27
+113,Neo4j,200,19
+113,Redis,503,19
+114,Cassandra,200,40
+114,InterSystems IRIS,200,11
+114,MongoDB,200,21
+114,InfluxDB,200,29
+114,Neo4j,200,28
+114,Redis,503,16
+115,Cassandra,200,44
+115,InterSystems IRIS,200,16
+115,MongoDB,200,11
+115,InfluxDB,200,22
+115,Neo4j,200,24
+115,Redis,503,19
+116,Cassandra,200,38
+116,InterSystems IRIS,200,16
+116,MongoDB,200,15
+116,InfluxDB,200,26
+116,Neo4j,200,25
+116,Redis,503,16
+117,Cassandra,200,45
+117,InterSystems IRIS,200,13
+117,MongoDB,200,14
+117,InfluxDB,200,34
+117,Neo4j,200,13
+117,Redis,503,20
+118,Cassandra,200,31
+118,InterSystems IRIS,200,22
+118,MongoDB,200,10
+118,InfluxDB,200,31
+118,Neo4j,200,29
+118,Redis,503,15
+119,Cassandra,200,37
+119,InterSystems IRIS,200,12
+119,MongoDB,200,16
+119,InfluxDB,200,24
+119,Neo4j,200,24
+119,Redis,503,21
+120,Cassandra,200,49
+120,InterSystems IRIS,200,19
+120,MongoDB,200,24
+120,InfluxDB,200,29
+120,Neo4j,200,19
+120,Redis,503,21
+121,Cassandra,200,42
+121,InterSystems IRIS,200,19
+121,MongoDB,200,11
+121,InfluxDB,200,27
+121,Neo4j,200,19
+121,Redis,503,21
+122,Cassandra,200,40
+122,InterSystems IRIS,200,17
+122,MongoDB,200,16
+122,InfluxDB,200,22
+122,Neo4j,200,20
+122,Redis,503,23
+123,Cassandra,200,36
+123,InterSystems IRIS,200,15
+123,MongoDB,200,18
+123,InfluxDB,200,23
+123,Neo4j,200,19
+123,Redis,503,10
+124,Cassandra,200,34
+124,InterSystems IRIS,200,11
+124,MongoDB,200,13
+124,InfluxDB,200,26
+124,Neo4j,200,30
+124,Redis,503,28
+125,Cassandra,200,53
+125,InterSystems IRIS,200,14
+125,MongoDB,200,13
+125,InfluxDB,200,21
+125,Neo4j,200,26
+125,Redis,503,16
+126,Cassandra,200,42
+126,InterSystems IRIS,200,15
+126,MongoDB,200,16
+126,InfluxDB,200,27
+126,Neo4j,200,16
+126,Redis,503,20
+127,Cassandra,200,36
+127,InterSystems IRIS,200,17
+127,MongoDB,200,18
+127,InfluxDB,200,23
+127,Neo4j,200,18
+127,Redis,503,19
+128,Cassandra,200,37
+128,InterSystems IRIS,200,13
+128,MongoDB,200,11
+128,InfluxDB,200,24
+128,Neo4j,200,21
+128,Redis,503,17
+129,Cassandra,200,33
+129,InterSystems IRIS,200,13
+129,MongoDB,200,11
+129,InfluxDB,200,26
+129,Neo4j,200,22
+129,Redis,503,22
+130,Cassandra,200,39
+130,InterSystems IRIS,200,9
+130,MongoDB,200,15
+130,InfluxDB,200,31
+130,Neo4j,200,20
+130,Redis,503,27
+131,Cassandra,200,44
+131,InterSystems IRIS,200,11
+131,MongoDB,200,16
+131,InfluxDB,200,40
+131,Neo4j,200,22
+131,Redis,503,27
+132,Cassandra,200,43
+132,InterSystems IRIS,200,21
+132,MongoDB,200,7
+132,InfluxDB,200,34
+132,Neo4j,200,22
+132,Redis,503,20
+133,Cassandra,200,39
+133,InterSystems IRIS,200,18
+133,MongoDB,200,15
+133,InfluxDB,200,33
+133,Neo4j,200,13
+133,Redis,503,19
+134,Cassandra,200,41
+134,InterSystems IRIS,200,12
+134,MongoDB,200,19
+134,InfluxDB,200,33
+134,Neo4j,200,16
+134,Redis,503,19
+135,Cassandra,200,27
+135,InterSystems IRIS,200,9
+135,MongoDB,200,16
+135,InfluxDB,200,30
+135,Neo4j,200,22
+135,Redis,503,21
+136,Cassandra,200,46
+136,InterSystems IRIS,200,11
+136,MongoDB,200,14
+136,InfluxDB,200,27
+136,Neo4j,200,16
+136,Redis,503,24
+137,Cassandra,200,24
+137,InterSystems IRIS,200,10
+137,MongoDB,200,11
+137,InfluxDB,200,40
+137,Neo4j,200,16
+137,Redis,503,22
+138,Cassandra,200,41
+138,InterSystems IRIS,200,18
+138,MongoDB,200,11
+138,InfluxDB,200,25
+138,Neo4j,200,17
+138,Redis,503,20
+139,Cassandra,200,41
+139,InterSystems IRIS,200,13
+139,MongoDB,200,11
+139,InfluxDB,200,37
+139,Neo4j,200,18
+139,Redis,503,16
+140,Cassandra,200,45
+140,InterSystems IRIS,200,12
+140,MongoDB,200,12
+140,InfluxDB,200,26
+140,Neo4j,200,21
+140,Redis,503,22
+141,Cassandra,200,41
+141,InterSystems IRIS,200,8
+141,MongoDB,200,16
+141,InfluxDB,200,31
+141,Neo4j,200,24
+141,Redis,503,18
+142,Cassandra,200,47
+142,InterSystems IRIS,200,15
+142,MongoDB,200,12
+142,InfluxDB,200,19
+142,Neo4j,200,15
+142,Redis,503,27
+143,Cassandra,200,41
+143,InterSystems IRIS,200,8
+143,MongoDB,200,8
+143,InfluxDB,200,33
+143,Neo4j,200,21
+143,Redis,503,15
+144,Cassandra,200,37
+144,InterSystems IRIS,200,17
+144,MongoDB,200,9
+144,InfluxDB,200,25
+144,Neo4j,200,24
+144,Redis,503,15
+145,Cassandra,200,46
+145,InterSystems IRIS,200,14
+145,MongoDB,200,15
+145,InfluxDB,200,23
+145,Neo4j,200,23
+145,Redis,503,21
+146,Cassandra,200,38
+146,InterSystems IRIS,200,13
+146,MongoDB,200,11
+146,InfluxDB,200,19
+146,Neo4j,200,17
+146,Redis,503,23
+147,Cassandra,200,59
+147,InterSystems IRIS,200,10
+147,MongoDB,200,9
+147,InfluxDB,200,24
+147,Neo4j,200,28
+147,Redis,503,20
+148,Cassandra,200,46
+148,InterSystems IRIS,200,12
+148,MongoDB,200,8
+148,InfluxDB,200,25
+148,Neo4j,200,21
+148,Redis,503,18
+149,Cassandra,200,48
+149,InterSystems IRIS,200,15
+149,MongoDB,200,16
+149,InfluxDB,200,23
+149,Neo4j,200,27
+149,Redis,503,24
+150,Cassandra,200,40
+150,InterSystems IRIS,200,12
+150,MongoDB,200,11
+150,InfluxDB,200,34
+150,Neo4j,200,21
+150,Redis,503,18
+151,Cassandra,200,36
+151,InterSystems IRIS,200,18
+151,MongoDB,200,17
+151,InfluxDB,200,33
+151,Neo4j,200,20
+151,Redis,503,20
+152,Cassandra,200,38
+152,InterSystems IRIS,200,10
+152,MongoDB,200,20
+152,InfluxDB,200,25
+152,Neo4j,200,27
+152,Redis,503,18
+153,Cassandra,200,29
+153,InterSystems IRIS,200,15
+153,MongoDB,200,11
+153,InfluxDB,200,32
+153,Neo4j,200,17
+153,Redis,503,27
+154,Cassandra,200,51
+154,InterSystems IRIS,200,16
+154,MongoDB,200,11
+154,InfluxDB,200,21
+154,Neo4j,200,27
+154,Redis,503,19
+155,Cassandra,200,40
+155,InterSystems IRIS,200,18
+155,MongoDB,200,16
+155,InfluxDB,200,31
+155,Neo4j,200,16
+155,Redis,503,20
+156,Cassandra,200,33
+156,InterSystems IRIS,200,24
+156,MongoDB,200,11
+156,InfluxDB,200,21
+156,Neo4j,200,17
+156,Redis,503,21
+157,Cassandra,200,46
+157,InterSystems IRIS,200,16
+157,MongoDB,200,13
+157,InfluxDB,200,36
+157,Neo4j,200,20
+157,Redis,503,14
+158,Cassandra,200,35
+158,InterSystems IRIS,200,16
+158,MongoDB,200,14
+158,InfluxDB,200,21
+158,Neo4j,200,12
+158,Redis,503,17
+159,Cassandra,200,38
+159,InterSystems IRIS,200,12
+159,MongoDB,200,20
+159,InfluxDB,200,30
+159,Neo4j,200,19
+159,Redis,503,23
+160,Cassandra,200,46
+160,InterSystems IRIS,200,22
+160,MongoDB,200,17
+160,InfluxDB,200,22
+160,Neo4j,200,34
+160,Redis,503,17
+161,Cassandra,200,45
+161,InterSystems IRIS,200,16
+161,MongoDB,200,14
+161,InfluxDB,200,34
+161,Neo4j,200,22
+161,Redis,503,18
+162,Cassandra,200,42
+162,InterSystems IRIS,200,14
+162,MongoDB,200,11
+162,InfluxDB,200,27
+162,Neo4j,200,25
+162,Redis,503,26
+163,Cassandra,200,34
+163,InterSystems IRIS,200,17
+163,MongoDB,200,20
+163,InfluxDB,200,22
+163,Neo4j,200,14
+163,Redis,503,27
+164,Cassandra,200,43
+164,InterSystems IRIS,200,17
+164,MongoDB,200,12
+164,InfluxDB,200,29
+164,Neo4j,200,18
+164,Redis,503,24
+165,Cassandra,200,36
+165,InterSystems IRIS,200,24
+165,MongoDB,200,12
+165,InfluxDB,200,24
+165,Neo4j,200,21
+165,Redis,503,32
+166,Cassandra,200,48
+166,InterSystems IRIS,200,14
+166,MongoDB,200,13
+166,InfluxDB,200,30
+166,Neo4j,200,22
+166,Redis,503,20
+167,Cassandra,200,42
+167,InterSystems IRIS,200,7
+167,MongoDB,200,23
+167,InfluxDB,200,24
+167,Neo4j,200,22
+167,Redis,503,25
+168,Cassandra,200,41
+168,InterSystems IRIS,200,13
+168,MongoDB,200,14
+168,InfluxDB,200,24
+168,Neo4j,200,22
+168,Redis,503,13
+169,Cassandra,200,38
+169,InterSystems IRIS,200,13
+169,MongoDB,200,16
+169,InfluxDB,200,30
+169,Neo4j,200,21
+169,Redis,503,20
+170,Cassandra,200,34
+170,InterSystems IRIS,200,12
+170,MongoDB,200,19
+170,InfluxDB,200,28
+170,Neo4j,200,15
+170,Redis,503,23
+171,Cassandra,200,36
+171,InterSystems IRIS,200,11
+171,MongoDB,200,12
+171,InfluxDB,200,28
+171,Neo4j,200,24
+171,Redis,503,24
+172,Cassandra,200,42
+172,InterSystems IRIS,200,13
+172,MongoDB,200,12
+172,InfluxDB,200,25
+172,Neo4j,200,23
+172,Redis,503,22
+173,Cassandra,200,33
+173,InterSystems IRIS,200,7
+173,MongoDB,200,15
+173,InfluxDB,200,26
+173,Neo4j,200,28
+173,Redis,503,20
+174,Cassandra,200,42
+174,InterSystems IRIS,200,16
+174,MongoDB,200,16
+174,InfluxDB,200,22
+174,Neo4j,200,21
+174,Redis,503,21
+175,Cassandra,200,42
+175,InterSystems IRIS,200,18
+175,MongoDB,200,23
+175,InfluxDB,200,27
+175,Neo4j,200,17
+175,Redis,503,19
+176,Cassandra,200,28
+176,InterSystems IRIS,200,15
+176,MongoDB,200,14
+176,InfluxDB,200,35
+176,Neo4j,200,23
+176,Redis,503,22
+177,Cassandra,200,35
+177,InterSystems IRIS,200,15
+177,MongoDB,200,13
+177,InfluxDB,200,24
+177,Neo4j,200,20
+177,Redis,503,18
+178,Cassandra,200,41
+178,InterSystems IRIS,200,9
+178,MongoDB,200,14
+178,InfluxDB,200,25
+178,Neo4j,200,16
+178,Redis,503,26
+179,Cassandra,200,41
+179,InterSystems IRIS,200,15
+179,MongoDB,200,11
+179,InfluxDB,200,32
+179,Neo4j,200,14
+179,Redis,503,22
+180,Cassandra,200,17
+180,InterSystems IRIS,200,6
+180,MongoDB,200,4
+180,InfluxDB,200,19
+180,Neo4j,200,11
+180,Redis,503,8
+181,Cassandra,200,12
+181,InterSystems IRIS,200,3
+181,MongoDB,200,4
+181,InfluxDB,200,6
+181,Neo4j,200,2
+181,Redis,503,9
+184,Cassandra,200,6
+184,InterSystems IRIS,200,1
+184,InfluxDB,200,1
+184,Neo4j,200,1
+184,Redis,503,1
+185,MongoDB,200,3
+185,InfluxDB,200,3
+186,Cassandra,200,7
+186,MongoDB,200,1
+186,InfluxDB,200,2
+186,Neo4j,200,3
+186,Redis,503,2
+187,Cassandra,200,17
+187,InterSystems IRIS,200,4
+187,MongoDB,200,11
+187,InfluxDB,200,12
+187,Neo4j,200,9
+187,Redis,200,5
+187,Redis,503,5
+188,Cassandra,200,24
+188,InterSystems IRIS,200,18
+188,MongoDB,200,11
+188,InfluxDB,200,19
+188,Neo4j,200,15
+188,Redis,200,14
+189,Cassandra,200,21
+189,InterSystems IRIS,200,3
+189,MongoDB,200,9
+189,InfluxDB,200,13
+189,Neo4j,200,16
+189,Redis,200,12
+190,Cassandra,200,39
+190,InterSystems IRIS,200,13
+190,MongoDB,200,6
+190,InfluxDB,200,39
+190,Neo4j,200,17
+190,Redis,200,21
+191,Cassandra,200,46
+191,InterSystems IRIS,200,12
+191,MongoDB,200,13
+191,InfluxDB,200,26
+191,Neo4j,200,14
+191,Redis,200,24
+192,Cassandra,200,35
+192,InterSystems IRIS,200,16
+192,MongoDB,200,22
+192,InfluxDB,200,24
+192,Neo4j,200,17
+192,Redis,200,33
+193,Cassandra,200,38
+193,InterSystems IRIS,200,10
+193,MongoDB,200,13
+193,InfluxDB,200,24
+193,Neo4j,200,22
+193,Redis,200,18
+194,Cassandra,200,35
+194,InterSystems IRIS,200,17
+194,MongoDB,200,15
+194,InfluxDB,200,24
+194,Neo4j,200,20
+194,Redis,200,23
+195,Cassandra,200,35
+195,InterSystems IRIS,200,11
+195,MongoDB,200,21
+195,InfluxDB,200,26
+195,Neo4j,200,22
+195,Redis,200,23
+196,Cassandra,200,41
+196,InterSystems IRIS,200,16
+196,MongoDB,200,13
+196,InfluxDB,200,24
+196,Neo4j,200,23
+196,Redis,200,21
+197,Cassandra,200,32
+197,InterSystems IRIS,200,15
+197,MongoDB,200,18
+197,InfluxDB,200,26
+197,Neo4j,200,25
+197,Redis,200,20
+198,Cassandra,200,40
+198,InterSystems IRIS,200,13
+198,MongoDB,200,9
+198,InfluxDB,200,30
+198,Neo4j,200,13
+198,Redis,200,19
+199,Cassandra,200,46
+199,InterSystems IRIS,200,19
+199,MongoDB,200,14
+199,InfluxDB,200,20
+199,Neo4j,200,24
+199,Redis,200,22
+200,Cassandra,200,48
+200,InterSystems IRIS,200,13
+200,MongoDB,200,16
+200,InfluxDB,200,28
+200,Neo4j,200,18
+200,Redis,200,28
+201,Cassandra,200,50
+201,InterSystems IRIS,200,16
+201,MongoDB,200,11
+201,InfluxDB,200,34
+201,Neo4j,200,19
+201,Redis,200,20
+202,Cassandra,200,42
+202,InterSystems IRIS,200,17
+202,MongoDB,200,18
+202,InfluxDB,200,26
+202,Neo4j,200,25
+202,Redis,200,19
+203,Cassandra,200,35
+203,InterSystems IRIS,200,9
+203,MongoDB,200,13
+203,InfluxDB,200,24
+203,Neo4j,200,13
+203,Redis,200,18
+204,Cassandra,200,48
+204,InterSystems IRIS,200,12
+204,MongoDB,200,13
+204,InfluxDB,200,26
+204,Neo4j,200,26
+204,Redis,200,18
+205,Cassandra,200,43
+205,InterSystems IRIS,200,10
+205,MongoDB,200,10
+205,InfluxDB,200,32
+205,Neo4j,200,22
+205,Redis,200,20
+206,Cassandra,200,46
+206,InterSystems IRIS,200,8
+206,MongoDB,200,14
+206,InfluxDB,200,28
+206,Neo4j,200,16
+206,Redis,200,22
+207,Cassandra,200,38
+207,InterSystems IRIS,200,12
+207,MongoDB,200,13
+207,InfluxDB,200,18
+207,Neo4j,200,26
+207,Redis,200,20
+208,Cassandra,200,42
+208,InterSystems IRIS,200,12
+208,MongoDB,200,11
+208,InfluxDB,200,28
+208,Neo4j,200,17
+208,Redis,200,23
+209,Cassandra,200,35
+209,InterSystems IRIS,200,15
+209,MongoDB,200,15
+209,InfluxDB,200,30
+209,Neo4j,200,25
+209,Redis,200,20
+210,Cassandra,200,37
+210,InterSystems IRIS,200,11
+210,MongoDB,200,11
+210,InfluxDB,200,38
+210,Neo4j,200,20
+210,Redis,200,27
+211,Cassandra,200,41
+211,InterSystems IRIS,200,20
+211,MongoDB,200,15
+211,InfluxDB,200,33
+211,Neo4j,200,16
+211,Redis,200,17
+212,Cassandra,200,51
+212,InterSystems IRIS,200,10
+212,MongoDB,200,14
+212,InfluxDB,200,35
+212,Neo4j,200,25
+212,Redis,200,20
+213,Cassandra,200,39
+213,InterSystems IRIS,200,9
+213,MongoDB,200,17
+213,InfluxDB,200,22
+213,Neo4j,200,14
+213,Redis,200,16
+214,Cassandra,200,45
+214,InterSystems IRIS,200,8
+214,MongoDB,200,15
+214,InfluxDB,200,23
+214,Neo4j,200,22
+214,Redis,200,22
+215,Cassandra,200,44
+215,InterSystems IRIS,200,15
+215,MongoDB,200,14
+215,InfluxDB,200,25
+215,Neo4j,200,21
+215,Redis,200,25
+216,Cassandra,200,55
+216,InterSystems IRIS,200,7
+216,MongoDB,200,9
+216,InfluxDB,200,26
+216,Neo4j,200,21
+216,Redis,200,22
+217,Cassandra,200,41
+217,InterSystems IRIS,200,12
+217,MongoDB,200,14
+217,InfluxDB,200,30
+217,Neo4j,200,18
+217,Redis,200,20
+218,Cassandra,200,55
+218,InterSystems IRIS,200,12
+218,MongoDB,200,10
+218,InfluxDB,200,42
+218,Neo4j,200,13
+218,Redis,200,28
+219,Cassandra,200,41
+219,InterSystems IRIS,200,14
+219,MongoDB,200,14
+219,InfluxDB,200,24
+219,Neo4j,200,12
+219,Redis,200,21
+220,Cassandra,200,53
+220,InterSystems IRIS,200,12
+220,MongoDB,200,11
+220,InfluxDB,200,22
+220,Neo4j,200,24
+220,Redis,200,25
+221,Cassandra,200,34
+221,InterSystems IRIS,200,15
+221,MongoDB,200,19
+221,InfluxDB,200,24
+221,Neo4j,200,21
+221,Redis,200,24
+222,Cassandra,200,51
+222,InterSystems IRIS,200,13
+222,MongoDB,200,15
+222,InfluxDB,200,27
+222,Neo4j,200,22
+222,Redis,200,18
+223,Cassandra,200,40
+223,InterSystems IRIS,200,11
+223,MongoDB,200,12
+223,InfluxDB,200,21
+223,Neo4j,200,27
+223,Redis,200,15
+224,Cassandra,200,31
+224,InterSystems IRIS,200,14
+224,MongoDB,200,10
+224,InfluxDB,200,34
+224,Neo4j,200,23
+224,Redis,200,26
+225,Cassandra,200,38
+225,InterSystems IRIS,200,9
+225,MongoDB,200,15
+225,InfluxDB,200,24
+225,Neo4j,200,23
+225,Redis,200,21
+226,Cassandra,200,25
+226,InterSystems IRIS,200,16
+226,MongoDB,200,13
+226,InfluxDB,200,30
+226,Neo4j,200,18
+226,Redis,200,16
+227,Cassandra,200,42
+227,InterSystems IRIS,200,12
+227,MongoDB,200,14
+227,InfluxDB,200,28
+227,Neo4j,200,17
+227,Redis,200,23
+228,Cassandra,200,41
+228,InterSystems IRIS,200,11
+228,MongoDB,200,22
+228,InfluxDB,200,28
+228,Neo4j,200,19
+228,Redis,200,23
+229,Cassandra,200,34
+229,InterSystems IRIS,200,15
+229,MongoDB,200,9
+229,InfluxDB,200,35
+229,Neo4j,200,19
+229,Redis,200,19
+230,Cassandra,200,38
+230,InterSystems IRIS,200,18
+230,MongoDB,200,8
+230,InfluxDB,200,16
+230,Neo4j,200,23
+230,Redis,200,26
+231,Cassandra,200,40
+231,InterSystems IRIS,200,19
+231,MongoDB,200,17
+231,InfluxDB,200,34
+231,Neo4j,200,16
+231,Redis,200,17
+232,Cassandra,200,30
+232,InterSystems IRIS,200,15
+232,MongoDB,200,11
+232,InfluxDB,200,30
+232,Neo4j,200,26
+232,Redis,200,22
+233,Cassandra,200,31
+233,InterSystems IRIS,200,10
+233,MongoDB,200,9
+233,InfluxDB,200,34
+233,Neo4j,200,24
+233,Redis,200,27
+234,Cassandra,200,47
+234,InterSystems IRIS,200,9
+234,MongoDB,200,17
+234,InfluxDB,200,17
+234,Neo4j,200,21
+234,Redis,200,23
+235,Cassandra,200,44
+235,InterSystems IRIS,200,16
+235,MongoDB,200,9
+235,InfluxDB,200,29
+235,Neo4j,200,26
+235,Redis,200,25
+236,Cassandra,200,40
+236,InterSystems IRIS,200,11
+236,MongoDB,200,13
+236,InfluxDB,200,32
+236,Neo4j,200,24
+236,Redis,200,24
+237,Cassandra,200,39
+237,InterSystems IRIS,200,12
+237,MongoDB,200,9
+237,InfluxDB,200,21
+237,Neo4j,200,28
+237,Redis,200,25
+238,Cassandra,200,38
+238,InterSystems IRIS,200,14
+238,MongoDB,200,12
+238,InfluxDB,200,29
+238,Neo4j,200,24
+238,Redis,200,22
+239,Cassandra,200,40
+239,InterSystems IRIS,200,11
+239,MongoDB,200,24
+239,InfluxDB,200,30
+239,Neo4j,200,18
+239,Redis,200,14
+240,Cassandra,200,49
+240,InterSystems IRIS,200,14
+240,MongoDB,200,21
+240,InfluxDB,200,20
+240,Neo4j,200,17
+240,Redis,200,23
+241,Cassandra,200,42
+241,InterSystems IRIS,200,21
+241,MongoDB,200,12
+241,InfluxDB,200,18
+241,Neo4j,200,26
+241,Redis,200,31
+242,Cassandra,200,43
+242,InterSystems IRIS,200,18
+242,MongoDB,200,12
+242,InfluxDB,200,30
+242,Neo4j,200,20
+242,Redis,200,18
+243,Cassandra,200,39
+243,InterSystems IRIS,200,16
+243,MongoDB,200,13
+243,InfluxDB,200,29
+243,Neo4j,200,23
+243,Redis,200,26
+244,Cassandra,200,39
+244,InterSystems IRIS,200,11
+244,MongoDB,200,16
+244,InfluxDB,200,31
+244,Neo4j,200,18
+244,Redis,200,19
+245,Cassandra,200,37
+245,InterSystems IRIS,200,19
+245,MongoDB,200,12
+245,InfluxDB,200,34
+245,Neo4j,200,17
+245,Redis,200,19
+246,Cassandra,200,40
+246,InterSystems IRIS,200,10
+246,MongoDB,200,17
+246,InfluxDB,200,30
+246,Neo4j,200,17
+246,Redis,200,15
+247,Cassandra,200,36
+247,InterSystems IRIS,200,15
+247,MongoDB,200,18
+247,InfluxDB,200,33
+247,Neo4j,200,21
+247,Redis,200,18
+248,Cassandra,200,49
+248,InterSystems IRIS,200,18
+248,MongoDB,200,15
+248,InfluxDB,200,25
+248,Neo4j,200,20
+248,Redis,200,15
+249,Cassandra,200,39
+249,InterSystems IRIS,200,14
+249,MongoDB,200,11
+249,InfluxDB,200,30
+249,Neo4j,200,22
+249,Redis,200,27
+250,Cassandra,200,45
+250,InterSystems IRIS,200,16
+250,MongoDB,200,13
+250,InfluxDB,200,33
+250,Neo4j,200,23
+250,Redis,200,19
+251,Cassandra,200,38
+251,InterSystems IRIS,200,14
+251,MongoDB,200,16
+251,InfluxDB,200,16
+251,Neo4j,200,26
+251,Redis,200,24
+252,Cassandra,200,43
+252,InterSystems IRIS,200,12
+252,MongoDB,200,7
+252,InfluxDB,200,22
+252,Neo4j,200,22
+252,Redis,200,21
+253,Cassandra,200,43
+253,InterSystems IRIS,200,11
+253,MongoDB,200,10
+253,InfluxDB,200,15
+253,Neo4j,200,21
+253,Redis,200,29
+254,Cassandra,200,34
+254,InterSystems IRIS,200,14
+254,MongoDB,200,15
+254,InfluxDB,200,28
+254,Neo4j,200,28
+254,Redis,200,16
+255,Cassandra,200,34
+255,InterSystems IRIS,200,17
+255,MongoDB,200,10
+255,InfluxDB,200,34
+255,Neo4j,200,17
+255,Redis,200,14
+256,Cassandra,200,37
+256,InterSystems IRIS,200,18
+256,MongoDB,200,16
+256,InfluxDB,200,20
+256,Neo4j,200,27
+256,Redis,200,21
+257,Cassandra,200,38
+257,InterSystems IRIS,200,10
+257,MongoDB,200,21
+257,InfluxDB,200,22
+257,Neo4j,200,21
+257,Redis,200,26
+258,Cassandra,200,48
+258,InterSystems IRIS,200,12
+258,MongoDB,200,11
+258,InfluxDB,200,20
+258,Neo4j,200,30
+258,Redis,200,18
+259,Cassandra,200,45
+259,InterSystems IRIS,200,14
+259,MongoDB,200,10
+259,InfluxDB,200,21
+259,Neo4j,200,31
+259,Redis,200,25
+260,Cassandra,200,45
+260,InterSystems IRIS,200,13
+260,MongoDB,200,8
+260,InfluxDB,200,29
+260,Neo4j,200,27
+260,Redis,200,20
+261,Cassandra,200,32
+261,InterSystems IRIS,200,17
+261,MongoDB,200,15
+261,InfluxDB,200,29
+261,Neo4j,200,20
+261,Redis,200,18
+262,Cassandra,200,47
+262,InterSystems IRIS,200,17
+262,MongoDB,200,13
+262,InfluxDB,200,34
+262,Neo4j,200,21
+262,Redis,200,23
+263,Cassandra,200,45
+263,InterSystems IRIS,200,17
+263,MongoDB,200,7
+263,InfluxDB,200,23
+263,Neo4j,200,19
+263,Redis,200,27
+264,Cassandra,200,50
+264,InterSystems IRIS,200,14
+264,MongoDB,200,14
+264,InfluxDB,200,20
+264,Neo4j,200,21
+264,Redis,200,16
+265,Cassandra,200,45
+265,InterSystems IRIS,200,22
+265,MongoDB,200,13
+265,InfluxDB,200,24
+265,Neo4j,200,20
+265,Redis,200,22
+266,Cassandra,200,45
+266,InterSystems IRIS,200,16
+266,MongoDB,200,11
+266,InfluxDB,200,27
+266,Neo4j,200,21
+266,Redis,200,17
+267,Cassandra,200,45
+267,InterSystems IRIS,200,14
+267,MongoDB,200,18
+267,InfluxDB,200,29
+267,Neo4j,200,20
+267,Redis,200,26
+268,Cassandra,200,46
+268,InterSystems IRIS,200,13
+268,MongoDB,200,20
+268,InfluxDB,200,20
+268,Neo4j,200,13
+268,Redis,200,26
+269,Cassandra,200,35
+269,InterSystems IRIS,200,12
+269,MongoDB,200,16
+269,InfluxDB,200,28
+269,Neo4j,200,15
+269,Redis,200,29
+270,Cassandra,200,11
+270,InterSystems IRIS,200,4
+270,MongoDB,200,7
+270,InfluxDB,200,13
+270,Neo4j,200,7
+270,Redis,200,8

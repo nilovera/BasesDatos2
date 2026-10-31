@@ -1,0 +1,150 @@
+{
+  "antes": {
+    "momento": "2026-10-30T23:54:22-03:00",
+    "http": 200,
+    "estado_general": "ready",
+    "dependencias": {
+      "MongoDB": {
+        "estado": "up",
+        "clasificacion": "ok",
+        "duracion_ms": 4.04
+      },
+      "Neo4j": {
+        "estado": "up",
+        "clasificacion": "ok",
+        "duracion_ms": 3.55
+      },
+      "Cassandra": {
+        "estado": "up",
+        "clasificacion": "ok",
+        "duracion_ms": 17.27
+      },
+      "Redis": {
+        "estado": "up",
+        "clasificacion": "ok",
+        "duracion_ms": 0.89
+      },
+      "InfluxDB": {
+        "estado": "up",
+        "clasificacion": "ok",
+        "duracion_ms": 5.73
+      },
+      "InterSystems IRIS": {
+        "estado": "up",
+        "clasificacion": "ok",
+        "duracion_ms": 22.75
+      }
+    }
+  },
+  "durante_la_falla": {
+    "momento": "2026-10-30T23:55:54-03:00",
+    "http": 200,
+    "estado_general": "degraded",
+    "dependencias": {
+      "MongoDB": {
+        "estado": "up",
+        "clasificacion": "ok",
+        "duracion_ms": 4.12
+      },
+      "Neo4j": {
+        "estado": "up",
+        "clasificacion": "ok",
+        "duracion_ms": 4.23
+      },
+      "Cassandra": {
+        "estado": "up",
+        "clasificacion": "ok",
+        "duracion_ms": 2.77
+      },
+      "Redis": {
+        "estado": "down",
+        "clasificacion": "no_disponible",
+        "duracion_ms": 2017.52
+      },
+      "InfluxDB": {
+        "estado": "up",
+        "clasificacion": "ok",
+        "duracion_ms": 5.93
+      },
+      "InterSystems IRIS": {
+        "estado": "up",
+        "clasificacion": "ok",
+        "duracion_ms": 23.67
+      }
+    }
+  },
+  "despues_de_recuperar": {
+    "momento": "2026-10-30T23:57:33-03:00",
+    "http": 200,
+    "estado_general": "ready",
+    "dependencias": {
+      "MongoDB": {
+        "estado": "up",
+        "clasificacion": "ok",
+        "duracion_ms": 2.05
+      },
+      "Neo4j": {
+        "estado": "up",
+        "clasificacion": "ok",
+        "duracion_ms": 1.55
+      },
+      "Cassandra": {
+        "estado": "up",
+        "clasificacion": "ok",
+        "duracion_ms": 6.1
+      },
+      "Redis": {
+        "estado": "up",
+        "clasificacion": "ok",
+        "duracion_ms": 0.66
+      },
+      "InfluxDB": {
+        "estado": "up",
+        "clasificacion": "ok",
+        "duracion_ms": 5.06
+      },
+      "InterSystems IRIS": {
+        "estado": "up",
+        "clasificacion": "ok",
+        "duracion_ms": 24.29
+      }
+    }
+  },
+  "al_final": {
+    "momento": "2026-10-30T23:58:54-03:00",
+    "http": 200,
+    "estado_general": "ready",
+    "dependencias": {
+      "MongoDB": {
+        "estado": "up",
+        "clasificacion": "ok",
+        "duracion_ms": 2.04
+      },
+      "Neo4j": {
+        "estado": "up",
+        "clasificacion": "ok",
+        "duracion_ms": 3.25
+      },
+      "Cassandra": {
+        "estado": "up",
+        "clasificacion": "ok",
+        "duracion_ms": 16.45
+      },
+      "Redis": {
+        "estado": "up",
+        "clasificacion": "ok",
+        "duracion_ms": 0.65
+      },
+      "InfluxDB": {
+        "estado": "up",
+        "clasificacion": "ok",
+        "duracion_ms": 5.44
+      },
+      "InterSystems IRIS": {
+        "estado": "up",
+        "clasificacion": "ok",
+        "duracion_ms": 23.24
+      }
+    }
+  }
+}

@@ -413,7 +413,7 @@
     {
       "type": "state-timeline",
       "title": "Disponibilidad en el tiempo: targets de Prometheus",
-      "description": "up de cada job: 1 si Prometheus pudo leer sus métricas. Si un exporter está DOWN pero la sonda TCP de la base está OK, se perdió visibilidad, no la base. cadvisor solo responde con el perfil 'contenedores'.",
+      "description": "up de cada job: 1 si Prometheus pudo leer sus métricas. Si un exporter está DOWN pero la sonda TCP de la base está OK, se perdió visibilidad, no la base. cadvisor (opcional) solo aparece si se levantó con el perfil 'contenedores'.",
       "id": 6,
       "datasource": {
         "type": "prometheus",
@@ -431,7 +431,7 @@
             "type": "prometheus",
             "uid": "prometheus-fixture"
           },
-          "expr": "max by (job) (up)",
+          "expr": "max by (job) (up unless on(job) (up{job=\"cadvisor\"} == 0))",
           "legendFormat": "{{job}}",
           "refId": "A",
           "range": true,

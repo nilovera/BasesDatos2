@@ -10,7 +10,9 @@ Solución: cuando una base falla por indisponibilidad o timeout, durante
 ``ventana_segundos`` las solicitudes siguientes a ESA base responden 503 al
 instante, sin intentar conectarse ("circuito abierto"). Pasada la ventana, la
 siguiente solicitud vuelve a probar ("semiabierto"): si funciona, el circuito se
-cierra; si no, se abre otra ventana. El chequeo de /health/dependencias (cada
+cierra; si no, se abre otra ventana. Mientras esa única prueba está en curso, las
+demás siguen rechazadas (v2: en la v1 todas las solicitudes que llegaban al vencer la
+ventana intentaban conectarse a la vez). El chequeo de /health/dependencias (cada
 15 s) también cierra el circuito apenas el ping responde.
 
 - No cambia el contrato HTTP: sigue siendo 503 DEPENDENCIA_NO_DISPONIBLE.
@@ -66,9 +68,20 @@ class CorteRapido:
         return {dep: self.abierto(dep) for dep in self._abierto_hasta}
 
     def antes_de_llamar(self, dependencia: str) -> None:
-        if self.activo and self.abierto(dependencia):
-            RECHAZOS.labels(dependencia).inc()
-            raise DependencyUnavailableError(dependencia)
+        if not self.activo or not self._abierto_hasta.get(dependencia):
+            return                                    # circuito cerrado: camino rápido, sin lock
+        with self._lock:
+            hasta = self._abierto_hasta.get(dependencia, 0.0)
+            if not hasta:
+                return
+            ahora = time.monotonic()
+            if ahora < hasta:
+                RECHAZOS.labels(dependencia).inc()
+                raise DependencyUnavailableError(dependencia)
+            # Semiabierto: la ventana venció. ESTA solicitud es la única prueba; se vuelve a
+            # armar la ventana para que las demás sigan rechazadas mientras la prueba dura
+            # (v1 dejaba pasar a todas y cada una esperaba ~2,4 s: P95 de Redis 1,6 s).
+            self._abierto_hasta[dependencia] = ahora + self.ventana
 
     def registrar_falla(self, dependencia: str) -> None:
         if not self.activo:

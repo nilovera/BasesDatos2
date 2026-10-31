@@ -1,0 +1,338 @@
+{
+  "fecha": "2026-10-30T23:50:07-03:00",
+  "commit": "2303e8c (con cambios sin commitear)",
+  "producto": "redis",
+  "contenedor": "fixture2030-redis",
+  "parametros": {
+    "producto": "redis",
+    "usuarios": 20,
+    "normal": 60,
+    "falla": 120,
+    "recuperacion": 90,
+    "espera_final": 45,
+    "semilla": 2030
+  },
+  "config_api": {
+    "corte_rapido_segundos": "10.0",
+    "entorno": "local",
+    "iris_pool_size": "5",
+    "version": "1.0.0"
+  },
+  "mezcla_y_claves": "Hito 12: configuracion-ejemplo.json + catalogo_claves.json (solo lecturas GET)",
+  "cliente_por_tramo": {
+    "antes": {
+      "duracion_s": 60.6,
+      "solicitudes": 8041,
+      "rps": 132.7,
+      "errores_5xx": 0,
+      "tasa_5xx_pct": 0.0,
+      "p50_ms": 44.77,
+      "p95_ms": 134.16,
+      "por_base": {
+        "MongoDB": {
+          "solicitudes": 818,
+          "ok_2xx": 818,
+          "errores_5xx": 0,
+          "no_encontrado_404": 0,
+          "sin_respuesta": 0,
+          "p50_ms": 41.2,
+          "p95_ms": 131.71
+        },
+        "Neo4j": {
+          "solicitudes": 1192,
+          "ok_2xx": 1192,
+          "errores_5xx": 0,
+          "no_encontrado_404": 0,
+          "sin_respuesta": 0,
+          "p50_ms": 41.91,
+          "p95_ms": 128.61
+        },
+        "Cassandra": {
+          "solicitudes": 2403,
+          "ok_2xx": 2403,
+          "errores_5xx": 0,
+          "no_encontrado_404": 0,
+          "sin_respuesta": 0,
+          "p50_ms": 49.99,
+          "p95_ms": 139.61
+        },
+        "Redis": {
+          "solicitudes": 1173,
+          "ok_2xx": 1173,
+          "errores_5xx": 0,
+          "no_encontrado_404": 0,
+          "sin_respuesta": 0,
+          "p50_ms": 41.04,
+          "p95_ms": 129.54
+        },
+        "InfluxDB": {
+          "solicitudes": 1605,
+          "ok_2xx": 1605,
+          "errores_5xx": 0,
+          "no_encontrado_404": 0,
+          "sin_respuesta": 0,
+          "p50_ms": 45.68,
+          "p95_ms": 134.45
+        },
+        "InterSystems IRIS": {
+          "solicitudes": 850,
+          "ok_2xx": 850,
+          "errores_5xx": 0,
+          "no_encontrado_404": 0,
+          "sin_respuesta": 0,
+          "p50_ms": 43.67,
+          "p95_ms": 134.68
+        }
+      }
+    },
+    "falla": {
+      "duracion_s": 119.0,
+      "solicitudes": 13708,
+      "rps": 115.2,
+      "errores_5xx": 2095,
+      "tasa_5xx_pct": 15.28,
+      "p50_ms": 43.14,
+      "p95_ms": 133.8,
+      "por_base": {
+        "MongoDB": {
+          "solicitudes": 1324,
+          "ok_2xx": 1324,
+          "errores_5xx": 0,
+          "no_encontrado_404": 0,
+          "sin_respuesta": 0,
+          "p50_ms": 39.1,
+          "p95_ms": 130.22
+        },
+        "Neo4j": {
+          "solicitudes": 2099,
+          "ok_2xx": 2099,
+          "errores_5xx": 0,
+          "no_encontrado_404": 0,
+          "sin_respuesta": 0,
+          "p50_ms": 39.49,
+          "p95_ms": 130.81
+        },
+        "Cassandra": {
+          "solicitudes": 4148,
+          "ok_2xx": 4148,
+          "errores_5xx": 0,
+          "no_encontrado_404": 0,
+          "sin_respuesta": 0,
+          "p50_ms": 45.88,
+          "p95_ms": 135.68
+        },
+        "Redis": {
+          "solicitudes": 2095,
+          "ok_2xx": 0,
+          "errores_5xx": 2095,
+          "no_encontrado_404": 0,
+          "sin_respuesta": 0,
+          "p50_ms": null,
+          "p95_ms": null
+        },
+        "InfluxDB": {
+          "solicitudes": 2746,
+          "ok_2xx": 2746,
+          "errores_5xx": 0,
+          "no_encontrado_404": 0,
+          "sin_respuesta": 0,
+          "p50_ms": 43.85,
+          "p95_ms": 135.83
+        },
+        "InterSystems IRIS": {
+          "solicitudes": 1296,
+          "ok_2xx": 1296,
+          "errores_5xx": 0,
+          "no_encontrado_404": 0,
+          "sin_respuesta": 0,
+          "p50_ms": 41.03,
+          "p95_ms": 131.12
+        }
+      }
+    },
+    "despues": {
+      "duracion_s": 75.8,
+      "solicitudes": 10282,
+      "rps": 135.6,
+      "errores_5xx": 0,
+      "tasa_5xx_pct": 0.0,
+      "p50_ms": 42.9,
+      "p95_ms": 131.23,
+      "por_base": {
+        "MongoDB": {
+          "solicitudes": 1028,
+          "ok_2xx": 1028,
+          "errores_5xx": 0,
+          "no_encontrado_404": 0,
+          "sin_respuesta": 0,
+          "p50_ms": 41.08,
+          "p95_ms": 134.58
+        },
+        "Neo4j": {
+          "solicitudes": 1529,
+          "ok_2xx": 1529,
+          "errores_5xx": 0,
+          "no_encontrado_404": 0,
+          "sin_respuesta": 0,
+          "p50_ms": 39.9,
+          "p95_ms": 125.97
+        },
+        "Cassandra": {
+          "solicitudes": 3066,
+          "ok_2xx": 3066,
+          "errores_5xx": 0,
+          "no_encontrado_404": 0,
+          "sin_respuesta": 0,
+          "p50_ms": 47.07,
+          "p95_ms": 133.09
+        },
+        "Redis": {
+          "solicitudes": 1552,
+          "ok_2xx": 1552,
+          "errores_5xx": 0,
+          "no_encontrado_404": 0,
+          "sin_respuesta": 0,
+          "p50_ms": 38.7,
+          "p95_ms": 129.14
+        },
+        "InfluxDB": {
+          "solicitudes": 2040,
+          "ok_2xx": 2040,
+          "errores_5xx": 0,
+          "no_encontrado_404": 0,
+          "sin_respuesta": 0,
+          "p50_ms": 45.21,
+          "p95_ms": 135.73
+        },
+        "InterSystems IRIS": {
+          "solicitudes": 1067,
+          "ok_2xx": 1067,
+          "errores_5xx": 0,
+          "no_encontrado_404": 0,
+          "sin_respuesta": 0,
+          "p50_ms": 39.39,
+          "p95_ms": 119.15
+        }
+      }
+    }
+  },
+  "cliente_total": {
+    "duracion_s": 270.6,
+    "solicitudes": 32882,
+    "rps": 121.5,
+    "errores_5xx": 2163,
+    "tasa_5xx_pct": 6.58,
+    "p50_ms": 43.74,
+    "p95_ms": 134.98,
+    "por_base": {
+      "MongoDB": {
+        "solicitudes": 3261,
+        "ok_2xx": 3261,
+        "errores_5xx": 0,
+        "no_encontrado_404": 0,
+        "sin_respuesta": 0,
+        "p50_ms": 40.73,
+        "p95_ms": 132.27
+      },
+      "Neo4j": {
+        "solicitudes": 4966,
+        "ok_2xx": 4966,
+        "errores_5xx": 0,
+        "no_encontrado_404": 0,
+        "sin_respuesta": 0,
+        "p50_ms": 40.57,
+        "p95_ms": 131.15
+      },
+      "Cassandra": {
+        "solicitudes": 9869,
+        "ok_2xx": 9869,
+        "errores_5xx": 0,
+        "no_encontrado_404": 0,
+        "sin_respuesta": 0,
+        "p50_ms": 47.58,
+        "p95_ms": 136.81
+      },
+      "Redis": {
+        "solicitudes": 4960,
+        "ok_2xx": 2797,
+        "errores_5xx": 2163,
+        "no_encontrado_404": 0,
+        "sin_respuesta": 0,
+        "p50_ms": 39.68,
+        "p95_ms": 129.7
+      },
+      "InfluxDB": {
+        "solicitudes": 6529,
+        "ok_2xx": 6529,
+        "errores_5xx": 0,
+        "no_encontrado_404": 0,
+        "sin_respuesta": 0,
+        "p50_ms": 44.89,
+        "p95_ms": 138.24
+      },
+      "InterSystems IRIS": {
+        "solicitudes": 3297,
+        "ok_2xx": 3297,
+        "errores_5xx": 0,
+        "no_encontrado_404": 0,
+        "sin_respuesta": 0,
+        "p50_ms": 41.43,
+        "p95_ms": 132.89
+      }
+    }
+  },
+  "linea_de_tiempo": {
+    "t0": "2026-10-30T23:44:48-03:00",
+    "stop_inicio_s": 60.6,
+    "stop_fin_s": 61.6,
+    "start_inicio_s": 180.6,
+    "start_fin_s": 189.4,
+    "api_ve_recuperada_s": 194.8,
+    "fin_carga_s": 270.6,
+    "prometheus_registra_caida_api_s": 75.0,
+    "prometheus_registra_puerto_cerrado_s": 65.0,
+    "deteccion_desde_stop_api_s": 14.4,
+    "deteccion_desde_stop_sonda_s": 4.4,
+    "prometheus_registra_recuperacion_api_s": 195.0,
+    "recuperacion_desde_start_api_s": 14.4,
+    "recuperacion_desde_start_sonda_s": 19.4,
+    "recuperacion_vista_por_la_api_s": 14.2,
+    "alertas": {
+      "FixtureBaseNoDisponibleParaLaApi [firing] Redis": {
+        "desde_s": 140.0,
+        "hasta_s": 195.0,
+        "ya_estaba_antes_de_la_prueba": false
+      },
+      "FixtureBaseNoDisponibleParaLaApi [pending] Redis": {
+        "desde_s": 80.0,
+        "hasta_s": 135.0,
+        "ya_estaba_antes_de_la_prueba": false
+      },
+      "FixtureErrores5xxAltos [firing]": {
+        "desde_s": 180.0,
+        "hasta_s": 265.0,
+        "ya_estaba_antes_de_la_prueba": false
+      },
+      "FixtureErrores5xxAltos [pending]": {
+        "desde_s": 120.0,
+        "hasta_s": 175.0,
+        "ya_estaba_antes_de_la_prueba": false
+      },
+      "FixturePuertoDeBaseCerrado [firing] Redis": {
+        "desde_s": 140.0,
+        "hasta_s": 210.0,
+        "ya_estaba_antes_de_la_prueba": false
+      },
+      "FixturePuertoDeBaseCerrado [pending] Redis": {
+        "desde_s": 80.0,
+        "hasta_s": 135.0,
+        "ya_estaba_antes_de_la_prueba": false
+      }
+    }
+  },
+  "aislamiento": {
+    "errores_5xx_en_la_base_detenida": 2095,
+    "errores_5xx_en_las_otras_bases": 0,
+    "conclusion": "las demás bases siguieron respondiendo sin errores"
+  }
+}

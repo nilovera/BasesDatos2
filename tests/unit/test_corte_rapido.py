@@ -57,3 +57,15 @@ def test_ventana_cero_mantiene_el_comportamiento_anterior():
         with pytest.raises(DependencyUnavailableError):
             protegido.get_sesion("SES-1")
     assert base.llamadas == 3
+
+
+def test_al_vencer_la_ventana_solo_una_solicitud_prueba_la_base():
+    base = AdaptadorFalso()
+    corte = CorteRapido(ventana_segundos=0.2)
+    protegido = AdaptadorProtegido(base, "Redis", corte)
+    with pytest.raises(DependencyUnavailableError):
+        protegido.get_sesion("SES-1")             # abre el circuito
+    time.sleep(0.25)                               # vence la ventana
+    corte.antes_de_llamar("Redis")                 # la primera pasa (es la prueba)...
+    with pytest.raises(DependencyUnavailableError):
+        corte.antes_de_llamar("Redis")             # ...y las siguientes siguen rechazadas

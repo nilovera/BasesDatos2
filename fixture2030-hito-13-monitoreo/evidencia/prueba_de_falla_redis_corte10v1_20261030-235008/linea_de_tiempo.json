@@ -1,0 +1,49 @@
+{
+  "t0": "2026-10-30T23:44:48-03:00",
+  "stop_inicio_s": 60.6,
+  "stop_fin_s": 61.6,
+  "start_inicio_s": 180.6,
+  "start_fin_s": 189.4,
+  "api_ve_recuperada_s": 194.8,
+  "fin_carga_s": 270.6,
+  "prometheus_registra_caida_api_s": 75.0,
+  "prometheus_registra_puerto_cerrado_s": 65.0,
+  "deteccion_desde_stop_api_s": 14.4,
+  "deteccion_desde_stop_sonda_s": 4.4,
+  "prometheus_registra_recuperacion_api_s": 195.0,
+  "recuperacion_desde_start_api_s": 14.4,
+  "recuperacion_desde_start_sonda_s": 19.4,
+  "recuperacion_vista_por_la_api_s": 14.2,
+  "alertas": {
+    "FixtureBaseNoDisponibleParaLaApi [firing] Redis": {
+      "desde_s": 140.0,
+      "hasta_s": 195.0,
+      "ya_estaba_antes_de_la_prueba": false
+    },
+    "FixtureBaseNoDisponibleParaLaApi [pending] Redis": {
+      "desde_s": 80.0,
+      "hasta_s": 135.0,
+      "ya_estaba_antes_de_la_prueba": false
+    },
+    "FixtureErrores5xxAltos [firing]": {
+      "desde_s": 180.0,
+      "hasta_s": 265.0,
+      "ya_estaba_antes_de_la_prueba": false
+    },
+    "FixtureErrores5xxAltos [pending]": {
+      "desde_s": 120.0,
+      "hasta_s": 175.0,
+      "ya_estaba_antes_de_la_prueba": false
+    },
+    "FixturePuertoDeBaseCerrado [firing] Redis": {
+      "desde_s": 140.0,
+      "hasta_s": 210.0,
+      "ya_estaba_antes_de_la_prueba": false
+    },
+    "FixturePuertoDeBaseCerrado [pending] Redis": {
+      "desde_s": 80.0,
+      "hasta_s": 135.0,
+      "ya_estaba_antes_de_la_prueba": false
+    }
+  }
+}

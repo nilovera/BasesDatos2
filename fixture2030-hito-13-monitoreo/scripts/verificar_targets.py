@@ -90,6 +90,16 @@ def main() -> int:
              "reglas_cargadas": total_reglas, "alertas": alertas, "jobs_esperados_no_up": faltan}
     cm.escribir_json(cm.EVIDENCIA_DIR / "prometheus_targets.json", datos)
 
+    # Inventario de métricas que entrega cada job (qué se mide directamente y qué vía exporter).
+    inventario = {}
+    for job in sorted({f["job"] for f in filas if f["estado"] == "UP"}):
+        nombres = cm.prom_query(f'count by (__name__) ({{job="{job}"}})')
+        inventario[job] = {"series": int(sum(float(r["value"][1]) for r in nombres)),
+                           "metricas": sorted(r["metric"]["__name__"] for r in nombres)}
+    cm.escribir_json(cm.RESULTADOS_DIR / "metricas_disponibles.json",
+                     {"fecha": datos["fecha"], "commit": datos["commit"], "por_job": inventario})
+    print("Inventario de métricas por job: evidencia/resultados_sin_secretos/metricas_disponibles.json")
+
     md = [f"# Targets de Prometheus - {datos['fecha']}", "",
           f"Generado por `scripts/verificar_targets.py` sobre el commit `{datos['commit']}`. "
           "Fuente: `GET /api/v1/targets` y `GET /api/v1/query` de Prometheus.", "",

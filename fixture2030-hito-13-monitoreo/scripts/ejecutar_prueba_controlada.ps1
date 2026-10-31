@@ -17,7 +17,17 @@ $api  = Split-Path $hito -Parent
 $py   = Join-Path $api ".venv\Scripts\python.exe"
 Set-Location $api
 Write-Host "=== HITO 13 - PRUEBA CONTROLADA ($Producto) ===" -ForegroundColor Cyan
-Write-Host "Abrir Grafana (http://localhost:3000) con rango 'Last 15 minutes' para verla en vivo."
+Write-Host "1) Integridad de los datos ANTES de la prueba (huellas del catalogo del Hito 12)..."
+& $py (Join-Path $PSScriptRoot "verificar_datos.py") --momento antes
+if ($LASTEXITCODE -ne 0) { Write-Host "[AVISO] Hay bases con datos distintos al catalogo: revisar antes de seguir" -ForegroundColor Yellow }
+
+Write-Host ""
+Write-Host "2) Prueba. Abrir Grafana (http://localhost:3000) con rango 'Last 15 minutes' para verla en vivo."
 & $py (Join-Path $PSScriptRoot "ejecutar_prueba_controlada.py") --producto $Producto --usuarios $Usuarios `
     --normal $Normal --falla $Falla --recuperacion $Recuperacion
-exit $LASTEXITCODE
+$codigo = $LASTEXITCODE
+
+Write-Host ""
+Write-Host "3) Integridad de los datos DESPUES de la prueba (la falla no debe alterar datos)..."
+& $py (Join-Path $PSScriptRoot "verificar_datos.py") --momento despues
+exit $codigo

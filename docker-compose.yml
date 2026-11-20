@@ -1,0 +1,21 @@
+services:
+  cassandra:
+    # Entorno didáctico con la imagen oficial actual solicitada por la materia.
+    image: cassandra:latest
+    container_name: fixture2030-cassandra
+    restart: unless-stopped
+    environment:
+      CASSANDRA_CLUSTER_NAME: Fixture2030_Cassandra
+      CASSANDRA_DC: datacenter1
+      CASSANDRA_RACK: rack1
+      CASSANDRA_ENDPOINT_SNITCH: GossipingPropertyFileSnitch
+    ports:
+      - "9042:9042"
+    volumes:
+      # Persistencia local exigida para el laboratorio.
+      - ~/docker/data/cassandra:/var/lib/cassandra
+      # Scripts CQL del módulo.
+      - ./scripts:/scripts:ro
+      # Archivos CSV reproducibles utilizados por COPY.
+      - ./data:/data:ro
+

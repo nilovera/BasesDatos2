@@ -1,18 +1,50 @@
-# Entorno integrado — próximo incremento
+# Infraestructura y observabilidad
 
-Implementación incremental: MongoDB ya tiene un servicio de laboratorio y un
-inicializador reproducible. Los demás motores y la observabilidad permanecen
-pendientes.
+El Compose actual levanta MongoDB, su inicializador, la API, Prometheus y
+Grafana. Todos los puertos se publican solamente sobre `127.0.0.1`.
 
-El nuevo Compose deberá levantar MongoDB, Cassandra, Redis, InfluxDB y Neo4j, además de la API y la capa de observabilidad. Definirá nombres, puertos y volúmenes propios para evitar colisiones con los laboratorios históricos. No se deben reutilizar volúmenes anteriores ni eliminarlos automáticamente.
+## Servicios actuales
 
-Los adaptadores de semillas consumirán `data/catalogo`. Ningún motor tendrá una carga deportiva independiente contradictoria. IRIS no tendrá contenedor, volumen, secreto, exporter ni healthcheck en la arquitectura final.
+| Servicio | Puerto local | Función |
+|---|---:|---|
+| API | 8000 | Contrato deportivo y `/metrics` |
+| MongoDB | 27017 | Fuente oficial y Outbox |
+| Prometheus | 9090 | Recolección de métricas técnicas |
+| Grafana | 3000 | Dashboard `Fixture2030 — API y MongoDB` |
 
-Prometheus y Grafana se incorporarán con configuración reproducible. El inventario deberá distinguir qué componentes están realmente monitoreados, cuáles solo exponen healthchecks y qué mediciones todavía son propuestas.
+Grafana se aprovisiona automáticamente con Prometheus como fuente. Usuario
+local: `admin`. La contraseña de laboratorio por defecto es `fixture2030` y
+puede cambiarse definiendo `GRAFANA_ADMIN_PASSWORD` antes del primer arranque.
+No es una configuración productiva.
 
-Configuraciones de laboratorio, réplicas y topología distribuida objetivo deben documentarse por separado. El arranque de contenedores no demuestra alta disponibilidad ni capacidad productiva.
+Prometheus carga las reglas versionadas de `infra/prometheus/rules/`. Incluyen
+indisponibilidad de la API, tasa de HTTP 5xx y acumulación de Outbox. Los
+umbrales y responsables están documentados en
+`docs/monitoreo/alertas_y_umbrales.md`.
 
-El replica set MongoDB actual contiene un solo miembro: habilita transacciones,
-pero no tolera la pérdida del nodo. Esta limitación debe mostrarse explícitamente
-en la defensa y no presentarse como replicación productiva.
+## Ejecución
 
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts\iniciar_plataforma.ps1
+powershell -ExecutionPolicy Bypass -File scripts\verificar_plataforma.ps1
+powershell -ExecutionPolicy Bypass -File scripts\probar_flujo_mongodb.ps1
+powershell -ExecutionPolicy Bypass -File scripts\capturar_evidencia.ps1
+powershell -ExecutionPolicy Bypass -File scripts\probar_falla_api.ps1
+powershell -ExecutionPolicy Bypass -File scripts\verificar_plataforma.ps1
+```
+
+Para detener sin borrar datos:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts\detener_plataforma.ps1
+```
+
+No usar `docker compose down -v` salvo que se decida explícitamente eliminar
+todos los volúmenes del laboratorio.
+
+## Límites
+
+El replica set MongoDB tiene un único miembro: permite transacciones, pero no
+alta disponibilidad. Prometheus monitorea todavía la API y a sí mismo; los
+exporters de los motores se agregarán con cada base. El dashboard actual es una
+línea base, no evidencia aún un SLO alcanzado.

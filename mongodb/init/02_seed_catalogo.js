@@ -102,7 +102,9 @@ db.partidos.bulkWrite(
     updateOne: {
       filter: { _id: match._id },
       update: {
-        $set: {
+        // El catálogo crea el agregado una sola vez. Una recarga posterior no
+        // debe borrar eventos, marcador, secuencia ni versión operativa.
+        $setOnInsert: {
           partidoId: match._id,
           equipos: {
             localId: match.equipo_local_id,
@@ -119,9 +121,9 @@ db.partidos.bulkWrite(
           },
           ultimaSecuencia: Long(0),
           version: Long(1),
+          creadoEn: now,
           actualizadoEn: now
-        },
-        $setOnInsert: { creadoEn: now }
+        }
       },
       upsert: true
     }

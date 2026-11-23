@@ -30,7 +30,8 @@ powershell -ExecutionPolicy Bypass -File scripts\detener_mongodb.ps1
 
 La base utilizada es `fixture2030`. La carga usa `bulkWrite` con `upsert`, el
 esquema usa `collMod` cuando la colección existe y los índices conservan nombres
-estables. Repetir la inicialización no crea duplicados.
+estables. Los partidos se crean con `$setOnInsert`: repetir la inicialización no
+crea duplicados ni reinicia marcador, estado, secuencia o versión.
 
 Desde Windows, la conexión de inspección es:
 
@@ -38,7 +39,7 @@ Desde Windows, la conexión de inspección es:
 mongodb://localhost:27017/?directConnection=true
 ```
 
-La futura API, dentro de la red Docker, utilizará:
+La API, dentro de la red Docker, utiliza:
 
 ```text
 mongodb://mongo:27017/fixture2030?replicaSet=rs0
@@ -50,6 +51,7 @@ mongodb://mongo:27017/fixture2030?replicaSet=rs0
 - `eventos_oficiales` conserva la historia ordenada por partido.
 - `partidos` mantiene la vista vigente y su versión de concurrencia.
 - `outbox` propaga hechos confirmados a vistas derivadas.
+- `contadores` asigna IDs secuenciales `EVE-xxxxxx` dentro de la transacción.
 - El esquema y los índices no contienen componentes de IRIS.
 
 ## Seguridad y alcance

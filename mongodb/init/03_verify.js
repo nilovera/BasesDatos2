@@ -16,8 +16,28 @@ if (hello.setName !== "rs0" || hello.isWritablePrimary !== true) {
 assertEqual(db.equipos.countDocuments({}), 64, "cantidad de equipos");
 assertEqual(db.jugadores.countDocuments({}), 1024, "cantidad de jugadores");
 assertEqual(db.partidos.countDocuments({}), 1, "cantidad de partidos de demostración");
-assertEqual(db.eventos_oficiales.countDocuments({}), 0, "eventos iniciales");
-assertEqual(db.outbox.countDocuments({}), 0, "outbox inicial");
+
+const eventCount = db.eventos_oficiales.countDocuments({});
+const outboxCount = db.outbox.countDocuments({});
+assertEqual(outboxCount, eventCount, "una salida de Outbox por evento");
+
+const match = db.partidos.findOne({ _id: "PAR-0001" });
+const matchEventCount = db.eventos_oficiales.countDocuments({ partidoId: "PAR-0001" });
+assertEqual(Number(match.ultimaSecuencia), matchEventCount, "secuencia del partido");
+
+const orphanEvents = db.eventos_oficiales.aggregate([
+  {
+    $lookup: {
+      from: "partidos",
+      localField: "partidoId",
+      foreignField: "partidoId",
+      as: "partido"
+    }
+  },
+  { $match: { partido: { $size: 0 } } },
+  { $count: "total" }
+]).toArray();
+assertEqual(orphanEvents.length === 0 ? 0 : orphanEvents[0].total, 0, "eventos huérfanos");
 
 const orphanPlayers = db.jugadores.aggregate([
   {
@@ -59,5 +79,7 @@ printjson({
   equipos: 64,
   jugadores: 1024,
   partidos: 1,
+  eventos: eventCount,
+  outbox: outboxCount,
   jugadoresHuerfanos: 0
 });

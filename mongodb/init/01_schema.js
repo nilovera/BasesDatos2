@@ -227,6 +227,18 @@ ensureCollection("outbox", {
   }
 });
 
+ensureCollection("contadores", {
+  $jsonSchema: {
+    bsonType: "object",
+    additionalProperties: false,
+    required: ["_id", "valor"],
+    properties: {
+      _id: { enum: ["eventos"] },
+      valor: { bsonType: ["int", "long"], minimum: 0 }
+    }
+  }
+});
+
 db.equipos.createIndex({ equipoId: 1 }, { unique: true, name: "uq_equipos_equipoId" });
 db.equipos.createIndex(
   { codigoExterno: 1 },

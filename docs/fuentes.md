@@ -20,3 +20,14 @@ Los siete Markdown de `docs/antecedentes` proceden de los documentos preparados 
 
 No se incorporan credenciales, archivos internos de bases ni CSV masivos. Los datos personales de jugadores son sintéticos.
 
+## Referencias técnicas del incremento de API
+
+- FastAPI, contenedores: https://fastapi.tiangolo.com/deployment/docker/
+- MongoDB PyMongo, transacciones: https://www.mongodb.com/docs/languages/python/pymongo-driver/current/crud/transactions/
+- Prometheus Python Client, ASGI: https://prometheus.github.io/client_python/exporting/http/asgi/
+- Grafana, provisioning: https://grafana.com/docs/grafana/latest/administration/provisioning/
+
+Versiones directas fijadas para reproducibilidad: FastAPI 0.165.0, PyMongo
+4.20.1, Prometheus Client 0.26.0 y Uvicorn 0.54.0. Las imágenes de laboratorio
+son Prometheus 3.16.0 y Grafana 13.3.1.
+

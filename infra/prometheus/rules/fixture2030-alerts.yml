@@ -1,0 +1,36 @@
+groups:
+  - name: fixture2030-api
+    rules:
+      - alert: Fixture2030ApiDown
+        expr: up{job="fixture2030-api"} == 0
+        for: 30s
+        labels:
+          severity: critical
+          owner: plataforma
+        annotations:
+          summary: La API de Fixture2030 no esta disponible
+          description: Prometheus no puede recolectar /metrics de la API durante 30 segundos.
+
+      - alert: Fixture2030ApiHighErrorRate
+        expr: |
+          sum(rate(fixture2030_http_requests_total{status=~"5.."}[2m]))
+          /
+          clamp_min(sum(rate(fixture2030_http_requests_total[2m])), 0.001)
+          > 0.05
+        for: 2m
+        labels:
+          severity: warning
+          owner: backend
+        annotations:
+          summary: Tasa elevada de errores HTTP 5xx
+          description: Mas del 5 por ciento de las solicitudes de la API termina en 5xx durante 2 minutos.
+
+      - alert: Fixture2030OutboxBacklog
+        expr: fixture2030_outbox_pending > 100
+        for: 5m
+        labels:
+          severity: warning
+          owner: integracion
+        annotations:
+          summary: Acumulacion de eventos pendientes en la Outbox
+          description: Hay mas de 100 eventos sin proyectar durante al menos 5 minutos.

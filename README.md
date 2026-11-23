@@ -3,9 +3,9 @@
 Integración final del trabajo de Ingeniería de Datos II dentro del repositorio
 `nilovera/BasesDatos2`, rama `trabajo-final`.
 
-**Estado:** base inicial, diseño físico de MongoDB, contrato HTTP y entorno
-MongoDB reproducible en Docker. La ejecución en el equipo del grupo, la API, los
-demás motores y el monitoreo deben completarse y validarse de manera integrada.
+**Estado:** MongoDB reproducible y validado, API del primer flujo implementada y
+observabilidad inicial con Prometheus y Grafana. La API y el monitoreo deben
+ejecutarse en el equipo del grupo; los otros cuatro motores siguen pendientes.
 
 ## Preparar la rama limpia
 
@@ -51,12 +51,13 @@ python -m scripts.catalogo --check
 | `data/fuentes/` | Definición reproducible del dataset | Implementado |
 | `data/catalogo/` | 64 equipos, 1.024 jugadores, equivalencias, partido de demostración y eventos iniciales vacíos | Generado y verificado |
 | `scripts/` | Generación y comprobación de integridad | Implementado |
-| `tests/` | Pruebas del catálogo, OpenAPI y esquema MongoDB | Ejecutadas |
+| `tests/` | Pruebas del catálogo, contratos, dominio, API e infraestructura | Ejecutadas estáticamente |
 | `docs/antecedentes/` | Siete documentos de diseño previos | Conservados como antecedentes |
 | `docs/diseno/` | Convenciones y decisiones de la rama final | Base inicial documentada |
-| `backend/` | Contrato OpenAPI del primer flujo vertical | Diseñado; servicio pendiente |
-| `mongodb/` | Replica set de laboratorio, validadores, índices, carga y verificación | Implementado; ejecución en equipo pendiente |
-| `infra/` | Docker y criterios de observabilidad | MongoDB incorporado; resto pendiente |
+| `backend/` | FastAPI, contrato OpenAPI, transacción e idempotencia | Implementado; ejecución integrada pendiente |
+| `mongodb/` | Replica set, validadores, índices, carga y verificación | Implementado y validado en Docker |
+| `infra/` | Prometheus, reglas de alerta, Grafana y dashboard inicial | Implementado y ejecutado en Docker |
+| `evidencia/` | Resultados trazables por commit y prueba de falla controlada | Estructura y captura automatizadas; ejecuciones pendientes de versionar |
 
 ## Arquitectura objetivo
 
@@ -89,14 +90,35 @@ sus consecuencias están documentadas en
 
 ## Orden de trabajo
 
-1. Ejecutar y probar el esquema MongoDB en replica set local.
-2. Implementar la API sobre el contrato sin dependencias de IRIS.
-3. Incorporar Cassandra, Redis, InfluxDB y Neo4j mediante adaptadores revisados.
-4. Integrar idempotencia, outbox, caché, comentarios, estadísticas y proyecciones.
-5. Crear el entorno Docker reproducible.
-6. Incorporar Prometheus, Grafana, alertas y evidencia de una falla controlada.
-7. Ejecutar pruebas integradas, de carga y recuperación.
-8. Preparar la demostración y defensa final.
+1. Validar la API, transacciones, idempotencia, Prometheus y Grafana en Docker.
+2. Incorporar Redis, Cassandra, InfluxDB y Neo4j mediante adaptadores revisados.
+3. Procesar la Outbox y construir las proyecciones idempotentes.
+4. Completar usuarios, asistencias, telemetría y simulador sintético.
+5. Agregar exporters, alertas y dashboards de los cinco motores.
+6. Ejecutar humo, tráfico normal, estrés y recuperación.
+7. Preparar la demostración y defensa final.
+
+## Evidencia del incremento 03
+
+Con la plataforma operativa, capturar el estado reproducible:
+
+```text
+powershell -ExecutionPolicy Bypass -File scripts\capturar_evidencia.ps1
+```
+
+Luego ejecutar la falla controlada de la API. El script detiene solamente ese
+contenedor, espera que Prometheus registre `up=0` y la alerta pase a `firing`,
+y siempre intenta recuperarlo en un bloque `finally`:
+
+```text
+powershell -ExecutionPolicy Bypass -File scripts\probar_falla_api.ps1
+powershell -ExecutionPolicy Bypass -File scripts\verificar_plataforma.ps1
+```
+
+Los resultados quedan bajo `evidencia/ejecuciones/`. Deben revisarse antes de
+versionarlos y complementarse con capturas de Grafana de la misma ventana
+temporal. Las consultas, umbrales, responsables y limitaciones están en
+[`docs/monitoreo`](docs/monitoreo/).
 
 Ver el [plan de incorporación](docs/plan_incorporacion.md), el
 [registro de los 17 puntos](docs/pendientes.md) y las
@@ -106,8 +128,8 @@ telemetría, simulación y carga están registradas en
 
 ## Alcance de las verificaciones actuales
 
-Los controles de este commit se ejecutan sobre archivos y generación de datos.
-No prueban todavía conexiones, persistencia, réplicas, capacidad, Docker,
-observabilidad ni recuperación. Los resultados de hitos anteriores conservan su
-fecha y entorno originales y no se presentan como evidencia de la integración
-final.
+MongoDB fue ejecutado en el equipo del grupo con 64 equipos, 1.024 jugadores,
+un partido, replica set PRIMARY e idempotencia de la carga. La API, Prometheus y
+Grafana también fueron iniciados y verificados. Todavía no se han versionado la
+prueba de falla ni mediciones de capacidad, SLO, recuperación o convergencia
+entre motores.

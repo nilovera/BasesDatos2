@@ -2,8 +2,8 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Fixture 2030 API",
-    "version": "0.1.0",
-    "description": "Contrato inicial del núcleo deportivo autoritativo en MongoDB."
+    "version": "0.2.0",
+    "description": "API ejecutable del núcleo deportivo autoritativo en MongoDB, instrumentada para Prometheus."
   },
   "servers": [
     {"url": "http://localhost:8000", "description": "Laboratorio local"}
@@ -19,6 +19,23 @@
             "content": {
               "application/json": {
                 "schema": {"$ref": "#/components/schemas/HealthResponse"}
+              }
+            }
+          },
+          "503": {"$ref": "#/components/responses/Unavailable"}
+        }
+      }
+    },
+    "/metrics": {
+      "get": {
+        "operationId": "metricasPrometheus",
+        "summary": "Métricas técnicas en formato Prometheus",
+        "responses": {
+          "200": {
+            "description": "Métricas de la API",
+            "content": {
+              "text/plain": {
+                "schema": {"type": "string"}
               }
             }
           }
@@ -158,10 +175,11 @@
       "HealthResponse": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["status", "service"],
+        "required": ["status", "service", "mongodb"],
         "properties": {
           "status": {"type": "string", "enum": ["UP", "DEGRADED"]},
-          "service": {"type": "string", "const": "fixture2030-api"}
+          "service": {"type": "string", "const": "fixture2030-api"},
+          "mongodb": {"type": "string", "enum": ["PRIMARY", "UNAVAILABLE"]}
         }
       },
       "Marcador": {
@@ -250,6 +268,31 @@
           }
         ]
       },
+      "GolReemplazo": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["tipo", "periodo", "minuto", "equipoId", "jugadorId"],
+        "properties": {
+          "tipo": {"const": "GOL"},
+          "periodo": {"type": "integer", "minimum": 1, "maximum": 5},
+          "minuto": {"type": "integer", "minimum": 0, "maximum": 150},
+          "equipoId": {"type": "string", "pattern": "^EQ-[0-9]{2}$"},
+          "jugadorId": {"type": "string", "pattern": "^JUG-[0-9]{4}$"}
+        }
+      },
+      "SustitucionReemplazo": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["tipo", "periodo", "minuto", "equipoId", "saleJugadorId", "entraJugadorId"],
+        "properties": {
+          "tipo": {"const": "SUSTITUCION"},
+          "periodo": {"type": "integer", "minimum": 1, "maximum": 5},
+          "minuto": {"type": "integer", "minimum": 0, "maximum": 150},
+          "equipoId": {"type": "string", "pattern": "^EQ-[0-9]{2}$"},
+          "saleJugadorId": {"type": "string", "pattern": "^JUG-[0-9]{4}$"},
+          "entraJugadorId": {"type": "string", "pattern": "^JUG-[0-9]{4}$"}
+        }
+      },
       "CorreccionEventoCommand": {
         "allOf": [
           {"$ref": "#/components/schemas/EventoBase"},
@@ -264,8 +307,8 @@
               "motivo": {"type": "string", "minLength": 3, "maxLength": 300},
               "reemplazo": {
                 "oneOf": [
-                  {"$ref": "#/components/schemas/GolCommand"},
-                  {"$ref": "#/components/schemas/SustitucionCommand"}
+                  {"$ref": "#/components/schemas/GolReemplazo"},
+                  {"$ref": "#/components/schemas/SustitucionReemplazo"}
                 ]
               }
             }

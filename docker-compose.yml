@@ -53,6 +53,76 @@ services:
         mongosh --quiet 'mongodb://mongo:27017/?replicaSet=rs0' /opt/fixture2030/init/03_verify.js
     restart: "no"
 
+  api:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: fixture2030-api
+    environment:
+      MONGODB_URI: mongodb://mongo:27017/?replicaSet=rs0
+      MONGODB_DATABASE: fixture2030
+      MONGODB_TIMEOUT_MS: "3000"
+    ports:
+      - "127.0.0.1:8000:8000"
+    networks:
+      - fixture2030
+    depends_on:
+      mongo:
+        condition: service_healthy
+      mongo-init:
+        condition: service_completed_successfully
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - >-
+          python -c "import urllib.request;
+          urllib.request.urlopen('http://localhost:8000/health', timeout=2)"
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 10s
+    restart: unless-stopped
+
+  prometheus:
+    image: prom/prometheus:v3.16.0
+    container_name: fixture2030-prometheus
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.path=/prometheus
+      - --storage.tsdb.retention.time=7d
+    ports:
+      - "127.0.0.1:9090:9090"
+    volumes:
+      - ./infra/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./infra/prometheus/rules:/etc/prometheus/rules:ro
+      - fixture2030_prometheus_data:/prometheus
+    networks:
+      - fixture2030
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana:13.3.1
+    container_name: fixture2030-grafana
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD:-fixture2030}
+      GF_USERS_ALLOW_SIGN_UP: "false"
+    ports:
+      - "127.0.0.1:3000:3000"
+    volumes:
+      - ./infra/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./infra/grafana/dashboards:/var/lib/grafana/dashboards:ro
+      - fixture2030_grafana_data:/var/lib/grafana
+    networks:
+      - fixture2030
+    depends_on:
+      prometheus:
+        condition: service_started
+    restart: unless-stopped
+
 networks:
   fixture2030:
     name: fixture2030-network
@@ -60,3 +130,7 @@ networks:
 volumes:
   fixture2030_mongo_data:
     name: fixture2030-mongo-data
+  fixture2030_prometheus_data:
+    name: fixture2030-prometheus-data
+  fixture2030_grafana_data:
+    name: fixture2030-grafana-data

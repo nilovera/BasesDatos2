@@ -67,6 +67,7 @@ class ContractTests(unittest.TestCase):
             "partidos",
             "eventos_oficiales",
             "outbox",
+            "contadores",
         ):
             self.assertIn(f'ensureCollection("{collection}"', self.mongo_schema)
 

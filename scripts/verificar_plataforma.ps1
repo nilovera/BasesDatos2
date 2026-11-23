@@ -1,0 +1,42 @@
+$ErrorActionPreference = "Stop"
+
+Write-Host "Esperando la API..."
+$health = $null
+for ($attempt = 1; $attempt -le 30; $attempt++) {
+    try {
+        $health = Invoke-RestMethod -Uri "http://localhost:8000/health" -TimeoutSec 3
+        if ($health.status -eq "UP") { break }
+    } catch {
+        Start-Sleep -Seconds 2
+    }
+}
+if ($null -eq $health -or $health.status -ne "UP") {
+    throw "La API no quedo operativa dentro del tiempo esperado."
+}
+
+$match = Invoke-RestMethod -Uri "http://localhost:8000/api/v1/partidos/PAR-0001" -TimeoutSec 3
+$metrics = (Invoke-WebRequest -UseBasicParsing -Uri "http://localhost:8000/metrics" -TimeoutSec 3).Content
+if ($metrics -notmatch "fixture2030_http_requests_total") {
+    throw "La API no expone las metricas esperadas."
+}
+
+$prometheus = $null
+$grafana = $null
+for ($attempt = 1; $attempt -le 30; $attempt++) {
+    try {
+        $prometheus = Invoke-RestMethod -Uri "http://localhost:9090/-/ready" -TimeoutSec 3
+        $grafana = Invoke-RestMethod -Uri "http://localhost:3000/api/health" -TimeoutSec 3
+        if ($grafana.database -eq "ok") { break }
+    } catch {
+        Start-Sleep -Seconds 2
+    }
+}
+if ($null -eq $prometheus) { throw "Prometheus no esta operativo." }
+if ($null -eq $grafana -or $grafana.database -ne "ok") {
+    throw "Grafana no esta operativo."
+}
+
+Write-Host "OK: API" $health.status "MongoDB" $health.mongodb
+Write-Host "OK: partido" $match.partidoId "estado" $match.estado "version" $match.version
+Write-Host "OK: Prometheus" $prometheus
+Write-Host "OK: Grafana" $grafana.database

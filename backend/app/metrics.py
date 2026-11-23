@@ -25,3 +25,18 @@ OUTBOX_PENDING = Gauge(
     "fixture2030_outbox_pending",
     "Mensajes pendientes en la Outbox de MongoDB",
 )
+CACHE_READS = Counter(
+    "fixture2030_cache_reads",
+    "Lecturas Cache-Aside de partidos",
+    ["result"],
+)
+CACHE_INVALIDATIONS = Counter(
+    "fixture2030_cache_invalidations",
+    "Invalidaciones de cache solicitadas despues de una escritura oficial",
+    ["result"],
+)
+SESSION_OPERATIONS = Counter(
+    "fixture2030_session_operations",
+    "Operaciones sobre sesiones temporales de Redis",
+    ["operation", "result"],
+)

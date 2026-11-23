@@ -46,3 +46,36 @@ clamp_min(sum(rate(fixture2030_http_requests_total[2m])), 0.001)
 - Unidad: proporcion entre 0 y 1; multiplicar por 100 para porcentaje.
 - Periodo: ventana movil de 2 minutos.
 - Uso: alerta de tasa de error superior al 5 %.
+
+## Disponibilidad de Redis
+
+```promql
+redis_up{job="fixture2030-redis"}
+```
+
+- Unidad: booleano (`1` disponible, `0` no disponible).
+- Periodo: ultimo scrape, cada 5 segundos.
+- Uso: distinguir una clave ausente de una dependencia Redis caida.
+
+## Presion de memoria Redis
+
+```promql
+redis_memory_used_bytes / redis_memory_max_bytes
+```
+
+- Unidad: proporcion de memoria configurada.
+- Periodo: valor instantaneo recolectado cada 5 segundos.
+- Uso: anticipar la activacion de `allkeys-lfu`; el umbral inicial es 85 %.
+
+## Tasa de aciertos del cache
+
+```promql
+sum(rate(redis_keyspace_hits_total[5m]))
+/
+clamp_min(sum(rate(redis_keyspace_hits_total[5m])) + sum(rate(redis_keyspace_misses_total[5m])), 0.001)
+```
+
+- Unidad: proporcion entre 0 y 1.
+- Periodo: ventana movil de 5 minutos.
+- Uso: evaluar Cache-Aside junto con latencia, consistencia y memoria; una tasa
+  alta por si sola no garantiza un diseño correcto.

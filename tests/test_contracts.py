@@ -26,14 +26,17 @@ class ContractTests(unittest.TestCase):
 
     def test_event_write_requires_idempotency_key(self):
         post = self.openapi["paths"]["/api/v1/partidos/{partidoId}/eventos"]["post"]
-        refs = {parameter.get("$ref") for parameter in post["parameters"]}
-        self.assertIn("#/components/parameters/IdempotencyKey", refs)
-        parameter = self.openapi["components"]["parameters"]["IdempotencyKey"]
+        parameter = next(
+            item for item in post["parameters"] if item.get("name") == "Idempotency-Key"
+        )
         self.assertEqual("Idempotency-Key", parameter["name"])
+        self.assertEqual("header", parameter["in"])
         self.assertTrue(parameter["required"])
 
     def test_event_contract_contains_first_vertical_flow(self):
-        variants = self.openapi["components"]["schemas"]["EventoCommand"]["oneOf"]
+        variants = self.openapi["paths"]["/api/v1/partidos/{partidoId}/eventos"]["post"][
+            "requestBody"
+        ]["content"]["application/json"]["schema"]["oneOf"]
         names = {item["$ref"].rsplit("/", 1)[-1] for item in variants}
         self.assertEqual(
             {
@@ -59,6 +62,23 @@ class ContractTests(unittest.TestCase):
             if parameter.get("in") == "query"
         }
         self.assertEqual({"desdeSecuencia", "limite"}, query_names)
+
+    def test_session_contract_exposes_explicit_renewal(self):
+        paths = self.openapi["paths"]
+        self.assertIn("/api/v1/sesiones", paths)
+        self.assertIn("post", paths["/api/v1/sesiones"])
+        self.assertIn("get", paths["/api/v1/sesiones/{sesionId}"])
+        self.assertIn("delete", paths["/api/v1/sesiones/{sesionId}"])
+        renewal = paths["/api/v1/sesiones/{sesionId}/renovacion"]["post"]
+        schema = renewal["requestBody"]["content"]["application/json"]["schema"]
+        self.assertEqual("#/components/schemas/SesionRenovacion", schema["$ref"])
+
+    def test_match_read_documents_cache_result_header(self):
+        response = self.openapi["paths"]["/api/v1/partidos/{partidoId}"]["get"][
+            "responses"
+        ]["200"]
+        header = response["headers"]["X-Cache"]["schema"]
+        self.assertEqual(["HIT", "MISS", "BYPASS"], header["enum"])
 
     def test_mongodb_schema_has_authoritative_collections_and_unique_guards(self):
         for collection in (

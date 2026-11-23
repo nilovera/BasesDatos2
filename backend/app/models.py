@@ -119,3 +119,24 @@ class HealthResponse(ApiModel):
     status: Literal["UP", "DEGRADED"]
     service: Literal["fixture2030-api"]
     mongodb: str
+    redis: str
+
+
+class SesionCreate(ApiModel):
+    usuario_id: str = Field(alias="usuarioId", pattern=r"^USR-[0-9]{4}$")
+    rol: Literal["FAN", "OPERADOR", "ADMIN"] = "FAN"
+    ttl_segundos: int = Field(alias="ttlSegundos", ge=60, le=3600, default=1800)
+
+
+class SesionRenovacion(ApiModel):
+    ttl_segundos: int = Field(alias="ttlSegundos", ge=60, le=3600)
+
+
+class SesionResponse(ApiModel):
+    sesion_id: str = Field(alias="sesionId")
+    usuario_id: str = Field(alias="usuarioId")
+    rol: str
+    creada_en: datetime = Field(alias="creadaEn")
+    ultimo_acceso: datetime = Field(alias="ultimoAcceso")
+    renovaciones: int = Field(ge=0)
+    ttl_segundos: int = Field(alias="ttlSegundos", ge=0)

@@ -53,6 +53,39 @@ services:
         mongosh --quiet 'mongodb://mongo:27017/?replicaSet=rs0' /opt/fixture2030/init/03_verify.js
     restart: "no"
 
+  redis:
+    image: redis:7.4.2-alpine
+    container_name: fixture2030-redis
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+    ports:
+      - "127.0.0.1:6379:6379"
+    volumes:
+      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf:ro
+      - fixture2030_redis_data:/data
+    networks:
+      - fixture2030
+    healthcheck:
+      test: ["CMD", "redis-cli", "PING"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 5s
+    restart: unless-stopped
+
+  redis-exporter:
+    image: oliver006/redis_exporter:v1.67.0
+    container_name: fixture2030-redis-exporter
+    environment:
+      REDIS_ADDR: redis://redis:6379
+    ports:
+      - "127.0.0.1:9121:9121"
+    networks:
+      - fixture2030
+    depends_on:
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
   api:
     build:
       context: .
@@ -62,6 +95,10 @@ services:
       MONGODB_URI: mongodb://mongo:27017/?replicaSet=rs0
       MONGODB_DATABASE: fixture2030
       MONGODB_TIMEOUT_MS: "3000"
+      REDIS_URL: redis://redis:6379/0
+      REDIS_TIMEOUT_SECONDS: "1.0"
+      MATCH_CACHE_TTL_SECONDS: "60"
+      SESSION_DEFAULT_TTL_SECONDS: "1800"
     ports:
       - "127.0.0.1:8000:8000"
     networks:
@@ -71,6 +108,8 @@ services:
         condition: service_healthy
       mongo-init:
         condition: service_completed_successfully
+      redis:
+        condition: service_healthy
     healthcheck:
       test:
         - CMD-SHELL
@@ -134,3 +173,5 @@ volumes:
     name: fixture2030-prometheus-data
   fixture2030_grafana_data:
     name: fixture2030-grafana-data
+  fixture2030_redis_data:
+    name: fixture2030-redis-data

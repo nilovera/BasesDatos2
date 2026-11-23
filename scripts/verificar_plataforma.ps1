@@ -7,11 +7,14 @@ for ($attempt = 1; $attempt -le 30; $attempt++) {
         $health = Invoke-RestMethod -Uri "http://localhost:8000/health" -TimeoutSec 3
         if ($health.status -eq "UP") { break }
     } catch {
-        Start-Sleep -Seconds 2
+        # La API puede estar iniciando o una dependencia puede estar temporalmente caída.
     }
+    Start-Sleep -Seconds 2
 }
 if ($null -eq $health -or $health.status -ne "UP") {
-    throw "La API no quedo operativa dentro del tiempo esperado."
+    $mongoState = if ($null -ne $health) { $health.mongodb } else { "SIN_RESPUESTA" }
+    $redisState = if ($null -ne $health) { $health.redis } else { "SIN_RESPUESTA" }
+    throw "La API no quedo UP. MongoDB=$mongoState Redis=$redisState."
 }
 
 $match = Invoke-RestMethod -Uri "http://localhost:8000/api/v1/partidos/PAR-0001" -TimeoutSec 3
@@ -37,6 +40,7 @@ if ($null -eq $grafana -or $grafana.database -ne "ok") {
 }
 
 Write-Host "OK: API" $health.status "MongoDB" $health.mongodb
+Write-Host "OK: Redis" $health.redis
 Write-Host "OK: partido" $match.partidoId "estado" $match.estado "version" $match.version
 Write-Host "OK: Prometheus" $prometheus
 Write-Host "OK: Grafana" $grafana.database

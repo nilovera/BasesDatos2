@@ -2,40 +2,22 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Fixture 2030 API",
-    "version": "0.2.0",
-    "description": "API ejecutable del núcleo deportivo autoritativo en MongoDB, instrumentada para Prometheus."
+    "description": "Núcleo deportivo en MongoDB con cache y sesiones temporales en Redis.",
+    "version": "0.3.0"
   },
-  "servers": [
-    {"url": "http://localhost:8000", "description": "Laboratorio local"}
-  ],
   "paths": {
     "/health": {
       "get": {
-        "operationId": "health",
-        "summary": "Estado de la API",
+        "summary": "Health",
+        "operationId": "health_health_get",
         "responses": {
           "200": {
-            "description": "API disponible",
+            "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {"$ref": "#/components/schemas/HealthResponse"}
-              }
-            }
-          },
-          "503": {"$ref": "#/components/responses/Unavailable"}
-        }
-      }
-    },
-    "/metrics": {
-      "get": {
-        "operationId": "metricasPrometheus",
-        "summary": "Métricas técnicas en formato Prometheus",
-        "responses": {
-          "200": {
-            "description": "Métricas de la API",
-            "content": {
-              "text/plain": {
-                "schema": {"type": "string"}
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
               }
             }
           }
@@ -44,353 +26,1031 @@
     },
     "/api/v1/partidos/{partidoId}": {
       "get": {
-        "operationId": "obtenerPartido",
-        "summary": "Obtener el estado oficial de un partido",
+        "summary": "Get Match",
+        "operationId": "get_match_api_v1_partidos__partidoId__get",
         "parameters": [
-          {"$ref": "#/components/parameters/PartidoId"},
-          {"$ref": "#/components/parameters/RequestId"}
+          {
+            "name": "partidoId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Partidoid"
+            }
+          }
         ],
         "responses": {
           "200": {
-            "description": "Partido encontrado",
+            "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {"$ref": "#/components/schemas/Partido"}
+                "schema": {
+                  "$ref": "#/components/schemas/PartidoResponse"
+                }
+              }
+            },
+            "headers": {
+              "X-Cache": {
+                "description": "Resultado Cache-Aside: HIT, MISS o BYPASS",
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "HIT",
+                    "MISS",
+                    "BYPASS"
+                  ]
+                }
               }
             }
           },
-          "404": {"$ref": "#/components/responses/NotFound"},
-          "503": {"$ref": "#/components/responses/Unavailable"}
+          "400": {
+            "description": "Identificador inválido"
+          },
+          "404": {
+            "description": "Partido inexistente"
+          },
+          "503": {
+            "description": "MongoDB no disponible"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
         }
       }
     },
     "/api/v1/partidos/{partidoId}/eventos": {
       "get": {
-        "operationId": "listarEventosPartido",
-        "summary": "Listar eventos oficiales por secuencia",
+        "summary": "Get Events",
+        "operationId": "get_events_api_v1_partidos__partidoId__eventos_get",
         "parameters": [
-          {"$ref": "#/components/parameters/PartidoId"},
-          {"$ref": "#/components/parameters/RequestId"},
+          {
+            "name": "partidoId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Partidoid"
+            }
+          },
           {
             "name": "desdeSecuencia",
             "in": "query",
             "required": false,
-            "schema": {"type": "integer", "minimum": 0, "default": 0}
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "title": "Desdesecuencia"
+            }
           },
           {
             "name": "limite",
             "in": "query",
             "required": false,
-            "schema": {"type": "integer", "minimum": 1, "maximum": 100, "default": 50}
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 50,
+              "title": "Limite"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "Página ordenada de eventos",
+            "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {"$ref": "#/components/schemas/PaginaEventos"}
+                "schema": {
+                  "$ref": "#/components/schemas/PaginaEventos"
+                }
               }
             }
           },
-          "404": {"$ref": "#/components/responses/NotFound"},
-          "503": {"$ref": "#/components/responses/Unavailable"}
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
         }
       },
       "post": {
-        "operationId": "registrarEventoOficial",
-        "summary": "Registrar un evento deportivo oficial",
+        "summary": "Post Event",
+        "operationId": "post_event_api_v1_partidos__partidoId__eventos_post",
         "parameters": [
-          {"$ref": "#/components/parameters/PartidoId"},
-          {"$ref": "#/components/parameters/IdempotencyKey"},
-          {"$ref": "#/components/parameters/RequestId"}
+          {
+            "name": "partidoId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Partidoid"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 16,
+              "maxLength": 128,
+              "title": "Idempotency-Key"
+            }
+          }
         ],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
-              "schema": {"$ref": "#/components/schemas/EventoCommand"}
+              "schema": {
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/InicioPartidoCommand"
+                  },
+                  {
+                    "$ref": "#/components/schemas/GolCommand"
+                  },
+                  {
+                    "$ref": "#/components/schemas/SustitucionCommand"
+                  },
+                  {
+                    "$ref": "#/components/schemas/CorreccionEventoCommand"
+                  }
+                ],
+                "discriminator": {
+                  "propertyName": "tipo",
+                  "mapping": {
+                    "INICIO_PARTIDO": "#/components/schemas/InicioPartidoCommand",
+                    "GOL": "#/components/schemas/GolCommand",
+                    "SUSTITUCION": "#/components/schemas/SustitucionCommand",
+                    "CORRECCION_EVENTO": "#/components/schemas/CorreccionEventoCommand"
+                  }
+                },
+                "title": "Event"
+              }
             }
           }
         },
         "responses": {
           "201": {
-            "description": "Evento creado y confirmado en MongoDB",
-            "headers": {
-              "Idempotency-Replayed": {
-                "schema": {"type": "boolean"},
-                "description": "false para una creación nueva"
-              }
-            },
+            "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {"$ref": "#/components/schemas/EventoConfirmado"}
+                "schema": {
+                  "$ref": "#/components/schemas/EventoConfirmado"
+                }
               }
             }
           },
           "200": {
-            "description": "Repetición idempotente; se devuelve el resultado original",
             "headers": {
               "Idempotency-Replayed": {
-                "schema": {"type": "boolean", "const": true}
+                "schema": {
+                  "type": "boolean",
+                  "const": true
+                }
               }
             },
             "content": {
               "application/json": {
-                "schema": {"$ref": "#/components/schemas/EventoConfirmado"}
+                "schema": {
+                  "$ref": "#/components/schemas/EventoConfirmado"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "description": "Comando inválido"
+          },
+          "404": {
+            "description": "Partido o evento inexistente"
+          },
+          "409": {
+            "description": "Conflicto de idempotencia, versión o estado"
+          },
+          "422": {
+            "description": "Contrato inválido"
+          },
+          "503": {
+            "description": "MongoDB no disponible"
+          }
+        }
+      }
+    },
+    "/api/v1/sesiones": {
+      "post": {
+        "summary": "Create Session",
+        "operationId": "create_session_api_v1_sesiones_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SesionCreate"
               }
             }
           },
-          "400": {"$ref": "#/components/responses/BadRequest"},
-          "404": {"$ref": "#/components/responses/NotFound"},
-          "409": {"$ref": "#/components/responses/Conflict"},
-          "422": {"$ref": "#/components/responses/ValidationError"},
-          "503": {"$ref": "#/components/responses/Unavailable"}
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SesionResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Redis no disponible"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/sesiones/{sesionId}": {
+      "get": {
+        "summary": "Get Session",
+        "operationId": "get_session_api_v1_sesiones__sesionId__get",
+        "parameters": [
+          {
+            "name": "sesionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Sesionid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SesionResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Sesión inexistente o expirada"
+          },
+          "503": {
+            "description": "Redis no disponible"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete Session",
+        "operationId": "delete_session_api_v1_sesiones__sesionId__delete",
+        "parameters": [
+          {
+            "name": "sesionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Sesionid"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "404": {
+            "description": "Sesión inexistente o expirada"
+          },
+          "503": {
+            "description": "Redis no disponible"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/sesiones/{sesionId}/renovacion": {
+      "post": {
+        "summary": "Renew Session",
+        "operationId": "renew_session_api_v1_sesiones__sesionId__renovacion_post",
+        "parameters": [
+          {
+            "name": "sesionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Sesionid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SesionRenovacion"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SesionResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Sesión inexistente o expirada"
+          },
+          "503": {
+            "description": "Redis no disponible"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
         }
       }
     }
   },
   "components": {
-    "parameters": {
-      "PartidoId": {
-        "name": "partidoId",
-        "in": "path",
-        "required": true,
-        "schema": {"type": "string", "pattern": "^PAR-[0-9]{4}$"}
-      },
-      "IdempotencyKey": {
-        "name": "Idempotency-Key",
-        "in": "header",
-        "required": true,
-        "schema": {"type": "string", "minLength": 16, "maxLength": 128}
-      },
-      "RequestId": {
-        "name": "X-Request-ID",
-        "in": "header",
-        "required": false,
-        "schema": {"type": "string", "minLength": 8, "maxLength": 128}
-      }
-    },
     "schemas": {
-      "HealthResponse": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": ["status", "service", "mongodb"],
-        "properties": {
-          "status": {"type": "string", "enum": ["UP", "DEGRADED"]},
-          "service": {"type": "string", "const": "fixture2030-api"},
-          "mongodb": {"type": "string", "enum": ["PRIMARY", "UNAVAILABLE"]}
-        }
-      },
-      "Marcador": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": ["local", "visitante"],
-        "properties": {
-          "local": {"type": "integer", "minimum": 0},
-          "visitante": {"type": "integer", "minimum": 0}
-        }
-      },
-      "Partido": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": ["partidoId", "localId", "visitanteId", "inicioProgramado", "estado", "marcador", "version"],
-        "properties": {
-          "partidoId": {"type": "string", "pattern": "^PAR-[0-9]{4}$"},
-          "localId": {"type": "string", "pattern": "^EQ-[0-9]{2}$"},
-          "visitanteId": {"type": "string", "pattern": "^EQ-[0-9]{2}$"},
-          "inicioProgramado": {"type": "string", "format": "date-time"},
-          "estado": {"$ref": "#/components/schemas/EstadoPartido"},
-          "marcador": {"$ref": "#/components/schemas/Marcador"},
-          "version": {"type": "integer", "minimum": 1}
-        }
-      },
-      "EstadoPartido": {
-        "type": "string",
-        "enum": ["PROGRAMADO", "EN_CURSO", "SUSPENDIDO", "FINALIZADO", "CANCELADO"]
-      },
-      "EventoBase": {
-        "type": "object",
-        "required": ["tipo", "ocurridoEn"],
-        "properties": {
-          "tipo": {"type": "string"},
-          "ocurridoEn": {"type": "string", "format": "date-time"}
-        }
-      },
-      "InicioPartidoCommand": {
-        "allOf": [
-          {"$ref": "#/components/schemas/EventoBase"},
-          {
-            "type": "object",
-            "additionalProperties": false,
-            "required": ["tipo", "ocurridoEn"],
-            "properties": {
-              "tipo": {"const": "INICIO_PARTIDO"},
-              "ocurridoEn": {"type": "string", "format": "date-time"}
-            }
-          }
-        ]
-      },
-      "GolCommand": {
-        "allOf": [
-          {"$ref": "#/components/schemas/EventoBase"},
-          {
-            "type": "object",
-            "additionalProperties": false,
-            "required": ["tipo", "ocurridoEn", "periodo", "minuto", "equipoId", "jugadorId"],
-            "properties": {
-              "tipo": {"const": "GOL"},
-              "ocurridoEn": {"type": "string", "format": "date-time"},
-              "periodo": {"type": "integer", "minimum": 1, "maximum": 5},
-              "minuto": {"type": "integer", "minimum": 0, "maximum": 150},
-              "equipoId": {"type": "string", "pattern": "^EQ-[0-9]{2}$"},
-              "jugadorId": {"type": "string", "pattern": "^JUG-[0-9]{4}$"}
-            }
-          }
-        ]
-      },
-      "SustitucionCommand": {
-        "allOf": [
-          {"$ref": "#/components/schemas/EventoBase"},
-          {
-            "type": "object",
-            "additionalProperties": false,
-            "required": ["tipo", "ocurridoEn", "periodo", "minuto", "equipoId", "saleJugadorId", "entraJugadorId"],
-            "properties": {
-              "tipo": {"const": "SUSTITUCION"},
-              "ocurridoEn": {"type": "string", "format": "date-time"},
-              "periodo": {"type": "integer", "minimum": 1, "maximum": 5},
-              "minuto": {"type": "integer", "minimum": 0, "maximum": 150},
-              "equipoId": {"type": "string", "pattern": "^EQ-[0-9]{2}$"},
-              "saleJugadorId": {"type": "string", "pattern": "^JUG-[0-9]{4}$"},
-              "entraJugadorId": {"type": "string", "pattern": "^JUG-[0-9]{4}$"}
-            }
-          }
-        ]
-      },
-      "GolReemplazo": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": ["tipo", "periodo", "minuto", "equipoId", "jugadorId"],
-        "properties": {
-          "tipo": {"const": "GOL"},
-          "periodo": {"type": "integer", "minimum": 1, "maximum": 5},
-          "minuto": {"type": "integer", "minimum": 0, "maximum": 150},
-          "equipoId": {"type": "string", "pattern": "^EQ-[0-9]{2}$"},
-          "jugadorId": {"type": "string", "pattern": "^JUG-[0-9]{4}$"}
-        }
-      },
-      "SustitucionReemplazo": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": ["tipo", "periodo", "minuto", "equipoId", "saleJugadorId", "entraJugadorId"],
-        "properties": {
-          "tipo": {"const": "SUSTITUCION"},
-          "periodo": {"type": "integer", "minimum": 1, "maximum": 5},
-          "minuto": {"type": "integer", "minimum": 0, "maximum": 150},
-          "equipoId": {"type": "string", "pattern": "^EQ-[0-9]{2}$"},
-          "saleJugadorId": {"type": "string", "pattern": "^JUG-[0-9]{4}$"},
-          "entraJugadorId": {"type": "string", "pattern": "^JUG-[0-9]{4}$"}
-        }
-      },
       "CorreccionEventoCommand": {
-        "allOf": [
-          {"$ref": "#/components/schemas/EventoBase"},
-          {
-            "type": "object",
-            "additionalProperties": false,
-            "required": ["tipo", "ocurridoEn", "eventoOriginalId", "motivo", "reemplazo"],
-            "properties": {
-              "tipo": {"const": "CORRECCION_EVENTO"},
-              "ocurridoEn": {"type": "string", "format": "date-time"},
-              "eventoOriginalId": {"type": "string", "pattern": "^EVE-[0-9]{6}$"},
-              "motivo": {"type": "string", "minLength": 3, "maxLength": 300},
-              "reemplazo": {
-                "oneOf": [
-                  {"$ref": "#/components/schemas/GolReemplazo"},
-                  {"$ref": "#/components/schemas/SustitucionReemplazo"}
-                ]
+        "properties": {
+          "ocurridoEn": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Ocurridoen"
+          },
+          "tipo": {
+            "type": "string",
+            "const": "CORRECCION_EVENTO",
+            "title": "Tipo"
+          },
+          "eventoOriginalId": {
+            "type": "string",
+            "pattern": "^EVE-[0-9]{6}$",
+            "title": "Eventooriginalid"
+          },
+          "motivo": {
+            "type": "string",
+            "maxLength": 300,
+            "minLength": 3,
+            "title": "Motivo"
+          },
+          "reemplazo": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/GolFields"
+              },
+              {
+                "$ref": "#/components/schemas/SustitucionFields"
+              }
+            ],
+            "title": "Reemplazo",
+            "discriminator": {
+              "propertyName": "tipo",
+              "mapping": {
+                "GOL": "#/components/schemas/GolFields",
+                "SUSTITUCION": "#/components/schemas/SustitucionFields"
               }
             }
           }
-        ]
-      },
-      "EventoCommand": {
-        "oneOf": [
-          {"$ref": "#/components/schemas/InicioPartidoCommand"},
-          {"$ref": "#/components/schemas/GolCommand"},
-          {"$ref": "#/components/schemas/SustitucionCommand"},
-          {"$ref": "#/components/schemas/CorreccionEventoCommand"}
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "ocurridoEn",
+          "tipo",
+          "eventoOriginalId",
+          "motivo",
+          "reemplazo"
         ],
-        "discriminator": {"propertyName": "tipo"}
+        "title": "CorreccionEventoCommand"
       },
       "EventoConfirmado": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": ["eventoId", "partidoId", "secuencia", "tipo", "estadoPartido", "marcador", "versionPartido", "propagacion"],
         "properties": {
-          "eventoId": {"type": "string", "pattern": "^EVE-[0-9]{6}$"},
-          "partidoId": {"type": "string", "pattern": "^PAR-[0-9]{4}$"},
-          "secuencia": {"type": "integer", "minimum": 1},
-          "tipo": {"type": "string", "enum": ["INICIO_PARTIDO", "GOL", "SUSTITUCION", "CORRECCION_EVENTO"]},
-          "estadoPartido": {"$ref": "#/components/schemas/EstadoPartido"},
-          "marcador": {"$ref": "#/components/schemas/Marcador"},
-          "versionPartido": {"type": "integer", "minimum": 1},
-          "propagacion": {"type": "string", "enum": ["PENDIENTE", "PUBLICADA"]}
-        }
+          "eventoId": {
+            "type": "string",
+            "title": "Eventoid"
+          },
+          "partidoId": {
+            "type": "string",
+            "title": "Partidoid"
+          },
+          "secuencia": {
+            "type": "integer",
+            "title": "Secuencia"
+          },
+          "tipo": {
+            "type": "string",
+            "title": "Tipo"
+          },
+          "estadoPartido": {
+            "type": "string",
+            "title": "Estadopartido"
+          },
+          "marcador": {
+            "$ref": "#/components/schemas/Marcador"
+          },
+          "versionPartido": {
+            "type": "integer",
+            "title": "Versionpartido"
+          },
+          "propagacion": {
+            "type": "string",
+            "enum": [
+              "PENDIENTE",
+              "PUBLICADA"
+            ],
+            "title": "Propagacion"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "eventoId",
+          "partidoId",
+          "secuencia",
+          "tipo",
+          "estadoPartido",
+          "marcador",
+          "versionPartido",
+          "propagacion"
+        ],
+        "title": "EventoConfirmado"
       },
       "EventoResumen": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": ["eventoId", "secuencia", "tipo", "ocurridoEn"],
         "properties": {
-          "eventoId": {"type": "string", "pattern": "^EVE-[0-9]{6}$"},
-          "secuencia": {"type": "integer", "minimum": 1},
-          "tipo": {"type": "string"},
-          "ocurridoEn": {"type": "string", "format": "date-time"}
-        }
+          "eventoId": {
+            "type": "string",
+            "title": "Eventoid"
+          },
+          "secuencia": {
+            "type": "integer",
+            "title": "Secuencia"
+          },
+          "tipo": {
+            "type": "string",
+            "title": "Tipo"
+          },
+          "ocurridoEn": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Ocurridoen"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "eventoId",
+          "secuencia",
+          "tipo",
+          "ocurridoEn"
+        ],
+        "title": "EventoResumen"
+      },
+      "GolCommand": {
+        "properties": {
+          "tipo": {
+            "type": "string",
+            "const": "GOL",
+            "title": "Tipo"
+          },
+          "periodo": {
+            "type": "integer",
+            "maximum": 5.0,
+            "minimum": 1.0,
+            "title": "Periodo"
+          },
+          "minuto": {
+            "type": "integer",
+            "maximum": 150.0,
+            "minimum": 0.0,
+            "title": "Minuto"
+          },
+          "equipoId": {
+            "type": "string",
+            "pattern": "^EQ-[0-9]{2}$",
+            "title": "Equipoid"
+          },
+          "jugadorId": {
+            "type": "string",
+            "pattern": "^JUG-[0-9]{4}$",
+            "title": "Jugadorid"
+          },
+          "ocurridoEn": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Ocurridoen"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "tipo",
+          "periodo",
+          "minuto",
+          "equipoId",
+          "jugadorId",
+          "ocurridoEn"
+        ],
+        "title": "GolCommand"
+      },
+      "GolFields": {
+        "properties": {
+          "tipo": {
+            "type": "string",
+            "const": "GOL",
+            "title": "Tipo"
+          },
+          "periodo": {
+            "type": "integer",
+            "maximum": 5.0,
+            "minimum": 1.0,
+            "title": "Periodo"
+          },
+          "minuto": {
+            "type": "integer",
+            "maximum": 150.0,
+            "minimum": 0.0,
+            "title": "Minuto"
+          },
+          "equipoId": {
+            "type": "string",
+            "pattern": "^EQ-[0-9]{2}$",
+            "title": "Equipoid"
+          },
+          "jugadorId": {
+            "type": "string",
+            "pattern": "^JUG-[0-9]{4}$",
+            "title": "Jugadorid"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "tipo",
+          "periodo",
+          "minuto",
+          "equipoId",
+          "jugadorId"
+        ],
+        "title": "GolFields"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "HealthResponse": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "UP",
+              "DEGRADED"
+            ],
+            "title": "Status"
+          },
+          "service": {
+            "type": "string",
+            "const": "fixture2030-api",
+            "title": "Service"
+          },
+          "mongodb": {
+            "type": "string",
+            "title": "Mongodb"
+          },
+          "redis": {
+            "type": "string",
+            "title": "Redis"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "status",
+          "service",
+          "mongodb",
+          "redis"
+        ],
+        "title": "HealthResponse"
+      },
+      "InicioPartidoCommand": {
+        "properties": {
+          "ocurridoEn": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Ocurridoen"
+          },
+          "tipo": {
+            "type": "string",
+            "const": "INICIO_PARTIDO",
+            "title": "Tipo"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "ocurridoEn",
+          "tipo"
+        ],
+        "title": "InicioPartidoCommand"
+      },
+      "Marcador": {
+        "properties": {
+          "local": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Local"
+          },
+          "visitante": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Visitante"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "local",
+          "visitante"
+        ],
+        "title": "Marcador"
       },
       "PaginaEventos": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": ["items", "siguienteSecuencia"],
         "properties": {
-          "items": {"type": "array", "items": {"$ref": "#/components/schemas/EventoResumen"}},
-          "siguienteSecuencia": {"type": ["integer", "null"], "minimum": 1}
-        }
-      },
-      "Error": {
-        "type": "object",
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/EventoResumen"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "siguienteSecuencia": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Siguientesecuencia"
+          }
+        },
         "additionalProperties": false,
-        "required": ["codigo", "mensaje", "requestId"],
+        "type": "object",
+        "required": [
+          "items",
+          "siguienteSecuencia"
+        ],
+        "title": "PaginaEventos"
+      },
+      "PartidoResponse": {
         "properties": {
-          "codigo": {"type": "string"},
-          "mensaje": {"type": "string"},
-          "requestId": {"type": "string"},
-          "detalles": {"type": "object", "additionalProperties": true}
-        }
-      }
-    },
-    "responses": {
-      "BadRequest": {
-        "description": "Solicitud inválida",
-        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Error"}}}
+          "partidoId": {
+            "type": "string",
+            "title": "Partidoid"
+          },
+          "localId": {
+            "type": "string",
+            "title": "Localid"
+          },
+          "visitanteId": {
+            "type": "string",
+            "title": "Visitanteid"
+          },
+          "inicioProgramado": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Inicioprogramado"
+          },
+          "estado": {
+            "type": "string",
+            "title": "Estado"
+          },
+          "marcador": {
+            "$ref": "#/components/schemas/Marcador"
+          },
+          "version": {
+            "type": "integer",
+            "title": "Version"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "partidoId",
+          "localId",
+          "visitanteId",
+          "inicioProgramado",
+          "estado",
+          "marcador",
+          "version"
+        ],
+        "title": "PartidoResponse"
       },
-      "NotFound": {
-        "description": "Recurso inexistente",
-        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Error"}}}
+      "SesionCreate": {
+        "properties": {
+          "usuarioId": {
+            "type": "string",
+            "pattern": "^USR-[0-9]{4}$",
+            "title": "Usuarioid"
+          },
+          "rol": {
+            "type": "string",
+            "enum": [
+              "FAN",
+              "OPERADOR",
+              "ADMIN"
+            ],
+            "title": "Rol",
+            "default": "FAN"
+          },
+          "ttlSegundos": {
+            "type": "integer",
+            "maximum": 3600.0,
+            "minimum": 60.0,
+            "title": "Ttlsegundos",
+            "default": 1800
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "usuarioId"
+        ],
+        "title": "SesionCreate"
       },
-      "Conflict": {
-        "description": "Estado, versión o clave idempotente en conflicto",
-        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Error"}}}
+      "SesionRenovacion": {
+        "properties": {
+          "ttlSegundos": {
+            "type": "integer",
+            "maximum": 3600.0,
+            "minimum": 60.0,
+            "title": "Ttlsegundos"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "ttlSegundos"
+        ],
+        "title": "SesionRenovacion"
+      },
+      "SesionResponse": {
+        "properties": {
+          "sesionId": {
+            "type": "string",
+            "title": "Sesionid"
+          },
+          "usuarioId": {
+            "type": "string",
+            "title": "Usuarioid"
+          },
+          "rol": {
+            "type": "string",
+            "title": "Rol"
+          },
+          "creadaEn": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Creadaen"
+          },
+          "ultimoAcceso": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Ultimoacceso"
+          },
+          "renovaciones": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Renovaciones"
+          },
+          "ttlSegundos": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Ttlsegundos"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "sesionId",
+          "usuarioId",
+          "rol",
+          "creadaEn",
+          "ultimoAcceso",
+          "renovaciones",
+          "ttlSegundos"
+        ],
+        "title": "SesionResponse"
+      },
+      "SustitucionCommand": {
+        "properties": {
+          "tipo": {
+            "type": "string",
+            "const": "SUSTITUCION",
+            "title": "Tipo"
+          },
+          "periodo": {
+            "type": "integer",
+            "maximum": 5.0,
+            "minimum": 1.0,
+            "title": "Periodo"
+          },
+          "minuto": {
+            "type": "integer",
+            "maximum": 150.0,
+            "minimum": 0.0,
+            "title": "Minuto"
+          },
+          "equipoId": {
+            "type": "string",
+            "pattern": "^EQ-[0-9]{2}$",
+            "title": "Equipoid"
+          },
+          "saleJugadorId": {
+            "type": "string",
+            "pattern": "^JUG-[0-9]{4}$",
+            "title": "Salejugadorid"
+          },
+          "entraJugadorId": {
+            "type": "string",
+            "pattern": "^JUG-[0-9]{4}$",
+            "title": "Entrajugadorid"
+          },
+          "ocurridoEn": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Ocurridoen"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "tipo",
+          "periodo",
+          "minuto",
+          "equipoId",
+          "saleJugadorId",
+          "entraJugadorId",
+          "ocurridoEn"
+        ],
+        "title": "SustitucionCommand"
+      },
+      "SustitucionFields": {
+        "properties": {
+          "tipo": {
+            "type": "string",
+            "const": "SUSTITUCION",
+            "title": "Tipo"
+          },
+          "periodo": {
+            "type": "integer",
+            "maximum": 5.0,
+            "minimum": 1.0,
+            "title": "Periodo"
+          },
+          "minuto": {
+            "type": "integer",
+            "maximum": 150.0,
+            "minimum": 0.0,
+            "title": "Minuto"
+          },
+          "equipoId": {
+            "type": "string",
+            "pattern": "^EQ-[0-9]{2}$",
+            "title": "Equipoid"
+          },
+          "saleJugadorId": {
+            "type": "string",
+            "pattern": "^JUG-[0-9]{4}$",
+            "title": "Salejugadorid"
+          },
+          "entraJugadorId": {
+            "type": "string",
+            "pattern": "^JUG-[0-9]{4}$",
+            "title": "Entrajugadorid"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "tipo",
+          "periodo",
+          "minuto",
+          "equipoId",
+          "saleJugadorId",
+          "entraJugadorId"
+        ],
+        "title": "SustitucionFields"
       },
       "ValidationError": {
-        "description": "Regla de dominio incumplida",
-        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Error"}}}
-      },
-      "Unavailable": {
-        "description": "MongoDB no pudo confirmar la operación",
-        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Error"}}}
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
       }
     }
   }

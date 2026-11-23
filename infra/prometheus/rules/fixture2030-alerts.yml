@@ -34,3 +34,35 @@ groups:
         annotations:
           summary: Acumulacion de eventos pendientes en la Outbox
           description: Hay mas de 100 eventos sin proyectar durante al menos 5 minutos.
+
+  - name: fixture2030-redis
+    rules:
+      - alert: Fixture2030RedisDown
+        expr: redis_up{job="fixture2030-redis"} == 0
+        for: 30s
+        labels:
+          severity: critical
+          owner: plataforma
+        annotations:
+          summary: Redis no esta disponible
+          description: El exporter no puede ejecutar PING contra Redis durante 30 segundos.
+
+      - alert: Fixture2030RedisHighMemory
+        expr: redis_memory_used_bytes / redis_memory_max_bytes > 0.85
+        for: 5m
+        labels:
+          severity: warning
+          owner: plataforma
+        annotations:
+          summary: Redis supera el 85 por ciento de maxmemory
+          description: La presion de memoria puede activar la politica allkeys-lfu.
+
+      - alert: Fixture2030RedisEvictions
+        expr: increase(redis_evicted_keys_total[5m]) > 0
+        for: 1m
+        labels:
+          severity: warning
+          owner: backend
+        annotations:
+          summary: Redis esta expulsando claves
+          description: Se detectaron evicciones durante los ultimos 5 minutos.

@@ -14,7 +14,7 @@ class RuntimeIncrementTests(unittest.TestCase):
 
     def test_direct_dependencies_are_pinned(self):
         requirements = (ROOT / "backend" / "requirements.txt").read_text(encoding="utf-8")
-        for dependency in ("fastapi", "pymongo", "prometheus-client", "uvicorn"):
+        for dependency in ("fastapi", "pymongo", "prometheus-client", "redis", "uvicorn"):
             self.assertRegex(requirements, rf"(?m)^{dependency}==[^\s]+$")
 
     def test_compose_contains_api_prometheus_and_grafana(self):
@@ -58,6 +58,9 @@ class RuntimeIncrementTests(unittest.TestCase):
             "Fixture2030ApiDown",
             "Fixture2030ApiHighErrorRate",
             "Fixture2030OutboxBacklog",
+            "Fixture2030RedisDown",
+            "Fixture2030RedisHighMemory",
+            "Fixture2030RedisEvictions",
         ):
             self.assertIn(f"alert: {alert}", rules)
         self.assertIn("owner: plataforma", rules)
@@ -104,7 +107,7 @@ class RuntimeIncrementTests(unittest.TestCase):
             (ROOT / "infra" / "grafana" / "dashboards" / "fixture2030-api.json").read_text(encoding="utf-8")
         )
         self.assertEqual("fixture2030-api", dashboard["uid"])
-        self.assertGreaterEqual(len(dashboard["panels"]), 6)
+        self.assertGreaterEqual(len(dashboard["panels"]), 10)
         datasource = (
             ROOT
             / "infra"
@@ -122,6 +125,52 @@ class RuntimeIncrementTests(unittest.TestCase):
         ]
         for path in paths:
             self.assertNotIn("iris", path.read_text(encoding="utf-8").lower(), path)
+
+    def test_redis_is_persistent_observable_and_memory_bounded(self):
+        compose = (ROOT / "docker-compose.yml").read_text(encoding="utf-8")
+        config = (ROOT / "redis" / "redis.conf").read_text(encoding="utf-8")
+        prometheus = (ROOT / "infra" / "prometheus" / "prometheus.yml").read_text(
+            encoding="utf-8"
+        )
+        for service in ("  redis:", "  redis-exporter:"):
+            self.assertIn(service, compose)
+        self.assertIn("fixture2030_redis_data:/data", compose)
+        self.assertIn("maxmemory 256mb", config)
+        self.assertIn("maxmemory-policy allkeys-lfu", config)
+        self.assertIn("protected-mode no", config)
+        self.assertIn("save 60 1", config)
+        self.assertIn("appendonly yes", config)
+        self.assertIn("appendfsync everysec", config)
+        self.assertIn("job_name: fixture2030-redis", prometheus)
+        self.assertIn('targets: ["redis-exporter:9121"]', prometheus)
+
+    def test_redis_patterns_are_executable_and_safe(self):
+        service = (ROOT / "backend" / "app" / "redis_service.py").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn('f"cache:partido:{partido_id}"', service)
+        self.assertIn("self.client.set", service)
+        self.assertIn("self.client.delete", service)
+        self.assertIn("self.client.eval", service)
+        self.assertIn("pipeline.incr", service)
+        self.assertIn("pipeline.zincrby", service)
+        for script_name in (
+            "verificar_redis.ps1",
+            "probar_patrones_redis.ps1",
+            "probar_persistencia_redis.ps1",
+            "probar_falla_redis.ps1",
+        ):
+            script = (ROOT / "scripts" / script_name).read_text(encoding="utf-8")
+            self.assertNotIn("KEYS *", script.upper())
+            self.assertNotIn("down -v", script.lower())
+
+        failure_script = (ROOT / "scripts" / "probar_falla_redis.ps1").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("finally {", failure_script)
+        self.assertIn("docker stop fixture2030-redis", failure_script)
+        self.assertIn("docker start fixture2030-redis", failure_script)
+        self.assertIn('"BYPASS"', failure_script)
 
     def test_powershell_query_string_delimits_base_url_variable(self):
         script = (ROOT / "scripts" / "probar_flujo_mongodb.ps1").read_text(

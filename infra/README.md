@@ -1,7 +1,7 @@
 # Infraestructura y observabilidad
 
-El Compose actual levanta MongoDB, su inicializador, la API, Prometheus y
-Grafana. Todos los puertos se publican solamente sobre `127.0.0.1`.
+El Compose actual levanta MongoDB, Redis, sus componentes auxiliares, la API,
+Prometheus y Grafana. Todos los puertos se publican solamente sobre `127.0.0.1`.
 
 ## Servicios actuales
 
@@ -9,8 +9,10 @@ Grafana. Todos los puertos se publican solamente sobre `127.0.0.1`.
 |---|---:|---|
 | API | 8000 | Contrato deportivo y `/metrics` |
 | MongoDB | 27017 | Fuente oficial y Outbox |
+| Redis | 6379 | Caché, sesiones y datos temporales |
+| Redis Exporter | 9121 | Memoria, hits, misses, evictions y persistencia |
 | Prometheus | 9090 | Recolección de métricas técnicas |
-| Grafana | 3000 | Dashboard `Fixture2030 — API y MongoDB` |
+| Grafana | 3000 | Dashboard `Fixture2030 — API, MongoDB y Redis` |
 
 Grafana se aprovisiona automáticamente con Prometheus como fuente. Usuario
 local: `admin`. La contraseña de laboratorio por defecto es `fixture2030` y
@@ -28,6 +30,10 @@ umbrales y responsables están documentados en
 powershell -ExecutionPolicy Bypass -File scripts\iniciar_plataforma.ps1
 powershell -ExecutionPolicy Bypass -File scripts\verificar_plataforma.ps1
 powershell -ExecutionPolicy Bypass -File scripts\probar_flujo_mongodb.ps1
+powershell -ExecutionPolicy Bypass -File scripts\verificar_redis.ps1
+powershell -ExecutionPolicy Bypass -File scripts\probar_patrones_redis.ps1
+powershell -ExecutionPolicy Bypass -File scripts\probar_persistencia_redis.ps1
+powershell -ExecutionPolicy Bypass -File scripts\probar_falla_redis.ps1
 powershell -ExecutionPolicy Bypass -File scripts\capturar_evidencia.ps1
 powershell -ExecutionPolicy Bypass -File scripts\probar_falla_api.ps1
 powershell -ExecutionPolicy Bypass -File scripts\verificar_plataforma.ps1
@@ -44,7 +50,7 @@ todos los volúmenes del laboratorio.
 
 ## Límites
 
-El replica set MongoDB tiene un único miembro: permite transacciones, pero no
-alta disponibilidad. Prometheus monitorea todavía la API y a sí mismo; los
-exporters de los motores se agregarán con cada base. El dashboard actual es una
-línea base, no evidencia aún un SLO alcanzado.
+El replica set MongoDB y Redis tienen un único miembro: permiten demostrar los
+patrones, pero no alta disponibilidad. Redis Exporter aporta un tercer target
+directo a Prometheus. El dashboard sigue siendo una línea base y no evidencia
+aún un SLO alcanzado.

@@ -3,9 +3,9 @@
 Integración final del trabajo de Ingeniería de Datos II dentro del repositorio
 `nilovera/BasesDatos2`, rama `trabajo-final`.
 
-**Estado:** MongoDB reproducible y validado, API del primer flujo implementada y
-observabilidad inicial con Prometheus y Grafana. La API y el monitoreo deben
-ejecutarse en el equipo del grupo; los otros cuatro motores siguen pendientes.
+**Estado:** MongoDB autoritativo, API transaccional, Redis para datos calientes
+y observabilidad con Prometheus y Grafana. Cassandra, InfluxDB y Neo4j siguen
+pendientes de integración en la rama final.
 
 ## Preparar la rama limpia
 
@@ -56,6 +56,7 @@ python -m scripts.catalogo --check
 | `docs/diseno/` | Convenciones y decisiones de la rama final | Base inicial documentada |
 | `backend/` | FastAPI, contrato OpenAPI, transacción e idempotencia | Implementado; ejecución integrada pendiente |
 | `mongodb/` | Replica set, validadores, índices, carga y verificación | Implementado y validado en Docker |
+| `redis/` | Cache-Aside, sesiones, TTL, LFU, RDB y AOF | Implementado; ejecución Docker pendiente |
 | `infra/` | Prometheus, reglas de alerta, Grafana y dashboard inicial | Implementado y ejecutado en Docker |
 | `evidencia/` | Resultados trazables por commit y prueba de falla controlada | Estructura y captura automatizadas; ejecuciones pendientes de versionar |
 
@@ -91,7 +92,7 @@ sus consecuencias están documentadas en
 ## Orden de trabajo
 
 1. Validar la API, transacciones, idempotencia, Prometheus y Grafana en Docker.
-2. Incorporar Redis, Cassandra, InfluxDB y Neo4j mediante adaptadores revisados.
+2. Validar Redis y luego incorporar Cassandra, InfluxDB y Neo4j mediante adaptadores revisados.
 3. Procesar la Outbox y construir las proyecciones idempotentes.
 4. Completar usuarios, asistencias, telemetría y simulador sintético.
 5. Agregar exporters, alertas y dashboards de los cinco motores.
@@ -119,6 +120,23 @@ Los resultados quedan bajo `evidencia/ejecuciones/`. Deben revisarse antes de
 versionarlos y complementarse con capturas de Grafana de la misma ventana
 temporal. Las consultas, umbrales, responsables y limitaciones están en
 [`docs/monitoreo`](docs/monitoreo/).
+
+## Incremento 04 Redis
+
+Redis implementa Cache-Aside, invalidación después de una escritura oficial,
+sesiones con renovación explícita, contadores atómicos, ranking, evicción LFU,
+snapshots RDB y AOF. Para probarlo:
+
+```text
+powershell -ExecutionPolicy Bypass -File scripts\iniciar_plataforma.ps1
+powershell -ExecutionPolicy Bypass -File scripts\verificar_redis.ps1
+powershell -ExecutionPolicy Bypass -File scripts\probar_patrones_redis.ps1
+powershell -ExecutionPolicy Bypass -File scripts\probar_persistencia_redis.ps1
+powershell -ExecutionPolicy Bypass -File scripts\probar_falla_redis.ps1
+```
+
+El modelo y sus trade-offs están en
+[`06_3_modelo_fisico_redis.md`](docs/diseno/06_3_modelo_fisico_redis.md).
 
 Ver el [plan de incorporación](docs/plan_incorporacion.md), el
 [registro de los 17 puntos](docs/pendientes.md) y las

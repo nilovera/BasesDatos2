@@ -10,11 +10,11 @@ un SLA.
 | Prometheus | metricas propias | disponibilidad del recolector y evaluacion de reglas | Directa |
 | MongoDB | `/health` y metricas de dominio de la API | PRIMARY, transaccion funcional y pendientes de Outbox | Indirecta; exporter pendiente |
 | Grafana | `/api/health` y dashboard | salud del visualizador | Verificacion operativa; no es target de Prometheus |
-| Redis | pendiente | sesiones, cache y concurrencia | No incorporado |
+| Redis | Redis Exporter y `/health` | disponibilidad, memoria, hits, misses, evictions, persistencia y conexiones | Directa |
 | Cassandra | pendiente | comentarios y moderacion | No incorporado |
 | InfluxDB | pendiente | telemetria y mapas de calor | No incorporado |
 | Neo4j | pendiente | relaciones y recorridos | No incorporado |
 
-La exigencia de observar al menos tres componentes de la solucion se cerrara
-cuando se incorpore Redis con su exporter. Hasta entonces hay dos targets
-directos y MongoDB se observa solamente a traves de la API.
+La solucion posee ahora tres targets directos: API, Prometheus y Redis
+Exporter. MongoDB continua observado indirectamente a traves de la API hasta
+incorporar su exporter.

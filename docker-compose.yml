@@ -1,0 +1,62 @@
+name: fixture2030
+
+services:
+  mongo:
+    image: mongo:8.0
+    container_name: fixture2030-mongo
+    command:
+      - mongod
+      - --replSet
+      - rs0
+      - --bind_ip_all
+      - --oplogSize
+      - "128"
+    ports:
+      - "127.0.0.1:27017:27017"
+    volumes:
+      - fixture2030_mongo_data:/data/db
+      - ./mongodb/init:/opt/fixture2030/init:ro
+    networks:
+      - fixture2030
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - >-
+          mongosh --quiet --host localhost:27017
+          --eval "quit(db.adminCommand({ ping: 1 }).ok ? 0 : 2)"
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 10s
+    restart: unless-stopped
+
+  mongo-init:
+    image: mongo:8.0
+    depends_on:
+      mongo:
+        condition: service_healthy
+    environment:
+      CATALOG_ROOT: /opt/fixture2030/catalogo
+    volumes:
+      - ./mongodb/init:/opt/fixture2030/init:ro
+      - ./data/catalogo:/opt/fixture2030/catalogo:ro
+    networks:
+      - fixture2030
+    entrypoint: ["/bin/bash", "-lc"]
+    # La lista conserva todo el bloque como un único argumento para `bash -lc`.
+    # Un escalar aquí puede ser dividido por Compose y dejar a mongosh sin URI.
+    command:
+      - |
+        mongosh --quiet 'mongodb://mongo:27017/?directConnection=true' /opt/fixture2030/init/00_replica_init.js &&
+        mongosh --quiet 'mongodb://mongo:27017/?replicaSet=rs0' /opt/fixture2030/init/01_schema.js &&
+        mongosh --quiet 'mongodb://mongo:27017/?replicaSet=rs0' /opt/fixture2030/init/02_seed_catalogo.js &&
+        mongosh --quiet 'mongodb://mongo:27017/?replicaSet=rs0' /opt/fixture2030/init/03_verify.js
+    restart: "no"
+
+networks:
+  fixture2030:
+    name: fixture2030-network
+
+volumes:
+  fixture2030_mongo_data:
+    name: fixture2030-mongo-data

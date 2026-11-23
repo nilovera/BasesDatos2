@@ -10,10 +10,11 @@ incorpora después de revisar identidad, configuración, dependencias y pruebas.
 |---|---|---|
 | 1-5 | Conservar alcance, patrones, comparación, arquitectura, diagramas y objetivos | Antecedentes incorporados |
 | 6.1 | Identidad, tiempos, estados, autoridad del dato y catálogo común | Base inicial verificada |
-| 6.2-6.6 | Diseño físico de MongoDB, Cassandra, Redis, InfluxDB y Neo4j | Pendiente |
-| 7 | Escrituras, idempotencia, outbox, sincronización y fallos | Pendiente |
+| 6.2 | Diseño físico de MongoDB | Diseñado; script creado; ejecución en motor pendiente |
+| 6.3-6.6 | Diseño físico de Cassandra, Redis, InfluxDB y Neo4j | Pendiente |
+| 7 | Escrituras, idempotencia, outbox, sincronización y fallos | Contrato inicial diseñado; implementación pendiente |
 | 8 | Revisión y recuperación selectiva de los hitos | Fuentes identificadas; incorporación pendiente |
-| 9 | Implementación incremental y Docker integrado | Pendiente |
+| 9 | Implementación incremental y Docker integrado | MongoDB incorporado; ejecución y resto de servicios pendientes |
 | 10 | Monitoreo, validación integrada, evidencia y defensa | Pendiente |
 
 IRIS no recibe diseño físico ni contenedor. Su evaluación y exclusión se registran
@@ -44,6 +45,10 @@ métricas; no es la base de la rama final. La rama `InlfuxDB` no se utiliza.
 7. **Docker integrado:** cinco motores, API, volúmenes, red, semillas y healthchecks.
 8. **Observabilidad:** Prometheus, Grafana, exporters, alertas y prueba controlada.
 9. **Validación y defensa:** carga, recuperación, evidencia, demo y guion de 20 minutos.
+
+Después de integrar los cinco motores se ejecutarán las tareas T01-T06 de
+`docs/tareas_integracion_final.md`: usuarios sintéticos, asistencias, telemetría,
+simulador reproducible, escenarios de carga y SLI/SLO/SLA propuesto.
 
 ## Primer flujo de aceptación
 

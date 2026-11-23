@@ -1,0 +1,354 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Fixture 2030 API",
+    "version": "0.1.0",
+    "description": "Contrato inicial del núcleo deportivo autoritativo en MongoDB."
+  },
+  "servers": [
+    {"url": "http://localhost:8000", "description": "Laboratorio local"}
+  ],
+  "paths": {
+    "/health": {
+      "get": {
+        "operationId": "health",
+        "summary": "Estado de la API",
+        "responses": {
+          "200": {
+            "description": "API disponible",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/HealthResponse"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/partidos/{partidoId}": {
+      "get": {
+        "operationId": "obtenerPartido",
+        "summary": "Obtener el estado oficial de un partido",
+        "parameters": [
+          {"$ref": "#/components/parameters/PartidoId"},
+          {"$ref": "#/components/parameters/RequestId"}
+        ],
+        "responses": {
+          "200": {
+            "description": "Partido encontrado",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/Partido"}
+              }
+            }
+          },
+          "404": {"$ref": "#/components/responses/NotFound"},
+          "503": {"$ref": "#/components/responses/Unavailable"}
+        }
+      }
+    },
+    "/api/v1/partidos/{partidoId}/eventos": {
+      "get": {
+        "operationId": "listarEventosPartido",
+        "summary": "Listar eventos oficiales por secuencia",
+        "parameters": [
+          {"$ref": "#/components/parameters/PartidoId"},
+          {"$ref": "#/components/parameters/RequestId"},
+          {
+            "name": "desdeSecuencia",
+            "in": "query",
+            "required": false,
+            "schema": {"type": "integer", "minimum": 0, "default": 0}
+          },
+          {
+            "name": "limite",
+            "in": "query",
+            "required": false,
+            "schema": {"type": "integer", "minimum": 1, "maximum": 100, "default": 50}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Página ordenada de eventos",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/PaginaEventos"}
+              }
+            }
+          },
+          "404": {"$ref": "#/components/responses/NotFound"},
+          "503": {"$ref": "#/components/responses/Unavailable"}
+        }
+      },
+      "post": {
+        "operationId": "registrarEventoOficial",
+        "summary": "Registrar un evento deportivo oficial",
+        "parameters": [
+          {"$ref": "#/components/parameters/PartidoId"},
+          {"$ref": "#/components/parameters/IdempotencyKey"},
+          {"$ref": "#/components/parameters/RequestId"}
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {"$ref": "#/components/schemas/EventoCommand"}
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Evento creado y confirmado en MongoDB",
+            "headers": {
+              "Idempotency-Replayed": {
+                "schema": {"type": "boolean"},
+                "description": "false para una creación nueva"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/EventoConfirmado"}
+              }
+            }
+          },
+          "200": {
+            "description": "Repetición idempotente; se devuelve el resultado original",
+            "headers": {
+              "Idempotency-Replayed": {
+                "schema": {"type": "boolean", "const": true}
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/EventoConfirmado"}
+              }
+            }
+          },
+          "400": {"$ref": "#/components/responses/BadRequest"},
+          "404": {"$ref": "#/components/responses/NotFound"},
+          "409": {"$ref": "#/components/responses/Conflict"},
+          "422": {"$ref": "#/components/responses/ValidationError"},
+          "503": {"$ref": "#/components/responses/Unavailable"}
+        }
+      }
+    }
+  },
+  "components": {
+    "parameters": {
+      "PartidoId": {
+        "name": "partidoId",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "string", "pattern": "^PAR-[0-9]{4}$"}
+      },
+      "IdempotencyKey": {
+        "name": "Idempotency-Key",
+        "in": "header",
+        "required": true,
+        "schema": {"type": "string", "minLength": 16, "maxLength": 128}
+      },
+      "RequestId": {
+        "name": "X-Request-ID",
+        "in": "header",
+        "required": false,
+        "schema": {"type": "string", "minLength": 8, "maxLength": 128}
+      }
+    },
+    "schemas": {
+      "HealthResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["status", "service"],
+        "properties": {
+          "status": {"type": "string", "enum": ["UP", "DEGRADED"]},
+          "service": {"type": "string", "const": "fixture2030-api"}
+        }
+      },
+      "Marcador": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["local", "visitante"],
+        "properties": {
+          "local": {"type": "integer", "minimum": 0},
+          "visitante": {"type": "integer", "minimum": 0}
+        }
+      },
+      "Partido": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["partidoId", "localId", "visitanteId", "inicioProgramado", "estado", "marcador", "version"],
+        "properties": {
+          "partidoId": {"type": "string", "pattern": "^PAR-[0-9]{4}$"},
+          "localId": {"type": "string", "pattern": "^EQ-[0-9]{2}$"},
+          "visitanteId": {"type": "string", "pattern": "^EQ-[0-9]{2}$"},
+          "inicioProgramado": {"type": "string", "format": "date-time"},
+          "estado": {"$ref": "#/components/schemas/EstadoPartido"},
+          "marcador": {"$ref": "#/components/schemas/Marcador"},
+          "version": {"type": "integer", "minimum": 1}
+        }
+      },
+      "EstadoPartido": {
+        "type": "string",
+        "enum": ["PROGRAMADO", "EN_CURSO", "SUSPENDIDO", "FINALIZADO", "CANCELADO"]
+      },
+      "EventoBase": {
+        "type": "object",
+        "required": ["tipo", "ocurridoEn"],
+        "properties": {
+          "tipo": {"type": "string"},
+          "ocurridoEn": {"type": "string", "format": "date-time"}
+        }
+      },
+      "InicioPartidoCommand": {
+        "allOf": [
+          {"$ref": "#/components/schemas/EventoBase"},
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["tipo", "ocurridoEn"],
+            "properties": {
+              "tipo": {"const": "INICIO_PARTIDO"},
+              "ocurridoEn": {"type": "string", "format": "date-time"}
+            }
+          }
+        ]
+      },
+      "GolCommand": {
+        "allOf": [
+          {"$ref": "#/components/schemas/EventoBase"},
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["tipo", "ocurridoEn", "periodo", "minuto", "equipoId", "jugadorId"],
+            "properties": {
+              "tipo": {"const": "GOL"},
+              "ocurridoEn": {"type": "string", "format": "date-time"},
+              "periodo": {"type": "integer", "minimum": 1, "maximum": 5},
+              "minuto": {"type": "integer", "minimum": 0, "maximum": 150},
+              "equipoId": {"type": "string", "pattern": "^EQ-[0-9]{2}$"},
+              "jugadorId": {"type": "string", "pattern": "^JUG-[0-9]{4}$"}
+            }
+          }
+        ]
+      },
+      "SustitucionCommand": {
+        "allOf": [
+          {"$ref": "#/components/schemas/EventoBase"},
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["tipo", "ocurridoEn", "periodo", "minuto", "equipoId", "saleJugadorId", "entraJugadorId"],
+            "properties": {
+              "tipo": {"const": "SUSTITUCION"},
+              "ocurridoEn": {"type": "string", "format": "date-time"},
+              "periodo": {"type": "integer", "minimum": 1, "maximum": 5},
+              "minuto": {"type": "integer", "minimum": 0, "maximum": 150},
+              "equipoId": {"type": "string", "pattern": "^EQ-[0-9]{2}$"},
+              "saleJugadorId": {"type": "string", "pattern": "^JUG-[0-9]{4}$"},
+              "entraJugadorId": {"type": "string", "pattern": "^JUG-[0-9]{4}$"}
+            }
+          }
+        ]
+      },
+      "CorreccionEventoCommand": {
+        "allOf": [
+          {"$ref": "#/components/schemas/EventoBase"},
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["tipo", "ocurridoEn", "eventoOriginalId", "motivo", "reemplazo"],
+            "properties": {
+              "tipo": {"const": "CORRECCION_EVENTO"},
+              "ocurridoEn": {"type": "string", "format": "date-time"},
+              "eventoOriginalId": {"type": "string", "pattern": "^EVE-[0-9]{6}$"},
+              "motivo": {"type": "string", "minLength": 3, "maxLength": 300},
+              "reemplazo": {
+                "oneOf": [
+                  {"$ref": "#/components/schemas/GolCommand"},
+                  {"$ref": "#/components/schemas/SustitucionCommand"}
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "EventoCommand": {
+        "oneOf": [
+          {"$ref": "#/components/schemas/InicioPartidoCommand"},
+          {"$ref": "#/components/schemas/GolCommand"},
+          {"$ref": "#/components/schemas/SustitucionCommand"},
+          {"$ref": "#/components/schemas/CorreccionEventoCommand"}
+        ],
+        "discriminator": {"propertyName": "tipo"}
+      },
+      "EventoConfirmado": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["eventoId", "partidoId", "secuencia", "tipo", "estadoPartido", "marcador", "versionPartido", "propagacion"],
+        "properties": {
+          "eventoId": {"type": "string", "pattern": "^EVE-[0-9]{6}$"},
+          "partidoId": {"type": "string", "pattern": "^PAR-[0-9]{4}$"},
+          "secuencia": {"type": "integer", "minimum": 1},
+          "tipo": {"type": "string", "enum": ["INICIO_PARTIDO", "GOL", "SUSTITUCION", "CORRECCION_EVENTO"]},
+          "estadoPartido": {"$ref": "#/components/schemas/EstadoPartido"},
+          "marcador": {"$ref": "#/components/schemas/Marcador"},
+          "versionPartido": {"type": "integer", "minimum": 1},
+          "propagacion": {"type": "string", "enum": ["PENDIENTE", "PUBLICADA"]}
+        }
+      },
+      "EventoResumen": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["eventoId", "secuencia", "tipo", "ocurridoEn"],
+        "properties": {
+          "eventoId": {"type": "string", "pattern": "^EVE-[0-9]{6}$"},
+          "secuencia": {"type": "integer", "minimum": 1},
+          "tipo": {"type": "string"},
+          "ocurridoEn": {"type": "string", "format": "date-time"}
+        }
+      },
+      "PaginaEventos": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["items", "siguienteSecuencia"],
+        "properties": {
+          "items": {"type": "array", "items": {"$ref": "#/components/schemas/EventoResumen"}},
+          "siguienteSecuencia": {"type": ["integer", "null"], "minimum": 1}
+        }
+      },
+      "Error": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["codigo", "mensaje", "requestId"],
+        "properties": {
+          "codigo": {"type": "string"},
+          "mensaje": {"type": "string"},
+          "requestId": {"type": "string"},
+          "detalles": {"type": "object", "additionalProperties": true}
+        }
+      }
+    },
+    "responses": {
+      "BadRequest": {
+        "description": "Solicitud inválida",
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Error"}}}
+      },
+      "NotFound": {
+        "description": "Recurso inexistente",
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Error"}}}
+      },
+      "Conflict": {
+        "description": "Estado, versión o clave idempotente en conflicto",
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Error"}}}
+      },
+      "ValidationError": {
+        "description": "Regla de dominio incumplida",
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Error"}}}
+      },
+      "Unavailable": {
+        "description": "MongoDB no pudo confirmar la operación",
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Error"}}}
+      }
+    }
+  }
+}

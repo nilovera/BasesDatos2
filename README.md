@@ -3,10 +3,9 @@
 Integración final del trabajo de Ingeniería de Datos II dentro del repositorio
 `nilovera/BasesDatos2`, rama `trabajo-final`.
 
-**Estado del commit inicial:** documentación, decisiones arquitectónicas,
-convenciones, catálogo común y verificaciones de integridad. La API, Docker, los
-cinco motores y el monitoreo se incorporarán en commits posteriores y deberán
-validarse de manera integrada.
+**Estado:** base inicial, diseño físico de MongoDB, contrato HTTP y entorno
+MongoDB reproducible en Docker. La ejecución en el equipo del grupo, la API, los
+demás motores y el monitoreo deben completarse y validarse de manera integrada.
 
 ## Preparar la rama limpia
 
@@ -52,11 +51,12 @@ python -m scripts.catalogo --check
 | `data/fuentes/` | Definición reproducible del dataset | Implementado |
 | `data/catalogo/` | 64 equipos, 1.024 jugadores, equivalencias, partido de demostración y eventos iniciales vacíos | Generado y verificado |
 | `scripts/` | Generación y comprobación de integridad | Implementado |
-| `tests/` | Ocho pruebas de invariantes y datos inválidos | Ejecutadas |
+| `tests/` | Pruebas del catálogo, OpenAPI y esquema MongoDB | Ejecutadas |
 | `docs/antecedentes/` | Siete documentos de diseño previos | Conservados como antecedentes |
 | `docs/diseno/` | Convenciones y decisiones de la rama final | Base inicial documentada |
-| `backend/` | Alcance para incorporar la API revisada | Pendiente de implementación |
-| `infra/` | Criterios para Docker y observabilidad | Pendiente de implementación |
+| `backend/` | Contrato OpenAPI del primer flujo vertical | Diseñado; servicio pendiente |
+| `mongodb/` | Replica set de laboratorio, validadores, índices, carga y verificación | Implementado; ejecución en equipo pendiente |
+| `infra/` | Docker y criterios de observabilidad | MongoDB incorporado; resto pendiente |
 
 ## Arquitectura objetivo
 
@@ -89,8 +89,8 @@ sus consecuencias están documentadas en
 
 ## Orden de trabajo
 
-1. Cerrar convenciones y diseños físicos de los cinco motores.
-2. Incorporar MongoDB y la API sin dependencias de IRIS.
+1. Ejecutar y probar el esquema MongoDB en replica set local.
+2. Implementar la API sobre el contrato sin dependencias de IRIS.
 3. Incorporar Cassandra, Redis, InfluxDB y Neo4j mediante adaptadores revisados.
 4. Integrar idempotencia, outbox, caché, comentarios, estadísticas y proyecciones.
 5. Crear el entorno Docker reproducible.
@@ -100,7 +100,9 @@ sus consecuencias están documentadas en
 
 Ver el [plan de incorporación](docs/plan_incorporacion.md), el
 [registro de los 17 puntos](docs/pendientes.md) y las
-[fuentes inspeccionadas](docs/fuentes.md).
+[fuentes inspeccionadas](docs/fuentes.md). Las tareas de usuarios, asistencias,
+telemetría, simulación y carga están registradas en
+[tareas posteriores a la integración](docs/tareas_integracion_final.md).
 
 ## Alcance de las verificaciones actuales
 

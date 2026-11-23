@@ -1,0 +1,7170 @@
+[
+  {
+    "_id": "JUG-0001",
+    "nombre": "Alejandro García",
+    "fecha_nacimiento": "2000-06-12T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-01"
+  },
+  {
+    "_id": "JUG-0002",
+    "nombre": "Bruno Fernández",
+    "fecha_nacimiento": "2007-11-23T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-01"
+  },
+  {
+    "_id": "JUG-0003",
+    "nombre": "Carlos González",
+    "fecha_nacimiento": "1995-04-06T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-01"
+  },
+  {
+    "_id": "JUG-0004",
+    "nombre": "Diego Rodríguez",
+    "fecha_nacimiento": "2002-09-17T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-01"
+  },
+  {
+    "_id": "JUG-0005",
+    "nombre": "Emiliano López",
+    "fecha_nacimiento": "2009-02-28T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-01"
+  },
+  {
+    "_id": "JUG-0006",
+    "nombre": "Facundo Martínez",
+    "fecha_nacimiento": "1997-07-11T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-01"
+  },
+  {
+    "_id": "JUG-0007",
+    "nombre": "Gabriel Sánchez",
+    "fecha_nacimiento": "2004-12-22T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-01"
+  },
+  {
+    "_id": "JUG-0008",
+    "nombre": "Joaquín Pérez",
+    "fecha_nacimiento": "2011-05-05T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-01"
+  },
+  {
+    "_id": "JUG-0009",
+    "nombre": "Lautaro Romero",
+    "fecha_nacimiento": "1999-10-16T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-01"
+  },
+  {
+    "_id": "JUG-0010",
+    "nombre": "Mateo Díaz",
+    "fecha_nacimiento": "2006-03-27T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-01"
+  },
+  {
+    "_id": "JUG-0011",
+    "nombre": "Nicolás Torres",
+    "fecha_nacimiento": "1994-08-10T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-01"
+  },
+  {
+    "_id": "JUG-0012",
+    "nombre": "Ramiro Álvarez",
+    "fecha_nacimiento": "2001-01-21T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-01"
+  },
+  {
+    "_id": "JUG-0013",
+    "nombre": "Santiago Ruiz",
+    "fecha_nacimiento": "2008-06-04T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-01"
+  },
+  {
+    "_id": "JUG-0014",
+    "nombre": "Tomás Herrera",
+    "fecha_nacimiento": "1996-11-15T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-01"
+  },
+  {
+    "_id": "JUG-0015",
+    "nombre": "Valentín Castro",
+    "fecha_nacimiento": "2003-04-26T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-01"
+  },
+  {
+    "_id": "JUG-0016",
+    "nombre": "Martín Silva",
+    "fecha_nacimiento": "2010-09-09T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-01"
+  },
+  {
+    "_id": "JUG-0017",
+    "nombre": "Alejandro Fernández",
+    "fecha_nacimiento": "1998-02-20T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-02"
+  },
+  {
+    "_id": "JUG-0018",
+    "nombre": "Bruno González",
+    "fecha_nacimiento": "2005-07-03T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-02"
+  },
+  {
+    "_id": "JUG-0019",
+    "nombre": "Carlos Rodríguez",
+    "fecha_nacimiento": "1993-12-14T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-02"
+  },
+  {
+    "_id": "JUG-0020",
+    "nombre": "Diego López",
+    "fecha_nacimiento": "2000-05-25T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-02"
+  },
+  {
+    "_id": "JUG-0021",
+    "nombre": "Emiliano Martínez",
+    "fecha_nacimiento": "2007-10-08T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-02"
+  },
+  {
+    "_id": "JUG-0022",
+    "nombre": "Facundo Sánchez",
+    "fecha_nacimiento": "1995-03-19T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-02"
+  },
+  {
+    "_id": "JUG-0023",
+    "nombre": "Gabriel Pérez",
+    "fecha_nacimiento": "2002-08-02T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-02"
+  },
+  {
+    "_id": "JUG-0024",
+    "nombre": "Joaquín Romero",
+    "fecha_nacimiento": "2009-01-13T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-02"
+  },
+  {
+    "_id": "JUG-0025",
+    "nombre": "Lautaro Díaz",
+    "fecha_nacimiento": "1997-06-24T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-02"
+  },
+  {
+    "_id": "JUG-0026",
+    "nombre": "Mateo Torres",
+    "fecha_nacimiento": "2004-11-07T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-02"
+  },
+  {
+    "_id": "JUG-0027",
+    "nombre": "Nicolás Álvarez",
+    "fecha_nacimiento": "2011-04-18T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-02"
+  },
+  {
+    "_id": "JUG-0028",
+    "nombre": "Ramiro Ruiz",
+    "fecha_nacimiento": "1999-09-01T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-02"
+  },
+  {
+    "_id": "JUG-0029",
+    "nombre": "Santiago Herrera",
+    "fecha_nacimiento": "2006-02-12T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-02"
+  },
+  {
+    "_id": "JUG-0030",
+    "nombre": "Tomás Castro",
+    "fecha_nacimiento": "1994-07-23T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-02"
+  },
+  {
+    "_id": "JUG-0031",
+    "nombre": "Valentín Silva",
+    "fecha_nacimiento": "2001-12-06T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-02"
+  },
+  {
+    "_id": "JUG-0032",
+    "nombre": "Martín García",
+    "fecha_nacimiento": "2008-05-17T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-02"
+  },
+  {
+    "_id": "JUG-0033",
+    "nombre": "André Almeida",
+    "fecha_nacimiento": "1996-10-28T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-03"
+  },
+  {
+    "_id": "JUG-0034",
+    "nombre": "Bruno Barbosa",
+    "fecha_nacimiento": "2003-03-11T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-03"
+  },
+  {
+    "_id": "JUG-0035",
+    "nombre": "Caio Carvalho",
+    "fecha_nacimiento": "2010-08-22T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-03"
+  },
+  {
+    "_id": "JUG-0036",
+    "nombre": "Diogo Costa",
+    "fecha_nacimiento": "1998-01-05T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-03"
+  },
+  {
+    "_id": "JUG-0037",
+    "nombre": "Eduardo Fernandes",
+    "fecha_nacimiento": "2005-06-16T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-03"
+  },
+  {
+    "_id": "JUG-0038",
+    "nombre": "Fábio Ferreira",
+    "fecha_nacimiento": "1993-11-27T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-03"
+  },
+  {
+    "_id": "JUG-0039",
+    "nombre": "Gabriel Gomes",
+    "fecha_nacimiento": "2000-04-10T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-03"
+  },
+  {
+    "_id": "JUG-0040",
+    "nombre": "Henrique Lima",
+    "fecha_nacimiento": "2007-09-21T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-03"
+  },
+  {
+    "_id": "JUG-0041",
+    "nombre": "João Martins",
+    "fecha_nacimiento": "1995-02-04T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-03"
+  },
+  {
+    "_id": "JUG-0042",
+    "nombre": "Leonardo Mendes",
+    "fecha_nacimiento": "2002-07-15T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-03"
+  },
+  {
+    "_id": "JUG-0043",
+    "nombre": "Lucas Moreira",
+    "fecha_nacimiento": "2009-12-26T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-03"
+  },
+  {
+    "_id": "JUG-0044",
+    "nombre": "Mateus Oliveira",
+    "fecha_nacimiento": "1997-05-09T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-03"
+  },
+  {
+    "_id": "JUG-0045",
+    "nombre": "Miguel Pereira",
+    "fecha_nacimiento": "2004-10-20T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-03"
+  },
+  {
+    "_id": "JUG-0046",
+    "nombre": "Rafael Ribeiro",
+    "fecha_nacimiento": "2011-03-03T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-03"
+  },
+  {
+    "_id": "JUG-0047",
+    "nombre": "Tiago Rocha",
+    "fecha_nacimiento": "1999-08-14T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-03"
+  },
+  {
+    "_id": "JUG-0048",
+    "nombre": "Vinícius Santos",
+    "fecha_nacimiento": "2006-01-25T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-03"
+  },
+  {
+    "_id": "JUG-0049",
+    "nombre": "Alejandro González",
+    "fecha_nacimiento": "1994-06-08T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-04"
+  },
+  {
+    "_id": "JUG-0050",
+    "nombre": "Bruno Rodríguez",
+    "fecha_nacimiento": "2001-11-19T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-04"
+  },
+  {
+    "_id": "JUG-0051",
+    "nombre": "Carlos López",
+    "fecha_nacimiento": "2008-04-02T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-04"
+  },
+  {
+    "_id": "JUG-0052",
+    "nombre": "Diego Martínez",
+    "fecha_nacimiento": "1996-09-13T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-04"
+  },
+  {
+    "_id": "JUG-0053",
+    "nombre": "Emiliano Sánchez",
+    "fecha_nacimiento": "2003-02-24T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-04"
+  },
+  {
+    "_id": "JUG-0054",
+    "nombre": "Facundo Pérez",
+    "fecha_nacimiento": "2010-07-07T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-04"
+  },
+  {
+    "_id": "JUG-0055",
+    "nombre": "Gabriel Romero",
+    "fecha_nacimiento": "1998-12-18T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-04"
+  },
+  {
+    "_id": "JUG-0056",
+    "nombre": "Joaquín Díaz",
+    "fecha_nacimiento": "2005-05-01T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-04"
+  },
+  {
+    "_id": "JUG-0057",
+    "nombre": "Lautaro Torres",
+    "fecha_nacimiento": "1993-10-12T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-04"
+  },
+  {
+    "_id": "JUG-0058",
+    "nombre": "Mateo Álvarez",
+    "fecha_nacimiento": "2000-03-23T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-04"
+  },
+  {
+    "_id": "JUG-0059",
+    "nombre": "Nicolás Ruiz",
+    "fecha_nacimiento": "2007-08-06T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-04"
+  },
+  {
+    "_id": "JUG-0060",
+    "nombre": "Ramiro Herrera",
+    "fecha_nacimiento": "1995-01-17T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-04"
+  },
+  {
+    "_id": "JUG-0061",
+    "nombre": "Santiago Castro",
+    "fecha_nacimiento": "2002-06-28T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-04"
+  },
+  {
+    "_id": "JUG-0062",
+    "nombre": "Tomás Silva",
+    "fecha_nacimiento": "2009-11-11T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-04"
+  },
+  {
+    "_id": "JUG-0063",
+    "nombre": "Valentín García",
+    "fecha_nacimiento": "1997-04-22T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-04"
+  },
+  {
+    "_id": "JUG-0064",
+    "nombre": "Martín Fernández",
+    "fecha_nacimiento": "2004-09-05T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-04"
+  },
+  {
+    "_id": "JUG-0065",
+    "nombre": "Alejandro Rodríguez",
+    "fecha_nacimiento": "2011-02-16T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-05"
+  },
+  {
+    "_id": "JUG-0066",
+    "nombre": "Bruno López",
+    "fecha_nacimiento": "1999-07-27T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-05"
+  },
+  {
+    "_id": "JUG-0067",
+    "nombre": "Carlos Martínez",
+    "fecha_nacimiento": "2006-12-10T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-05"
+  },
+  {
+    "_id": "JUG-0068",
+    "nombre": "Diego Sánchez",
+    "fecha_nacimiento": "1994-05-21T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-05"
+  },
+  {
+    "_id": "JUG-0069",
+    "nombre": "Emiliano Pérez",
+    "fecha_nacimiento": "2001-10-04T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-05"
+  },
+  {
+    "_id": "JUG-0070",
+    "nombre": "Facundo Romero",
+    "fecha_nacimiento": "2008-03-15T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-05"
+  },
+  {
+    "_id": "JUG-0071",
+    "nombre": "Gabriel Díaz",
+    "fecha_nacimiento": "1996-08-26T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-05"
+  },
+  {
+    "_id": "JUG-0072",
+    "nombre": "Joaquín Torres",
+    "fecha_nacimiento": "2003-01-09T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-05"
+  },
+  {
+    "_id": "JUG-0073",
+    "nombre": "Lautaro Álvarez",
+    "fecha_nacimiento": "2010-06-20T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-05"
+  },
+  {
+    "_id": "JUG-0074",
+    "nombre": "Mateo Ruiz",
+    "fecha_nacimiento": "1998-11-03T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-05"
+  },
+  {
+    "_id": "JUG-0075",
+    "nombre": "Nicolás Herrera",
+    "fecha_nacimiento": "2005-04-14T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-05"
+  },
+  {
+    "_id": "JUG-0076",
+    "nombre": "Ramiro Castro",
+    "fecha_nacimiento": "1993-09-25T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-05"
+  },
+  {
+    "_id": "JUG-0077",
+    "nombre": "Santiago Silva",
+    "fecha_nacimiento": "2000-02-08T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-05"
+  },
+  {
+    "_id": "JUG-0078",
+    "nombre": "Tomás García",
+    "fecha_nacimiento": "2007-07-19T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-05"
+  },
+  {
+    "_id": "JUG-0079",
+    "nombre": "Valentín Fernández",
+    "fecha_nacimiento": "1995-12-02T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-05"
+  },
+  {
+    "_id": "JUG-0080",
+    "nombre": "Martín González",
+    "fecha_nacimiento": "2002-05-13T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-05"
+  },
+  {
+    "_id": "JUG-0081",
+    "nombre": "Alejandro López",
+    "fecha_nacimiento": "2009-10-24T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-06"
+  },
+  {
+    "_id": "JUG-0082",
+    "nombre": "Bruno Martínez",
+    "fecha_nacimiento": "1997-03-07T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-06"
+  },
+  {
+    "_id": "JUG-0083",
+    "nombre": "Carlos Sánchez",
+    "fecha_nacimiento": "2004-08-18T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-06"
+  },
+  {
+    "_id": "JUG-0084",
+    "nombre": "Diego Pérez",
+    "fecha_nacimiento": "2011-01-01T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-06"
+  },
+  {
+    "_id": "JUG-0085",
+    "nombre": "Emiliano Romero",
+    "fecha_nacimiento": "1999-06-12T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-06"
+  },
+  {
+    "_id": "JUG-0086",
+    "nombre": "Facundo Díaz",
+    "fecha_nacimiento": "2006-11-23T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-06"
+  },
+  {
+    "_id": "JUG-0087",
+    "nombre": "Gabriel Torres",
+    "fecha_nacimiento": "1994-04-06T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-06"
+  },
+  {
+    "_id": "JUG-0088",
+    "nombre": "Joaquín Álvarez",
+    "fecha_nacimiento": "2001-09-17T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-06"
+  },
+  {
+    "_id": "JUG-0089",
+    "nombre": "Lautaro Ruiz",
+    "fecha_nacimiento": "2008-02-28T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-06"
+  },
+  {
+    "_id": "JUG-0090",
+    "nombre": "Mateo Herrera",
+    "fecha_nacimiento": "1996-07-11T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-06"
+  },
+  {
+    "_id": "JUG-0091",
+    "nombre": "Nicolás Castro",
+    "fecha_nacimiento": "2003-12-22T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-06"
+  },
+  {
+    "_id": "JUG-0092",
+    "nombre": "Ramiro Silva",
+    "fecha_nacimiento": "2010-05-05T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-06"
+  },
+  {
+    "_id": "JUG-0093",
+    "nombre": "Santiago García",
+    "fecha_nacimiento": "1998-10-16T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-06"
+  },
+  {
+    "_id": "JUG-0094",
+    "nombre": "Tomás Fernández",
+    "fecha_nacimiento": "2005-03-27T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-06"
+  },
+  {
+    "_id": "JUG-0095",
+    "nombre": "Valentín González",
+    "fecha_nacimiento": "1993-08-10T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-06"
+  },
+  {
+    "_id": "JUG-0096",
+    "nombre": "Martín Rodríguez",
+    "fecha_nacimiento": "2000-01-21T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-06"
+  },
+  {
+    "_id": "JUG-0097",
+    "nombre": "Alejandro Martínez",
+    "fecha_nacimiento": "2007-06-04T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-07"
+  },
+  {
+    "_id": "JUG-0098",
+    "nombre": "Bruno Sánchez",
+    "fecha_nacimiento": "1995-11-15T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-07"
+  },
+  {
+    "_id": "JUG-0099",
+    "nombre": "Carlos Pérez",
+    "fecha_nacimiento": "2002-04-26T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-07"
+  },
+  {
+    "_id": "JUG-0100",
+    "nombre": "Diego Romero",
+    "fecha_nacimiento": "2009-09-09T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-07"
+  },
+  {
+    "_id": "JUG-0101",
+    "nombre": "Emiliano Díaz",
+    "fecha_nacimiento": "1997-02-20T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-07"
+  },
+  {
+    "_id": "JUG-0102",
+    "nombre": "Facundo Torres",
+    "fecha_nacimiento": "2004-07-03T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-07"
+  },
+  {
+    "_id": "JUG-0103",
+    "nombre": "Gabriel Álvarez",
+    "fecha_nacimiento": "2011-12-14T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-07"
+  },
+  {
+    "_id": "JUG-0104",
+    "nombre": "Joaquín Ruiz",
+    "fecha_nacimiento": "1999-05-25T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-07"
+  },
+  {
+    "_id": "JUG-0105",
+    "nombre": "Lautaro Herrera",
+    "fecha_nacimiento": "2006-10-08T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-07"
+  },
+  {
+    "_id": "JUG-0106",
+    "nombre": "Mateo Castro",
+    "fecha_nacimiento": "1994-03-19T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-07"
+  },
+  {
+    "_id": "JUG-0107",
+    "nombre": "Nicolás Silva",
+    "fecha_nacimiento": "2001-08-02T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-07"
+  },
+  {
+    "_id": "JUG-0108",
+    "nombre": "Ramiro García",
+    "fecha_nacimiento": "2008-01-13T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-07"
+  },
+  {
+    "_id": "JUG-0109",
+    "nombre": "Santiago Fernández",
+    "fecha_nacimiento": "1996-06-24T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-07"
+  },
+  {
+    "_id": "JUG-0110",
+    "nombre": "Tomás González",
+    "fecha_nacimiento": "2003-11-07T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-07"
+  },
+  {
+    "_id": "JUG-0111",
+    "nombre": "Valentín Rodríguez",
+    "fecha_nacimiento": "2010-04-18T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-07"
+  },
+  {
+    "_id": "JUG-0112",
+    "nombre": "Martín López",
+    "fecha_nacimiento": "1998-09-01T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-07"
+  },
+  {
+    "_id": "JUG-0113",
+    "nombre": "Alejandro Sánchez",
+    "fecha_nacimiento": "2005-02-12T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-08"
+  },
+  {
+    "_id": "JUG-0114",
+    "nombre": "Bruno Pérez",
+    "fecha_nacimiento": "1993-07-23T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-08"
+  },
+  {
+    "_id": "JUG-0115",
+    "nombre": "Carlos Romero",
+    "fecha_nacimiento": "2000-12-06T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-08"
+  },
+  {
+    "_id": "JUG-0116",
+    "nombre": "Diego Díaz",
+    "fecha_nacimiento": "2007-05-17T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-08"
+  },
+  {
+    "_id": "JUG-0117",
+    "nombre": "Emiliano Torres",
+    "fecha_nacimiento": "1995-10-28T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-08"
+  },
+  {
+    "_id": "JUG-0118",
+    "nombre": "Facundo Álvarez",
+    "fecha_nacimiento": "2002-03-11T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-08"
+  },
+  {
+    "_id": "JUG-0119",
+    "nombre": "Gabriel Ruiz",
+    "fecha_nacimiento": "2009-08-22T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-08"
+  },
+  {
+    "_id": "JUG-0120",
+    "nombre": "Joaquín Herrera",
+    "fecha_nacimiento": "1997-01-05T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-08"
+  },
+  {
+    "_id": "JUG-0121",
+    "nombre": "Lautaro Castro",
+    "fecha_nacimiento": "2004-06-16T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-08"
+  },
+  {
+    "_id": "JUG-0122",
+    "nombre": "Mateo Silva",
+    "fecha_nacimiento": "2011-11-27T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-08"
+  },
+  {
+    "_id": "JUG-0123",
+    "nombre": "Nicolás García",
+    "fecha_nacimiento": "1999-04-10T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-08"
+  },
+  {
+    "_id": "JUG-0124",
+    "nombre": "Ramiro Fernández",
+    "fecha_nacimiento": "2006-09-21T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-08"
+  },
+  {
+    "_id": "JUG-0125",
+    "nombre": "Santiago González",
+    "fecha_nacimiento": "1994-02-04T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-08"
+  },
+  {
+    "_id": "JUG-0126",
+    "nombre": "Tomás Rodríguez",
+    "fecha_nacimiento": "2001-07-15T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-08"
+  },
+  {
+    "_id": "JUG-0127",
+    "nombre": "Valentín López",
+    "fecha_nacimiento": "2008-12-26T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-08"
+  },
+  {
+    "_id": "JUG-0128",
+    "nombre": "Martín Martínez",
+    "fecha_nacimiento": "1996-05-09T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-08"
+  },
+  {
+    "_id": "JUG-0129",
+    "nombre": "Alejandro Pérez",
+    "fecha_nacimiento": "2003-10-20T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-09"
+  },
+  {
+    "_id": "JUG-0130",
+    "nombre": "Bruno Romero",
+    "fecha_nacimiento": "2010-03-03T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-09"
+  },
+  {
+    "_id": "JUG-0131",
+    "nombre": "Carlos Díaz",
+    "fecha_nacimiento": "1998-08-14T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-09"
+  },
+  {
+    "_id": "JUG-0132",
+    "nombre": "Diego Torres",
+    "fecha_nacimiento": "2005-01-25T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-09"
+  },
+  {
+    "_id": "JUG-0133",
+    "nombre": "Emiliano Álvarez",
+    "fecha_nacimiento": "1993-06-08T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-09"
+  },
+  {
+    "_id": "JUG-0134",
+    "nombre": "Facundo Ruiz",
+    "fecha_nacimiento": "2000-11-19T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-09"
+  },
+  {
+    "_id": "JUG-0135",
+    "nombre": "Gabriel Herrera",
+    "fecha_nacimiento": "2007-04-02T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-09"
+  },
+  {
+    "_id": "JUG-0136",
+    "nombre": "Joaquín Castro",
+    "fecha_nacimiento": "1995-09-13T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-09"
+  },
+  {
+    "_id": "JUG-0137",
+    "nombre": "Lautaro Silva",
+    "fecha_nacimiento": "2002-02-24T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-09"
+  },
+  {
+    "_id": "JUG-0138",
+    "nombre": "Mateo García",
+    "fecha_nacimiento": "2009-07-07T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-09"
+  },
+  {
+    "_id": "JUG-0139",
+    "nombre": "Nicolás Fernández",
+    "fecha_nacimiento": "1997-12-18T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-09"
+  },
+  {
+    "_id": "JUG-0140",
+    "nombre": "Ramiro González",
+    "fecha_nacimiento": "2004-05-01T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-09"
+  },
+  {
+    "_id": "JUG-0141",
+    "nombre": "Santiago Rodríguez",
+    "fecha_nacimiento": "2011-10-12T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-09"
+  },
+  {
+    "_id": "JUG-0142",
+    "nombre": "Tomás López",
+    "fecha_nacimiento": "1999-03-23T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-09"
+  },
+  {
+    "_id": "JUG-0143",
+    "nombre": "Valentín Martínez",
+    "fecha_nacimiento": "2006-08-06T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-09"
+  },
+  {
+    "_id": "JUG-0144",
+    "nombre": "Martín Sánchez",
+    "fecha_nacimiento": "1994-01-17T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-09"
+  },
+  {
+    "_id": "JUG-0145",
+    "nombre": "Alejandro Romero",
+    "fecha_nacimiento": "2001-06-28T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-10"
+  },
+  {
+    "_id": "JUG-0146",
+    "nombre": "Bruno Díaz",
+    "fecha_nacimiento": "2008-11-11T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-10"
+  },
+  {
+    "_id": "JUG-0147",
+    "nombre": "Carlos Torres",
+    "fecha_nacimiento": "1996-04-22T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-10"
+  },
+  {
+    "_id": "JUG-0148",
+    "nombre": "Diego Álvarez",
+    "fecha_nacimiento": "2003-09-05T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-10"
+  },
+  {
+    "_id": "JUG-0149",
+    "nombre": "Emiliano Ruiz",
+    "fecha_nacimiento": "2010-02-16T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-10"
+  },
+  {
+    "_id": "JUG-0150",
+    "nombre": "Facundo Herrera",
+    "fecha_nacimiento": "1998-07-27T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-10"
+  },
+  {
+    "_id": "JUG-0151",
+    "nombre": "Gabriel Castro",
+    "fecha_nacimiento": "2005-12-10T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-10"
+  },
+  {
+    "_id": "JUG-0152",
+    "nombre": "Joaquín Silva",
+    "fecha_nacimiento": "1993-05-21T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-10"
+  },
+  {
+    "_id": "JUG-0153",
+    "nombre": "Lautaro García",
+    "fecha_nacimiento": "2000-10-04T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-10"
+  },
+  {
+    "_id": "JUG-0154",
+    "nombre": "Mateo Fernández",
+    "fecha_nacimiento": "2007-03-15T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-10"
+  },
+  {
+    "_id": "JUG-0155",
+    "nombre": "Nicolás González",
+    "fecha_nacimiento": "1995-08-26T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-10"
+  },
+  {
+    "_id": "JUG-0156",
+    "nombre": "Ramiro Rodríguez",
+    "fecha_nacimiento": "2002-01-09T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-10"
+  },
+  {
+    "_id": "JUG-0157",
+    "nombre": "Santiago López",
+    "fecha_nacimiento": "2009-06-20T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-10"
+  },
+  {
+    "_id": "JUG-0158",
+    "nombre": "Tomás Martínez",
+    "fecha_nacimiento": "1997-11-03T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-10"
+  },
+  {
+    "_id": "JUG-0159",
+    "nombre": "Valentín Sánchez",
+    "fecha_nacimiento": "2004-04-14T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-10"
+  },
+  {
+    "_id": "JUG-0160",
+    "nombre": "Martín Pérez",
+    "fecha_nacimiento": "2011-09-25T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-10"
+  },
+  {
+    "_id": "JUG-0161",
+    "nombre": "Alexander Bauer",
+    "fecha_nacimiento": "1999-02-08T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-11"
+  },
+  {
+    "_id": "JUG-0162",
+    "nombre": "Benjamin Becker",
+    "fecha_nacimiento": "2006-07-19T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-11"
+  },
+  {
+    "_id": "JUG-0163",
+    "nombre": "Elias Braun",
+    "fecha_nacimiento": "1994-12-02T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-11"
+  },
+  {
+    "_id": "JUG-0164",
+    "nombre": "Felix Fischer",
+    "fecha_nacimiento": "2001-05-13T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-11"
+  },
+  {
+    "_id": "JUG-0165",
+    "nombre": "Florian Hartmann",
+    "fecha_nacimiento": "2008-10-24T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-11"
+  },
+  {
+    "_id": "JUG-0166",
+    "nombre": "Jonas Hoffmann",
+    "fecha_nacimiento": "1996-03-07T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-11"
+  },
+  {
+    "_id": "JUG-0167",
+    "nombre": "Julian Keller",
+    "fecha_nacimiento": "2003-08-18T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-11"
+  },
+  {
+    "_id": "JUG-0168",
+    "nombre": "Leon Klein",
+    "fecha_nacimiento": "2010-01-01T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-11"
+  },
+  {
+    "_id": "JUG-0169",
+    "nombre": "Lukas Koch",
+    "fecha_nacimiento": "1998-06-12T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-11"
+  },
+  {
+    "_id": "JUG-0170",
+    "nombre": "Maximilian Krüger",
+    "fecha_nacimiento": "2005-11-23T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-11"
+  },
+  {
+    "_id": "JUG-0171",
+    "nombre": "Nico Lehmann",
+    "fecha_nacimiento": "1993-04-06T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-11"
+  },
+  {
+    "_id": "JUG-0172",
+    "nombre": "Noah Meyer",
+    "fecha_nacimiento": "2000-09-17T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-11"
+  },
+  {
+    "_id": "JUG-0173",
+    "nombre": "Sebastian Richter",
+    "fecha_nacimiento": "2007-02-28T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-11"
+  },
+  {
+    "_id": "JUG-0174",
+    "nombre": "Simon Schneider",
+    "fecha_nacimiento": "1995-07-11T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-11"
+  },
+  {
+    "_id": "JUG-0175",
+    "nombre": "Tobias Wagner",
+    "fecha_nacimiento": "2002-12-22T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-11"
+  },
+  {
+    "_id": "JUG-0176",
+    "nombre": "Yannick Weber",
+    "fecha_nacimiento": "2009-05-05T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-11"
+  },
+  {
+    "_id": "JUG-0177",
+    "nombre": "Alejandro Díaz",
+    "fecha_nacimiento": "1997-10-16T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-12"
+  },
+  {
+    "_id": "JUG-0178",
+    "nombre": "Bruno Torres",
+    "fecha_nacimiento": "2004-03-27T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-12"
+  },
+  {
+    "_id": "JUG-0179",
+    "nombre": "Carlos Álvarez",
+    "fecha_nacimiento": "2011-08-10T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-12"
+  },
+  {
+    "_id": "JUG-0180",
+    "nombre": "Diego Ruiz",
+    "fecha_nacimiento": "1999-01-21T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-12"
+  },
+  {
+    "_id": "JUG-0181",
+    "nombre": "Emiliano Herrera",
+    "fecha_nacimiento": "2006-06-04T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-12"
+  },
+  {
+    "_id": "JUG-0182",
+    "nombre": "Facundo Castro",
+    "fecha_nacimiento": "1994-11-15T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-12"
+  },
+  {
+    "_id": "JUG-0183",
+    "nombre": "Gabriel Silva",
+    "fecha_nacimiento": "2001-04-26T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-12"
+  },
+  {
+    "_id": "JUG-0184",
+    "nombre": "Joaquín García",
+    "fecha_nacimiento": "2008-09-09T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-12"
+  },
+  {
+    "_id": "JUG-0185",
+    "nombre": "Lautaro Fernández",
+    "fecha_nacimiento": "1996-02-20T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-12"
+  },
+  {
+    "_id": "JUG-0186",
+    "nombre": "Mateo González",
+    "fecha_nacimiento": "2003-07-03T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-12"
+  },
+  {
+    "_id": "JUG-0187",
+    "nombre": "Nicolás Rodríguez",
+    "fecha_nacimiento": "2010-12-14T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-12"
+  },
+  {
+    "_id": "JUG-0188",
+    "nombre": "Ramiro López",
+    "fecha_nacimiento": "1998-05-25T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-12"
+  },
+  {
+    "_id": "JUG-0189",
+    "nombre": "Santiago Martínez",
+    "fecha_nacimiento": "2005-10-08T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-12"
+  },
+  {
+    "_id": "JUG-0190",
+    "nombre": "Tomás Sánchez",
+    "fecha_nacimiento": "1993-03-19T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-12"
+  },
+  {
+    "_id": "JUG-0191",
+    "nombre": "Valentín Pérez",
+    "fecha_nacimiento": "2000-08-02T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-12"
+  },
+  {
+    "_id": "JUG-0192",
+    "nombre": "Martín Romero",
+    "fecha_nacimiento": "2007-01-13T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-12"
+  },
+  {
+    "_id": "JUG-0193",
+    "nombre": "Adrien Bernard",
+    "fecha_nacimiento": "1995-06-24T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-13"
+  },
+  {
+    "_id": "JUG-0194",
+    "nombre": "Antoine Bertrand",
+    "fecha_nacimiento": "2002-11-07T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-13"
+  },
+  {
+    "_id": "JUG-0195",
+    "nombre": "Baptiste Blanc",
+    "fecha_nacimiento": "2009-04-18T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-13"
+  },
+  {
+    "_id": "JUG-0196",
+    "nombre": "Clément Dubois",
+    "fecha_nacimiento": "1997-09-01T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-13"
+  },
+  {
+    "_id": "JUG-0197",
+    "nombre": "Enzo Dupont",
+    "fecha_nacimiento": "2004-02-12T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-13"
+  },
+  {
+    "_id": "JUG-0198",
+    "nombre": "Étienne Fontaine",
+    "fecha_nacimiento": "2011-07-23T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-13"
+  },
+  {
+    "_id": "JUG-0199",
+    "nombre": "Hugo Fournier",
+    "fecha_nacimiento": "1999-12-06T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-13"
+  },
+  {
+    "_id": "JUG-0200",
+    "nombre": "Jules Laurent",
+    "fecha_nacimiento": "2006-05-17T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-13"
+  },
+  {
+    "_id": "JUG-0201",
+    "nombre": "Laurent Lefèvre",
+    "fecha_nacimiento": "1994-10-28T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-13"
+  },
+  {
+    "_id": "JUG-0202",
+    "nombre": "Léo Leroy",
+    "fecha_nacimiento": "2001-03-11T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-13"
+  },
+  {
+    "_id": "JUG-0203",
+    "nombre": "Lucas Martin",
+    "fecha_nacimiento": "2008-08-22T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-13"
+  },
+  {
+    "_id": "JUG-0204",
+    "nombre": "Mathis Mercier",
+    "fecha_nacimiento": "1996-01-05T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-13"
+  },
+  {
+    "_id": "JUG-0205",
+    "nombre": "Nathan Moreau",
+    "fecha_nacimiento": "2003-06-16T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-13"
+  },
+  {
+    "_id": "JUG-0206",
+    "nombre": "Rémi Petit",
+    "fecha_nacimiento": "2010-11-27T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-13"
+  },
+  {
+    "_id": "JUG-0207",
+    "nombre": "Théo Robert",
+    "fecha_nacimiento": "1998-04-10T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-13"
+  },
+  {
+    "_id": "JUG-0208",
+    "nombre": "Victor Simon",
+    "fecha_nacimiento": "2005-09-21T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-13"
+  },
+  {
+    "_id": "JUG-0209",
+    "nombre": "Adam Anderson",
+    "fecha_nacimiento": "1993-02-04T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-14"
+  },
+  {
+    "_id": "JUG-0210",
+    "nombre": "Benjamin Brown",
+    "fecha_nacimiento": "2000-07-15T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-14"
+  },
+  {
+    "_id": "JUG-0211",
+    "nombre": "Callum Campbell",
+    "fecha_nacimiento": "2007-12-26T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-14"
+  },
+  {
+    "_id": "JUG-0212",
+    "nombre": "Daniel Clark",
+    "fecha_nacimiento": "1995-05-09T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-14"
+  },
+  {
+    "_id": "JUG-0213",
+    "nombre": "Ethan Davies",
+    "fecha_nacimiento": "2002-10-20T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-14"
+  },
+  {
+    "_id": "JUG-0214",
+    "nombre": "George Evans",
+    "fecha_nacimiento": "2009-03-03T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-14"
+  },
+  {
+    "_id": "JUG-0215",
+    "nombre": "Harry Harris",
+    "fecha_nacimiento": "1997-08-14T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-14"
+  },
+  {
+    "_id": "JUG-0216",
+    "nombre": "Jack Jackson",
+    "fecha_nacimiento": "2004-01-25T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-14"
+  },
+  {
+    "_id": "JUG-0217",
+    "nombre": "James Johnson",
+    "fecha_nacimiento": "2011-06-08T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-14"
+  },
+  {
+    "_id": "JUG-0218",
+    "nombre": "Liam Miller",
+    "fecha_nacimiento": "1999-11-19T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-14"
+  },
+  {
+    "_id": "JUG-0219",
+    "nombre": "Mason Mitchell",
+    "fecha_nacimiento": "2006-04-02T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-14"
+  },
+  {
+    "_id": "JUG-0220",
+    "nombre": "Noah Robinson",
+    "fecha_nacimiento": "1994-09-13T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-14"
+  },
+  {
+    "_id": "JUG-0221",
+    "nombre": "Oliver Smith",
+    "fecha_nacimiento": "2001-02-24T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-14"
+  },
+  {
+    "_id": "JUG-0222",
+    "nombre": "Samuel Taylor",
+    "fecha_nacimiento": "2008-07-07T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-14"
+  },
+  {
+    "_id": "JUG-0223",
+    "nombre": "Thomas Thompson",
+    "fecha_nacimiento": "1996-12-18T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-14"
+  },
+  {
+    "_id": "JUG-0224",
+    "nombre": "William Wilson",
+    "fecha_nacimiento": "2003-05-01T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-14"
+  },
+  {
+    "_id": "JUG-0225",
+    "nombre": "Alessandro Bianchi",
+    "fecha_nacimiento": "2010-10-12T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-15"
+  },
+  {
+    "_id": "JUG-0226",
+    "nombre": "Andrea Colombo",
+    "fecha_nacimiento": "1998-03-23T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-15"
+  },
+  {
+    "_id": "JUG-0227",
+    "nombre": "Davide Conti",
+    "fecha_nacimiento": "2005-08-06T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-15"
+  },
+  {
+    "_id": "JUG-0228",
+    "nombre": "Federico De Luca",
+    "fecha_nacimiento": "1993-01-17T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-15"
+  },
+  {
+    "_id": "JUG-0229",
+    "nombre": "Francesco Esposito",
+    "fecha_nacimiento": "2000-06-28T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-15"
+  },
+  {
+    "_id": "JUG-0230",
+    "nombre": "Gabriele Ferrari",
+    "fecha_nacimiento": "2007-11-11T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-15"
+  },
+  {
+    "_id": "JUG-0231",
+    "nombre": "Giacomo Gallo",
+    "fecha_nacimiento": "1995-04-22T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-15"
+  },
+  {
+    "_id": "JUG-0232",
+    "nombre": "Giovanni Greco",
+    "fecha_nacimiento": "2002-09-05T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-15"
+  },
+  {
+    "_id": "JUG-0233",
+    "nombre": "Leonardo Lombardi",
+    "fecha_nacimiento": "2009-02-16T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-15"
+  },
+  {
+    "_id": "JUG-0234",
+    "nombre": "Lorenzo Mancini",
+    "fecha_nacimiento": "1997-07-27T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-15"
+  },
+  {
+    "_id": "JUG-0235",
+    "nombre": "Luca Marino",
+    "fecha_nacimiento": "2004-12-10T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-15"
+  },
+  {
+    "_id": "JUG-0236",
+    "nombre": "Marco Moretti",
+    "fecha_nacimiento": "2011-05-21T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-15"
+  },
+  {
+    "_id": "JUG-0237",
+    "nombre": "Matteo Ricci",
+    "fecha_nacimiento": "1999-10-04T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-15"
+  },
+  {
+    "_id": "JUG-0238",
+    "nombre": "Riccardo Romano",
+    "fecha_nacimiento": "2006-03-15T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-15"
+  },
+  {
+    "_id": "JUG-0239",
+    "nombre": "Simone Rossi",
+    "fecha_nacimiento": "1994-08-26T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-15"
+  },
+  {
+    "_id": "JUG-0240",
+    "nombre": "Tommaso Villa",
+    "fecha_nacimiento": "2001-01-09T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-15"
+  },
+  {
+    "_id": "JUG-0241",
+    "nombre": "André Barbosa",
+    "fecha_nacimiento": "2008-06-20T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-16"
+  },
+  {
+    "_id": "JUG-0242",
+    "nombre": "Bruno Carvalho",
+    "fecha_nacimiento": "1996-11-03T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-16"
+  },
+  {
+    "_id": "JUG-0243",
+    "nombre": "Caio Costa",
+    "fecha_nacimiento": "2003-04-14T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-16"
+  },
+  {
+    "_id": "JUG-0244",
+    "nombre": "Diogo Fernandes",
+    "fecha_nacimiento": "2010-09-25T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-16"
+  },
+  {
+    "_id": "JUG-0245",
+    "nombre": "Eduardo Ferreira",
+    "fecha_nacimiento": "1998-02-08T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-16"
+  },
+  {
+    "_id": "JUG-0246",
+    "nombre": "Fábio Gomes",
+    "fecha_nacimiento": "2005-07-19T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-16"
+  },
+  {
+    "_id": "JUG-0247",
+    "nombre": "Gabriel Lima",
+    "fecha_nacimiento": "1993-12-02T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-16"
+  },
+  {
+    "_id": "JUG-0248",
+    "nombre": "Henrique Martins",
+    "fecha_nacimiento": "2000-05-13T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-16"
+  },
+  {
+    "_id": "JUG-0249",
+    "nombre": "João Mendes",
+    "fecha_nacimiento": "2007-10-24T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-16"
+  },
+  {
+    "_id": "JUG-0250",
+    "nombre": "Leonardo Moreira",
+    "fecha_nacimiento": "1995-03-07T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-16"
+  },
+  {
+    "_id": "JUG-0251",
+    "nombre": "Lucas Oliveira",
+    "fecha_nacimiento": "2002-08-18T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-16"
+  },
+  {
+    "_id": "JUG-0252",
+    "nombre": "Mateus Pereira",
+    "fecha_nacimiento": "2009-01-01T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-16"
+  },
+  {
+    "_id": "JUG-0253",
+    "nombre": "Miguel Ribeiro",
+    "fecha_nacimiento": "1997-06-12T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-16"
+  },
+  {
+    "_id": "JUG-0254",
+    "nombre": "Rafael Rocha",
+    "fecha_nacimiento": "2004-11-23T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-16"
+  },
+  {
+    "_id": "JUG-0255",
+    "nombre": "Tiago Santos",
+    "fecha_nacimiento": "2011-04-06T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-16"
+  },
+  {
+    "_id": "JUG-0256",
+    "nombre": "Vinícius Almeida",
+    "fecha_nacimiento": "1999-09-17T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-16"
+  },
+  {
+    "_id": "JUG-0257",
+    "nombre": "Alexander Becker",
+    "fecha_nacimiento": "2006-02-28T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-17"
+  },
+  {
+    "_id": "JUG-0258",
+    "nombre": "Benjamin Braun",
+    "fecha_nacimiento": "1994-07-11T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-17"
+  },
+  {
+    "_id": "JUG-0259",
+    "nombre": "Elias Fischer",
+    "fecha_nacimiento": "2001-12-22T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-17"
+  },
+  {
+    "_id": "JUG-0260",
+    "nombre": "Felix Hartmann",
+    "fecha_nacimiento": "2008-05-05T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-17"
+  },
+  {
+    "_id": "JUG-0261",
+    "nombre": "Florian Hoffmann",
+    "fecha_nacimiento": "1996-10-16T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-17"
+  },
+  {
+    "_id": "JUG-0262",
+    "nombre": "Jonas Keller",
+    "fecha_nacimiento": "2003-03-27T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-17"
+  },
+  {
+    "_id": "JUG-0263",
+    "nombre": "Julian Klein",
+    "fecha_nacimiento": "2010-08-10T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-17"
+  },
+  {
+    "_id": "JUG-0264",
+    "nombre": "Leon Koch",
+    "fecha_nacimiento": "1998-01-21T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-17"
+  },
+  {
+    "_id": "JUG-0265",
+    "nombre": "Lukas Krüger",
+    "fecha_nacimiento": "2005-06-04T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-17"
+  },
+  {
+    "_id": "JUG-0266",
+    "nombre": "Maximilian Lehmann",
+    "fecha_nacimiento": "1993-11-15T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-17"
+  },
+  {
+    "_id": "JUG-0267",
+    "nombre": "Nico Meyer",
+    "fecha_nacimiento": "2000-04-26T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-17"
+  },
+  {
+    "_id": "JUG-0268",
+    "nombre": "Noah Richter",
+    "fecha_nacimiento": "2007-09-09T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-17"
+  },
+  {
+    "_id": "JUG-0269",
+    "nombre": "Sebastian Schneider",
+    "fecha_nacimiento": "1995-02-20T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-17"
+  },
+  {
+    "_id": "JUG-0270",
+    "nombre": "Simon Wagner",
+    "fecha_nacimiento": "2002-07-03T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-17"
+  },
+  {
+    "_id": "JUG-0271",
+    "nombre": "Tobias Weber",
+    "fecha_nacimiento": "2009-12-14T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-17"
+  },
+  {
+    "_id": "JUG-0272",
+    "nombre": "Yannick Bauer",
+    "fecha_nacimiento": "1997-05-25T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-17"
+  },
+  {
+    "_id": "JUG-0273",
+    "nombre": "Adrien Bertrand",
+    "fecha_nacimiento": "2004-10-08T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-18"
+  },
+  {
+    "_id": "JUG-0274",
+    "nombre": "Antoine Blanc",
+    "fecha_nacimiento": "2011-03-19T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-18"
+  },
+  {
+    "_id": "JUG-0275",
+    "nombre": "Baptiste Dubois",
+    "fecha_nacimiento": "1999-08-02T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-18"
+  },
+  {
+    "_id": "JUG-0276",
+    "nombre": "Clément Dupont",
+    "fecha_nacimiento": "2006-01-13T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-18"
+  },
+  {
+    "_id": "JUG-0277",
+    "nombre": "Enzo Fontaine",
+    "fecha_nacimiento": "1994-06-24T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-18"
+  },
+  {
+    "_id": "JUG-0278",
+    "nombre": "Étienne Fournier",
+    "fecha_nacimiento": "2001-11-07T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-18"
+  },
+  {
+    "_id": "JUG-0279",
+    "nombre": "Hugo Laurent",
+    "fecha_nacimiento": "2008-04-18T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-18"
+  },
+  {
+    "_id": "JUG-0280",
+    "nombre": "Jules Lefèvre",
+    "fecha_nacimiento": "1996-09-01T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-18"
+  },
+  {
+    "_id": "JUG-0281",
+    "nombre": "Laurent Leroy",
+    "fecha_nacimiento": "2003-02-12T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-18"
+  },
+  {
+    "_id": "JUG-0282",
+    "nombre": "Léo Martin",
+    "fecha_nacimiento": "2010-07-23T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-18"
+  },
+  {
+    "_id": "JUG-0283",
+    "nombre": "Lucas Mercier",
+    "fecha_nacimiento": "1998-12-06T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-18"
+  },
+  {
+    "_id": "JUG-0284",
+    "nombre": "Mathis Moreau",
+    "fecha_nacimiento": "2005-05-17T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-18"
+  },
+  {
+    "_id": "JUG-0285",
+    "nombre": "Nathan Petit",
+    "fecha_nacimiento": "1993-10-28T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-18"
+  },
+  {
+    "_id": "JUG-0286",
+    "nombre": "Rémi Robert",
+    "fecha_nacimiento": "2000-03-11T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-18"
+  },
+  {
+    "_id": "JUG-0287",
+    "nombre": "Théo Simon",
+    "fecha_nacimiento": "2007-08-22T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-18"
+  },
+  {
+    "_id": "JUG-0288",
+    "nombre": "Victor Bernard",
+    "fecha_nacimiento": "1995-01-05T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-18"
+  },
+  {
+    "_id": "JUG-0289",
+    "nombre": "Aleksandar Horvat",
+    "fecha_nacimiento": "2002-06-16T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-19"
+  },
+  {
+    "_id": "JUG-0290",
+    "nombre": "Andrija Jovanović",
+    "fecha_nacimiento": "2009-11-27T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-19"
+  },
+  {
+    "_id": "JUG-0291",
+    "nombre": "Bohdan Kovač",
+    "fecha_nacimiento": "1997-04-10T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-19"
+  },
+  {
+    "_id": "JUG-0292",
+    "nombre": "Dario Kowalski",
+    "fecha_nacimiento": "2004-09-21T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-19"
+  },
+  {
+    "_id": "JUG-0293",
+    "nombre": "Ivan Marković",
+    "fecha_nacimiento": "2011-02-04T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-19"
+  },
+  {
+    "_id": "JUG-0294",
+    "nombre": "Jakub Miletić",
+    "fecha_nacimiento": "1999-07-15T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-19"
+  },
+  {
+    "_id": "JUG-0295",
+    "nombre": "Luka Novak",
+    "fecha_nacimiento": "2006-12-26T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-19"
+  },
+  {
+    "_id": "JUG-0296",
+    "nombre": "Marko Nowak",
+    "fecha_nacimiento": "1994-05-09T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-19"
+  },
+  {
+    "_id": "JUG-0297",
+    "nombre": "Matej Petrović",
+    "fecha_nacimiento": "2001-10-20T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-19"
+  },
+  {
+    "_id": "JUG-0298",
+    "nombre": "Milan Popović",
+    "fecha_nacimiento": "2008-03-03T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-19"
+  },
+  {
+    "_id": "JUG-0299",
+    "nombre": "Nikola Shevchenko",
+    "fecha_nacimiento": "1996-08-14T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-19"
+  },
+  {
+    "_id": "JUG-0300",
+    "nombre": "Oleksandr Sokolov",
+    "fecha_nacimiento": "2003-01-25T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-19"
+  },
+  {
+    "_id": "JUG-0301",
+    "nombre": "Pavel Stanić",
+    "fecha_nacimiento": "2010-06-08T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-19"
+  },
+  {
+    "_id": "JUG-0302",
+    "nombre": "Petar Vuković",
+    "fecha_nacimiento": "1998-11-19T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-19"
+  },
+  {
+    "_id": "JUG-0303",
+    "nombre": "Tomas Zieliński",
+    "fecha_nacimiento": "2005-04-02T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-19"
+  },
+  {
+    "_id": "JUG-0304",
+    "nombre": "Viktor Živković",
+    "fecha_nacimiento": "1993-09-13T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-19"
+  },
+  {
+    "_id": "JUG-0305",
+    "nombre": "Alexander Braun",
+    "fecha_nacimiento": "2000-02-24T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-20"
+  },
+  {
+    "_id": "JUG-0306",
+    "nombre": "Benjamin Fischer",
+    "fecha_nacimiento": "2007-07-07T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-20"
+  },
+  {
+    "_id": "JUG-0307",
+    "nombre": "Elias Hartmann",
+    "fecha_nacimiento": "1995-12-18T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-20"
+  },
+  {
+    "_id": "JUG-0308",
+    "nombre": "Felix Hoffmann",
+    "fecha_nacimiento": "2002-05-01T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-20"
+  },
+  {
+    "_id": "JUG-0309",
+    "nombre": "Florian Keller",
+    "fecha_nacimiento": "2009-10-12T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-20"
+  },
+  {
+    "_id": "JUG-0310",
+    "nombre": "Jonas Klein",
+    "fecha_nacimiento": "1997-03-23T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-20"
+  },
+  {
+    "_id": "JUG-0311",
+    "nombre": "Julian Koch",
+    "fecha_nacimiento": "2004-08-06T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-20"
+  },
+  {
+    "_id": "JUG-0312",
+    "nombre": "Leon Krüger",
+    "fecha_nacimiento": "2011-01-17T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-20"
+  },
+  {
+    "_id": "JUG-0313",
+    "nombre": "Lukas Lehmann",
+    "fecha_nacimiento": "1999-06-28T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-20"
+  },
+  {
+    "_id": "JUG-0314",
+    "nombre": "Maximilian Meyer",
+    "fecha_nacimiento": "2006-11-11T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-20"
+  },
+  {
+    "_id": "JUG-0315",
+    "nombre": "Nico Richter",
+    "fecha_nacimiento": "1994-04-22T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-20"
+  },
+  {
+    "_id": "JUG-0316",
+    "nombre": "Noah Schneider",
+    "fecha_nacimiento": "2001-09-05T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-20"
+  },
+  {
+    "_id": "JUG-0317",
+    "nombre": "Sebastian Wagner",
+    "fecha_nacimiento": "2008-02-16T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-20"
+  },
+  {
+    "_id": "JUG-0318",
+    "nombre": "Simon Weber",
+    "fecha_nacimiento": "1996-07-27T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-20"
+  },
+  {
+    "_id": "JUG-0319",
+    "nombre": "Tobias Bauer",
+    "fecha_nacimiento": "2003-12-10T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-20"
+  },
+  {
+    "_id": "JUG-0320",
+    "nombre": "Yannick Becker",
+    "fecha_nacimiento": "2010-05-21T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-20"
+  },
+  {
+    "_id": "JUG-0321",
+    "nombre": "Anders Andersen",
+    "fecha_nacimiento": "1998-10-04T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-21"
+  },
+  {
+    "_id": "JUG-0322",
+    "nombre": "Axel Berg",
+    "fecha_nacimiento": "2005-03-15T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-21"
+  },
+  {
+    "_id": "JUG-0323",
+    "nombre": "Bjørn Dahl",
+    "fecha_nacimiento": "1993-08-26T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-21"
+  },
+  {
+    "_id": "JUG-0324",
+    "nombre": "Elias Eriksen",
+    "fecha_nacimiento": "2000-01-09T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-21"
+  },
+  {
+    "_id": "JUG-0325",
+    "nombre": "Emil Hansen",
+    "fecha_nacimiento": "2007-06-20T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-21"
+  },
+  {
+    "_id": "JUG-0326",
+    "nombre": "Erik Jensen",
+    "fecha_nacimiento": "1995-11-03T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-21"
+  },
+  {
+    "_id": "JUG-0327",
+    "nombre": "Gustav Kristensen",
+    "fecha_nacimiento": "2002-04-14T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-21"
+  },
+  {
+    "_id": "JUG-0328",
+    "nombre": "Henrik Larsen",
+    "fecha_nacimiento": "2009-09-25T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-21"
+  },
+  {
+    "_id": "JUG-0329",
+    "nombre": "Isak Lindberg",
+    "fecha_nacimiento": "1997-02-08T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-21"
+  },
+  {
+    "_id": "JUG-0330",
+    "nombre": "Johan Lund",
+    "fecha_nacimiento": "2004-07-19T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-21"
+  },
+  {
+    "_id": "JUG-0331",
+    "nombre": "Kasper Nielsen",
+    "fecha_nacimiento": "2011-12-02T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-21"
+  },
+  {
+    "_id": "JUG-0332",
+    "nombre": "Magnus Olsen",
+    "fecha_nacimiento": "1999-05-13T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-21"
+  },
+  {
+    "_id": "JUG-0333",
+    "nombre": "Mikkel Pedersen",
+    "fecha_nacimiento": "2006-10-24T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-21"
+  },
+  {
+    "_id": "JUG-0334",
+    "nombre": "Oskar Svensson",
+    "fecha_nacimiento": "1994-03-07T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-21"
+  },
+  {
+    "_id": "JUG-0335",
+    "nombre": "Søren Sørensen",
+    "fecha_nacimiento": "2001-08-18T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-21"
+  },
+  {
+    "_id": "JUG-0336",
+    "nombre": "Viktor Vik",
+    "fecha_nacimiento": "2008-01-01T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-21"
+  },
+  {
+    "_id": "JUG-0337",
+    "nombre": "Aleksandar Jovanović",
+    "fecha_nacimiento": "1996-06-12T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-22"
+  },
+  {
+    "_id": "JUG-0338",
+    "nombre": "Andrija Kovač",
+    "fecha_nacimiento": "2003-11-23T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-22"
+  },
+  {
+    "_id": "JUG-0339",
+    "nombre": "Bohdan Kowalski",
+    "fecha_nacimiento": "2010-04-06T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-22"
+  },
+  {
+    "_id": "JUG-0340",
+    "nombre": "Dario Marković",
+    "fecha_nacimiento": "1998-09-17T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-22"
+  },
+  {
+    "_id": "JUG-0341",
+    "nombre": "Ivan Miletić",
+    "fecha_nacimiento": "2005-02-28T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-22"
+  },
+  {
+    "_id": "JUG-0342",
+    "nombre": "Jakub Novak",
+    "fecha_nacimiento": "1993-07-11T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-22"
+  },
+  {
+    "_id": "JUG-0343",
+    "nombre": "Luka Nowak",
+    "fecha_nacimiento": "2000-12-22T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-22"
+  },
+  {
+    "_id": "JUG-0344",
+    "nombre": "Marko Petrović",
+    "fecha_nacimiento": "2007-05-05T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-22"
+  },
+  {
+    "_id": "JUG-0345",
+    "nombre": "Matej Popović",
+    "fecha_nacimiento": "1995-10-16T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-22"
+  },
+  {
+    "_id": "JUG-0346",
+    "nombre": "Milan Shevchenko",
+    "fecha_nacimiento": "2002-03-27T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-22"
+  },
+  {
+    "_id": "JUG-0347",
+    "nombre": "Nikola Sokolov",
+    "fecha_nacimiento": "2009-08-10T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-22"
+  },
+  {
+    "_id": "JUG-0348",
+    "nombre": "Oleksandr Stanić",
+    "fecha_nacimiento": "1997-01-21T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-22"
+  },
+  {
+    "_id": "JUG-0349",
+    "nombre": "Pavel Vuković",
+    "fecha_nacimiento": "2004-06-04T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-22"
+  },
+  {
+    "_id": "JUG-0350",
+    "nombre": "Petar Zieliński",
+    "fecha_nacimiento": "2011-11-15T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-22"
+  },
+  {
+    "_id": "JUG-0351",
+    "nombre": "Tomas Živković",
+    "fecha_nacimiento": "1999-04-26T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-22"
+  },
+  {
+    "_id": "JUG-0352",
+    "nombre": "Viktor Horvat",
+    "fecha_nacimiento": "2006-09-09T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-22"
+  },
+  {
+    "_id": "JUG-0353",
+    "nombre": "Alexander Fischer",
+    "fecha_nacimiento": "1994-02-20T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-23"
+  },
+  {
+    "_id": "JUG-0354",
+    "nombre": "Benjamin Hartmann",
+    "fecha_nacimiento": "2001-07-03T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-23"
+  },
+  {
+    "_id": "JUG-0355",
+    "nombre": "Elias Hoffmann",
+    "fecha_nacimiento": "2008-12-14T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-23"
+  },
+  {
+    "_id": "JUG-0356",
+    "nombre": "Felix Keller",
+    "fecha_nacimiento": "1996-05-25T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-23"
+  },
+  {
+    "_id": "JUG-0357",
+    "nombre": "Florian Klein",
+    "fecha_nacimiento": "2003-10-08T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-23"
+  },
+  {
+    "_id": "JUG-0358",
+    "nombre": "Jonas Koch",
+    "fecha_nacimiento": "2010-03-19T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-23"
+  },
+  {
+    "_id": "JUG-0359",
+    "nombre": "Julian Krüger",
+    "fecha_nacimiento": "1998-08-02T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-23"
+  },
+  {
+    "_id": "JUG-0360",
+    "nombre": "Leon Lehmann",
+    "fecha_nacimiento": "2005-01-13T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-23"
+  },
+  {
+    "_id": "JUG-0361",
+    "nombre": "Lukas Meyer",
+    "fecha_nacimiento": "1993-06-24T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-23"
+  },
+  {
+    "_id": "JUG-0362",
+    "nombre": "Maximilian Richter",
+    "fecha_nacimiento": "2000-11-07T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-23"
+  },
+  {
+    "_id": "JUG-0363",
+    "nombre": "Nico Schneider",
+    "fecha_nacimiento": "2007-04-18T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-23"
+  },
+  {
+    "_id": "JUG-0364",
+    "nombre": "Noah Wagner",
+    "fecha_nacimiento": "1995-09-01T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-23"
+  },
+  {
+    "_id": "JUG-0365",
+    "nombre": "Sebastian Weber",
+    "fecha_nacimiento": "2002-02-12T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-23"
+  },
+  {
+    "_id": "JUG-0366",
+    "nombre": "Simon Bauer",
+    "fecha_nacimiento": "2009-07-23T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-23"
+  },
+  {
+    "_id": "JUG-0367",
+    "nombre": "Tobias Becker",
+    "fecha_nacimiento": "1997-12-06T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-23"
+  },
+  {
+    "_id": "JUG-0368",
+    "nombre": "Yannick Braun",
+    "fecha_nacimiento": "2004-05-17T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-23"
+  },
+  {
+    "_id": "JUG-0369",
+    "nombre": "Aleksandar Kovač",
+    "fecha_nacimiento": "2011-10-28T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-24"
+  },
+  {
+    "_id": "JUG-0370",
+    "nombre": "Andrija Kowalski",
+    "fecha_nacimiento": "1999-03-11T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-24"
+  },
+  {
+    "_id": "JUG-0371",
+    "nombre": "Bohdan Marković",
+    "fecha_nacimiento": "2006-08-22T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-24"
+  },
+  {
+    "_id": "JUG-0372",
+    "nombre": "Dario Miletić",
+    "fecha_nacimiento": "1994-01-05T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-24"
+  },
+  {
+    "_id": "JUG-0373",
+    "nombre": "Ivan Novak",
+    "fecha_nacimiento": "2001-06-16T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-24"
+  },
+  {
+    "_id": "JUG-0374",
+    "nombre": "Jakub Nowak",
+    "fecha_nacimiento": "2008-11-27T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-24"
+  },
+  {
+    "_id": "JUG-0375",
+    "nombre": "Luka Petrović",
+    "fecha_nacimiento": "1996-04-10T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-24"
+  },
+  {
+    "_id": "JUG-0376",
+    "nombre": "Marko Popović",
+    "fecha_nacimiento": "2003-09-21T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-24"
+  },
+  {
+    "_id": "JUG-0377",
+    "nombre": "Matej Shevchenko",
+    "fecha_nacimiento": "2010-02-04T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-24"
+  },
+  {
+    "_id": "JUG-0378",
+    "nombre": "Milan Sokolov",
+    "fecha_nacimiento": "1998-07-15T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-24"
+  },
+  {
+    "_id": "JUG-0379",
+    "nombre": "Nikola Stanić",
+    "fecha_nacimiento": "2005-12-26T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-24"
+  },
+  {
+    "_id": "JUG-0380",
+    "nombre": "Oleksandr Vuković",
+    "fecha_nacimiento": "1993-05-09T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-24"
+  },
+  {
+    "_id": "JUG-0381",
+    "nombre": "Pavel Zieliński",
+    "fecha_nacimiento": "2000-10-20T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-24"
+  },
+  {
+    "_id": "JUG-0382",
+    "nombre": "Petar Živković",
+    "fecha_nacimiento": "2007-03-03T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-24"
+  },
+  {
+    "_id": "JUG-0383",
+    "nombre": "Tomas Horvat",
+    "fecha_nacimiento": "1995-08-14T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-24"
+  },
+  {
+    "_id": "JUG-0384",
+    "nombre": "Viktor Jovanović",
+    "fecha_nacimiento": "2002-01-25T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-24"
+  },
+  {
+    "_id": "JUG-0385",
+    "nombre": "Aleksandar Kowalski",
+    "fecha_nacimiento": "2009-06-08T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-25"
+  },
+  {
+    "_id": "JUG-0386",
+    "nombre": "Andrija Marković",
+    "fecha_nacimiento": "1997-11-19T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-25"
+  },
+  {
+    "_id": "JUG-0387",
+    "nombre": "Bohdan Miletić",
+    "fecha_nacimiento": "2004-04-02T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-25"
+  },
+  {
+    "_id": "JUG-0388",
+    "nombre": "Dario Novak",
+    "fecha_nacimiento": "2011-09-13T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-25"
+  },
+  {
+    "_id": "JUG-0389",
+    "nombre": "Ivan Nowak",
+    "fecha_nacimiento": "1999-02-24T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-25"
+  },
+  {
+    "_id": "JUG-0390",
+    "nombre": "Jakub Petrović",
+    "fecha_nacimiento": "2006-07-07T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-25"
+  },
+  {
+    "_id": "JUG-0391",
+    "nombre": "Luka Popović",
+    "fecha_nacimiento": "1994-12-18T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-25"
+  },
+  {
+    "_id": "JUG-0392",
+    "nombre": "Marko Shevchenko",
+    "fecha_nacimiento": "2001-05-01T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-25"
+  },
+  {
+    "_id": "JUG-0393",
+    "nombre": "Matej Sokolov",
+    "fecha_nacimiento": "2008-10-12T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-25"
+  },
+  {
+    "_id": "JUG-0394",
+    "nombre": "Milan Stanić",
+    "fecha_nacimiento": "1996-03-23T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-25"
+  },
+  {
+    "_id": "JUG-0395",
+    "nombre": "Nikola Vuković",
+    "fecha_nacimiento": "2003-08-06T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-25"
+  },
+  {
+    "_id": "JUG-0396",
+    "nombre": "Oleksandr Zieliński",
+    "fecha_nacimiento": "2010-01-17T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-25"
+  },
+  {
+    "_id": "JUG-0397",
+    "nombre": "Pavel Živković",
+    "fecha_nacimiento": "1998-06-28T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-25"
+  },
+  {
+    "_id": "JUG-0398",
+    "nombre": "Petar Horvat",
+    "fecha_nacimiento": "2005-11-11T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-25"
+  },
+  {
+    "_id": "JUG-0399",
+    "nombre": "Tomas Jovanović",
+    "fecha_nacimiento": "1993-04-22T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-25"
+  },
+  {
+    "_id": "JUG-0400",
+    "nombre": "Viktor Kovač",
+    "fecha_nacimiento": "2000-09-05T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-25"
+  },
+  {
+    "_id": "JUG-0401",
+    "nombre": "Anders Berg",
+    "fecha_nacimiento": "2007-02-16T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-26"
+  },
+  {
+    "_id": "JUG-0402",
+    "nombre": "Axel Dahl",
+    "fecha_nacimiento": "1995-07-27T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-26"
+  },
+  {
+    "_id": "JUG-0403",
+    "nombre": "Bjørn Eriksen",
+    "fecha_nacimiento": "2002-12-10T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-26"
+  },
+  {
+    "_id": "JUG-0404",
+    "nombre": "Elias Hansen",
+    "fecha_nacimiento": "2009-05-21T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-26"
+  },
+  {
+    "_id": "JUG-0405",
+    "nombre": "Emil Jensen",
+    "fecha_nacimiento": "1997-10-04T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-26"
+  },
+  {
+    "_id": "JUG-0406",
+    "nombre": "Erik Kristensen",
+    "fecha_nacimiento": "2004-03-15T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-26"
+  },
+  {
+    "_id": "JUG-0407",
+    "nombre": "Gustav Larsen",
+    "fecha_nacimiento": "2011-08-26T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-26"
+  },
+  {
+    "_id": "JUG-0408",
+    "nombre": "Henrik Lindberg",
+    "fecha_nacimiento": "1999-01-09T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-26"
+  },
+  {
+    "_id": "JUG-0409",
+    "nombre": "Isak Lund",
+    "fecha_nacimiento": "2006-06-20T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-26"
+  },
+  {
+    "_id": "JUG-0410",
+    "nombre": "Johan Nielsen",
+    "fecha_nacimiento": "1994-11-03T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-26"
+  },
+  {
+    "_id": "JUG-0411",
+    "nombre": "Kasper Olsen",
+    "fecha_nacimiento": "2001-04-14T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-26"
+  },
+  {
+    "_id": "JUG-0412",
+    "nombre": "Magnus Pedersen",
+    "fecha_nacimiento": "2008-09-25T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-26"
+  },
+  {
+    "_id": "JUG-0413",
+    "nombre": "Mikkel Svensson",
+    "fecha_nacimiento": "1996-02-08T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-26"
+  },
+  {
+    "_id": "JUG-0414",
+    "nombre": "Oskar Sørensen",
+    "fecha_nacimiento": "2003-07-19T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-26"
+  },
+  {
+    "_id": "JUG-0415",
+    "nombre": "Søren Vik",
+    "fecha_nacimiento": "2010-12-02T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-26"
+  },
+  {
+    "_id": "JUG-0416",
+    "nombre": "Viktor Andersen",
+    "fecha_nacimiento": "1998-05-13T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-26"
+  },
+  {
+    "_id": "JUG-0417",
+    "nombre": "Anders Dahl",
+    "fecha_nacimiento": "2005-10-24T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-27"
+  },
+  {
+    "_id": "JUG-0418",
+    "nombre": "Axel Eriksen",
+    "fecha_nacimiento": "1993-03-07T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-27"
+  },
+  {
+    "_id": "JUG-0419",
+    "nombre": "Bjørn Hansen",
+    "fecha_nacimiento": "2000-08-18T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-27"
+  },
+  {
+    "_id": "JUG-0420",
+    "nombre": "Elias Jensen",
+    "fecha_nacimiento": "2007-01-01T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-27"
+  },
+  {
+    "_id": "JUG-0421",
+    "nombre": "Emil Kristensen",
+    "fecha_nacimiento": "1995-06-12T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-27"
+  },
+  {
+    "_id": "JUG-0422",
+    "nombre": "Erik Larsen",
+    "fecha_nacimiento": "2002-11-23T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-27"
+  },
+  {
+    "_id": "JUG-0423",
+    "nombre": "Gustav Lindberg",
+    "fecha_nacimiento": "2009-04-06T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-27"
+  },
+  {
+    "_id": "JUG-0424",
+    "nombre": "Henrik Lund",
+    "fecha_nacimiento": "1997-09-17T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-27"
+  },
+  {
+    "_id": "JUG-0425",
+    "nombre": "Isak Nielsen",
+    "fecha_nacimiento": "2004-02-28T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-27"
+  },
+  {
+    "_id": "JUG-0426",
+    "nombre": "Johan Olsen",
+    "fecha_nacimiento": "2011-07-11T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-27"
+  },
+  {
+    "_id": "JUG-0427",
+    "nombre": "Kasper Pedersen",
+    "fecha_nacimiento": "1999-12-22T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-27"
+  },
+  {
+    "_id": "JUG-0428",
+    "nombre": "Magnus Svensson",
+    "fecha_nacimiento": "2006-05-05T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-27"
+  },
+  {
+    "_id": "JUG-0429",
+    "nombre": "Mikkel Sørensen",
+    "fecha_nacimiento": "1994-10-16T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-27"
+  },
+  {
+    "_id": "JUG-0430",
+    "nombre": "Oskar Vik",
+    "fecha_nacimiento": "2001-03-27T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-27"
+  },
+  {
+    "_id": "JUG-0431",
+    "nombre": "Søren Andersen",
+    "fecha_nacimiento": "2008-08-10T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-27"
+  },
+  {
+    "_id": "JUG-0432",
+    "nombre": "Viktor Berg",
+    "fecha_nacimiento": "1996-01-21T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-27"
+  },
+  {
+    "_id": "JUG-0433",
+    "nombre": "Ahmet Aydın",
+    "fecha_nacimiento": "2003-06-04T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-28"
+  },
+  {
+    "_id": "JUG-0434",
+    "nombre": "Ali Çelik",
+    "fecha_nacimiento": "2010-11-15T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-28"
+  },
+  {
+    "_id": "JUG-0435",
+    "nombre": "Arda Demir",
+    "fecha_nacimiento": "1998-04-26T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-28"
+  },
+  {
+    "_id": "JUG-0436",
+    "nombre": "Ayberk Erdoğan",
+    "fecha_nacimiento": "2005-09-09T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-28"
+  },
+  {
+    "_id": "JUG-0437",
+    "nombre": "Burak Güneş",
+    "fecha_nacimiento": "1993-02-20T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-28"
+  },
+  {
+    "_id": "JUG-0438",
+    "nombre": "Can Kaya",
+    "fecha_nacimiento": "2000-07-03T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-28"
+  },
+  {
+    "_id": "JUG-0439",
+    "nombre": "Emre Kılıç",
+    "fecha_nacimiento": "2007-12-14T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-28"
+  },
+  {
+    "_id": "JUG-0440",
+    "nombre": "Eren Koç",
+    "fecha_nacimiento": "1995-05-25T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-28"
+  },
+  {
+    "_id": "JUG-0441",
+    "nombre": "Hakan Özcan",
+    "fecha_nacimiento": "2002-10-08T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-28"
+  },
+  {
+    "_id": "JUG-0442",
+    "nombre": "Kerem Polat",
+    "fecha_nacimiento": "2009-03-19T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-28"
+  },
+  {
+    "_id": "JUG-0443",
+    "nombre": "Mehmet Şahin",
+    "fecha_nacimiento": "1997-08-02T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-28"
+  },
+  {
+    "_id": "JUG-0444",
+    "nombre": "Mert Tekin",
+    "fecha_nacimiento": "2004-01-13T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-28"
+  },
+  {
+    "_id": "JUG-0445",
+    "nombre": "Oğuz Toprak",
+    "fecha_nacimiento": "2011-06-24T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-28"
+  },
+  {
+    "_id": "JUG-0446",
+    "nombre": "Onur Yıldırım",
+    "fecha_nacimiento": "1999-11-07T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-28"
+  },
+  {
+    "_id": "JUG-0447",
+    "nombre": "Selim Yılmaz",
+    "fecha_nacimiento": "2006-04-18T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-28"
+  },
+  {
+    "_id": "JUG-0448",
+    "nombre": "Yusuf Zengin",
+    "fecha_nacimiento": "1994-09-01T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-28"
+  },
+  {
+    "_id": "JUG-0449",
+    "nombre": "Adam Brown",
+    "fecha_nacimiento": "2001-02-12T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-29"
+  },
+  {
+    "_id": "JUG-0450",
+    "nombre": "Benjamin Campbell",
+    "fecha_nacimiento": "2008-07-23T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-29"
+  },
+  {
+    "_id": "JUG-0451",
+    "nombre": "Callum Clark",
+    "fecha_nacimiento": "1996-12-06T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-29"
+  },
+  {
+    "_id": "JUG-0452",
+    "nombre": "Daniel Davies",
+    "fecha_nacimiento": "2003-05-17T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-29"
+  },
+  {
+    "_id": "JUG-0453",
+    "nombre": "Ethan Evans",
+    "fecha_nacimiento": "2010-10-28T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-29"
+  },
+  {
+    "_id": "JUG-0454",
+    "nombre": "George Harris",
+    "fecha_nacimiento": "1998-03-11T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-29"
+  },
+  {
+    "_id": "JUG-0455",
+    "nombre": "Harry Jackson",
+    "fecha_nacimiento": "2005-08-22T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-29"
+  },
+  {
+    "_id": "JUG-0456",
+    "nombre": "Jack Johnson",
+    "fecha_nacimiento": "1993-01-05T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-29"
+  },
+  {
+    "_id": "JUG-0457",
+    "nombre": "James Miller",
+    "fecha_nacimiento": "2000-06-16T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-29"
+  },
+  {
+    "_id": "JUG-0458",
+    "nombre": "Liam Mitchell",
+    "fecha_nacimiento": "2007-11-27T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-29"
+  },
+  {
+    "_id": "JUG-0459",
+    "nombre": "Mason Robinson",
+    "fecha_nacimiento": "1995-04-10T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-29"
+  },
+  {
+    "_id": "JUG-0460",
+    "nombre": "Noah Smith",
+    "fecha_nacimiento": "2002-09-21T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-29"
+  },
+  {
+    "_id": "JUG-0461",
+    "nombre": "Oliver Taylor",
+    "fecha_nacimiento": "2009-02-04T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-29"
+  },
+  {
+    "_id": "JUG-0462",
+    "nombre": "Samuel Thompson",
+    "fecha_nacimiento": "1997-07-15T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-29"
+  },
+  {
+    "_id": "JUG-0463",
+    "nombre": "Thomas Wilson",
+    "fecha_nacimiento": "2004-12-26T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-29"
+  },
+  {
+    "_id": "JUG-0464",
+    "nombre": "William Anderson",
+    "fecha_nacimiento": "2011-05-09T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-29"
+  },
+  {
+    "_id": "JUG-0465",
+    "nombre": "Aleksandar Marković",
+    "fecha_nacimiento": "1999-10-20T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-30"
+  },
+  {
+    "_id": "JUG-0466",
+    "nombre": "Andrija Miletić",
+    "fecha_nacimiento": "2006-03-03T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-30"
+  },
+  {
+    "_id": "JUG-0467",
+    "nombre": "Bohdan Novak",
+    "fecha_nacimiento": "1994-08-14T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-30"
+  },
+  {
+    "_id": "JUG-0468",
+    "nombre": "Dario Nowak",
+    "fecha_nacimiento": "2001-01-25T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-30"
+  },
+  {
+    "_id": "JUG-0469",
+    "nombre": "Ivan Petrović",
+    "fecha_nacimiento": "2008-06-08T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-30"
+  },
+  {
+    "_id": "JUG-0470",
+    "nombre": "Jakub Popović",
+    "fecha_nacimiento": "1996-11-19T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-30"
+  },
+  {
+    "_id": "JUG-0471",
+    "nombre": "Luka Shevchenko",
+    "fecha_nacimiento": "2003-04-02T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-30"
+  },
+  {
+    "_id": "JUG-0472",
+    "nombre": "Marko Sokolov",
+    "fecha_nacimiento": "2010-09-13T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-30"
+  },
+  {
+    "_id": "JUG-0473",
+    "nombre": "Matej Stanić",
+    "fecha_nacimiento": "1998-02-24T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-30"
+  },
+  {
+    "_id": "JUG-0474",
+    "nombre": "Milan Vuković",
+    "fecha_nacimiento": "2005-07-07T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-30"
+  },
+  {
+    "_id": "JUG-0475",
+    "nombre": "Nikola Zieliński",
+    "fecha_nacimiento": "1993-12-18T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-30"
+  },
+  {
+    "_id": "JUG-0476",
+    "nombre": "Oleksandr Živković",
+    "fecha_nacimiento": "2000-05-01T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-30"
+  },
+  {
+    "_id": "JUG-0477",
+    "nombre": "Pavel Horvat",
+    "fecha_nacimiento": "2007-10-12T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-30"
+  },
+  {
+    "_id": "JUG-0478",
+    "nombre": "Petar Jovanović",
+    "fecha_nacimiento": "1995-03-23T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-30"
+  },
+  {
+    "_id": "JUG-0479",
+    "nombre": "Tomas Kovač",
+    "fecha_nacimiento": "2002-08-06T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-30"
+  },
+  {
+    "_id": "JUG-0480",
+    "nombre": "Viktor Kowalski",
+    "fecha_nacimiento": "2009-01-17T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-30"
+  },
+  {
+    "_id": "JUG-0481",
+    "nombre": "Adam Campbell",
+    "fecha_nacimiento": "1997-06-28T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-31"
+  },
+  {
+    "_id": "JUG-0482",
+    "nombre": "Benjamin Clark",
+    "fecha_nacimiento": "2004-11-11T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-31"
+  },
+  {
+    "_id": "JUG-0483",
+    "nombre": "Callum Davies",
+    "fecha_nacimiento": "2011-04-22T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-31"
+  },
+  {
+    "_id": "JUG-0484",
+    "nombre": "Daniel Evans",
+    "fecha_nacimiento": "1999-09-05T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-31"
+  },
+  {
+    "_id": "JUG-0485",
+    "nombre": "Ethan Harris",
+    "fecha_nacimiento": "2006-02-16T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-31"
+  },
+  {
+    "_id": "JUG-0486",
+    "nombre": "George Jackson",
+    "fecha_nacimiento": "1994-07-27T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-31"
+  },
+  {
+    "_id": "JUG-0487",
+    "nombre": "Harry Johnson",
+    "fecha_nacimiento": "2001-12-10T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-31"
+  },
+  {
+    "_id": "JUG-0488",
+    "nombre": "Jack Miller",
+    "fecha_nacimiento": "2008-05-21T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-31"
+  },
+  {
+    "_id": "JUG-0489",
+    "nombre": "James Mitchell",
+    "fecha_nacimiento": "1996-10-04T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-31"
+  },
+  {
+    "_id": "JUG-0490",
+    "nombre": "Liam Robinson",
+    "fecha_nacimiento": "2003-03-15T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-31"
+  },
+  {
+    "_id": "JUG-0491",
+    "nombre": "Mason Smith",
+    "fecha_nacimiento": "2010-08-26T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-31"
+  },
+  {
+    "_id": "JUG-0492",
+    "nombre": "Noah Taylor",
+    "fecha_nacimiento": "1998-01-09T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-31"
+  },
+  {
+    "_id": "JUG-0493",
+    "nombre": "Oliver Thompson",
+    "fecha_nacimiento": "2005-06-20T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-31"
+  },
+  {
+    "_id": "JUG-0494",
+    "nombre": "Samuel Wilson",
+    "fecha_nacimiento": "1993-11-03T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-31"
+  },
+  {
+    "_id": "JUG-0495",
+    "nombre": "Thomas Anderson",
+    "fecha_nacimiento": "2000-04-14T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-31"
+  },
+  {
+    "_id": "JUG-0496",
+    "nombre": "William Brown",
+    "fecha_nacimiento": "2007-09-25T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-31"
+  },
+  {
+    "_id": "JUG-0497",
+    "nombre": "Adam Clark",
+    "fecha_nacimiento": "1995-02-08T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-32"
+  },
+  {
+    "_id": "JUG-0498",
+    "nombre": "Benjamin Davies",
+    "fecha_nacimiento": "2002-07-19T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-32"
+  },
+  {
+    "_id": "JUG-0499",
+    "nombre": "Callum Evans",
+    "fecha_nacimiento": "2009-12-02T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-32"
+  },
+  {
+    "_id": "JUG-0500",
+    "nombre": "Daniel Harris",
+    "fecha_nacimiento": "1997-05-13T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-32"
+  },
+  {
+    "_id": "JUG-0501",
+    "nombre": "Ethan Jackson",
+    "fecha_nacimiento": "2004-10-24T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-32"
+  },
+  {
+    "_id": "JUG-0502",
+    "nombre": "George Johnson",
+    "fecha_nacimiento": "2011-03-07T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-32"
+  },
+  {
+    "_id": "JUG-0503",
+    "nombre": "Harry Miller",
+    "fecha_nacimiento": "1999-08-18T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-32"
+  },
+  {
+    "_id": "JUG-0504",
+    "nombre": "Jack Mitchell",
+    "fecha_nacimiento": "2006-01-01T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-32"
+  },
+  {
+    "_id": "JUG-0505",
+    "nombre": "James Robinson",
+    "fecha_nacimiento": "1994-06-12T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-32"
+  },
+  {
+    "_id": "JUG-0506",
+    "nombre": "Liam Smith",
+    "fecha_nacimiento": "2001-11-23T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-32"
+  },
+  {
+    "_id": "JUG-0507",
+    "nombre": "Mason Taylor",
+    "fecha_nacimiento": "2008-04-06T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-32"
+  },
+  {
+    "_id": "JUG-0508",
+    "nombre": "Noah Thompson",
+    "fecha_nacimiento": "1996-09-17T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-32"
+  },
+  {
+    "_id": "JUG-0509",
+    "nombre": "Oliver Wilson",
+    "fecha_nacimiento": "2003-02-28T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-32"
+  },
+  {
+    "_id": "JUG-0510",
+    "nombre": "Samuel Anderson",
+    "fecha_nacimiento": "2010-07-11T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-32"
+  },
+  {
+    "_id": "JUG-0511",
+    "nombre": "Thomas Brown",
+    "fecha_nacimiento": "1998-12-22T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-32"
+  },
+  {
+    "_id": "JUG-0512",
+    "nombre": "William Campbell",
+    "fecha_nacimiento": "2005-05-05T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-32"
+  },
+  {
+    "_id": "JUG-0513",
+    "nombre": "Alejandro Torres",
+    "fecha_nacimiento": "1993-10-16T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-33"
+  },
+  {
+    "_id": "JUG-0514",
+    "nombre": "Bruno Álvarez",
+    "fecha_nacimiento": "2000-03-27T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-33"
+  },
+  {
+    "_id": "JUG-0515",
+    "nombre": "Carlos Ruiz",
+    "fecha_nacimiento": "2007-08-10T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-33"
+  },
+  {
+    "_id": "JUG-0516",
+    "nombre": "Diego Herrera",
+    "fecha_nacimiento": "1995-01-21T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-33"
+  },
+  {
+    "_id": "JUG-0517",
+    "nombre": "Emiliano Castro",
+    "fecha_nacimiento": "2002-06-04T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-33"
+  },
+  {
+    "_id": "JUG-0518",
+    "nombre": "Facundo Silva",
+    "fecha_nacimiento": "2009-11-15T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-33"
+  },
+  {
+    "_id": "JUG-0519",
+    "nombre": "Gabriel García",
+    "fecha_nacimiento": "1997-04-26T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-33"
+  },
+  {
+    "_id": "JUG-0520",
+    "nombre": "Joaquín Fernández",
+    "fecha_nacimiento": "2004-09-09T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-33"
+  },
+  {
+    "_id": "JUG-0521",
+    "nombre": "Lautaro González",
+    "fecha_nacimiento": "2011-02-20T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-33"
+  },
+  {
+    "_id": "JUG-0522",
+    "nombre": "Mateo Rodríguez",
+    "fecha_nacimiento": "1999-07-03T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-33"
+  },
+  {
+    "_id": "JUG-0523",
+    "nombre": "Nicolás López",
+    "fecha_nacimiento": "2006-12-14T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-33"
+  },
+  {
+    "_id": "JUG-0524",
+    "nombre": "Ramiro Martínez",
+    "fecha_nacimiento": "1994-05-25T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-33"
+  },
+  {
+    "_id": "JUG-0525",
+    "nombre": "Santiago Sánchez",
+    "fecha_nacimiento": "2001-10-08T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-33"
+  },
+  {
+    "_id": "JUG-0526",
+    "nombre": "Tomás Pérez",
+    "fecha_nacimiento": "2008-03-19T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-33"
+  },
+  {
+    "_id": "JUG-0527",
+    "nombre": "Valentín Romero",
+    "fecha_nacimiento": "1996-08-02T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-33"
+  },
+  {
+    "_id": "JUG-0528",
+    "nombre": "Martín Díaz",
+    "fecha_nacimiento": "2003-01-13T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-33"
+  },
+  {
+    "_id": "JUG-0529",
+    "nombre": "Alejandro Álvarez",
+    "fecha_nacimiento": "2010-06-24T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-34"
+  },
+  {
+    "_id": "JUG-0530",
+    "nombre": "Bruno Ruiz",
+    "fecha_nacimiento": "1998-11-07T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-34"
+  },
+  {
+    "_id": "JUG-0531",
+    "nombre": "Carlos Herrera",
+    "fecha_nacimiento": "2005-04-18T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-34"
+  },
+  {
+    "_id": "JUG-0532",
+    "nombre": "Diego Castro",
+    "fecha_nacimiento": "1993-09-01T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-34"
+  },
+  {
+    "_id": "JUG-0533",
+    "nombre": "Emiliano Silva",
+    "fecha_nacimiento": "2000-02-12T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-34"
+  },
+  {
+    "_id": "JUG-0534",
+    "nombre": "Facundo García",
+    "fecha_nacimiento": "2007-07-23T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-34"
+  },
+  {
+    "_id": "JUG-0535",
+    "nombre": "Gabriel Fernández",
+    "fecha_nacimiento": "1995-12-06T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-34"
+  },
+  {
+    "_id": "JUG-0536",
+    "nombre": "Joaquín González",
+    "fecha_nacimiento": "2002-05-17T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-34"
+  },
+  {
+    "_id": "JUG-0537",
+    "nombre": "Lautaro Rodríguez",
+    "fecha_nacimiento": "2009-10-28T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-34"
+  },
+  {
+    "_id": "JUG-0538",
+    "nombre": "Mateo López",
+    "fecha_nacimiento": "1997-03-11T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-34"
+  },
+  {
+    "_id": "JUG-0539",
+    "nombre": "Nicolás Martínez",
+    "fecha_nacimiento": "2004-08-22T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-34"
+  },
+  {
+    "_id": "JUG-0540",
+    "nombre": "Ramiro Sánchez",
+    "fecha_nacimiento": "2011-01-05T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-34"
+  },
+  {
+    "_id": "JUG-0541",
+    "nombre": "Santiago Pérez",
+    "fecha_nacimiento": "1999-06-16T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-34"
+  },
+  {
+    "_id": "JUG-0542",
+    "nombre": "Tomás Romero",
+    "fecha_nacimiento": "2006-11-27T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-34"
+  },
+  {
+    "_id": "JUG-0543",
+    "nombre": "Valentín Díaz",
+    "fecha_nacimiento": "1994-04-10T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-34"
+  },
+  {
+    "_id": "JUG-0544",
+    "nombre": "Martín Torres",
+    "fecha_nacimiento": "2001-09-21T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-34"
+  },
+  {
+    "_id": "JUG-0545",
+    "nombre": "Alejandro Ruiz",
+    "fecha_nacimiento": "2008-02-04T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-35"
+  },
+  {
+    "_id": "JUG-0546",
+    "nombre": "Bruno Herrera",
+    "fecha_nacimiento": "1996-07-15T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-35"
+  },
+  {
+    "_id": "JUG-0547",
+    "nombre": "Carlos Castro",
+    "fecha_nacimiento": "2003-12-26T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-35"
+  },
+  {
+    "_id": "JUG-0548",
+    "nombre": "Diego Silva",
+    "fecha_nacimiento": "2010-05-09T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-35"
+  },
+  {
+    "_id": "JUG-0549",
+    "nombre": "Emiliano García",
+    "fecha_nacimiento": "1998-10-20T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-35"
+  },
+  {
+    "_id": "JUG-0550",
+    "nombre": "Facundo Fernández",
+    "fecha_nacimiento": "2005-03-03T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-35"
+  },
+  {
+    "_id": "JUG-0551",
+    "nombre": "Gabriel González",
+    "fecha_nacimiento": "1993-08-14T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-35"
+  },
+  {
+    "_id": "JUG-0552",
+    "nombre": "Joaquín Rodríguez",
+    "fecha_nacimiento": "2000-01-25T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-35"
+  },
+  {
+    "_id": "JUG-0553",
+    "nombre": "Lautaro López",
+    "fecha_nacimiento": "2007-06-08T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-35"
+  },
+  {
+    "_id": "JUG-0554",
+    "nombre": "Mateo Martínez",
+    "fecha_nacimiento": "1995-11-19T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-35"
+  },
+  {
+    "_id": "JUG-0555",
+    "nombre": "Nicolás Sánchez",
+    "fecha_nacimiento": "2002-04-02T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-35"
+  },
+  {
+    "_id": "JUG-0556",
+    "nombre": "Ramiro Pérez",
+    "fecha_nacimiento": "2009-09-13T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-35"
+  },
+  {
+    "_id": "JUG-0557",
+    "nombre": "Santiago Romero",
+    "fecha_nacimiento": "1997-02-24T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-35"
+  },
+  {
+    "_id": "JUG-0558",
+    "nombre": "Tomás Díaz",
+    "fecha_nacimiento": "2004-07-07T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-35"
+  },
+  {
+    "_id": "JUG-0559",
+    "nombre": "Valentín Torres",
+    "fecha_nacimiento": "2011-12-18T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-35"
+  },
+  {
+    "_id": "JUG-0560",
+    "nombre": "Martín Álvarez",
+    "fecha_nacimiento": "1999-05-01T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-35"
+  },
+  {
+    "_id": "JUG-0561",
+    "nombre": "Alejandro Herrera",
+    "fecha_nacimiento": "2006-10-12T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-36"
+  },
+  {
+    "_id": "JUG-0562",
+    "nombre": "Bruno Castro",
+    "fecha_nacimiento": "1994-03-23T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-36"
+  },
+  {
+    "_id": "JUG-0563",
+    "nombre": "Carlos Silva",
+    "fecha_nacimiento": "2001-08-06T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-36"
+  },
+  {
+    "_id": "JUG-0564",
+    "nombre": "Diego García",
+    "fecha_nacimiento": "2008-01-17T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-36"
+  },
+  {
+    "_id": "JUG-0565",
+    "nombre": "Emiliano Fernández",
+    "fecha_nacimiento": "1996-06-28T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-36"
+  },
+  {
+    "_id": "JUG-0566",
+    "nombre": "Facundo González",
+    "fecha_nacimiento": "2003-11-11T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-36"
+  },
+  {
+    "_id": "JUG-0567",
+    "nombre": "Gabriel Rodríguez",
+    "fecha_nacimiento": "2010-04-22T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-36"
+  },
+  {
+    "_id": "JUG-0568",
+    "nombre": "Joaquín López",
+    "fecha_nacimiento": "1998-09-05T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-36"
+  },
+  {
+    "_id": "JUG-0569",
+    "nombre": "Lautaro Martínez",
+    "fecha_nacimiento": "2005-02-16T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-36"
+  },
+  {
+    "_id": "JUG-0570",
+    "nombre": "Mateo Sánchez",
+    "fecha_nacimiento": "1993-07-27T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-36"
+  },
+  {
+    "_id": "JUG-0571",
+    "nombre": "Nicolás Pérez",
+    "fecha_nacimiento": "2000-12-10T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-36"
+  },
+  {
+    "_id": "JUG-0572",
+    "nombre": "Ramiro Romero",
+    "fecha_nacimiento": "2007-05-21T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-36"
+  },
+  {
+    "_id": "JUG-0573",
+    "nombre": "Santiago Díaz",
+    "fecha_nacimiento": "1995-10-04T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-36"
+  },
+  {
+    "_id": "JUG-0574",
+    "nombre": "Tomás Torres",
+    "fecha_nacimiento": "2002-03-15T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-36"
+  },
+  {
+    "_id": "JUG-0575",
+    "nombre": "Valentín Álvarez",
+    "fecha_nacimiento": "2009-08-26T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-36"
+  },
+  {
+    "_id": "JUG-0576",
+    "nombre": "Martín Ruiz",
+    "fecha_nacimiento": "1997-01-09T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-36"
+  },
+  {
+    "_id": "JUG-0577",
+    "nombre": "Adam Davies",
+    "fecha_nacimiento": "2004-06-20T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-37"
+  },
+  {
+    "_id": "JUG-0578",
+    "nombre": "Benjamin Evans",
+    "fecha_nacimiento": "2011-11-03T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-37"
+  },
+  {
+    "_id": "JUG-0579",
+    "nombre": "Callum Harris",
+    "fecha_nacimiento": "1999-04-14T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-37"
+  },
+  {
+    "_id": "JUG-0580",
+    "nombre": "Daniel Jackson",
+    "fecha_nacimiento": "2006-09-25T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-37"
+  },
+  {
+    "_id": "JUG-0581",
+    "nombre": "Ethan Johnson",
+    "fecha_nacimiento": "1994-02-08T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-37"
+  },
+  {
+    "_id": "JUG-0582",
+    "nombre": "George Miller",
+    "fecha_nacimiento": "2001-07-19T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-37"
+  },
+  {
+    "_id": "JUG-0583",
+    "nombre": "Harry Mitchell",
+    "fecha_nacimiento": "2008-12-02T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-37"
+  },
+  {
+    "_id": "JUG-0584",
+    "nombre": "Jack Robinson",
+    "fecha_nacimiento": "1996-05-13T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-37"
+  },
+  {
+    "_id": "JUG-0585",
+    "nombre": "James Smith",
+    "fecha_nacimiento": "2003-10-24T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-37"
+  },
+  {
+    "_id": "JUG-0586",
+    "nombre": "Liam Taylor",
+    "fecha_nacimiento": "2010-03-07T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-37"
+  },
+  {
+    "_id": "JUG-0587",
+    "nombre": "Mason Thompson",
+    "fecha_nacimiento": "1998-08-18T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-37"
+  },
+  {
+    "_id": "JUG-0588",
+    "nombre": "Noah Wilson",
+    "fecha_nacimiento": "2005-01-01T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-37"
+  },
+  {
+    "_id": "JUG-0589",
+    "nombre": "Oliver Anderson",
+    "fecha_nacimiento": "1993-06-12T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-37"
+  },
+  {
+    "_id": "JUG-0590",
+    "nombre": "Samuel Brown",
+    "fecha_nacimiento": "2000-11-23T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-37"
+  },
+  {
+    "_id": "JUG-0591",
+    "nombre": "Thomas Campbell",
+    "fecha_nacimiento": "2007-04-06T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-37"
+  },
+  {
+    "_id": "JUG-0592",
+    "nombre": "William Clark",
+    "fecha_nacimiento": "1995-09-17T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-37"
+  },
+  {
+    "_id": "JUG-0593",
+    "nombre": "Adam Evans",
+    "fecha_nacimiento": "2002-02-28T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-38"
+  },
+  {
+    "_id": "JUG-0594",
+    "nombre": "Benjamin Harris",
+    "fecha_nacimiento": "2009-07-11T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-38"
+  },
+  {
+    "_id": "JUG-0595",
+    "nombre": "Callum Jackson",
+    "fecha_nacimiento": "1997-12-22T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-38"
+  },
+  {
+    "_id": "JUG-0596",
+    "nombre": "Daniel Johnson",
+    "fecha_nacimiento": "2004-05-05T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-38"
+  },
+  {
+    "_id": "JUG-0597",
+    "nombre": "Ethan Miller",
+    "fecha_nacimiento": "2011-10-16T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-38"
+  },
+  {
+    "_id": "JUG-0598",
+    "nombre": "George Mitchell",
+    "fecha_nacimiento": "1999-03-27T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-38"
+  },
+  {
+    "_id": "JUG-0599",
+    "nombre": "Harry Robinson",
+    "fecha_nacimiento": "2006-08-10T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-38"
+  },
+  {
+    "_id": "JUG-0600",
+    "nombre": "Jack Smith",
+    "fecha_nacimiento": "1994-01-21T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-38"
+  },
+  {
+    "_id": "JUG-0601",
+    "nombre": "James Taylor",
+    "fecha_nacimiento": "2001-06-04T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-38"
+  },
+  {
+    "_id": "JUG-0602",
+    "nombre": "Liam Thompson",
+    "fecha_nacimiento": "2008-11-15T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-38"
+  },
+  {
+    "_id": "JUG-0603",
+    "nombre": "Mason Wilson",
+    "fecha_nacimiento": "1996-04-26T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-38"
+  },
+  {
+    "_id": "JUG-0604",
+    "nombre": "Noah Anderson",
+    "fecha_nacimiento": "2003-09-09T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-38"
+  },
+  {
+    "_id": "JUG-0605",
+    "nombre": "Oliver Brown",
+    "fecha_nacimiento": "2010-02-20T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-38"
+  },
+  {
+    "_id": "JUG-0606",
+    "nombre": "Samuel Campbell",
+    "fecha_nacimiento": "1998-07-03T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-38"
+  },
+  {
+    "_id": "JUG-0607",
+    "nombre": "Thomas Clark",
+    "fecha_nacimiento": "2005-12-14T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-38"
+  },
+  {
+    "_id": "JUG-0608",
+    "nombre": "William Davies",
+    "fecha_nacimiento": "1993-05-25T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-38"
+  },
+  {
+    "_id": "JUG-0609",
+    "nombre": "Ahmed Abbas",
+    "fecha_nacimiento": "2000-10-08T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-39"
+  },
+  {
+    "_id": "JUG-0610",
+    "nombre": "Ali Al-Hassan",
+    "fecha_nacimiento": "2007-03-19T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-39"
+  },
+  {
+    "_id": "JUG-0611",
+    "nombre": "Amir Al-Masri",
+    "fecha_nacimiento": "1995-08-02T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-39"
+  },
+  {
+    "_id": "JUG-0612",
+    "nombre": "Bilal Al-Sayed",
+    "fecha_nacimiento": "2002-01-13T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-39"
+  },
+  {
+    "_id": "JUG-0613",
+    "nombre": "Farid Amrani",
+    "fecha_nacimiento": "2009-06-24T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-39"
+  },
+  {
+    "_id": "JUG-0614",
+    "nombre": "Hamza Benali",
+    "fecha_nacimiento": "1997-11-07T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-39"
+  },
+  {
+    "_id": "JUG-0615",
+    "nombre": "Hassan Farouk",
+    "fecha_nacimiento": "2004-04-18T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-39"
+  },
+  {
+    "_id": "JUG-0616",
+    "nombre": "Ibrahim Haddad",
+    "fecha_nacimiento": "2011-09-01T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-39"
+  },
+  {
+    "_id": "JUG-0617",
+    "nombre": "Karim Khalil",
+    "fecha_nacimiento": "1999-02-12T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-39"
+  },
+  {
+    "_id": "JUG-0618",
+    "nombre": "Khaled Mansour",
+    "fecha_nacimiento": "2006-07-23T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-39"
+  },
+  {
+    "_id": "JUG-0619",
+    "nombre": "Mahmoud Nasser",
+    "fecha_nacimiento": "1994-12-06T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-39"
+  },
+  {
+    "_id": "JUG-0620",
+    "nombre": "Nabil Rahman",
+    "fecha_nacimiento": "2001-05-17T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-39"
+  },
+  {
+    "_id": "JUG-0621",
+    "nombre": "Omar Saidi",
+    "fecha_nacimiento": "2008-10-28T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-39"
+  },
+  {
+    "_id": "JUG-0622",
+    "nombre": "Rami Saleh",
+    "fecha_nacimiento": "1996-03-11T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-39"
+  },
+  {
+    "_id": "JUG-0623",
+    "nombre": "Samir Sharif",
+    "fecha_nacimiento": "2003-08-22T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-39"
+  },
+  {
+    "_id": "JUG-0624",
+    "nombre": "Youssef Zaki",
+    "fecha_nacimiento": "2010-01-05T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-39"
+  },
+  {
+    "_id": "JUG-0625",
+    "nombre": "Ahmed Al-Hassan",
+    "fecha_nacimiento": "1998-06-16T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-40"
+  },
+  {
+    "_id": "JUG-0626",
+    "nombre": "Ali Al-Masri",
+    "fecha_nacimiento": "2005-11-27T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-40"
+  },
+  {
+    "_id": "JUG-0627",
+    "nombre": "Amir Al-Sayed",
+    "fecha_nacimiento": "1993-04-10T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-40"
+  },
+  {
+    "_id": "JUG-0628",
+    "nombre": "Bilal Amrani",
+    "fecha_nacimiento": "2000-09-21T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-40"
+  },
+  {
+    "_id": "JUG-0629",
+    "nombre": "Farid Benali",
+    "fecha_nacimiento": "2007-02-04T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-40"
+  },
+  {
+    "_id": "JUG-0630",
+    "nombre": "Hamza Farouk",
+    "fecha_nacimiento": "1995-07-15T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-40"
+  },
+  {
+    "_id": "JUG-0631",
+    "nombre": "Hassan Haddad",
+    "fecha_nacimiento": "2002-12-26T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-40"
+  },
+  {
+    "_id": "JUG-0632",
+    "nombre": "Ibrahim Khalil",
+    "fecha_nacimiento": "2009-05-09T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-40"
+  },
+  {
+    "_id": "JUG-0633",
+    "nombre": "Karim Mansour",
+    "fecha_nacimiento": "1997-10-20T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-40"
+  },
+  {
+    "_id": "JUG-0634",
+    "nombre": "Khaled Nasser",
+    "fecha_nacimiento": "2004-03-03T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-40"
+  },
+  {
+    "_id": "JUG-0635",
+    "nombre": "Mahmoud Rahman",
+    "fecha_nacimiento": "2011-08-14T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-40"
+  },
+  {
+    "_id": "JUG-0636",
+    "nombre": "Nabil Saidi",
+    "fecha_nacimiento": "1999-01-25T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-40"
+  },
+  {
+    "_id": "JUG-0637",
+    "nombre": "Omar Saleh",
+    "fecha_nacimiento": "2006-06-08T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-40"
+  },
+  {
+    "_id": "JUG-0638",
+    "nombre": "Rami Sharif",
+    "fecha_nacimiento": "1994-11-19T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-40"
+  },
+  {
+    "_id": "JUG-0639",
+    "nombre": "Samir Zaki",
+    "fecha_nacimiento": "2001-04-02T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-40"
+  },
+  {
+    "_id": "JUG-0640",
+    "nombre": "Youssef Abbas",
+    "fecha_nacimiento": "2008-09-13T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-40"
+  },
+  {
+    "_id": "JUG-0641",
+    "nombre": "Ahmed Al-Masri",
+    "fecha_nacimiento": "1996-02-24T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-41"
+  },
+  {
+    "_id": "JUG-0642",
+    "nombre": "Ali Al-Sayed",
+    "fecha_nacimiento": "2003-07-07T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-41"
+  },
+  {
+    "_id": "JUG-0643",
+    "nombre": "Amir Amrani",
+    "fecha_nacimiento": "2010-12-18T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-41"
+  },
+  {
+    "_id": "JUG-0644",
+    "nombre": "Bilal Benali",
+    "fecha_nacimiento": "1998-05-01T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-41"
+  },
+  {
+    "_id": "JUG-0645",
+    "nombre": "Farid Farouk",
+    "fecha_nacimiento": "2005-10-12T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-41"
+  },
+  {
+    "_id": "JUG-0646",
+    "nombre": "Hamza Haddad",
+    "fecha_nacimiento": "1993-03-23T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-41"
+  },
+  {
+    "_id": "JUG-0647",
+    "nombre": "Hassan Khalil",
+    "fecha_nacimiento": "2000-08-06T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-41"
+  },
+  {
+    "_id": "JUG-0648",
+    "nombre": "Ibrahim Mansour",
+    "fecha_nacimiento": "2007-01-17T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-41"
+  },
+  {
+    "_id": "JUG-0649",
+    "nombre": "Karim Nasser",
+    "fecha_nacimiento": "1995-06-28T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-41"
+  },
+  {
+    "_id": "JUG-0650",
+    "nombre": "Khaled Rahman",
+    "fecha_nacimiento": "2002-11-11T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-41"
+  },
+  {
+    "_id": "JUG-0651",
+    "nombre": "Mahmoud Saidi",
+    "fecha_nacimiento": "2009-04-22T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-41"
+  },
+  {
+    "_id": "JUG-0652",
+    "nombre": "Nabil Saleh",
+    "fecha_nacimiento": "1997-09-05T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-41"
+  },
+  {
+    "_id": "JUG-0653",
+    "nombre": "Omar Sharif",
+    "fecha_nacimiento": "2004-02-16T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-41"
+  },
+  {
+    "_id": "JUG-0654",
+    "nombre": "Rami Zaki",
+    "fecha_nacimiento": "2011-07-27T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-41"
+  },
+  {
+    "_id": "JUG-0655",
+    "nombre": "Samir Abbas",
+    "fecha_nacimiento": "1999-12-10T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-41"
+  },
+  {
+    "_id": "JUG-0656",
+    "nombre": "Youssef Al-Hassan",
+    "fecha_nacimiento": "2006-05-21T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-41"
+  },
+  {
+    "_id": "JUG-0657",
+    "nombre": "Ahmed Al-Sayed",
+    "fecha_nacimiento": "1994-10-04T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-42"
+  },
+  {
+    "_id": "JUG-0658",
+    "nombre": "Ali Amrani",
+    "fecha_nacimiento": "2001-03-15T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-42"
+  },
+  {
+    "_id": "JUG-0659",
+    "nombre": "Amir Benali",
+    "fecha_nacimiento": "2008-08-26T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-42"
+  },
+  {
+    "_id": "JUG-0660",
+    "nombre": "Bilal Farouk",
+    "fecha_nacimiento": "1996-01-09T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-42"
+  },
+  {
+    "_id": "JUG-0661",
+    "nombre": "Farid Haddad",
+    "fecha_nacimiento": "2003-06-20T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-42"
+  },
+  {
+    "_id": "JUG-0662",
+    "nombre": "Hamza Khalil",
+    "fecha_nacimiento": "2010-11-03T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-42"
+  },
+  {
+    "_id": "JUG-0663",
+    "nombre": "Hassan Mansour",
+    "fecha_nacimiento": "1998-04-14T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-42"
+  },
+  {
+    "_id": "JUG-0664",
+    "nombre": "Ibrahim Nasser",
+    "fecha_nacimiento": "2005-09-25T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-42"
+  },
+  {
+    "_id": "JUG-0665",
+    "nombre": "Karim Rahman",
+    "fecha_nacimiento": "1993-02-08T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-42"
+  },
+  {
+    "_id": "JUG-0666",
+    "nombre": "Khaled Saidi",
+    "fecha_nacimiento": "2000-07-19T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-42"
+  },
+  {
+    "_id": "JUG-0667",
+    "nombre": "Mahmoud Saleh",
+    "fecha_nacimiento": "2007-12-02T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-42"
+  },
+  {
+    "_id": "JUG-0668",
+    "nombre": "Nabil Sharif",
+    "fecha_nacimiento": "1995-05-13T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-42"
+  },
+  {
+    "_id": "JUG-0669",
+    "nombre": "Omar Zaki",
+    "fecha_nacimiento": "2002-10-24T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-42"
+  },
+  {
+    "_id": "JUG-0670",
+    "nombre": "Rami Abbas",
+    "fecha_nacimiento": "2009-03-07T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-42"
+  },
+  {
+    "_id": "JUG-0671",
+    "nombre": "Samir Al-Hassan",
+    "fecha_nacimiento": "1997-08-18T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-42"
+  },
+  {
+    "_id": "JUG-0672",
+    "nombre": "Youssef Al-Masri",
+    "fecha_nacimiento": "2004-01-01T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-42"
+  },
+  {
+    "_id": "JUG-0673",
+    "nombre": "Abdou Ba",
+    "fecha_nacimiento": "2011-06-12T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-43"
+  },
+  {
+    "_id": "JUG-0674",
+    "nombre": "Adebayo Camara",
+    "fecha_nacimiento": "1999-11-23T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-43"
+  },
+  {
+    "_id": "JUG-0675",
+    "nombre": "Amadou Diallo",
+    "fecha_nacimiento": "2006-04-06T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-43"
+  },
+  {
+    "_id": "JUG-0676",
+    "nombre": "Chinedu Diop",
+    "fecha_nacimiento": "1994-09-17T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-43"
+  },
+  {
+    "_id": "JUG-0677",
+    "nombre": "Emmanuel Doumbia",
+    "fecha_nacimiento": "2001-02-28T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-43"
+  },
+  {
+    "_id": "JUG-0678",
+    "nombre": "Fadil Keita",
+    "fecha_nacimiento": "2008-07-11T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-43"
+  },
+  {
+    "_id": "JUG-0679",
+    "nombre": "Idrissa Konaté",
+    "fecha_nacimiento": "1996-12-22T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-43"
+  },
+  {
+    "_id": "JUG-0680",
+    "nombre": "Ismael Mensah",
+    "fecha_nacimiento": "2003-05-05T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-43"
+  },
+  {
+    "_id": "JUG-0681",
+    "nombre": "Kofi Mokoena",
+    "fecha_nacimiento": "2010-10-16T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-43"
+  },
+  {
+    "_id": "JUG-0682",
+    "nombre": "Kwame Ndoye",
+    "fecha_nacimiento": "1998-03-27T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-43"
+  },
+  {
+    "_id": "JUG-0683",
+    "nombre": "Mamadou N'Komo",
+    "fecha_nacimiento": "2005-08-10T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-43"
+  },
+  {
+    "_id": "JUG-0684",
+    "nombre": "Moussa Okafor",
+    "fecha_nacimiento": "1993-01-21T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-43"
+  },
+  {
+    "_id": "JUG-0685",
+    "nombre": "Samuel Ouattara",
+    "fecha_nacimiento": "2000-06-04T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-43"
+  },
+  {
+    "_id": "JUG-0686",
+    "nombre": "Sékou Sissoko",
+    "fecha_nacimiento": "2007-11-15T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-43"
+  },
+  {
+    "_id": "JUG-0687",
+    "nombre": "Tunde Traoré",
+    "fecha_nacimiento": "1995-04-26T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-43"
+  },
+  {
+    "_id": "JUG-0688",
+    "nombre": "Yaya Yeboah",
+    "fecha_nacimiento": "2002-09-09T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-43"
+  },
+  {
+    "_id": "JUG-0689",
+    "nombre": "Abdou Camara",
+    "fecha_nacimiento": "2009-02-20T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-44"
+  },
+  {
+    "_id": "JUG-0690",
+    "nombre": "Adebayo Diallo",
+    "fecha_nacimiento": "1997-07-03T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-44"
+  },
+  {
+    "_id": "JUG-0691",
+    "nombre": "Amadou Diop",
+    "fecha_nacimiento": "2004-12-14T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-44"
+  },
+  {
+    "_id": "JUG-0692",
+    "nombre": "Chinedu Doumbia",
+    "fecha_nacimiento": "2011-05-25T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-44"
+  },
+  {
+    "_id": "JUG-0693",
+    "nombre": "Emmanuel Keita",
+    "fecha_nacimiento": "1999-10-08T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-44"
+  },
+  {
+    "_id": "JUG-0694",
+    "nombre": "Fadil Konaté",
+    "fecha_nacimiento": "2006-03-19T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-44"
+  },
+  {
+    "_id": "JUG-0695",
+    "nombre": "Idrissa Mensah",
+    "fecha_nacimiento": "1994-08-02T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-44"
+  },
+  {
+    "_id": "JUG-0696",
+    "nombre": "Ismael Mokoena",
+    "fecha_nacimiento": "2001-01-13T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-44"
+  },
+  {
+    "_id": "JUG-0697",
+    "nombre": "Kofi Ndoye",
+    "fecha_nacimiento": "2008-06-24T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-44"
+  },
+  {
+    "_id": "JUG-0698",
+    "nombre": "Kwame N'Komo",
+    "fecha_nacimiento": "1996-11-07T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-44"
+  },
+  {
+    "_id": "JUG-0699",
+    "nombre": "Mamadou Okafor",
+    "fecha_nacimiento": "2003-04-18T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-44"
+  },
+  {
+    "_id": "JUG-0700",
+    "nombre": "Moussa Ouattara",
+    "fecha_nacimiento": "2010-09-01T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-44"
+  },
+  {
+    "_id": "JUG-0701",
+    "nombre": "Samuel Sissoko",
+    "fecha_nacimiento": "1998-02-12T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-44"
+  },
+  {
+    "_id": "JUG-0702",
+    "nombre": "Sékou Traoré",
+    "fecha_nacimiento": "2005-07-23T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-44"
+  },
+  {
+    "_id": "JUG-0703",
+    "nombre": "Tunde Yeboah",
+    "fecha_nacimiento": "1993-12-06T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-44"
+  },
+  {
+    "_id": "JUG-0704",
+    "nombre": "Yaya Ba",
+    "fecha_nacimiento": "2000-05-17T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-44"
+  },
+  {
+    "_id": "JUG-0705",
+    "nombre": "Abdou Diallo",
+    "fecha_nacimiento": "2007-10-28T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-45"
+  },
+  {
+    "_id": "JUG-0706",
+    "nombre": "Adebayo Diop",
+    "fecha_nacimiento": "1995-03-11T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-45"
+  },
+  {
+    "_id": "JUG-0707",
+    "nombre": "Amadou Doumbia",
+    "fecha_nacimiento": "2002-08-22T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-45"
+  },
+  {
+    "_id": "JUG-0708",
+    "nombre": "Chinedu Keita",
+    "fecha_nacimiento": "2009-01-05T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-45"
+  },
+  {
+    "_id": "JUG-0709",
+    "nombre": "Emmanuel Konaté",
+    "fecha_nacimiento": "1997-06-16T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-45"
+  },
+  {
+    "_id": "JUG-0710",
+    "nombre": "Fadil Mensah",
+    "fecha_nacimiento": "2004-11-27T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-45"
+  },
+  {
+    "_id": "JUG-0711",
+    "nombre": "Idrissa Mokoena",
+    "fecha_nacimiento": "2011-04-10T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-45"
+  },
+  {
+    "_id": "JUG-0712",
+    "nombre": "Ismael Ndoye",
+    "fecha_nacimiento": "1999-09-21T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-45"
+  },
+  {
+    "_id": "JUG-0713",
+    "nombre": "Kofi N'Komo",
+    "fecha_nacimiento": "2006-02-04T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-45"
+  },
+  {
+    "_id": "JUG-0714",
+    "nombre": "Kwame Okafor",
+    "fecha_nacimiento": "1994-07-15T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-45"
+  },
+  {
+    "_id": "JUG-0715",
+    "nombre": "Mamadou Ouattara",
+    "fecha_nacimiento": "2001-12-26T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-45"
+  },
+  {
+    "_id": "JUG-0716",
+    "nombre": "Moussa Sissoko",
+    "fecha_nacimiento": "2008-05-09T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-45"
+  },
+  {
+    "_id": "JUG-0717",
+    "nombre": "Samuel Traoré",
+    "fecha_nacimiento": "1996-10-20T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-45"
+  },
+  {
+    "_id": "JUG-0718",
+    "nombre": "Sékou Yeboah",
+    "fecha_nacimiento": "2003-03-03T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-45"
+  },
+  {
+    "_id": "JUG-0719",
+    "nombre": "Tunde Ba",
+    "fecha_nacimiento": "2010-08-14T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-45"
+  },
+  {
+    "_id": "JUG-0720",
+    "nombre": "Yaya Camara",
+    "fecha_nacimiento": "1998-01-25T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-45"
+  },
+  {
+    "_id": "JUG-0721",
+    "nombre": "Abdou Diop",
+    "fecha_nacimiento": "2005-06-08T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-46"
+  },
+  {
+    "_id": "JUG-0722",
+    "nombre": "Adebayo Doumbia",
+    "fecha_nacimiento": "1993-11-19T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-46"
+  },
+  {
+    "_id": "JUG-0723",
+    "nombre": "Amadou Keita",
+    "fecha_nacimiento": "2000-04-02T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-46"
+  },
+  {
+    "_id": "JUG-0724",
+    "nombre": "Chinedu Konaté",
+    "fecha_nacimiento": "2007-09-13T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-46"
+  },
+  {
+    "_id": "JUG-0725",
+    "nombre": "Emmanuel Mensah",
+    "fecha_nacimiento": "1995-02-24T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-46"
+  },
+  {
+    "_id": "JUG-0726",
+    "nombre": "Fadil Mokoena",
+    "fecha_nacimiento": "2002-07-07T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-46"
+  },
+  {
+    "_id": "JUG-0727",
+    "nombre": "Idrissa Ndoye",
+    "fecha_nacimiento": "2009-12-18T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-46"
+  },
+  {
+    "_id": "JUG-0728",
+    "nombre": "Ismael N'Komo",
+    "fecha_nacimiento": "1997-05-01T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-46"
+  },
+  {
+    "_id": "JUG-0729",
+    "nombre": "Kofi Okafor",
+    "fecha_nacimiento": "2004-10-12T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-46"
+  },
+  {
+    "_id": "JUG-0730",
+    "nombre": "Kwame Ouattara",
+    "fecha_nacimiento": "2011-03-23T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-46"
+  },
+  {
+    "_id": "JUG-0731",
+    "nombre": "Mamadou Sissoko",
+    "fecha_nacimiento": "1999-08-06T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-46"
+  },
+  {
+    "_id": "JUG-0732",
+    "nombre": "Moussa Traoré",
+    "fecha_nacimiento": "2006-01-17T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-46"
+  },
+  {
+    "_id": "JUG-0733",
+    "nombre": "Samuel Yeboah",
+    "fecha_nacimiento": "1994-06-28T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-46"
+  },
+  {
+    "_id": "JUG-0734",
+    "nombre": "Sékou Ba",
+    "fecha_nacimiento": "2001-11-11T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-46"
+  },
+  {
+    "_id": "JUG-0735",
+    "nombre": "Tunde Camara",
+    "fecha_nacimiento": "2008-04-22T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-46"
+  },
+  {
+    "_id": "JUG-0736",
+    "nombre": "Yaya Diallo",
+    "fecha_nacimiento": "1996-09-05T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-46"
+  },
+  {
+    "_id": "JUG-0737",
+    "nombre": "Abdou Doumbia",
+    "fecha_nacimiento": "2003-02-16T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-47"
+  },
+  {
+    "_id": "JUG-0738",
+    "nombre": "Adebayo Keita",
+    "fecha_nacimiento": "2010-07-27T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-47"
+  },
+  {
+    "_id": "JUG-0739",
+    "nombre": "Amadou Konaté",
+    "fecha_nacimiento": "1998-12-10T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-47"
+  },
+  {
+    "_id": "JUG-0740",
+    "nombre": "Chinedu Mensah",
+    "fecha_nacimiento": "2005-05-21T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-47"
+  },
+  {
+    "_id": "JUG-0741",
+    "nombre": "Emmanuel Mokoena",
+    "fecha_nacimiento": "1993-10-04T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-47"
+  },
+  {
+    "_id": "JUG-0742",
+    "nombre": "Fadil Ndoye",
+    "fecha_nacimiento": "2000-03-15T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-47"
+  },
+  {
+    "_id": "JUG-0743",
+    "nombre": "Idrissa N'Komo",
+    "fecha_nacimiento": "2007-08-26T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-47"
+  },
+  {
+    "_id": "JUG-0744",
+    "nombre": "Ismael Okafor",
+    "fecha_nacimiento": "1995-01-09T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-47"
+  },
+  {
+    "_id": "JUG-0745",
+    "nombre": "Kofi Ouattara",
+    "fecha_nacimiento": "2002-06-20T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-47"
+  },
+  {
+    "_id": "JUG-0746",
+    "nombre": "Kwame Sissoko",
+    "fecha_nacimiento": "2009-11-03T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-47"
+  },
+  {
+    "_id": "JUG-0747",
+    "nombre": "Mamadou Traoré",
+    "fecha_nacimiento": "1997-04-14T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-47"
+  },
+  {
+    "_id": "JUG-0748",
+    "nombre": "Moussa Yeboah",
+    "fecha_nacimiento": "2004-09-25T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-47"
+  },
+  {
+    "_id": "JUG-0749",
+    "nombre": "Samuel Ba",
+    "fecha_nacimiento": "2011-02-08T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-47"
+  },
+  {
+    "_id": "JUG-0750",
+    "nombre": "Sékou Camara",
+    "fecha_nacimiento": "1999-07-19T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-47"
+  },
+  {
+    "_id": "JUG-0751",
+    "nombre": "Tunde Diallo",
+    "fecha_nacimiento": "2006-12-02T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-47"
+  },
+  {
+    "_id": "JUG-0752",
+    "nombre": "Yaya Diop",
+    "fecha_nacimiento": "1994-05-13T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-47"
+  },
+  {
+    "_id": "JUG-0753",
+    "nombre": "Abdou Keita",
+    "fecha_nacimiento": "2001-10-24T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-48"
+  },
+  {
+    "_id": "JUG-0754",
+    "nombre": "Adebayo Konaté",
+    "fecha_nacimiento": "2008-03-07T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-48"
+  },
+  {
+    "_id": "JUG-0755",
+    "nombre": "Amadou Mensah",
+    "fecha_nacimiento": "1996-08-18T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-48"
+  },
+  {
+    "_id": "JUG-0756",
+    "nombre": "Chinedu Mokoena",
+    "fecha_nacimiento": "2003-01-01T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-48"
+  },
+  {
+    "_id": "JUG-0757",
+    "nombre": "Emmanuel Ndoye",
+    "fecha_nacimiento": "2010-06-12T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-48"
+  },
+  {
+    "_id": "JUG-0758",
+    "nombre": "Fadil N'Komo",
+    "fecha_nacimiento": "1998-11-23T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-48"
+  },
+  {
+    "_id": "JUG-0759",
+    "nombre": "Idrissa Okafor",
+    "fecha_nacimiento": "2005-04-06T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-48"
+  },
+  {
+    "_id": "JUG-0760",
+    "nombre": "Ismael Ouattara",
+    "fecha_nacimiento": "1993-09-17T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-48"
+  },
+  {
+    "_id": "JUG-0761",
+    "nombre": "Kofi Sissoko",
+    "fecha_nacimiento": "2000-02-28T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-48"
+  },
+  {
+    "_id": "JUG-0762",
+    "nombre": "Kwame Traoré",
+    "fecha_nacimiento": "2007-07-11T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-48"
+  },
+  {
+    "_id": "JUG-0763",
+    "nombre": "Mamadou Yeboah",
+    "fecha_nacimiento": "1995-12-22T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-48"
+  },
+  {
+    "_id": "JUG-0764",
+    "nombre": "Moussa Ba",
+    "fecha_nacimiento": "2002-05-05T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-48"
+  },
+  {
+    "_id": "JUG-0765",
+    "nombre": "Samuel Camara",
+    "fecha_nacimiento": "2009-10-16T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-48"
+  },
+  {
+    "_id": "JUG-0766",
+    "nombre": "Sékou Diallo",
+    "fecha_nacimiento": "1997-03-27T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-48"
+  },
+  {
+    "_id": "JUG-0767",
+    "nombre": "Tunde Diop",
+    "fecha_nacimiento": "2004-08-10T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-48"
+  },
+  {
+    "_id": "JUG-0768",
+    "nombre": "Yaya Doumbia",
+    "fecha_nacimiento": "2011-01-21T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-48"
+  },
+  {
+    "_id": "JUG-0769",
+    "nombre": "Abdou Konaté",
+    "fecha_nacimiento": "1999-06-04T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-49"
+  },
+  {
+    "_id": "JUG-0770",
+    "nombre": "Adebayo Mensah",
+    "fecha_nacimiento": "2006-11-15T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-49"
+  },
+  {
+    "_id": "JUG-0771",
+    "nombre": "Amadou Mokoena",
+    "fecha_nacimiento": "1994-04-26T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-49"
+  },
+  {
+    "_id": "JUG-0772",
+    "nombre": "Chinedu Ndoye",
+    "fecha_nacimiento": "2001-09-09T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-49"
+  },
+  {
+    "_id": "JUG-0773",
+    "nombre": "Emmanuel N'Komo",
+    "fecha_nacimiento": "2008-02-20T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-49"
+  },
+  {
+    "_id": "JUG-0774",
+    "nombre": "Fadil Okafor",
+    "fecha_nacimiento": "1996-07-03T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-49"
+  },
+  {
+    "_id": "JUG-0775",
+    "nombre": "Idrissa Ouattara",
+    "fecha_nacimiento": "2003-12-14T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-49"
+  },
+  {
+    "_id": "JUG-0776",
+    "nombre": "Ismael Sissoko",
+    "fecha_nacimiento": "2010-05-25T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-49"
+  },
+  {
+    "_id": "JUG-0777",
+    "nombre": "Kofi Traoré",
+    "fecha_nacimiento": "1998-10-08T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-49"
+  },
+  {
+    "_id": "JUG-0778",
+    "nombre": "Kwame Yeboah",
+    "fecha_nacimiento": "2005-03-19T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-49"
+  },
+  {
+    "_id": "JUG-0779",
+    "nombre": "Mamadou Ba",
+    "fecha_nacimiento": "1993-08-02T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-49"
+  },
+  {
+    "_id": "JUG-0780",
+    "nombre": "Moussa Camara",
+    "fecha_nacimiento": "2000-01-13T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-49"
+  },
+  {
+    "_id": "JUG-0781",
+    "nombre": "Samuel Diallo",
+    "fecha_nacimiento": "2007-06-24T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-49"
+  },
+  {
+    "_id": "JUG-0782",
+    "nombre": "Sékou Diop",
+    "fecha_nacimiento": "1995-11-07T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-49"
+  },
+  {
+    "_id": "JUG-0783",
+    "nombre": "Tunde Doumbia",
+    "fecha_nacimiento": "2002-04-18T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-49"
+  },
+  {
+    "_id": "JUG-0784",
+    "nombre": "Yaya Keita",
+    "fecha_nacimiento": "2009-09-01T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-49"
+  },
+  {
+    "_id": "JUG-0785",
+    "nombre": "Abdou Mensah",
+    "fecha_nacimiento": "1997-02-12T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-50"
+  },
+  {
+    "_id": "JUG-0786",
+    "nombre": "Adebayo Mokoena",
+    "fecha_nacimiento": "2004-07-23T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-50"
+  },
+  {
+    "_id": "JUG-0787",
+    "nombre": "Amadou Ndoye",
+    "fecha_nacimiento": "2011-12-06T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-50"
+  },
+  {
+    "_id": "JUG-0788",
+    "nombre": "Chinedu N'Komo",
+    "fecha_nacimiento": "1999-05-17T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-50"
+  },
+  {
+    "_id": "JUG-0789",
+    "nombre": "Emmanuel Okafor",
+    "fecha_nacimiento": "2006-10-28T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-50"
+  },
+  {
+    "_id": "JUG-0790",
+    "nombre": "Fadil Ouattara",
+    "fecha_nacimiento": "1994-03-11T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-50"
+  },
+  {
+    "_id": "JUG-0791",
+    "nombre": "Idrissa Sissoko",
+    "fecha_nacimiento": "2001-08-22T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-50"
+  },
+  {
+    "_id": "JUG-0792",
+    "nombre": "Ismael Traoré",
+    "fecha_nacimiento": "2008-01-05T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-50"
+  },
+  {
+    "_id": "JUG-0793",
+    "nombre": "Kofi Yeboah",
+    "fecha_nacimiento": "1996-06-16T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-50"
+  },
+  {
+    "_id": "JUG-0794",
+    "nombre": "Kwame Ba",
+    "fecha_nacimiento": "2003-11-27T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-50"
+  },
+  {
+    "_id": "JUG-0795",
+    "nombre": "Mamadou Camara",
+    "fecha_nacimiento": "2010-04-10T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-50"
+  },
+  {
+    "_id": "JUG-0796",
+    "nombre": "Moussa Diallo",
+    "fecha_nacimiento": "1998-09-21T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-50"
+  },
+  {
+    "_id": "JUG-0797",
+    "nombre": "Samuel Diop",
+    "fecha_nacimiento": "2005-02-04T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-50"
+  },
+  {
+    "_id": "JUG-0798",
+    "nombre": "Sékou Doumbia",
+    "fecha_nacimiento": "1993-07-15T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-50"
+  },
+  {
+    "_id": "JUG-0799",
+    "nombre": "Tunde Keita",
+    "fecha_nacimiento": "2000-12-26T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-50"
+  },
+  {
+    "_id": "JUG-0800",
+    "nombre": "Yaya Konaté",
+    "fecha_nacimiento": "2007-05-09T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-50"
+  },
+  {
+    "_id": "JUG-0801",
+    "nombre": "Daichi Abe",
+    "fecha_nacimiento": "1995-10-20T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-51"
+  },
+  {
+    "_id": "JUG-0802",
+    "nombre": "Haruto Endo",
+    "fecha_nacimiento": "2002-03-03T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-51"
+  },
+  {
+    "_id": "JUG-0803",
+    "nombre": "Hiroki Fujita",
+    "fecha_nacimiento": "2009-08-14T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-51"
+  },
+  {
+    "_id": "JUG-0804",
+    "nombre": "Kaito Hayashi",
+    "fecha_nacimiento": "1997-01-25T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-51"
+  },
+  {
+    "_id": "JUG-0805",
+    "nombre": "Kazuki Ito",
+    "fecha_nacimiento": "2004-06-08T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-51"
+  },
+  {
+    "_id": "JUG-0806",
+    "nombre": "Kenji Kobayashi",
+    "fecha_nacimiento": "2011-11-19T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-51"
+  },
+  {
+    "_id": "JUG-0807",
+    "nombre": "Kota Matsumoto",
+    "fecha_nacimiento": "1999-04-02T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-51"
+  },
+  {
+    "_id": "JUG-0808",
+    "nombre": "Naoki Mori",
+    "fecha_nacimiento": "2006-09-13T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-51"
+  },
+  {
+    "_id": "JUG-0809",
+    "nombre": "Ren Nakamura",
+    "fecha_nacimiento": "1994-02-24T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-51"
+  },
+  {
+    "_id": "JUG-0810",
+    "nombre": "Riku Saito",
+    "fecha_nacimiento": "2001-07-07T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-51"
+  },
+  {
+    "_id": "JUG-0811",
+    "nombre": "Ryota Sasaki",
+    "fecha_nacimiento": "2008-12-18T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-51"
+  },
+  {
+    "_id": "JUG-0812",
+    "nombre": "Sota Suzuki",
+    "fecha_nacimiento": "1996-05-01T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-51"
+  },
+  {
+    "_id": "JUG-0813",
+    "nombre": "Takumi Takahashi",
+    "fecha_nacimiento": "2003-10-12T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-51"
+  },
+  {
+    "_id": "JUG-0814",
+    "nombre": "Yuki Tanaka",
+    "fecha_nacimiento": "2010-03-23T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-51"
+  },
+  {
+    "_id": "JUG-0815",
+    "nombre": "Yuma Watanabe",
+    "fecha_nacimiento": "1998-08-06T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-51"
+  },
+  {
+    "_id": "JUG-0816",
+    "nombre": "Yuya Yamamoto",
+    "fecha_nacimiento": "2005-01-17T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-51"
+  },
+  {
+    "_id": "JUG-0817",
+    "nombre": "Do-yun Choi",
+    "fecha_nacimiento": "1993-06-28T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-52"
+  },
+  {
+    "_id": "JUG-0818",
+    "nombre": "Hyun-woo Han",
+    "fecha_nacimiento": "2000-11-11T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-52"
+  },
+  {
+    "_id": "JUG-0819",
+    "nombre": "Ji-ho Hong",
+    "fecha_nacimiento": "2007-04-22T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-52"
+  },
+  {
+    "_id": "JUG-0820",
+    "nombre": "Jun-ho Hwang",
+    "fecha_nacimiento": "1995-09-05T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-52"
+  },
+  {
+    "_id": "JUG-0821",
+    "nombre": "Min-jae Jang",
+    "fecha_nacimiento": "2002-02-16T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-52"
+  },
+  {
+    "_id": "JUG-0822",
+    "nombre": "Min-jun Jeong",
+    "fecha_nacimiento": "2009-07-27T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-52"
+  },
+  {
+    "_id": "JUG-0823",
+    "nombre": "Seong-ho Jo",
+    "fecha_nacimiento": "1997-12-10T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-52"
+  },
+  {
+    "_id": "JUG-0824",
+    "nombre": "Si-woo Kang",
+    "fecha_nacimiento": "2004-05-21T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-52"
+  },
+  {
+    "_id": "JUG-0825",
+    "nombre": "Sung-min Kim",
+    "fecha_nacimiento": "2011-10-04T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-52"
+  },
+  {
+    "_id": "JUG-0826",
+    "nombre": "Tae-hyun Kwon",
+    "fecha_nacimiento": "1999-03-15T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-52"
+  },
+  {
+    "_id": "JUG-0827",
+    "nombre": "Woo-jin Lee",
+    "fecha_nacimiento": "2006-08-26T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-52"
+  },
+  {
+    "_id": "JUG-0828",
+    "nombre": "Ye-jun Lim",
+    "fecha_nacimiento": "1994-01-09T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-52"
+  },
+  {
+    "_id": "JUG-0829",
+    "nombre": "Yong-ho Park",
+    "fecha_nacimiento": "2001-06-20T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-52"
+  },
+  {
+    "_id": "JUG-0830",
+    "nombre": "Yu-jin Seo",
+    "fecha_nacimiento": "2008-11-03T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-52"
+  },
+  {
+    "_id": "JUG-0831",
+    "nombre": "Yun-seo Shin",
+    "fecha_nacimiento": "1996-04-14T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-52"
+  },
+  {
+    "_id": "JUG-0832",
+    "nombre": "Jin-woo Yoon",
+    "fecha_nacimiento": "2003-09-25T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-52"
+  },
+  {
+    "_id": "JUG-0833",
+    "nombre": "Bo Bai",
+    "fecha_nacimiento": "2010-02-08T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-53"
+  },
+  {
+    "_id": "JUG-0834",
+    "nombre": "Chen Chen",
+    "fecha_nacimiento": "1998-07-19T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-53"
+  },
+  {
+    "_id": "JUG-0835",
+    "nombre": "Hao Gao",
+    "fecha_nacimiento": "2005-12-02T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-53"
+  },
+  {
+    "_id": "JUG-0836",
+    "nombre": "Jian Huang",
+    "fecha_nacimiento": "1993-05-13T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-53"
+  },
+  {
+    "_id": "JUG-0837",
+    "nombre": "Jun Li",
+    "fecha_nacimiento": "2000-10-24T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-53"
+  },
+  {
+    "_id": "JUG-0838",
+    "nombre": "Kai Lin",
+    "fecha_nacimiento": "2007-03-07T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-53"
+  },
+  {
+    "_id": "JUG-0839",
+    "nombre": "Lei Liu",
+    "fecha_nacimiento": "1995-08-18T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-53"
+  },
+  {
+    "_id": "JUG-0840",
+    "nombre": "Ming Ma",
+    "fecha_nacimiento": "2002-01-01T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-53"
+  },
+  {
+    "_id": "JUG-0841",
+    "nombre": "Peng Sun",
+    "fecha_nacimiento": "2009-06-12T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-53"
+  },
+  {
+    "_id": "JUG-0842",
+    "nombre": "Qiang Wang",
+    "fecha_nacimiento": "1997-11-23T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-53"
+  },
+  {
+    "_id": "JUG-0843",
+    "nombre": "Tao Wu",
+    "fecha_nacimiento": "2004-04-06T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-53"
+  },
+  {
+    "_id": "JUG-0844",
+    "nombre": "Wei Xu",
+    "fecha_nacimiento": "2011-09-17T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-53"
+  },
+  {
+    "_id": "JUG-0845",
+    "nombre": "Xiang Yang",
+    "fecha_nacimiento": "1999-02-28T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-53"
+  },
+  {
+    "_id": "JUG-0846",
+    "nombre": "Yang Zhang",
+    "fecha_nacimiento": "2006-07-11T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-53"
+  },
+  {
+    "_id": "JUG-0847",
+    "nombre": "Yong Zhao",
+    "fecha_nacimiento": "1994-12-22T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-53"
+  },
+  {
+    "_id": "JUG-0848",
+    "nombre": "Zhen Zhou",
+    "fecha_nacimiento": "2001-05-05T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-53"
+  },
+  {
+    "_id": "JUG-0849",
+    "nombre": "Adam Harris",
+    "fecha_nacimiento": "2008-10-16T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-54"
+  },
+  {
+    "_id": "JUG-0850",
+    "nombre": "Benjamin Jackson",
+    "fecha_nacimiento": "1996-03-27T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-54"
+  },
+  {
+    "_id": "JUG-0851",
+    "nombre": "Callum Johnson",
+    "fecha_nacimiento": "2003-08-10T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-54"
+  },
+  {
+    "_id": "JUG-0852",
+    "nombre": "Daniel Miller",
+    "fecha_nacimiento": "2010-01-21T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-54"
+  },
+  {
+    "_id": "JUG-0853",
+    "nombre": "Ethan Mitchell",
+    "fecha_nacimiento": "1998-06-04T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-54"
+  },
+  {
+    "_id": "JUG-0854",
+    "nombre": "George Robinson",
+    "fecha_nacimiento": "2005-11-15T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-54"
+  },
+  {
+    "_id": "JUG-0855",
+    "nombre": "Harry Smith",
+    "fecha_nacimiento": "1993-04-26T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-54"
+  },
+  {
+    "_id": "JUG-0856",
+    "nombre": "Jack Taylor",
+    "fecha_nacimiento": "2000-09-09T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-54"
+  },
+  {
+    "_id": "JUG-0857",
+    "nombre": "James Thompson",
+    "fecha_nacimiento": "2007-02-20T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-54"
+  },
+  {
+    "_id": "JUG-0858",
+    "nombre": "Liam Wilson",
+    "fecha_nacimiento": "1995-07-03T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-54"
+  },
+  {
+    "_id": "JUG-0859",
+    "nombre": "Mason Anderson",
+    "fecha_nacimiento": "2002-12-14T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-54"
+  },
+  {
+    "_id": "JUG-0860",
+    "nombre": "Noah Brown",
+    "fecha_nacimiento": "2009-05-25T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-54"
+  },
+  {
+    "_id": "JUG-0861",
+    "nombre": "Oliver Campbell",
+    "fecha_nacimiento": "1997-10-08T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-54"
+  },
+  {
+    "_id": "JUG-0862",
+    "nombre": "Samuel Clark",
+    "fecha_nacimiento": "2004-03-19T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-54"
+  },
+  {
+    "_id": "JUG-0863",
+    "nombre": "Thomas Davies",
+    "fecha_nacimiento": "2011-08-02T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-54"
+  },
+  {
+    "_id": "JUG-0864",
+    "nombre": "William Evans",
+    "fecha_nacimiento": "1999-01-13T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-54"
+  },
+  {
+    "_id": "JUG-0865",
+    "nombre": "Alireza Ahmadi",
+    "fecha_nacimiento": "2006-06-24T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-55"
+  },
+  {
+    "_id": "JUG-0866",
+    "nombre": "Amir Azadi",
+    "fecha_nacimiento": "1994-11-07T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-55"
+  },
+  {
+    "_id": "JUG-0867",
+    "nombre": "Arman Ebrahimi",
+    "fecha_nacimiento": "2001-04-18T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-55"
+  },
+  {
+    "_id": "JUG-0868",
+    "nombre": "Ashkan Farhadi",
+    "fecha_nacimiento": "2008-09-01T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-55"
+  },
+  {
+    "_id": "JUG-0869",
+    "nombre": "Ehsan Ghasemi",
+    "fecha_nacimiento": "1996-02-12T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-55"
+  },
+  {
+    "_id": "JUG-0870",
+    "nombre": "Farhad Hosseini",
+    "fecha_nacimiento": "2003-07-23T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-55"
+  },
+  {
+    "_id": "JUG-0871",
+    "nombre": "Hamid Jafari",
+    "fecha_nacimiento": "2010-12-06T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-55"
+  },
+  {
+    "_id": "JUG-0872",
+    "nombre": "Kian Karimi",
+    "fecha_nacimiento": "1998-05-17T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-55"
+  },
+  {
+    "_id": "JUG-0873",
+    "nombre": "Mahdi Mahmoudi",
+    "fecha_nacimiento": "2005-10-28T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-55"
+  },
+  {
+    "_id": "JUG-0874",
+    "nombre": "Mehdi Moradi",
+    "fecha_nacimiento": "1993-03-11T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-55"
+  },
+  {
+    "_id": "JUG-0875",
+    "nombre": "Milad Rahimi",
+    "fecha_nacimiento": "2000-08-22T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-55"
+  },
+  {
+    "_id": "JUG-0876",
+    "nombre": "Omid Rezaei",
+    "fecha_nacimiento": "2007-01-05T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-55"
+  },
+  {
+    "_id": "JUG-0877",
+    "nombre": "Reza Rostami",
+    "fecha_nacimiento": "1995-06-16T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-55"
+  },
+  {
+    "_id": "JUG-0878",
+    "nombre": "Saman Sadeghi",
+    "fecha_nacimiento": "2002-11-27T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-55"
+  },
+  {
+    "_id": "JUG-0879",
+    "nombre": "Saeed Sharifi",
+    "fecha_nacimiento": "2009-04-10T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-55"
+  },
+  {
+    "_id": "JUG-0880",
+    "nombre": "Vahid Yazdani",
+    "fecha_nacimiento": "1997-09-21T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-55"
+  },
+  {
+    "_id": "JUG-0881",
+    "nombre": "Ahmed Amrani",
+    "fecha_nacimiento": "2004-02-04T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-56"
+  },
+  {
+    "_id": "JUG-0882",
+    "nombre": "Ali Benali",
+    "fecha_nacimiento": "2011-07-15T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-56"
+  },
+  {
+    "_id": "JUG-0883",
+    "nombre": "Amir Farouk",
+    "fecha_nacimiento": "1999-12-26T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-56"
+  },
+  {
+    "_id": "JUG-0884",
+    "nombre": "Bilal Haddad",
+    "fecha_nacimiento": "2006-05-09T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-56"
+  },
+  {
+    "_id": "JUG-0885",
+    "nombre": "Farid Khalil",
+    "fecha_nacimiento": "1994-10-20T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-56"
+  },
+  {
+    "_id": "JUG-0886",
+    "nombre": "Hamza Mansour",
+    "fecha_nacimiento": "2001-03-03T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-56"
+  },
+  {
+    "_id": "JUG-0887",
+    "nombre": "Hassan Nasser",
+    "fecha_nacimiento": "2008-08-14T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-56"
+  },
+  {
+    "_id": "JUG-0888",
+    "nombre": "Ibrahim Rahman",
+    "fecha_nacimiento": "1996-01-25T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-56"
+  },
+  {
+    "_id": "JUG-0889",
+    "nombre": "Karim Saidi",
+    "fecha_nacimiento": "2003-06-08T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-56"
+  },
+  {
+    "_id": "JUG-0890",
+    "nombre": "Khaled Saleh",
+    "fecha_nacimiento": "2010-11-19T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-56"
+  },
+  {
+    "_id": "JUG-0891",
+    "nombre": "Mahmoud Sharif",
+    "fecha_nacimiento": "1998-04-02T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-56"
+  },
+  {
+    "_id": "JUG-0892",
+    "nombre": "Nabil Zaki",
+    "fecha_nacimiento": "2005-09-13T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-56"
+  },
+  {
+    "_id": "JUG-0893",
+    "nombre": "Omar Abbas",
+    "fecha_nacimiento": "1993-02-24T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-56"
+  },
+  {
+    "_id": "JUG-0894",
+    "nombre": "Rami Al-Hassan",
+    "fecha_nacimiento": "2000-07-07T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-56"
+  },
+  {
+    "_id": "JUG-0895",
+    "nombre": "Samir Al-Masri",
+    "fecha_nacimiento": "2007-12-18T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-56"
+  },
+  {
+    "_id": "JUG-0896",
+    "nombre": "Youssef Al-Sayed",
+    "fecha_nacimiento": "1995-05-01T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-56"
+  },
+  {
+    "_id": "JUG-0897",
+    "nombre": "Ahmed Benali",
+    "fecha_nacimiento": "2002-10-12T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-57"
+  },
+  {
+    "_id": "JUG-0898",
+    "nombre": "Ali Farouk",
+    "fecha_nacimiento": "2009-03-23T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-57"
+  },
+  {
+    "_id": "JUG-0899",
+    "nombre": "Amir Haddad",
+    "fecha_nacimiento": "1997-08-06T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-57"
+  },
+  {
+    "_id": "JUG-0900",
+    "nombre": "Bilal Khalil",
+    "fecha_nacimiento": "2004-01-17T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-57"
+  },
+  {
+    "_id": "JUG-0901",
+    "nombre": "Farid Mansour",
+    "fecha_nacimiento": "2011-06-28T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-57"
+  },
+  {
+    "_id": "JUG-0902",
+    "nombre": "Hamza Nasser",
+    "fecha_nacimiento": "1999-11-11T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-57"
+  },
+  {
+    "_id": "JUG-0903",
+    "nombre": "Hassan Rahman",
+    "fecha_nacimiento": "2006-04-22T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-57"
+  },
+  {
+    "_id": "JUG-0904",
+    "nombre": "Ibrahim Saidi",
+    "fecha_nacimiento": "1994-09-05T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-57"
+  },
+  {
+    "_id": "JUG-0905",
+    "nombre": "Karim Saleh",
+    "fecha_nacimiento": "2001-02-16T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-57"
+  },
+  {
+    "_id": "JUG-0906",
+    "nombre": "Khaled Sharif",
+    "fecha_nacimiento": "2008-07-27T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-57"
+  },
+  {
+    "_id": "JUG-0907",
+    "nombre": "Mahmoud Zaki",
+    "fecha_nacimiento": "1996-12-10T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-57"
+  },
+  {
+    "_id": "JUG-0908",
+    "nombre": "Nabil Abbas",
+    "fecha_nacimiento": "2003-05-21T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-57"
+  },
+  {
+    "_id": "JUG-0909",
+    "nombre": "Omar Al-Hassan",
+    "fecha_nacimiento": "2010-10-04T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-57"
+  },
+  {
+    "_id": "JUG-0910",
+    "nombre": "Rami Al-Masri",
+    "fecha_nacimiento": "1998-03-15T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-57"
+  },
+  {
+    "_id": "JUG-0911",
+    "nombre": "Samir Al-Sayed",
+    "fecha_nacimiento": "2005-08-26T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-57"
+  },
+  {
+    "_id": "JUG-0912",
+    "nombre": "Youssef Amrani",
+    "fecha_nacimiento": "1993-01-09T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-57"
+  },
+  {
+    "_id": "JUG-0913",
+    "nombre": "Ahmed Farouk",
+    "fecha_nacimiento": "2000-06-20T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-58"
+  },
+  {
+    "_id": "JUG-0914",
+    "nombre": "Ali Haddad",
+    "fecha_nacimiento": "2007-11-03T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-58"
+  },
+  {
+    "_id": "JUG-0915",
+    "nombre": "Amir Khalil",
+    "fecha_nacimiento": "1995-04-14T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-58"
+  },
+  {
+    "_id": "JUG-0916",
+    "nombre": "Bilal Mansour",
+    "fecha_nacimiento": "2002-09-25T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-58"
+  },
+  {
+    "_id": "JUG-0917",
+    "nombre": "Farid Nasser",
+    "fecha_nacimiento": "2009-02-08T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-58"
+  },
+  {
+    "_id": "JUG-0918",
+    "nombre": "Hamza Rahman",
+    "fecha_nacimiento": "1997-07-19T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-58"
+  },
+  {
+    "_id": "JUG-0919",
+    "nombre": "Hassan Saidi",
+    "fecha_nacimiento": "2004-12-02T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-58"
+  },
+  {
+    "_id": "JUG-0920",
+    "nombre": "Ibrahim Saleh",
+    "fecha_nacimiento": "2011-05-13T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-58"
+  },
+  {
+    "_id": "JUG-0921",
+    "nombre": "Karim Sharif",
+    "fecha_nacimiento": "1999-10-24T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-58"
+  },
+  {
+    "_id": "JUG-0922",
+    "nombre": "Khaled Zaki",
+    "fecha_nacimiento": "2006-03-07T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-58"
+  },
+  {
+    "_id": "JUG-0923",
+    "nombre": "Mahmoud Abbas",
+    "fecha_nacimiento": "1994-08-18T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-58"
+  },
+  {
+    "_id": "JUG-0924",
+    "nombre": "Nabil Al-Hassan",
+    "fecha_nacimiento": "2001-01-01T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-58"
+  },
+  {
+    "_id": "JUG-0925",
+    "nombre": "Omar Al-Masri",
+    "fecha_nacimiento": "2008-06-12T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-58"
+  },
+  {
+    "_id": "JUG-0926",
+    "nombre": "Rami Al-Sayed",
+    "fecha_nacimiento": "1996-11-23T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-58"
+  },
+  {
+    "_id": "JUG-0927",
+    "nombre": "Samir Amrani",
+    "fecha_nacimiento": "2003-04-06T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-58"
+  },
+  {
+    "_id": "JUG-0928",
+    "nombre": "Youssef Benali",
+    "fecha_nacimiento": "2010-09-17T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-58"
+  },
+  {
+    "_id": "JUG-0929",
+    "nombre": "Ahmet Çelik",
+    "fecha_nacimiento": "1998-02-28T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-59"
+  },
+  {
+    "_id": "JUG-0930",
+    "nombre": "Ali Demir",
+    "fecha_nacimiento": "2005-07-11T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-59"
+  },
+  {
+    "_id": "JUG-0931",
+    "nombre": "Arda Erdoğan",
+    "fecha_nacimiento": "1993-12-22T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-59"
+  },
+  {
+    "_id": "JUG-0932",
+    "nombre": "Ayberk Güneş",
+    "fecha_nacimiento": "2000-05-05T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-59"
+  },
+  {
+    "_id": "JUG-0933",
+    "nombre": "Burak Kaya",
+    "fecha_nacimiento": "2007-10-16T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-59"
+  },
+  {
+    "_id": "JUG-0934",
+    "nombre": "Can Kılıç",
+    "fecha_nacimiento": "1995-03-27T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-59"
+  },
+  {
+    "_id": "JUG-0935",
+    "nombre": "Emre Koç",
+    "fecha_nacimiento": "2002-08-10T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-59"
+  },
+  {
+    "_id": "JUG-0936",
+    "nombre": "Eren Özcan",
+    "fecha_nacimiento": "2009-01-21T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-59"
+  },
+  {
+    "_id": "JUG-0937",
+    "nombre": "Hakan Polat",
+    "fecha_nacimiento": "1997-06-04T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-59"
+  },
+  {
+    "_id": "JUG-0938",
+    "nombre": "Kerem Şahin",
+    "fecha_nacimiento": "2004-11-15T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-59"
+  },
+  {
+    "_id": "JUG-0939",
+    "nombre": "Mehmet Tekin",
+    "fecha_nacimiento": "2011-04-26T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-59"
+  },
+  {
+    "_id": "JUG-0940",
+    "nombre": "Mert Toprak",
+    "fecha_nacimiento": "1999-09-09T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-59"
+  },
+  {
+    "_id": "JUG-0941",
+    "nombre": "Oğuz Yıldırım",
+    "fecha_nacimiento": "2006-02-20T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-59"
+  },
+  {
+    "_id": "JUG-0942",
+    "nombre": "Onur Yılmaz",
+    "fecha_nacimiento": "1994-07-03T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-59"
+  },
+  {
+    "_id": "JUG-0943",
+    "nombre": "Selim Zengin",
+    "fecha_nacimiento": "2001-12-14T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-59"
+  },
+  {
+    "_id": "JUG-0944",
+    "nombre": "Yusuf Aydın",
+    "fecha_nacimiento": "2008-05-25T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-59"
+  },
+  {
+    "_id": "JUG-0945",
+    "nombre": "Ahmed Haddad",
+    "fecha_nacimiento": "1996-10-08T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-60"
+  },
+  {
+    "_id": "JUG-0946",
+    "nombre": "Ali Khalil",
+    "fecha_nacimiento": "2003-03-19T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-60"
+  },
+  {
+    "_id": "JUG-0947",
+    "nombre": "Amir Mansour",
+    "fecha_nacimiento": "2010-08-02T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-60"
+  },
+  {
+    "_id": "JUG-0948",
+    "nombre": "Bilal Nasser",
+    "fecha_nacimiento": "1998-01-13T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-60"
+  },
+  {
+    "_id": "JUG-0949",
+    "nombre": "Farid Rahman",
+    "fecha_nacimiento": "2005-06-24T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-60"
+  },
+  {
+    "_id": "JUG-0950",
+    "nombre": "Hamza Saidi",
+    "fecha_nacimiento": "1993-11-07T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-60"
+  },
+  {
+    "_id": "JUG-0951",
+    "nombre": "Hassan Saleh",
+    "fecha_nacimiento": "2000-04-18T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-60"
+  },
+  {
+    "_id": "JUG-0952",
+    "nombre": "Ibrahim Sharif",
+    "fecha_nacimiento": "2007-09-01T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-60"
+  },
+  {
+    "_id": "JUG-0953",
+    "nombre": "Karim Zaki",
+    "fecha_nacimiento": "1995-02-12T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-60"
+  },
+  {
+    "_id": "JUG-0954",
+    "nombre": "Khaled Abbas",
+    "fecha_nacimiento": "2002-07-23T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-60"
+  },
+  {
+    "_id": "JUG-0955",
+    "nombre": "Mahmoud Al-Hassan",
+    "fecha_nacimiento": "2009-12-06T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-60"
+  },
+  {
+    "_id": "JUG-0956",
+    "nombre": "Nabil Al-Masri",
+    "fecha_nacimiento": "1997-05-17T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-60"
+  },
+  {
+    "_id": "JUG-0957",
+    "nombre": "Omar Al-Sayed",
+    "fecha_nacimiento": "2004-10-28T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-60"
+  },
+  {
+    "_id": "JUG-0958",
+    "nombre": "Rami Amrani",
+    "fecha_nacimiento": "2011-03-11T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-60"
+  },
+  {
+    "_id": "JUG-0959",
+    "nombre": "Samir Benali",
+    "fecha_nacimiento": "1999-08-22T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-60"
+  },
+  {
+    "_id": "JUG-0960",
+    "nombre": "Youssef Farouk",
+    "fecha_nacimiento": "2006-01-05T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-60"
+  },
+  {
+    "_id": "JUG-0961",
+    "nombre": "Adam Jackson",
+    "fecha_nacimiento": "1994-06-16T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-61"
+  },
+  {
+    "_id": "JUG-0962",
+    "nombre": "Benjamin Johnson",
+    "fecha_nacimiento": "2001-11-27T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-61"
+  },
+  {
+    "_id": "JUG-0963",
+    "nombre": "Callum Miller",
+    "fecha_nacimiento": "2008-04-10T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-61"
+  },
+  {
+    "_id": "JUG-0964",
+    "nombre": "Daniel Mitchell",
+    "fecha_nacimiento": "1996-09-21T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-61"
+  },
+  {
+    "_id": "JUG-0965",
+    "nombre": "Ethan Robinson",
+    "fecha_nacimiento": "2003-02-04T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-61"
+  },
+  {
+    "_id": "JUG-0966",
+    "nombre": "George Smith",
+    "fecha_nacimiento": "2010-07-15T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-61"
+  },
+  {
+    "_id": "JUG-0967",
+    "nombre": "Harry Taylor",
+    "fecha_nacimiento": "1998-12-26T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-61"
+  },
+  {
+    "_id": "JUG-0968",
+    "nombre": "Jack Thompson",
+    "fecha_nacimiento": "2005-05-09T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-61"
+  },
+  {
+    "_id": "JUG-0969",
+    "nombre": "James Wilson",
+    "fecha_nacimiento": "1993-10-20T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-61"
+  },
+  {
+    "_id": "JUG-0970",
+    "nombre": "Liam Anderson",
+    "fecha_nacimiento": "2000-03-03T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-61"
+  },
+  {
+    "_id": "JUG-0971",
+    "nombre": "Mason Brown",
+    "fecha_nacimiento": "2007-08-14T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-61"
+  },
+  {
+    "_id": "JUG-0972",
+    "nombre": "Noah Campbell",
+    "fecha_nacimiento": "1995-01-25T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-61"
+  },
+  {
+    "_id": "JUG-0973",
+    "nombre": "Oliver Clark",
+    "fecha_nacimiento": "2002-06-08T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-61"
+  },
+  {
+    "_id": "JUG-0974",
+    "nombre": "Samuel Davies",
+    "fecha_nacimiento": "2009-11-19T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-61"
+  },
+  {
+    "_id": "JUG-0975",
+    "nombre": "Thomas Evans",
+    "fecha_nacimiento": "1997-04-02T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-61"
+  },
+  {
+    "_id": "JUG-0976",
+    "nombre": "William Harris",
+    "fecha_nacimiento": "2004-09-13T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-61"
+  },
+  {
+    "_id": "JUG-0977",
+    "nombre": "Adrien Blanc",
+    "fecha_nacimiento": "2011-02-24T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-62"
+  },
+  {
+    "_id": "JUG-0978",
+    "nombre": "Antoine Dubois",
+    "fecha_nacimiento": "1999-07-07T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-62"
+  },
+  {
+    "_id": "JUG-0979",
+    "nombre": "Baptiste Dupont",
+    "fecha_nacimiento": "2006-12-18T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-62"
+  },
+  {
+    "_id": "JUG-0980",
+    "nombre": "Clément Fontaine",
+    "fecha_nacimiento": "1994-05-01T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-62"
+  },
+  {
+    "_id": "JUG-0981",
+    "nombre": "Enzo Fournier",
+    "fecha_nacimiento": "2001-10-12T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-62"
+  },
+  {
+    "_id": "JUG-0982",
+    "nombre": "Étienne Laurent",
+    "fecha_nacimiento": "2008-03-23T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-62"
+  },
+  {
+    "_id": "JUG-0983",
+    "nombre": "Hugo Lefèvre",
+    "fecha_nacimiento": "1996-08-06T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-62"
+  },
+  {
+    "_id": "JUG-0984",
+    "nombre": "Jules Leroy",
+    "fecha_nacimiento": "2003-01-17T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-62"
+  },
+  {
+    "_id": "JUG-0985",
+    "nombre": "Laurent Martin",
+    "fecha_nacimiento": "2010-06-28T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-62"
+  },
+  {
+    "_id": "JUG-0986",
+    "nombre": "Léo Mercier",
+    "fecha_nacimiento": "1998-11-11T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-62"
+  },
+  {
+    "_id": "JUG-0987",
+    "nombre": "Lucas Moreau",
+    "fecha_nacimiento": "2005-04-22T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-62"
+  },
+  {
+    "_id": "JUG-0988",
+    "nombre": "Mathis Petit",
+    "fecha_nacimiento": "1993-09-05T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-62"
+  },
+  {
+    "_id": "JUG-0989",
+    "nombre": "Nathan Robert",
+    "fecha_nacimiento": "2000-02-16T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-62"
+  },
+  {
+    "_id": "JUG-0990",
+    "nombre": "Rémi Simon",
+    "fecha_nacimiento": "2007-07-27T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-62"
+  },
+  {
+    "_id": "JUG-0991",
+    "nombre": "Théo Bernard",
+    "fecha_nacimiento": "1995-12-10T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-62"
+  },
+  {
+    "_id": "JUG-0992",
+    "nombre": "Victor Bertrand",
+    "fecha_nacimiento": "2002-05-21T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-62"
+  },
+  {
+    "_id": "JUG-0993",
+    "nombre": "Aisea Bale",
+    "fecha_nacimiento": "2009-10-04T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-63"
+  },
+  {
+    "_id": "JUG-0994",
+    "nombre": "Ben Cakau",
+    "fecha_nacimiento": "1997-03-15T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-63"
+  },
+  {
+    "_id": "JUG-0995",
+    "nombre": "Caleb Derenalagi",
+    "fecha_nacimiento": "2004-08-26T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-63"
+  },
+  {
+    "_id": "JUG-0996",
+    "nombre": "Eroni Koroibete",
+    "fecha_nacimiento": "2011-01-09T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-63"
+  },
+  {
+    "_id": "JUG-0997",
+    "nombre": "Filipo Mata",
+    "fecha_nacimiento": "1999-06-20T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-63"
+  },
+  {
+    "_id": "JUG-0998",
+    "nombre": "Ioane Nacuqu",
+    "fecha_nacimiento": "2006-11-03T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-63"
+  },
+  {
+    "_id": "JUG-0999",
+    "nombre": "Jone Nakarawa",
+    "fecha_nacimiento": "1994-04-14T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-63"
+  },
+  {
+    "_id": "JUG-1000",
+    "nombre": "Joshua Qera",
+    "fecha_nacimiento": "2001-09-25T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-63"
+  },
+  {
+    "_id": "JUG-1001",
+    "nombre": "Kelepi Ravouvou",
+    "fecha_nacimiento": "2008-02-08T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-63"
+  },
+  {
+    "_id": "JUG-1002",
+    "nombre": "Laisenia Ratu",
+    "fecha_nacimiento": "1996-07-19T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-63"
+  },
+  {
+    "_id": "JUG-1003",
+    "nombre": "Malakai Serevi",
+    "fecha_nacimiento": "2003-12-02T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-63"
+  },
+  {
+    "_id": "JUG-1004",
+    "nombre": "Pita Tuisova",
+    "fecha_nacimiento": "2010-05-13T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-63"
+  },
+  {
+    "_id": "JUG-1005",
+    "nombre": "Samuela Tuwai",
+    "fecha_nacimiento": "1998-10-24T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-63"
+  },
+  {
+    "_id": "JUG-1006",
+    "nombre": "Semi Vakatawa",
+    "fecha_nacimiento": "2005-03-07T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-63"
+  },
+  {
+    "_id": "JUG-1007",
+    "nombre": "Sione Vunipola",
+    "fecha_nacimiento": "1993-08-18T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-63"
+  },
+  {
+    "_id": "JUG-1008",
+    "nombre": "Tevita Waqa",
+    "fecha_nacimiento": "2000-01-01T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-63"
+  },
+  {
+    "_id": "JUG-1009",
+    "nombre": "Aisea Cakau",
+    "fecha_nacimiento": "2007-06-12T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-64"
+  },
+  {
+    "_id": "JUG-1010",
+    "nombre": "Ben Derenalagi",
+    "fecha_nacimiento": "1995-11-23T00:00:00Z",
+    "posicion": "Arquero",
+    "equipo_id": "EQ-64"
+  },
+  {
+    "_id": "JUG-1011",
+    "nombre": "Caleb Koroibete",
+    "fecha_nacimiento": "2002-04-06T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-64"
+  },
+  {
+    "_id": "JUG-1012",
+    "nombre": "Eroni Mata",
+    "fecha_nacimiento": "2009-09-17T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-64"
+  },
+  {
+    "_id": "JUG-1013",
+    "nombre": "Filipo Nacuqu",
+    "fecha_nacimiento": "1997-02-28T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-64"
+  },
+  {
+    "_id": "JUG-1014",
+    "nombre": "Ioane Nakarawa",
+    "fecha_nacimiento": "2004-07-11T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-64"
+  },
+  {
+    "_id": "JUG-1015",
+    "nombre": "Jone Qera",
+    "fecha_nacimiento": "2011-12-22T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-64"
+  },
+  {
+    "_id": "JUG-1016",
+    "nombre": "Joshua Ravouvou",
+    "fecha_nacimiento": "1999-05-05T00:00:00Z",
+    "posicion": "Defensor",
+    "equipo_id": "EQ-64"
+  },
+  {
+    "_id": "JUG-1017",
+    "nombre": "Kelepi Ratu",
+    "fecha_nacimiento": "2006-10-16T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-64"
+  },
+  {
+    "_id": "JUG-1018",
+    "nombre": "Laisenia Serevi",
+    "fecha_nacimiento": "1994-03-27T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-64"
+  },
+  {
+    "_id": "JUG-1019",
+    "nombre": "Malakai Tuisova",
+    "fecha_nacimiento": "2001-08-10T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-64"
+  },
+  {
+    "_id": "JUG-1020",
+    "nombre": "Pita Tuwai",
+    "fecha_nacimiento": "2008-01-21T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-64"
+  },
+  {
+    "_id": "JUG-1021",
+    "nombre": "Samuela Vakatawa",
+    "fecha_nacimiento": "1996-06-04T00:00:00Z",
+    "posicion": "Mediocampista",
+    "equipo_id": "EQ-64"
+  },
+  {
+    "_id": "JUG-1022",
+    "nombre": "Semi Vunipola",
+    "fecha_nacimiento": "2003-11-15T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-64"
+  },
+  {
+    "_id": "JUG-1023",
+    "nombre": "Sione Waqa",
+    "fecha_nacimiento": "2010-04-26T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-64"
+  },
+  {
+    "_id": "JUG-1024",
+    "nombre": "Tevita Bale",
+    "fecha_nacimiento": "1998-09-09T00:00:00Z",
+    "posicion": "Delantero",
+    "equipo_id": "EQ-64"
+  }
+]

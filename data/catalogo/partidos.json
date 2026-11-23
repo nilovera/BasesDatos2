@@ -1,0 +1,10 @@
+[
+  {
+    "_id": "PAR-0001",
+    "equipo_local_id": "EQ-01",
+    "equipo_visitante_id": "EQ-33",
+    "inicio_programado": "2030-06-13T20:00:00Z",
+    "estado": "PROGRAMADO",
+    "alcance": "DEMOSTRACION"
+  }
+]

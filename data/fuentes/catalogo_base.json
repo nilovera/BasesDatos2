@@ -1,0 +1,974 @@
+{
+  "version": "1.0",
+  "origen": {
+    "repositorio": "nilovera/BasesDatos2",
+    "commit": "d629d49d020941c0faebbe7130bfeec510eb7d37",
+    "archivo": "init-scripts/02_carga_datos.js"
+  },
+  "selecciones": [
+    {
+      "nombre": "Argentina",
+      "confederacion": "CONMEBOL",
+      "perfil": "hispano"
+    },
+    {
+      "nombre": "Bolivia",
+      "confederacion": "CONMEBOL",
+      "perfil": "hispano"
+    },
+    {
+      "nombre": "Brasil",
+      "confederacion": "CONMEBOL",
+      "perfil": "lusofono"
+    },
+    {
+      "nombre": "Chile",
+      "confederacion": "CONMEBOL",
+      "perfil": "hispano"
+    },
+    {
+      "nombre": "Colombia",
+      "confederacion": "CONMEBOL",
+      "perfil": "hispano"
+    },
+    {
+      "nombre": "Ecuador",
+      "confederacion": "CONMEBOL",
+      "perfil": "hispano"
+    },
+    {
+      "nombre": "Paraguay",
+      "confederacion": "CONMEBOL",
+      "perfil": "hispano"
+    },
+    {
+      "nombre": "Perú",
+      "confederacion": "CONMEBOL",
+      "perfil": "hispano"
+    },
+    {
+      "nombre": "Uruguay",
+      "confederacion": "CONMEBOL",
+      "perfil": "hispano"
+    },
+    {
+      "nombre": "Venezuela",
+      "confederacion": "CONMEBOL",
+      "perfil": "hispano"
+    },
+    {
+      "nombre": "Alemania",
+      "confederacion": "UEFA",
+      "perfil": "germanico"
+    },
+    {
+      "nombre": "España",
+      "confederacion": "UEFA",
+      "perfil": "hispano"
+    },
+    {
+      "nombre": "Francia",
+      "confederacion": "UEFA",
+      "perfil": "francofono"
+    },
+    {
+      "nombre": "Inglaterra",
+      "confederacion": "UEFA",
+      "perfil": "anglo"
+    },
+    {
+      "nombre": "Italia",
+      "confederacion": "UEFA",
+      "perfil": "italiano"
+    },
+    {
+      "nombre": "Portugal",
+      "confederacion": "UEFA",
+      "perfil": "lusofono"
+    },
+    {
+      "nombre": "Países Bajos",
+      "confederacion": "UEFA",
+      "perfil": "germanico"
+    },
+    {
+      "nombre": "Bélgica",
+      "confederacion": "UEFA",
+      "perfil": "francofono"
+    },
+    {
+      "nombre": "Croacia",
+      "confederacion": "UEFA",
+      "perfil": "eslavo"
+    },
+    {
+      "nombre": "Suiza",
+      "confederacion": "UEFA",
+      "perfil": "germanico"
+    },
+    {
+      "nombre": "Dinamarca",
+      "confederacion": "UEFA",
+      "perfil": "nordico"
+    },
+    {
+      "nombre": "Serbia",
+      "confederacion": "UEFA",
+      "perfil": "eslavo"
+    },
+    {
+      "nombre": "Austria",
+      "confederacion": "UEFA",
+      "perfil": "germanico"
+    },
+    {
+      "nombre": "Polonia",
+      "confederacion": "UEFA",
+      "perfil": "eslavo"
+    },
+    {
+      "nombre": "Ucrania",
+      "confederacion": "UEFA",
+      "perfil": "eslavo"
+    },
+    {
+      "nombre": "Noruega",
+      "confederacion": "UEFA",
+      "perfil": "nordico"
+    },
+    {
+      "nombre": "Suecia",
+      "confederacion": "UEFA",
+      "perfil": "nordico"
+    },
+    {
+      "nombre": "Turquía",
+      "confederacion": "UEFA",
+      "perfil": "turco"
+    },
+    {
+      "nombre": "Escocia",
+      "confederacion": "UEFA",
+      "perfil": "anglo"
+    },
+    {
+      "nombre": "República Checa",
+      "confederacion": "UEFA",
+      "perfil": "eslavo"
+    },
+    {
+      "nombre": "Canadá",
+      "confederacion": "CONCACAF",
+      "perfil": "anglo"
+    },
+    {
+      "nombre": "Estados Unidos",
+      "confederacion": "CONCACAF",
+      "perfil": "anglo"
+    },
+    {
+      "nombre": "México",
+      "confederacion": "CONCACAF",
+      "perfil": "hispano"
+    },
+    {
+      "nombre": "Costa Rica",
+      "confederacion": "CONCACAF",
+      "perfil": "hispano"
+    },
+    {
+      "nombre": "Panamá",
+      "confederacion": "CONCACAF",
+      "perfil": "hispano"
+    },
+    {
+      "nombre": "Honduras",
+      "confederacion": "CONCACAF",
+      "perfil": "hispano"
+    },
+    {
+      "nombre": "Jamaica",
+      "confederacion": "CONCACAF",
+      "perfil": "anglo"
+    },
+    {
+      "nombre": "Trinidad y Tobago",
+      "confederacion": "CONCACAF",
+      "perfil": "anglo"
+    },
+    {
+      "nombre": "Marruecos",
+      "confederacion": "CAF",
+      "perfil": "arabe"
+    },
+    {
+      "nombre": "Argelia",
+      "confederacion": "CAF",
+      "perfil": "arabe"
+    },
+    {
+      "nombre": "Túnez",
+      "confederacion": "CAF",
+      "perfil": "arabe"
+    },
+    {
+      "nombre": "Egipto",
+      "confederacion": "CAF",
+      "perfil": "arabe"
+    },
+    {
+      "nombre": "Senegal",
+      "confederacion": "CAF",
+      "perfil": "africano"
+    },
+    {
+      "nombre": "Nigeria",
+      "confederacion": "CAF",
+      "perfil": "africano"
+    },
+    {
+      "nombre": "Ghana",
+      "confederacion": "CAF",
+      "perfil": "africano"
+    },
+    {
+      "nombre": "Camerún",
+      "confederacion": "CAF",
+      "perfil": "africano"
+    },
+    {
+      "nombre": "Costa de Marfil",
+      "confederacion": "CAF",
+      "perfil": "africano"
+    },
+    {
+      "nombre": "Sudáfrica",
+      "confederacion": "CAF",
+      "perfil": "africano"
+    },
+    {
+      "nombre": "Mali",
+      "confederacion": "CAF",
+      "perfil": "africano"
+    },
+    {
+      "nombre": "República Democrática del Congo",
+      "confederacion": "CAF",
+      "perfil": "africano"
+    },
+    {
+      "nombre": "Japón",
+      "confederacion": "AFC",
+      "perfil": "japones"
+    },
+    {
+      "nombre": "Corea del Sur",
+      "confederacion": "AFC",
+      "perfil": "coreano"
+    },
+    {
+      "nombre": "China",
+      "confederacion": "AFC",
+      "perfil": "chino"
+    },
+    {
+      "nombre": "Australia",
+      "confederacion": "AFC",
+      "perfil": "anglo"
+    },
+    {
+      "nombre": "Irán",
+      "confederacion": "AFC",
+      "perfil": "persa"
+    },
+    {
+      "nombre": "Arabia Saudita",
+      "confederacion": "AFC",
+      "perfil": "arabe"
+    },
+    {
+      "nombre": "Catar",
+      "confederacion": "AFC",
+      "perfil": "arabe"
+    },
+    {
+      "nombre": "Irak",
+      "confederacion": "AFC",
+      "perfil": "arabe"
+    },
+    {
+      "nombre": "Uzbekistán",
+      "confederacion": "AFC",
+      "perfil": "turco"
+    },
+    {
+      "nombre": "Emiratos Árabes Unidos",
+      "confederacion": "AFC",
+      "perfil": "arabe"
+    },
+    {
+      "nombre": "Nueva Zelanda",
+      "confederacion": "OFC",
+      "perfil": "anglo"
+    },
+    {
+      "nombre": "Nueva Caledonia",
+      "confederacion": "OFC",
+      "perfil": "francofono"
+    },
+    {
+      "nombre": "Fiyi",
+      "confederacion": "OFC",
+      "perfil": "pacifico"
+    },
+    {
+      "nombre": "Islas Salomón",
+      "confederacion": "OFC",
+      "perfil": "pacifico"
+    }
+  ],
+  "perfiles_nombres": {
+    "hispano": {
+      "nombres": [
+        "Alejandro",
+        "Bruno",
+        "Carlos",
+        "Diego",
+        "Emiliano",
+        "Facundo",
+        "Gabriel",
+        "Joaquín",
+        "Lautaro",
+        "Mateo",
+        "Nicolás",
+        "Ramiro",
+        "Santiago",
+        "Tomás",
+        "Valentín",
+        "Martín"
+      ],
+      "apellidos": [
+        "García",
+        "Fernández",
+        "González",
+        "Rodríguez",
+        "López",
+        "Martínez",
+        "Sánchez",
+        "Pérez",
+        "Romero",
+        "Díaz",
+        "Torres",
+        "Álvarez",
+        "Ruiz",
+        "Herrera",
+        "Castro",
+        "Silva"
+      ]
+    },
+    "lusofono": {
+      "nombres": [
+        "André",
+        "Bruno",
+        "Caio",
+        "Diogo",
+        "Eduardo",
+        "Fábio",
+        "Gabriel",
+        "Henrique",
+        "João",
+        "Leonardo",
+        "Lucas",
+        "Mateus",
+        "Miguel",
+        "Rafael",
+        "Tiago",
+        "Vinícius"
+      ],
+      "apellidos": [
+        "Almeida",
+        "Barbosa",
+        "Carvalho",
+        "Costa",
+        "Fernandes",
+        "Ferreira",
+        "Gomes",
+        "Lima",
+        "Martins",
+        "Mendes",
+        "Moreira",
+        "Oliveira",
+        "Pereira",
+        "Ribeiro",
+        "Rocha",
+        "Santos"
+      ]
+    },
+    "germanico": {
+      "nombres": [
+        "Alexander",
+        "Benjamin",
+        "Elias",
+        "Felix",
+        "Florian",
+        "Jonas",
+        "Julian",
+        "Leon",
+        "Lukas",
+        "Maximilian",
+        "Nico",
+        "Noah",
+        "Sebastian",
+        "Simon",
+        "Tobias",
+        "Yannick"
+      ],
+      "apellidos": [
+        "Bauer",
+        "Becker",
+        "Braun",
+        "Fischer",
+        "Hartmann",
+        "Hoffmann",
+        "Keller",
+        "Klein",
+        "Koch",
+        "Krüger",
+        "Lehmann",
+        "Meyer",
+        "Richter",
+        "Schneider",
+        "Wagner",
+        "Weber"
+      ]
+    },
+    "francofono": {
+      "nombres": [
+        "Adrien",
+        "Antoine",
+        "Baptiste",
+        "Clément",
+        "Enzo",
+        "Étienne",
+        "Hugo",
+        "Jules",
+        "Laurent",
+        "Léo",
+        "Lucas",
+        "Mathis",
+        "Nathan",
+        "Rémi",
+        "Théo",
+        "Victor"
+      ],
+      "apellidos": [
+        "Bernard",
+        "Bertrand",
+        "Blanc",
+        "Dubois",
+        "Dupont",
+        "Fontaine",
+        "Fournier",
+        "Laurent",
+        "Lefèvre",
+        "Leroy",
+        "Martin",
+        "Mercier",
+        "Moreau",
+        "Petit",
+        "Robert",
+        "Simon"
+      ]
+    },
+    "anglo": {
+      "nombres": [
+        "Adam",
+        "Benjamin",
+        "Callum",
+        "Daniel",
+        "Ethan",
+        "George",
+        "Harry",
+        "Jack",
+        "James",
+        "Liam",
+        "Mason",
+        "Noah",
+        "Oliver",
+        "Samuel",
+        "Thomas",
+        "William"
+      ],
+      "apellidos": [
+        "Anderson",
+        "Brown",
+        "Campbell",
+        "Clark",
+        "Davies",
+        "Evans",
+        "Harris",
+        "Jackson",
+        "Johnson",
+        "Miller",
+        "Mitchell",
+        "Robinson",
+        "Smith",
+        "Taylor",
+        "Thompson",
+        "Wilson"
+      ]
+    },
+    "italiano": {
+      "nombres": [
+        "Alessandro",
+        "Andrea",
+        "Davide",
+        "Federico",
+        "Francesco",
+        "Gabriele",
+        "Giacomo",
+        "Giovanni",
+        "Leonardo",
+        "Lorenzo",
+        "Luca",
+        "Marco",
+        "Matteo",
+        "Riccardo",
+        "Simone",
+        "Tommaso"
+      ],
+      "apellidos": [
+        "Bianchi",
+        "Colombo",
+        "Conti",
+        "De Luca",
+        "Esposito",
+        "Ferrari",
+        "Gallo",
+        "Greco",
+        "Lombardi",
+        "Mancini",
+        "Marino",
+        "Moretti",
+        "Ricci",
+        "Romano",
+        "Rossi",
+        "Villa"
+      ]
+    },
+    "eslavo": {
+      "nombres": [
+        "Aleksandar",
+        "Andrija",
+        "Bohdan",
+        "Dario",
+        "Ivan",
+        "Jakub",
+        "Luka",
+        "Marko",
+        "Matej",
+        "Milan",
+        "Nikola",
+        "Oleksandr",
+        "Pavel",
+        "Petar",
+        "Tomas",
+        "Viktor"
+      ],
+      "apellidos": [
+        "Horvat",
+        "Jovanović",
+        "Kovač",
+        "Kowalski",
+        "Marković",
+        "Miletić",
+        "Novak",
+        "Nowak",
+        "Petrović",
+        "Popović",
+        "Shevchenko",
+        "Sokolov",
+        "Stanić",
+        "Vuković",
+        "Zieliński",
+        "Živković"
+      ]
+    },
+    "nordico": {
+      "nombres": [
+        "Anders",
+        "Axel",
+        "Bjørn",
+        "Elias",
+        "Emil",
+        "Erik",
+        "Gustav",
+        "Henrik",
+        "Isak",
+        "Johan",
+        "Kasper",
+        "Magnus",
+        "Mikkel",
+        "Oskar",
+        "Søren",
+        "Viktor"
+      ],
+      "apellidos": [
+        "Andersen",
+        "Berg",
+        "Dahl",
+        "Eriksen",
+        "Hansen",
+        "Jensen",
+        "Kristensen",
+        "Larsen",
+        "Lindberg",
+        "Lund",
+        "Nielsen",
+        "Olsen",
+        "Pedersen",
+        "Svensson",
+        "Sørensen",
+        "Vik"
+      ]
+    },
+    "turco": {
+      "nombres": [
+        "Ahmet",
+        "Ali",
+        "Arda",
+        "Ayberk",
+        "Burak",
+        "Can",
+        "Emre",
+        "Eren",
+        "Hakan",
+        "Kerem",
+        "Mehmet",
+        "Mert",
+        "Oğuz",
+        "Onur",
+        "Selim",
+        "Yusuf"
+      ],
+      "apellidos": [
+        "Aydın",
+        "Çelik",
+        "Demir",
+        "Erdoğan",
+        "Güneş",
+        "Kaya",
+        "Kılıç",
+        "Koç",
+        "Özcan",
+        "Polat",
+        "Şahin",
+        "Tekin",
+        "Toprak",
+        "Yıldırım",
+        "Yılmaz",
+        "Zengin"
+      ]
+    },
+    "arabe": {
+      "nombres": [
+        "Ahmed",
+        "Ali",
+        "Amir",
+        "Bilal",
+        "Farid",
+        "Hamza",
+        "Hassan",
+        "Ibrahim",
+        "Karim",
+        "Khaled",
+        "Mahmoud",
+        "Nabil",
+        "Omar",
+        "Rami",
+        "Samir",
+        "Youssef"
+      ],
+      "apellidos": [
+        "Abbas",
+        "Al-Hassan",
+        "Al-Masri",
+        "Al-Sayed",
+        "Amrani",
+        "Benali",
+        "Farouk",
+        "Haddad",
+        "Khalil",
+        "Mansour",
+        "Nasser",
+        "Rahman",
+        "Saidi",
+        "Saleh",
+        "Sharif",
+        "Zaki"
+      ]
+    },
+    "africano": {
+      "nombres": [
+        "Abdou",
+        "Adebayo",
+        "Amadou",
+        "Chinedu",
+        "Emmanuel",
+        "Fadil",
+        "Idrissa",
+        "Ismael",
+        "Kofi",
+        "Kwame",
+        "Mamadou",
+        "Moussa",
+        "Samuel",
+        "Sékou",
+        "Tunde",
+        "Yaya"
+      ],
+      "apellidos": [
+        "Ba",
+        "Camara",
+        "Diallo",
+        "Diop",
+        "Doumbia",
+        "Keita",
+        "Konaté",
+        "Mensah",
+        "Mokoena",
+        "Ndoye",
+        "N'Komo",
+        "Okafor",
+        "Ouattara",
+        "Sissoko",
+        "Traoré",
+        "Yeboah"
+      ]
+    },
+    "japones": {
+      "nombres": [
+        "Daichi",
+        "Haruto",
+        "Hiroki",
+        "Kaito",
+        "Kazuki",
+        "Kenji",
+        "Kota",
+        "Naoki",
+        "Ren",
+        "Riku",
+        "Ryota",
+        "Sota",
+        "Takumi",
+        "Yuki",
+        "Yuma",
+        "Yuya"
+      ],
+      "apellidos": [
+        "Abe",
+        "Endo",
+        "Fujita",
+        "Hayashi",
+        "Ito",
+        "Kobayashi",
+        "Matsumoto",
+        "Mori",
+        "Nakamura",
+        "Saito",
+        "Sasaki",
+        "Suzuki",
+        "Takahashi",
+        "Tanaka",
+        "Watanabe",
+        "Yamamoto"
+      ]
+    },
+    "coreano": {
+      "nombres": [
+        "Do-yun",
+        "Hyun-woo",
+        "Ji-ho",
+        "Jun-ho",
+        "Min-jae",
+        "Min-jun",
+        "Seong-ho",
+        "Si-woo",
+        "Sung-min",
+        "Tae-hyun",
+        "Woo-jin",
+        "Ye-jun",
+        "Yong-ho",
+        "Yu-jin",
+        "Yun-seo",
+        "Jin-woo"
+      ],
+      "apellidos": [
+        "Choi",
+        "Han",
+        "Hong",
+        "Hwang",
+        "Jang",
+        "Jeong",
+        "Jo",
+        "Kang",
+        "Kim",
+        "Kwon",
+        "Lee",
+        "Lim",
+        "Park",
+        "Seo",
+        "Shin",
+        "Yoon"
+      ]
+    },
+    "chino": {
+      "nombres": [
+        "Bo",
+        "Chen",
+        "Hao",
+        "Jian",
+        "Jun",
+        "Kai",
+        "Lei",
+        "Ming",
+        "Peng",
+        "Qiang",
+        "Tao",
+        "Wei",
+        "Xiang",
+        "Yang",
+        "Yong",
+        "Zhen"
+      ],
+      "apellidos": [
+        "Bai",
+        "Chen",
+        "Gao",
+        "Huang",
+        "Li",
+        "Lin",
+        "Liu",
+        "Ma",
+        "Sun",
+        "Wang",
+        "Wu",
+        "Xu",
+        "Yang",
+        "Zhang",
+        "Zhao",
+        "Zhou"
+      ]
+    },
+    "persa": {
+      "nombres": [
+        "Alireza",
+        "Amir",
+        "Arman",
+        "Ashkan",
+        "Ehsan",
+        "Farhad",
+        "Hamid",
+        "Kian",
+        "Mahdi",
+        "Mehdi",
+        "Milad",
+        "Omid",
+        "Reza",
+        "Saman",
+        "Saeed",
+        "Vahid"
+      ],
+      "apellidos": [
+        "Ahmadi",
+        "Azadi",
+        "Ebrahimi",
+        "Farhadi",
+        "Ghasemi",
+        "Hosseini",
+        "Jafari",
+        "Karimi",
+        "Mahmoudi",
+        "Moradi",
+        "Rahimi",
+        "Rezaei",
+        "Rostami",
+        "Sadeghi",
+        "Sharifi",
+        "Yazdani"
+      ]
+    },
+    "pacifico": {
+      "nombres": [
+        "Aisea",
+        "Ben",
+        "Caleb",
+        "Eroni",
+        "Filipo",
+        "Ioane",
+        "Jone",
+        "Joshua",
+        "Kelepi",
+        "Laisenia",
+        "Malakai",
+        "Pita",
+        "Samuela",
+        "Semi",
+        "Sione",
+        "Tevita"
+      ],
+      "apellidos": [
+        "Bale",
+        "Cakau",
+        "Derenalagi",
+        "Koroibete",
+        "Mata",
+        "Nacuqu",
+        "Nakarawa",
+        "Qera",
+        "Ravouvou",
+        "Ratu",
+        "Serevi",
+        "Tuisova",
+        "Tuwai",
+        "Vakatawa",
+        "Vunipola",
+        "Waqa"
+      ]
+    }
+  },
+  "posiciones_plantel": [
+    "Arquero",
+    "Arquero",
+    "Defensor",
+    "Defensor",
+    "Defensor",
+    "Defensor",
+    "Defensor",
+    "Defensor",
+    "Mediocampista",
+    "Mediocampista",
+    "Mediocampista",
+    "Mediocampista",
+    "Mediocampista",
+    "Delantero",
+    "Delantero",
+    "Delantero"
+  ],
+  "equivalencias_codigos": {
+    "ARG": "EQ-01",
+    "MEX": "EQ-33"
+  },
+  "partidos": [
+    {
+      "_id": "PAR-0001",
+      "equipo_local_id": "EQ-01",
+      "equipo_visitante_id": "EQ-33",
+      "inicio_programado": "2030-06-13T20:00:00Z",
+      "estado": "PROGRAMADO",
+      "alcance": "DEMOSTRACION"
+    }
+  ],
+  "eventos": []
+}
+

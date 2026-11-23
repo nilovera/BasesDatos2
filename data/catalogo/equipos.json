@@ -1,0 +1,386 @@
+[
+  {
+    "_id": "EQ-01",
+    "nombre": "Argentina",
+    "confederacion": "CONMEBOL",
+    "ranking": 1
+  },
+  {
+    "_id": "EQ-02",
+    "nombre": "Bolivia",
+    "confederacion": "CONMEBOL",
+    "ranking": 2
+  },
+  {
+    "_id": "EQ-03",
+    "nombre": "Brasil",
+    "confederacion": "CONMEBOL",
+    "ranking": 3
+  },
+  {
+    "_id": "EQ-04",
+    "nombre": "Chile",
+    "confederacion": "CONMEBOL",
+    "ranking": 4
+  },
+  {
+    "_id": "EQ-05",
+    "nombre": "Colombia",
+    "confederacion": "CONMEBOL",
+    "ranking": 5
+  },
+  {
+    "_id": "EQ-06",
+    "nombre": "Ecuador",
+    "confederacion": "CONMEBOL",
+    "ranking": 6
+  },
+  {
+    "_id": "EQ-07",
+    "nombre": "Paraguay",
+    "confederacion": "CONMEBOL",
+    "ranking": 7
+  },
+  {
+    "_id": "EQ-08",
+    "nombre": "Perú",
+    "confederacion": "CONMEBOL",
+    "ranking": 8
+  },
+  {
+    "_id": "EQ-09",
+    "nombre": "Uruguay",
+    "confederacion": "CONMEBOL",
+    "ranking": 9
+  },
+  {
+    "_id": "EQ-10",
+    "nombre": "Venezuela",
+    "confederacion": "CONMEBOL",
+    "ranking": 10
+  },
+  {
+    "_id": "EQ-11",
+    "nombre": "Alemania",
+    "confederacion": "UEFA",
+    "ranking": 11
+  },
+  {
+    "_id": "EQ-12",
+    "nombre": "España",
+    "confederacion": "UEFA",
+    "ranking": 12
+  },
+  {
+    "_id": "EQ-13",
+    "nombre": "Francia",
+    "confederacion": "UEFA",
+    "ranking": 13
+  },
+  {
+    "_id": "EQ-14",
+    "nombre": "Inglaterra",
+    "confederacion": "UEFA",
+    "ranking": 14
+  },
+  {
+    "_id": "EQ-15",
+    "nombre": "Italia",
+    "confederacion": "UEFA",
+    "ranking": 15
+  },
+  {
+    "_id": "EQ-16",
+    "nombre": "Portugal",
+    "confederacion": "UEFA",
+    "ranking": 16
+  },
+  {
+    "_id": "EQ-17",
+    "nombre": "Países Bajos",
+    "confederacion": "UEFA",
+    "ranking": 17
+  },
+  {
+    "_id": "EQ-18",
+    "nombre": "Bélgica",
+    "confederacion": "UEFA",
+    "ranking": 18
+  },
+  {
+    "_id": "EQ-19",
+    "nombre": "Croacia",
+    "confederacion": "UEFA",
+    "ranking": 19
+  },
+  {
+    "_id": "EQ-20",
+    "nombre": "Suiza",
+    "confederacion": "UEFA",
+    "ranking": 20
+  },
+  {
+    "_id": "EQ-21",
+    "nombre": "Dinamarca",
+    "confederacion": "UEFA",
+    "ranking": 21
+  },
+  {
+    "_id": "EQ-22",
+    "nombre": "Serbia",
+    "confederacion": "UEFA",
+    "ranking": 22
+  },
+  {
+    "_id": "EQ-23",
+    "nombre": "Austria",
+    "confederacion": "UEFA",
+    "ranking": 23
+  },
+  {
+    "_id": "EQ-24",
+    "nombre": "Polonia",
+    "confederacion": "UEFA",
+    "ranking": 24
+  },
+  {
+    "_id": "EQ-25",
+    "nombre": "Ucrania",
+    "confederacion": "UEFA",
+    "ranking": 25
+  },
+  {
+    "_id": "EQ-26",
+    "nombre": "Noruega",
+    "confederacion": "UEFA",
+    "ranking": 26
+  },
+  {
+    "_id": "EQ-27",
+    "nombre": "Suecia",
+    "confederacion": "UEFA",
+    "ranking": 27
+  },
+  {
+    "_id": "EQ-28",
+    "nombre": "Turquía",
+    "confederacion": "UEFA",
+    "ranking": 28
+  },
+  {
+    "_id": "EQ-29",
+    "nombre": "Escocia",
+    "confederacion": "UEFA",
+    "ranking": 29
+  },
+  {
+    "_id": "EQ-30",
+    "nombre": "República Checa",
+    "confederacion": "UEFA",
+    "ranking": 30
+  },
+  {
+    "_id": "EQ-31",
+    "nombre": "Canadá",
+    "confederacion": "CONCACAF",
+    "ranking": 31
+  },
+  {
+    "_id": "EQ-32",
+    "nombre": "Estados Unidos",
+    "confederacion": "CONCACAF",
+    "ranking": 32
+  },
+  {
+    "_id": "EQ-33",
+    "nombre": "México",
+    "confederacion": "CONCACAF",
+    "ranking": 33
+  },
+  {
+    "_id": "EQ-34",
+    "nombre": "Costa Rica",
+    "confederacion": "CONCACAF",
+    "ranking": 34
+  },
+  {
+    "_id": "EQ-35",
+    "nombre": "Panamá",
+    "confederacion": "CONCACAF",
+    "ranking": 35
+  },
+  {
+    "_id": "EQ-36",
+    "nombre": "Honduras",
+    "confederacion": "CONCACAF",
+    "ranking": 36
+  },
+  {
+    "_id": "EQ-37",
+    "nombre": "Jamaica",
+    "confederacion": "CONCACAF",
+    "ranking": 37
+  },
+  {
+    "_id": "EQ-38",
+    "nombre": "Trinidad y Tobago",
+    "confederacion": "CONCACAF",
+    "ranking": 38
+  },
+  {
+    "_id": "EQ-39",
+    "nombre": "Marruecos",
+    "confederacion": "CAF",
+    "ranking": 39
+  },
+  {
+    "_id": "EQ-40",
+    "nombre": "Argelia",
+    "confederacion": "CAF",
+    "ranking": 40
+  },
+  {
+    "_id": "EQ-41",
+    "nombre": "Túnez",
+    "confederacion": "CAF",
+    "ranking": 41
+  },
+  {
+    "_id": "EQ-42",
+    "nombre": "Egipto",
+    "confederacion": "CAF",
+    "ranking": 42
+  },
+  {
+    "_id": "EQ-43",
+    "nombre": "Senegal",
+    "confederacion": "CAF",
+    "ranking": 43
+  },
+  {
+    "_id": "EQ-44",
+    "nombre": "Nigeria",
+    "confederacion": "CAF",
+    "ranking": 44
+  },
+  {
+    "_id": "EQ-45",
+    "nombre": "Ghana",
+    "confederacion": "CAF",
+    "ranking": 45
+  },
+  {
+    "_id": "EQ-46",
+    "nombre": "Camerún",
+    "confederacion": "CAF",
+    "ranking": 46
+  },
+  {
+    "_id": "EQ-47",
+    "nombre": "Costa de Marfil",
+    "confederacion": "CAF",
+    "ranking": 47
+  },
+  {
+    "_id": "EQ-48",
+    "nombre": "Sudáfrica",
+    "confederacion": "CAF",
+    "ranking": 48
+  },
+  {
+    "_id": "EQ-49",
+    "nombre": "Mali",
+    "confederacion": "CAF",
+    "ranking": 49
+  },
+  {
+    "_id": "EQ-50",
+    "nombre": "República Democrática del Congo",
+    "confederacion": "CAF",
+    "ranking": 50
+  },
+  {
+    "_id": "EQ-51",
+    "nombre": "Japón",
+    "confederacion": "AFC",
+    "ranking": 51
+  },
+  {
+    "_id": "EQ-52",
+    "nombre": "Corea del Sur",
+    "confederacion": "AFC",
+    "ranking": 52
+  },
+  {
+    "_id": "EQ-53",
+    "nombre": "China",
+    "confederacion": "AFC",
+    "ranking": 53
+  },
+  {
+    "_id": "EQ-54",
+    "nombre": "Australia",
+    "confederacion": "AFC",
+    "ranking": 54
+  },
+  {
+    "_id": "EQ-55",
+    "nombre": "Irán",
+    "confederacion": "AFC",
+    "ranking": 55
+  },
+  {
+    "_id": "EQ-56",
+    "nombre": "Arabia Saudita",
+    "confederacion": "AFC",
+    "ranking": 56
+  },
+  {
+    "_id": "EQ-57",
+    "nombre": "Catar",
+    "confederacion": "AFC",
+    "ranking": 57
+  },
+  {
+    "_id": "EQ-58",
+    "nombre": "Irak",
+    "confederacion": "AFC",
+    "ranking": 58
+  },
+  {
+    "_id": "EQ-59",
+    "nombre": "Uzbekistán",
+    "confederacion": "AFC",
+    "ranking": 59
+  },
+  {
+    "_id": "EQ-60",
+    "nombre": "Emiratos Árabes Unidos",
+    "confederacion": "AFC",
+    "ranking": 60
+  },
+  {
+    "_id": "EQ-61",
+    "nombre": "Nueva Zelanda",
+    "confederacion": "OFC",
+    "ranking": 61
+  },
+  {
+    "_id": "EQ-62",
+    "nombre": "Nueva Caledonia",
+    "confederacion": "OFC",
+    "ranking": 62
+  },
+  {
+    "_id": "EQ-63",
+    "nombre": "Fiyi",
+    "confederacion": "OFC",
+    "ranking": 63
+  },
+  {
+    "_id": "EQ-64",
+    "nombre": "Islas Salomón",
+    "confederacion": "OFC",
+    "ranking": 64
+  }
+]

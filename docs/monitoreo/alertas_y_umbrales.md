@@ -13,8 +13,10 @@ tráfico normal y estrés; no constituyen por sí solos un SLA medido.
 | `Fixture2030RedisHighMemory` | memoria usada / `maxmemory` mayor a 85 % durante 5 min | advertencia | Redis | `allkeys-lfu` puede expulsar sesiones o caché antes del TTL | Plataforma: revisar TTL, cardinalidad y capacidad | deja margen antes del límite de 256 MB; se validará bajo estrés |
 | `Fixture2030RedisEvictions` | al menos una eviction en 5 min durante 1 min | advertencia | Redis | presión de memoria o política inadecuada | Backend: correlacionar hit rate, memoria y escenario | en la línea base no se esperan evicciones |
 | `Fixture2030CassandraDown` | `fixture2030_dependency_up{dependency="cassandra"} == 0` durante 30 s | crítica | Cassandra | comentarios no disponibles; fixture y sesiones continúan | Plataforma: revisar nodo, volumen y conectividad; no confirmar comentarios | demuestra degradación aislada del módulo social |
+| `Fixture2030InfluxDown` | `fixture2030_dependency_up{dependency="influxdb"} == 0` durante 30 s | crítica | InfluxDB | posiciones, estadísticas y mapas no disponibles; núcleo oficial continúa | Plataforma: revisar nodo, token, volumen y red; recuperar solo InfluxDB | demuestra degradación aislada de telemetría |
+| `Fixture2030TelemetryWriteErrors` | más de 5 errores de escritura en 5 min durante 1 min | advertencia | API/InfluxDB | lotes rechazados o referencias inconsistentes | Backend: revisar contrato, tipos, tags y disponibilidad | umbral inicial pendiente de carga normal |
 
-Las fallas controladas de API, MongoDB, Redis y Cassandra conservan valores
+Las fallas controladas de API, MongoDB, Redis, Cassandra e InfluxDB conservan valores
 antes/durante/después y el estado `firing` cuando la regla correspondiente lo
 permite. La alerta de memoria se ejercitará con carga. Outbox será validable
 cuando exista el consumidor de proyecciones.

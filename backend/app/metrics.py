@@ -50,3 +50,8 @@ COMMENT_OPERATIONS = Counter(
     "Operaciones de comentarios en Cassandra",
     ["operation", "result"],
 )
+TELEMETRY_OPERATIONS = Counter(
+    "fixture2030_telemetry_operations",
+    "Operaciones de series temporales en InfluxDB",
+    ["operation", "result"],
+)

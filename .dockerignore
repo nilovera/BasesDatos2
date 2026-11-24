@@ -3,6 +3,9 @@
 .venv
 __pycache__
 *.pyc
+.secretos
+.influxdb3-token
+*.token
 *.zip
 data
 docs

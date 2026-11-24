@@ -31,7 +31,9 @@ local.
 - MongoDB se observa indirectamente mediante la API; falta su exporter. La
   caída controlada verifica estado degradado, métrica y alerta específicas.
 - Cassandra forma parte del entorno y expone salud funcional desde la API; las métricas JMX internas quedan pendientes para el escenario RF=3.
-- InfluxDB y Neo4j aun no son parte de este incremento.
+- InfluxDB ya forma parte del entorno, con target directo y falla controlada;
+  todavía falta ejecutar y versionar su evidencia sobre el equipo del grupo.
+- Neo4j aun no es parte de este incremento.
 - Redis es standalone: RDB/AOF permiten recuperacion local, no alta disponibilidad.
 - No hay resultados de capacidad, SLO, RPO ni RTO.
 - Las alertas no tienen todavia un canal externo de notificacion.

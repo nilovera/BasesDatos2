@@ -106,6 +106,32 @@ class ContractTests(unittest.TestCase):
         ]["siguienteCursor"]
         self.assertNotIn("format", response_cursor["anyOf"][0])
 
+    def test_telemetry_contract_exposes_batch_cursor_heatmap_and_history(self):
+        paths = self.openapi["paths"]
+        positions = "/api/v1/partidos/{partidoId}/telemetria/posiciones"
+        statistics = "/api/v1/partidos/{partidoId}/telemetria/estadisticas-equipos"
+        heatmap = "/api/v1/partidos/{partidoId}/jugadores/{jugadorId}/mapa-calor"
+        aggregation = "/api/v1/partidos/{partidoId}/telemetria/agregaciones/15m"
+        summaries = "/api/v1/partidos/{partidoId}/telemetria/resumenes-equipos/15m"
+        for path in (positions, statistics, heatmap, aggregation, summaries):
+            self.assertIn(path, paths)
+        self.assertIn("post", paths[positions])
+        self.assertIn("get", paths[positions])
+        query_names = {
+            parameter["name"]
+            for parameter in paths[positions]["get"]["parameters"]
+            if parameter.get("in") == "query"
+        }
+        self.assertEqual(
+            {"jugadorId", "desde", "hasta", "cursor", "limite"}, query_names
+        )
+        cursor = next(
+            parameter for parameter in paths[positions]["get"]["parameters"]
+            if parameter["name"] == "cursor"
+        )
+        self.assertIn("null", {item.get("type") for item in cursor["schema"]["anyOf"]})
+        self.assertEqual("0.5.0", self.openapi["info"]["version"])
+
     def test_match_read_documents_cache_result_header(self):
         response = self.openapi["paths"]["/api/v1/partidos/{partidoId}"]["get"][
             "responses"

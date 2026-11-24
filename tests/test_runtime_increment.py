@@ -63,6 +63,8 @@ class RuntimeIncrementTests(unittest.TestCase):
             "Fixture2030RedisEvictions",
             "Fixture2030CassandraDown",
             "Fixture2030MongoDown",
+            "Fixture2030InfluxDown",
+            "Fixture2030TelemetryWriteErrors",
         ):
             self.assertIn(f"alert: {alert}", rules)
         self.assertIn("owner: plataforma", rules)
@@ -129,8 +131,12 @@ class RuntimeIncrementTests(unittest.TestCase):
         }
         self.assertIn('fixture2030_dependency_up{dependency="mongodb"}', expressions)
         self.assertIn(
-            'fixture2030_dependency_up{dependency=~"mongodb|redis|cassandra"}',
+            'fixture2030_dependency_up{dependency=~"mongodb|redis|cassandra|influxdb"}',
             expressions,
+        )
+        self.assertIn('fixture2030_dependency_up{dependency="influxdb"}', expressions)
+        self.assertTrue(
+            any("fixture2030_telemetry_operations_total" in expression for expression in expressions)
         )
         self.assertTrue(
             any("increase(fixture2030_http_requests_total" in expression for expression in expressions)
@@ -240,6 +246,76 @@ class RuntimeIncrementTests(unittest.TestCase):
         self.assertIn("resultado.json", mongo_failure)
         self.assertIn("finally {", mongo_failure)
         self.assertNotIn("down -v", mongo_failure.lower())
+
+    def test_influxdb_is_pinned_persistent_authenticated_and_observable(self):
+        compose = (ROOT / "docker-compose.yml").read_text(encoding="utf-8")
+        prometheus = (ROOT / "infra" / "prometheus" / "prometheus.yml").read_text(
+            encoding="utf-8"
+        )
+        dockerignore = (ROOT / ".dockerignore").read_text(encoding="utf-8")
+        for service in ("  influxdb-permissions:", "  influxdb:", "  influxdb-init:"):
+            self.assertIn(service, compose)
+        self.assertIn("influxdb:3.12.3-core", compose)
+        self.assertNotIn("image: influxdb:3-core\n", compose)
+        self.assertIn("fixture2030_influxdb_data:/var/lib/influxdb3/data", compose)
+        self.assertIn('user: "0:0"', compose)
+        self.assertIn("chown -R influxdb3:influxdb3 /var/lib/influxdb3/data", compose)
+        self.assertIn("condition: service_completed_successfully", compose)
+        self.assertIn("--admin-token-file=/run/secrets/influxdb-admin-token", compose)
+        self.assertIn("fixture2030-detalle 7d", compose)
+        self.assertIn("fixture2030-historico 365d", compose)
+        self.assertIn("posiciones_jugador", compose)
+        self.assertIn("resumen_equipo_15m", compose)
+        self.assertIn("job_name: fixture2030-influxdb", prometheus)
+        self.assertIn("credentials_file: /run/secrets/influxdb-admin-token-raw", prometheus)
+        self.assertIn(".secretos", dockerignore)
+
+    def test_influxdb_scripts_are_safe_reproducible_and_recoverable(self):
+        functional = (ROOT / "scripts" / "probar_telemetria_influxdb.ps1").read_text(
+            encoding="utf-8"
+        )
+        token_setup = (ROOT / "scripts" / "preparar_influxdb.ps1").read_text(
+            encoding="utf-8"
+        )
+        platform_check = (ROOT / "scripts" / "verificar_plataforma.ps1").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("1080", functional)
+        self.assertIn("EQ-01", functional)
+        self.assertIn("EQ-33", functional)
+        self.assertNotIn("equipoId=\"ARG\"", functional)
+        self.assertNotIn("equipoId=\"MEX\"", functional)
+        self.assertIn("*> $null", token_setup)
+        self.assertIn('$health.influxdb -eq "UP"', platform_check)
+        self.assertIn('$health.influxdb -ne "UP"', platform_check)
+        influx_check = (ROOT / "scripts" / "verificar_influxdb.ps1").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("http://localhost:8181/api/v3/query_sql", influx_check)
+        self.assertIn("Get-Content -Raw -Path $tokenPath", influx_check)
+        self.assertIn('Authorization = "Bearer $token"', influx_check)
+        self.assertIn("[System.Text.Encoding]::UTF8.GetString", influx_check)
+        self.assertIn("return [string]$response.Content", influx_check)
+        self.assertNotIn("/bin/sh -ec $show", influx_check)
+        self.assertNotIn("docker compose exec -T influxdb /bin/sh", influx_check)
+        for name in (
+            "preparar_influxdb.ps1",
+            "verificar_influxdb.ps1",
+            "probar_telemetria_influxdb.ps1",
+            "probar_persistencia_influxdb.ps1",
+            "probar_falla_influxdb.ps1",
+        ):
+            source = (ROOT / "scripts" / name).read_text(encoding="utf-8")
+            self.assertNotIn("down -v", source.lower())
+            self.assertNotIn("docker rm", source.lower())
+        failure = (ROOT / "scripts" / "probar_falla_influxdb.ps1").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("finally {", failure)
+        self.assertIn("docker stop fixture2030-influxdb", failure)
+        self.assertIn("docker start fixture2030-influxdb", failure)
+        self.assertIn("Fixture2030InfluxDown", failure)
+        self.assertIn("resultado.json", failure)
 
     def test_powershell_query_string_delimits_base_url_variable(self):
         script = (ROOT / "scripts" / "probar_flujo_mongodb.ps1").read_text(

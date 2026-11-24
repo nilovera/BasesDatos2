@@ -1,6 +1,7 @@
 import re
 import time
 from contextlib import asynccontextmanager
+from datetime import datetime
 from uuid import uuid4
 
 from fastapi import FastAPI, Header, Query, Request, Response
@@ -14,6 +15,8 @@ from .cassandra_service import CassandraCommentService
 from .config import settings
 from .database import close_client, get_client
 from .errors import DomainError
+from .influx_client import close_influx_client, get_influx_client
+from .influx_service import InfluxTelemetryService
 from .metrics import (
     CACHE_INVALIDATIONS,
     CACHE_READS,
@@ -25,8 +28,10 @@ from .metrics import (
     IDEMPOTENCY_REPLAYS,
     OUTBOX_PENDING,
     SESSION_OPERATIONS,
+    TELEMETRY_OPERATIONS,
 )
 from .models import (
+    AgregacionResponse,
     EventoCommand,
     EventoConfirmado,
     ComentarioCreate,
@@ -34,12 +39,18 @@ from .models import (
     HealthResponse,
     ModeracionComentario,
     ModeracionResponse,
+    EstadisticasEquipoBatch,
+    MapaCalorResponse,
     PaginaComentarios,
     PaginaEventos,
+    PaginaPosiciones,
+    PaginaResumenesEquipo,
     PartidoResponse,
+    PosicionesBatch,
     SesionCreate,
     SesionRenovacion,
     SesionResponse,
+    TelemetryWriteResponse,
 )
 from .redis_client import RedisError, close_redis_client, get_redis_client
 from .redis_service import RedisService
@@ -47,6 +58,7 @@ from .repository import MongoRepository
 
 
 PARTIDO_ID = re.compile(r"^PAR-[0-9]{4}$")
+PLAYER_ID = re.compile(r"^JUG-[0-9]{4}$")
 USER_ID = re.compile(r"^USR-[0-9]{4}$")
 COMMENT_ID = re.compile(r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
 SESSION_ID = re.compile(
@@ -63,6 +75,7 @@ async def lifespan(_app):
         # proceso arranque y exponga diagnóstico.
         pass
     yield
+    close_influx_client()
     close_cassandra_client()
     close_redis_client()
     close_client()
@@ -70,8 +83,8 @@ async def lifespan(_app):
 
 app = FastAPI(
     title="Fixture 2030 API",
-    version="0.4.0",
-    description="Núcleo deportivo en MongoDB, cache y sesiones en Redis, y comentarios en Cassandra.",
+    version="0.5.0",
+    description="Núcleo deportivo en MongoDB, datos calientes en Redis, comentarios en Cassandra y series temporales en InfluxDB.",
     lifespan=lifespan,
 )
 app.mount("/metrics", make_asgi_app())
@@ -93,6 +106,14 @@ def comment_service():
     return CassandraCommentService(get_cassandra_session())
 
 
+def telemetry_service():
+    return InfluxTelemetryService(
+        get_influx_client(),
+        settings.influxdb_detail_database,
+        settings.influxdb_historical_database,
+    )
+
+
 def request_id(request):
     return getattr(request.state, "request_id", str(uuid4()))
 
@@ -100,6 +121,11 @@ def request_id(request):
 def validate_match_id(partido_id):
     if not PARTIDO_ID.fullmatch(partido_id):
         raise DomainError(400, "INVALID_MATCH_ID", "Formato de partidoId inválido")
+
+
+def validate_player_id(player_id):
+    if not PLAYER_ID.fullmatch(player_id):
+        raise DomainError(400, "INVALID_PLAYER_ID", "Formato de jugadorId inválido")
 
 
 def validate_session_id(session_id):
@@ -168,17 +194,26 @@ def health():
         cassandra_status = comment_service().health()
     except Exception:
         cassandra_status = "DOWN"
+    try:
+        influxdb_status = telemetry_service().health()
+    except Exception:
+        influxdb_status = "DOWN"
     DEPENDENCY_UP.labels("mongodb").set(1 if mongo_status == "PRIMARY" else 0)
     DEPENDENCY_UP.labels("redis").set(1 if redis_status == "UP" else 0)
     DEPENDENCY_UP.labels("cassandra").set(1 if cassandra_status == "UP" else 0)
+    DEPENDENCY_UP.labels("influxdb").set(1 if influxdb_status == "UP" else 0)
     return {
         "service": "fixture2030-api",
         "status": "UP"
-        if mongo_status == "PRIMARY" and redis_status == "UP" and cassandra_status == "UP"
+        if mongo_status == "PRIMARY"
+        and redis_status == "UP"
+        and cassandra_status == "UP"
+        and influxdb_status == "UP"
         else "DEGRADED",
         "mongodb": mongo_status,
         "redis": redis_status,
         "cassandra": cassandra_status,
+        "influxdb": influxdb_status,
     }
 
 
@@ -452,4 +487,141 @@ def moderate_comment(comentarioId: str, command: ModeracionComentario):
         return result
     except DomainError:
         COMMENT_OPERATIONS.labels("moderate", "ERROR").inc()
+        raise
+
+
+@app.post(
+    "/api/v1/partidos/{partidoId}/telemetria/posiciones",
+    response_model=TelemetryWriteResponse,
+    status_code=202,
+    responses={
+        404: {"description": "Partido inexistente"},
+        422: {"description": "Referencia o muestra inválida"},
+        503: {"description": "MongoDB o InfluxDB no disponible"},
+    },
+)
+def write_positions(partidoId: str, command: PosicionesBatch):
+    validate_match_id(partidoId)
+    try:
+        repository().validate_position_references(partidoId, command.muestras)
+        result = telemetry_service().write_positions(partidoId, command.muestras)
+        TELEMETRY_OPERATIONS.labels("write_positions", "OK").inc()
+        return result
+    except DomainError:
+        TELEMETRY_OPERATIONS.labels("write_positions", "ERROR").inc()
+        raise
+
+
+@app.get(
+    "/api/v1/partidos/{partidoId}/telemetria/posiciones",
+    response_model=PaginaPosiciones,
+    responses={
+        400: {"description": "Identificador, fecha o cursor inválido"},
+        503: {"description": "InfluxDB no disponible"},
+    },
+)
+def list_positions(
+    partidoId: str,
+    jugador_id: str | None = Query(None, alias="jugadorId", pattern=r"^JUG-[0-9]{4}$"),
+    desde: datetime | None = Query(None),
+    hasta: datetime | None = Query(None),
+    cursor: str | None = Query(None, min_length=8, max_length=512),
+    limite: int = Query(100, ge=1, le=250),
+):
+    validate_match_id(partidoId)
+    try:
+        result = telemetry_service().list_positions(
+            partidoId, jugador_id, desde, hasta, cursor, limite
+        )
+        TELEMETRY_OPERATIONS.labels("read_positions", "OK").inc()
+        return result
+    except DomainError:
+        TELEMETRY_OPERATIONS.labels("read_positions", "ERROR").inc()
+        raise
+
+
+@app.get(
+    "/api/v1/partidos/{partidoId}/jugadores/{jugadorId}/mapa-calor",
+    response_model=MapaCalorResponse,
+    responses={
+        400: {"description": "Identificador o fecha inválida"},
+        413: {"description": "Ventana temporal demasiado amplia"},
+        503: {"description": "InfluxDB no disponible"},
+    },
+)
+def get_heatmap(
+    partidoId: str,
+    jugadorId: str,
+    resolucion: int = Query(10, ge=5, le=25),
+    desde: datetime | None = Query(None),
+    hasta: datetime | None = Query(None),
+):
+    validate_match_id(partidoId)
+    validate_player_id(jugadorId)
+    try:
+        result = telemetry_service().heatmap(
+            partidoId, jugadorId, resolucion, desde, hasta
+        )
+        TELEMETRY_OPERATIONS.labels("heatmap", "OK").inc()
+        return result
+    except DomainError:
+        TELEMETRY_OPERATIONS.labels("heatmap", "ERROR").inc()
+        raise
+
+
+@app.post(
+    "/api/v1/partidos/{partidoId}/telemetria/estadisticas-equipos",
+    response_model=TelemetryWriteResponse,
+    status_code=202,
+    responses={
+        404: {"description": "Partido inexistente"},
+        422: {"description": "Equipo o muestra inválida"},
+        503: {"description": "MongoDB o InfluxDB no disponible"},
+    },
+)
+def write_team_statistics(partidoId: str, command: EstadisticasEquipoBatch):
+    validate_match_id(partidoId)
+    try:
+        repository().validate_match_teams(
+            partidoId, [sample.equipo_id for sample in command.muestras]
+        )
+        result = telemetry_service().write_team_statistics(
+            partidoId, command.muestras
+        )
+        TELEMETRY_OPERATIONS.labels("write_team_statistics", "OK").inc()
+        return result
+    except DomainError:
+        TELEMETRY_OPERATIONS.labels("write_team_statistics", "ERROR").inc()
+        raise
+
+
+@app.post(
+    "/api/v1/partidos/{partidoId}/telemetria/agregaciones/15m",
+    response_model=AgregacionResponse,
+    responses={503: {"description": "InfluxDB no disponible"}},
+)
+def aggregate_team_statistics(partidoId: str):
+    validate_match_id(partidoId)
+    try:
+        result = telemetry_service().aggregate_team_statistics(partidoId)
+        TELEMETRY_OPERATIONS.labels("aggregate_15m", "OK").inc()
+        return result
+    except DomainError:
+        TELEMETRY_OPERATIONS.labels("aggregate_15m", "ERROR").inc()
+        raise
+
+
+@app.get(
+    "/api/v1/partidos/{partidoId}/telemetria/resumenes-equipos/15m",
+    response_model=PaginaResumenesEquipo,
+    responses={503: {"description": "InfluxDB no disponible"}},
+)
+def list_team_summaries(partidoId: str):
+    validate_match_id(partidoId)
+    try:
+        result = telemetry_service().list_historical_summaries(partidoId)
+        TELEMETRY_OPERATIONS.labels("read_summaries", "OK").inc()
+        return result
+    except DomainError:
+        TELEMETRY_OPERATIONS.labels("read_summaries", "ERROR").inc()
         raise

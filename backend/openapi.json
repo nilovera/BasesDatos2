@@ -2,8 +2,8 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Fixture 2030 API",
-    "description": "Núcleo deportivo en MongoDB, cache y sesiones en Redis, y comentarios en Cassandra.",
-    "version": "0.4.0"
+    "description": "Núcleo deportivo en MongoDB, datos calientes en Redis, comentarios en Cassandra y series temporales en InfluxDB.",
+    "version": "0.5.0"
   },
   "paths": {
     "/health": {
@@ -750,10 +750,503 @@
           }
         }
       }
+    },
+    "/api/v1/partidos/{partidoId}/telemetria/posiciones": {
+      "post": {
+        "summary": "Write Positions",
+        "operationId": "write_positions_api_v1_partidos__partidoId__telemetria_posiciones_post",
+        "parameters": [
+          {
+            "name": "partidoId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Partidoid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PosicionesBatch"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TelemetryWriteResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Partido inexistente"
+          },
+          "422": {
+            "description": "Referencia o muestra inválida"
+          },
+          "503": {
+            "description": "MongoDB o InfluxDB no disponible"
+          }
+        }
+      },
+      "get": {
+        "summary": "List Positions",
+        "operationId": "list_positions_api_v1_partidos__partidoId__telemetria_posiciones_get",
+        "parameters": [
+          {
+            "name": "partidoId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Partidoid"
+            }
+          },
+          {
+            "name": "jugadorId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "pattern": "^JUG-[0-9]{4}$"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Jugadorid"
+            }
+          },
+          {
+            "name": "desde",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Desde"
+            }
+          },
+          {
+            "name": "hasta",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Hasta"
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 8,
+                  "maxLength": 512
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Cursor"
+            }
+          },
+          {
+            "name": "limite",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 250,
+              "minimum": 1,
+              "default": 100,
+              "title": "Limite"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginaPosiciones"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Identificador, fecha o cursor inválido"
+          },
+          "503": {
+            "description": "InfluxDB no disponible"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/partidos/{partidoId}/jugadores/{jugadorId}/mapa-calor": {
+      "get": {
+        "summary": "Get Heatmap",
+        "operationId": "get_heatmap_api_v1_partidos__partidoId__jugadores__jugadorId__mapa_calor_get",
+        "parameters": [
+          {
+            "name": "partidoId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Partidoid"
+            }
+          },
+          {
+            "name": "jugadorId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Jugadorid"
+            }
+          },
+          {
+            "name": "resolucion",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 25,
+              "minimum": 5,
+              "default": 10,
+              "title": "Resolucion"
+            }
+          },
+          {
+            "name": "desde",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Desde"
+            }
+          },
+          {
+            "name": "hasta",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Hasta"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MapaCalorResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Identificador o fecha inválida"
+          },
+          "413": {
+            "description": "Ventana temporal demasiado amplia"
+          },
+          "503": {
+            "description": "InfluxDB no disponible"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/partidos/{partidoId}/telemetria/estadisticas-equipos": {
+      "post": {
+        "summary": "Write Team Statistics",
+        "operationId": "write_team_statistics_api_v1_partidos__partidoId__telemetria_estadisticas_equipos_post",
+        "parameters": [
+          {
+            "name": "partidoId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Partidoid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EstadisticasEquipoBatch"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TelemetryWriteResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Partido inexistente"
+          },
+          "422": {
+            "description": "Equipo o muestra inválida"
+          },
+          "503": {
+            "description": "MongoDB o InfluxDB no disponible"
+          }
+        }
+      }
+    },
+    "/api/v1/partidos/{partidoId}/telemetria/agregaciones/15m": {
+      "post": {
+        "summary": "Aggregate Team Statistics",
+        "operationId": "aggregate_team_statistics_api_v1_partidos__partidoId__telemetria_agregaciones_15m_post",
+        "parameters": [
+          {
+            "name": "partidoId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Partidoid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgregacionResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "InfluxDB no disponible"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/partidos/{partidoId}/telemetria/resumenes-equipos/15m": {
+      "get": {
+        "summary": "List Team Summaries",
+        "operationId": "list_team_summaries_api_v1_partidos__partidoId__telemetria_resumenes_equipos_15m_get",
+        "parameters": [
+          {
+            "name": "partidoId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Partidoid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginaResumenesEquipo"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "InfluxDB no disponible"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
+      "AgregacionResponse": {
+        "properties": {
+          "partidoId": {
+            "type": "string",
+            "title": "Partidoid"
+          },
+          "resumenesGenerados": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Resumenesgenerados"
+          },
+          "ventanaMinutos": {
+            "type": "integer",
+            "const": 15,
+            "title": "Ventanaminutos",
+            "default": 15
+          },
+          "baseDestino": {
+            "type": "string",
+            "title": "Basedestino"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "partidoId",
+          "resumenesGenerados",
+          "baseDestino"
+        ],
+        "title": "AgregacionResponse"
+      },
+      "CeldaMapaCalor": {
+        "properties": {
+          "celdaX": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Celdax"
+          },
+          "celdaY": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Celday"
+          },
+          "xDesde": {
+            "type": "number",
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "title": "Xdesde"
+          },
+          "xHasta": {
+            "type": "number",
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "title": "Xhasta"
+          },
+          "yDesde": {
+            "type": "number",
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "title": "Ydesde"
+          },
+          "yHasta": {
+            "type": "number",
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "title": "Yhasta"
+          },
+          "muestras": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Muestras"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "celdaX",
+          "celdaY",
+          "xDesde",
+          "xHasta",
+          "yDesde",
+          "yHasta",
+          "muestras"
+        ],
+        "title": "CeldaMapaCalor"
+      },
       "ComentarioCreado": {
         "properties": {
           "comentarioId": {
@@ -948,6 +1441,88 @@
           "reemplazo"
         ],
         "title": "CorreccionEventoCommand"
+      },
+      "EstadisticaEquipoMuestra": {
+        "properties": {
+          "capturadoEn": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Capturadoen"
+          },
+          "equipoId": {
+            "type": "string",
+            "pattern": "^EQ-[0-9]{2}$",
+            "title": "Equipoid"
+          },
+          "posesionPct": {
+            "type": "number",
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "title": "Posesionpct"
+          },
+          "pasesIntervalo": {
+            "type": "integer",
+            "maximum": 1000.0,
+            "minimum": 0.0,
+            "title": "Pasesintervalo"
+          },
+          "tirosAcumulados": {
+            "type": "integer",
+            "maximum": 1000.0,
+            "minimum": 0.0,
+            "title": "Tirosacumulados"
+          },
+          "golesAcumulados": {
+            "type": "integer",
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "title": "Golesacumulados"
+          },
+          "periodo": {
+            "type": "integer",
+            "maximum": 5.0,
+            "minimum": 1.0,
+            "title": "Periodo"
+          },
+          "segundoPartido": {
+            "type": "integer",
+            "maximum": 10800.0,
+            "minimum": 0.0,
+            "title": "Segundopartido"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "capturadoEn",
+          "equipoId",
+          "posesionPct",
+          "pasesIntervalo",
+          "tirosAcumulados",
+          "golesAcumulados",
+          "periodo",
+          "segundoPartido"
+        ],
+        "title": "EstadisticaEquipoMuestra"
+      },
+      "EstadisticasEquipoBatch": {
+        "properties": {
+          "muestras": {
+            "items": {
+              "$ref": "#/components/schemas/EstadisticaEquipoMuestra"
+            },
+            "type": "array",
+            "maxItems": 250,
+            "minItems": 1,
+            "title": "Muestras"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "muestras"
+        ],
+        "title": "EstadisticasEquipoBatch"
       },
       "EventoConfirmado": {
         "properties": {
@@ -1158,6 +1733,10 @@
           "cassandra": {
             "type": "string",
             "title": "Cassandra"
+          },
+          "influxdb": {
+            "type": "string",
+            "title": "Influxdb"
           }
         },
         "additionalProperties": false,
@@ -1167,7 +1746,8 @@
           "service",
           "mongodb",
           "redis",
-          "cassandra"
+          "cassandra",
+          "influxdb"
         ],
         "title": "HealthResponse"
       },
@@ -1191,6 +1771,46 @@
           "tipo"
         ],
         "title": "InicioPartidoCommand"
+      },
+      "MapaCalorResponse": {
+        "properties": {
+          "partidoId": {
+            "type": "string",
+            "title": "Partidoid"
+          },
+          "jugadorId": {
+            "type": "string",
+            "title": "Jugadorid"
+          },
+          "resolucion": {
+            "type": "integer",
+            "maximum": 25.0,
+            "minimum": 5.0,
+            "title": "Resolucion"
+          },
+          "totalMuestras": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Totalmuestras"
+          },
+          "celdas": {
+            "items": {
+              "$ref": "#/components/schemas/CeldaMapaCalor"
+            },
+            "type": "array",
+            "title": "Celdas"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "partidoId",
+          "jugadorId",
+          "resolucion",
+          "totalMuestras",
+          "celdas"
+        ],
+        "title": "MapaCalorResponse"
       },
       "Marcador": {
         "properties": {
@@ -1342,6 +1962,53 @@
         ],
         "title": "PaginaEventos"
       },
+      "PaginaPosiciones": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/PosicionResponse"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "siguienteCursor": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Siguientecursor",
+            "description": "Cursor opaco (timestamp, jugadorId) para continuar sin omisiones"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "items",
+          "siguienteCursor"
+        ],
+        "title": "PaginaPosiciones"
+      },
+      "PaginaResumenesEquipo": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/ResumenEquipoHistorico"
+            },
+            "type": "array",
+            "title": "Items"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "items"
+        ],
+        "title": "PaginaResumenesEquipo"
+      },
       "PartidoResponse": {
         "properties": {
           "partidoId": {
@@ -1385,6 +2052,196 @@
           "version"
         ],
         "title": "PartidoResponse"
+      },
+      "PosicionMuestra": {
+        "properties": {
+          "capturadoEn": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Capturadoen"
+          },
+          "equipoId": {
+            "type": "string",
+            "pattern": "^EQ-[0-9]{2}$",
+            "title": "Equipoid"
+          },
+          "jugadorId": {
+            "type": "string",
+            "pattern": "^JUG-[0-9]{4}$",
+            "title": "Jugadorid"
+          },
+          "x": {
+            "type": "number",
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "title": "X"
+          },
+          "y": {
+            "type": "number",
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "title": "Y"
+          },
+          "periodo": {
+            "type": "integer",
+            "maximum": 5.0,
+            "minimum": 1.0,
+            "title": "Periodo"
+          },
+          "segundoPartido": {
+            "type": "integer",
+            "maximum": 10800.0,
+            "minimum": 0.0,
+            "title": "Segundopartido"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "capturadoEn",
+          "equipoId",
+          "jugadorId",
+          "x",
+          "y",
+          "periodo",
+          "segundoPartido"
+        ],
+        "title": "PosicionMuestra"
+      },
+      "PosicionResponse": {
+        "properties": {
+          "capturadoEn": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Capturadoen"
+          },
+          "equipoId": {
+            "type": "string",
+            "pattern": "^EQ-[0-9]{2}$",
+            "title": "Equipoid"
+          },
+          "jugadorId": {
+            "type": "string",
+            "pattern": "^JUG-[0-9]{4}$",
+            "title": "Jugadorid"
+          },
+          "x": {
+            "type": "number",
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "title": "X"
+          },
+          "y": {
+            "type": "number",
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "title": "Y"
+          },
+          "periodo": {
+            "type": "integer",
+            "maximum": 5.0,
+            "minimum": 1.0,
+            "title": "Periodo"
+          },
+          "segundoPartido": {
+            "type": "integer",
+            "maximum": 10800.0,
+            "minimum": 0.0,
+            "title": "Segundopartido"
+          },
+          "partidoId": {
+            "type": "string",
+            "title": "Partidoid"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "capturadoEn",
+          "equipoId",
+          "jugadorId",
+          "x",
+          "y",
+          "periodo",
+          "segundoPartido",
+          "partidoId"
+        ],
+        "title": "PosicionResponse"
+      },
+      "PosicionesBatch": {
+        "properties": {
+          "muestras": {
+            "items": {
+              "$ref": "#/components/schemas/PosicionMuestra"
+            },
+            "type": "array",
+            "maxItems": 250,
+            "minItems": 1,
+            "title": "Muestras"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "muestras"
+        ],
+        "title": "PosicionesBatch"
+      },
+      "ResumenEquipoHistorico": {
+        "properties": {
+          "partidoId": {
+            "type": "string",
+            "title": "Partidoid"
+          },
+          "equipoId": {
+            "type": "string",
+            "title": "Equipoid"
+          },
+          "ventanaInicio": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Ventanainicio"
+          },
+          "posesionPromedio": {
+            "type": "number",
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "title": "Posesionpromedio"
+          },
+          "pasesTotal": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Pasestotal"
+          },
+          "tirosFinales": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Tirosfinales"
+          },
+          "golesFinales": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Golesfinales"
+          },
+          "muestras": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Muestras"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "partidoId",
+          "equipoId",
+          "ventanaInicio",
+          "posesionPromedio",
+          "pasesTotal",
+          "tirosFinales",
+          "golesFinales",
+          "muestras"
+        ],
+        "title": "ResumenEquipoHistorico"
       },
       "SesionCreate": {
         "properties": {
@@ -1581,6 +2438,36 @@
           "entraJugadorId"
         ],
         "title": "SustitucionFields"
+      },
+      "TelemetryWriteResponse": {
+        "properties": {
+          "partidoId": {
+            "type": "string",
+            "title": "Partidoid"
+          },
+          "muestrasAceptadas": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Muestrasaceptadas"
+          },
+          "repetible": {
+            "type": "boolean",
+            "title": "Repetible"
+          },
+          "base": {
+            "type": "string",
+            "title": "Base"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "partidoId",
+          "muestrasAceptadas",
+          "repetible",
+          "base"
+        ],
+        "title": "TelemetryWriteResponse"
       },
       "ValidationError": {
         "properties": {

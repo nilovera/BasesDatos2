@@ -72,6 +72,70 @@ class MongoRepository:
             raise DomainError(404, "MATCH_NOT_FOUND", "El partido no existe")
         return _match_response(document)
 
+    def validate_match_teams(self, partido_id, team_ids):
+        try:
+            match = self.db.partidos.find_one(
+                {"_id": partido_id},
+                {"equipos": 1},
+            )
+        except PyMongoError as error:
+            raise DomainError(
+                503, "OFFICIAL_STORE_UNAVAILABLE", "MongoDB no respondió"
+            ) from error
+        if match is None:
+            raise DomainError(404, "MATCH_NOT_FOUND", "El partido no existe")
+        participants = {
+            match["equipos"]["localId"],
+            match["equipos"]["visitanteId"],
+        }
+        invalid = sorted(set(team_ids) - participants)
+        if invalid:
+            raise DomainError(
+                422,
+                "TEAM_NOT_IN_MATCH",
+                "Uno o más equipos no participan del partido",
+                {"equipos": invalid},
+            )
+        return participants
+
+    def validate_position_references(self, partido_id, samples):
+        self.validate_match_teams(
+            partido_id, [sample.equipo_id for sample in samples]
+        )
+        player_ids = sorted({sample.jugador_id for sample in samples})
+        try:
+            players = {
+                item["jugadorId"]: item["equipoId"]
+                for item in self.db.jugadores.find(
+                    {"jugadorId": {"$in": player_ids}, "activo": True},
+                    {"jugadorId": 1, "equipoId": 1},
+                )
+            }
+        except PyMongoError as error:
+            raise DomainError(
+                503, "OFFICIAL_STORE_UNAVAILABLE", "MongoDB no respondió"
+            ) from error
+        missing = sorted(set(player_ids) - set(players))
+        if missing:
+            raise DomainError(
+                422,
+                "PLAYER_NOT_FOUND",
+                "Uno o más jugadores no existen o están inactivos",
+                {"jugadores": missing},
+            )
+        mismatches = sorted(
+            sample.jugador_id
+            for sample in samples
+            if players[sample.jugador_id] != sample.equipo_id
+        )
+        if mismatches:
+            raise DomainError(
+                422,
+                "PLAYER_TEAM_MISMATCH",
+                "Uno o más jugadores no pertenecen al equipo informado",
+                {"jugadores": sorted(set(mismatches))},
+            )
+
     def list_events(self, partido_id, desde_secuencia, limite):
         try:
             if not self.db.partidos.find_one({"_id": partido_id}, {"_id": 1}):

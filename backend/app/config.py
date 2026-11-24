@@ -17,6 +17,19 @@ class Settings:
     cassandra_port: int = int(os.getenv("CASSANDRA_PORT", "9042"))
     cassandra_keyspace: str = os.getenv("CASSANDRA_KEYSPACE", "fixture2030_comments")
     cassandra_timeout_seconds: float = float(os.getenv("CASSANDRA_TIMEOUT_SECONDS", "3.0"))
+    influxdb_url: str = os.getenv("INFLUXDB_URL", "http://localhost:8181")
+    influxdb_token_file: str = os.getenv(
+        "INFLUXDB_TOKEN_FILE", ".secretos/influxdb-admin-token.txt"
+    )
+    influxdb_detail_database: str = os.getenv(
+        "INFLUXDB_DETAIL_DATABASE", "fixture2030-detalle"
+    )
+    influxdb_historical_database: str = os.getenv(
+        "INFLUXDB_HISTORICAL_DATABASE", "fixture2030-historico"
+    )
+    influxdb_timeout_seconds: float = float(
+        os.getenv("INFLUXDB_TIMEOUT_SECONDS", "3.0")
+    )
 
 
 settings = Settings()

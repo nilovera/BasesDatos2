@@ -26,10 +26,12 @@ InfluxDB y Neo4j; una asistencia inválida se rechaza sin escritura parcial.
 
 ## T03 — Telemetría y mapas de calor
 
-- Definir endpoint de carga por lotes para posiciones `x/y`.
+- Endpoint de carga por lotes para posiciones `x/y`: implementado.
 - Generar muestras solamente durante la participación del jugador.
-- Persistir series en InfluxDB con timestamp y etiquetas controladas.
-- Implementar cursor estable para recorridos con timestamps compartidos.
+- Persistencia en InfluxDB con timestamp y etiquetas controladas: implementada.
+- Cursor estable para timestamps compartidos y mapa de calor: implementados.
+- Falta unir alineaciones y sustituciones para rechazar muestras fuera de la
+  participación real; el catálogo actual solo permite validar plantel/equipo.
 
 **Aceptación:** sustituciones delimitan las muestras del titular y suplente; el
 mapa de calor se puede reproducir desde los puntos almacenados.
@@ -55,6 +57,11 @@ los resultados medidos pueden compararse entre commits.
 La intensidad depende de usuarios virtuales, tasa, duración y mezcla de
 operaciones; la semilla solo hace reproducible la selección pseudoaleatoria.
 
+El escenario de estrés debe incluir una ejecución específica de InfluxDB hacia
+el objetivo académico de 10M+ puntos, sin confundir la prueba funcional de
+1.080 puntos con una prueba de escala. Debe medir batching, ingesta, consultas
+acotadas, cardinalidad, recursos y efecto de la retención.
+
 **Aceptación:** cada ejecución conserva configuración y resultados sin secretos,
 expone p50/p95/p99, throughput, errores, concurrencia y retraso de Outbox.
 
@@ -73,7 +80,8 @@ compromiso; ninguna capacidad se presenta como observada sin ejecución.
 - `capturar_evidencia.ps1` ya separa stdout/stderr, exige commit limpio y
   genera manifiesto SHA-256.
 - Las fallas de MongoDB, Redis y Cassandra ya generan resultados persistentes
-  con valores antes/durante/después y recuperación.
+  con valores antes/durante/después y recuperación. El mismo mecanismo quedó
+  implementado para InfluxDB y requiere ejecución/versionado en el equipo.
 - Conservar y revisar la evidencia válida de la falla controlada de API.
 - Excluir o reemplazar la captura incompleta `20261123T192234Z`.
 - Adjuntar capturas de Grafana con la misma ventana temporal y commit.

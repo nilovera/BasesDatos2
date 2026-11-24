@@ -4,8 +4,8 @@ Integración final del trabajo de Ingeniería de Datos II dentro del repositorio
 `nilovera/BasesDatos2`, rama `trabajo-final`.
 
 **Estado:** MongoDB autoritativo, API transaccional, Redis para datos calientes,
-Cassandra para comentarios y observabilidad con Prometheus y Grafana. InfluxDB
-y Neo4j siguen pendientes de integración en la rama final.
+Cassandra para comentarios, InfluxDB para series temporales y observabilidad
+con Prometheus y Grafana. Neo4j sigue pendiente de integración.
 
 ## Preparar la rama limpia
 
@@ -54,10 +54,11 @@ python -m scripts.catalogo --check
 | `tests/` | Pruebas del catálogo, contratos, dominio, API e infraestructura | Ejecutadas estáticamente |
 | `docs/antecedentes/` | Siete documentos de diseño previos | Conservados como antecedentes |
 | `docs/diseno/` | Convenciones y decisiones de la rama final | Base inicial documentada |
-| `backend/` | FastAPI, contrato OpenAPI, transacción e idempotencia | Implementado y validado con MongoDB, Redis y Cassandra |
+| `backend/` | FastAPI, contrato OpenAPI, transacción e idempotencia | Implementado con MongoDB, Redis, Cassandra e InfluxDB |
 | `mongodb/` | Replica set, validadores, índices, carga y verificación | Implementado y validado en Docker |
 | `redis/` | Cache-Aside, sesiones, TTL, LFU, RDB y AOF | Implementado y validado en Docker; evidencia final pendiente |
 | `cassandra/` | Esquema por consulta, buckets, shards e idempotencia | Implementado y validado en Docker; evidencia final pendiente |
+| `influxdb/` | Retención, telemetría, cursores, mapas de calor y resúmenes | Implementado; ejecución Docker y evidencia pendientes |
 | `infra/` | Prometheus, reglas de alerta, Grafana y dashboard inicial | Implementado y ejecutado en Docker |
 | `evidencia/` | Resultados trazables por commit y prueba de falla controlada | Estructura y captura automatizadas; ejecuciones pendientes de versionar |
 
@@ -92,8 +93,8 @@ sus consecuencias están documentadas en
 
 ## Orden de trabajo
 
-1. Conservar la validación de API, transacciones, idempotencia, Redis, Cassandra, Prometheus y Grafana.
-2. Incorporar InfluxDB y Neo4j mediante adaptadores revisados.
+1. Conservar la validación de API, transacciones, idempotencia, Redis, Cassandra, InfluxDB, Prometheus y Grafana.
+2. Incorporar Neo4j mediante un adaptador revisado.
 3. Procesar la Outbox y construir las proyecciones idempotentes.
 4. Completar usuarios, asistencias, telemetría y simulador sintético.
 5. Agregar exporters, alertas y dashboards de los cinco motores.
@@ -126,14 +127,15 @@ La correspondencia entre la consigna de monitoreo, lo implementado y la
 evidencia todavía pendiente está en la
 [`matriz de cumplimiento`](docs/monitoreo/matriz_cumplimiento_hito_13.md).
 
-La captura exige por defecto un commit limpio. Las fallas de MongoDB, Redis y
-Cassandra también generan `resultado.json` con commit, valores
+La captura exige por defecto un commit limpio. Las fallas de MongoDB, Redis,
+Cassandra e InfluxDB también generan `resultado.json` con commit, valores
 antes/durante/después, alerta y recuperación:
 
 ```text
 powershell -ExecutionPolicy Bypass -File scripts\probar_falla_mongodb.ps1
 powershell -ExecutionPolicy Bypass -File scripts\probar_falla_redis.ps1
 powershell -ExecutionPolicy Bypass -File scripts\probar_falla_cassandra.ps1
+powershell -ExecutionPolicy Bypass -File scripts\probar_falla_influxdb.ps1
 ```
 
 ## Accesos y detención segura
@@ -144,8 +146,9 @@ Con la plataforma iniciada:
 - métricas de la API: `http://localhost:8000/metrics`
 - Prometheus: `http://localhost:9090`
 - Grafana: `http://localhost:3000`
+- InfluxDB 3 Core: `http://localhost:8181` (API autenticada, no es una UI)
 
-Para detener sin borrar MongoDB, Redis, Cassandra ni las series de monitoreo:
+Para detener sin borrar MongoDB, Redis, Cassandra, InfluxDB ni las series de monitoreo:
 
 ```text
 powershell -ExecutionPolicy Bypass -File scripts\detener_plataforma.ps1
@@ -185,6 +188,25 @@ powershell -ExecutionPolicy Bypass -File scripts\probar_falla_cassandra.ps1
 
 El modelo y la diferencia entre RF=1 local y RF=3 objetivo están en
 [`06_4_modelo_fisico_cassandra.md`](docs/diseno/06_4_modelo_fisico_cassandra.md).
+
+## Incremento 06 InfluxDB
+
+InfluxDB conserva posiciones y estadísticas detalladas durante 7 días y
+resúmenes de 15 minutos durante 365 días. La API valida referencias comunes,
+escribe lotes completos, pagina por `(timestamp, jugadorId)` y reconstruye
+mapas de calor:
+
+```text
+powershell -ExecutionPolicy Bypass -File scripts\iniciar_plataforma.ps1
+powershell -ExecutionPolicy Bypass -File scripts\verificar_influxdb.ps1
+powershell -ExecutionPolicy Bypass -File scripts\probar_telemetria_influxdb.ps1
+powershell -ExecutionPolicy Bypass -File scripts\probar_persistencia_influxdb.ps1
+powershell -ExecutionPolicy Bypass -File scripts\probar_falla_influxdb.ps1
+```
+
+El modelo, la seguridad del token, el cursor y las limitaciones de
+participación están en
+[`06_5_modelo_fisico_influxdb.md`](docs/diseno/06_5_modelo_fisico_influxdb.md).
 
 Ver el [plan de incorporación](docs/plan_incorporacion.md), el
 [registro de los 17 puntos](docs/pendientes.md) y las

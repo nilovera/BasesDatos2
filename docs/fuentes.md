@@ -20,6 +20,19 @@ Los siete Markdown de `docs/antecedentes` proceden de los documentos preparados 
 
 No se incorporan credenciales, archivos internos de bases ni CSV masivos. Los datos personales de jugadores son sintéticos.
 
+## Referencias técnicas del incremento de InfluxDB
+
+- InfluxDB 3 Core, instalación y versión fijada: https://docs.influxdata.com/influxdb3/core/install/
+- Tokens administrativos preconfigurados: https://docs.influxdata.com/influxdb3/core/admin/tokens/admin/preconfigured/
+- Bases y retención: https://docs.influxdata.com/influxdb3/core/admin/databases/create/
+- Escrituras v3 y lotes completos: https://docs.influxdata.com/influxdb3/core/write-data/http-api/v3-write-lp/
+- Consultas SQL HTTP: https://docs.influxdata.com/influxdb3/core/query-data/execute-queries/influxdb-v3-api/
+- Autorización de scrapes Prometheus: https://prometheus.io/docs/prometheus/latest/configuration/configuration/
+
+Se fija `influxdb:3.12.3-core`; `3-core` es un tag flotante y no se usa en la
+plataforma final. Las bases nuevas usan guiones porque la API v3 documenta esa
+restricción de nombres.
+
 ## Referencias técnicas del incremento de API
 
 - FastAPI, contenedores: https://fastapi.tiangolo.com/deployment/docker/

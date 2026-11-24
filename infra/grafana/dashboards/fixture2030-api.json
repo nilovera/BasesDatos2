@@ -152,19 +152,49 @@
       "gridPos": {"h": 7, "w": 18, "x": 6, "y": 30},
       "id": 15,
       "options": {"legend": {"calcs": ["lastNotNull"], "displayMode": "table", "placement": "right", "showLegend": true}, "tooltip": {"hideZeros": false, "mode": "multi", "sort": "desc"}},
-      "targets": [{"expr": "fixture2030_dependency_up{dependency=~\"mongodb|redis|cassandra\"}", "legendFormat": "{{dependency}}", "refId": "A"}],
+      "targets": [{"expr": "fixture2030_dependency_up{dependency=~\"mongodb|redis|cassandra|influxdb\"}", "legendFormat": "{{dependency}}", "refId": "A"}],
       "title": "Comparación de dependencias (1=UP, 0=DOWN)",
       "type": "timeseries"
+    },
+    {
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "fieldConfig": {"defaults": {"mappings": [{"options": {"0": {"color": "red", "index": 0, "text": "DOWN"}, "1": {"color": "green", "index": 1, "text": "UP"}}, "type": "value"}], "thresholds": {"mode": "absolute", "steps": [{"color": "red", "value": null}, {"color": "green", "value": 1}]}, "unit": "short"}, "overrides": []},
+      "gridPos": {"h": 7, "w": 6, "x": 0, "y": 37},
+      "id": 16,
+      "options": {"colorMode": "background", "graphMode": "area", "justifyMode": "auto", "orientation": "auto", "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": false}, "showPercentChange": false, "textMode": "auto", "wideLayout": true},
+      "targets": [{"expr": "fixture2030_dependency_up{dependency=\"influxdb\"}", "legendFormat": "InfluxDB", "refId": "A"}],
+      "title": "Disponibilidad InfluxDB",
+      "type": "stat"
+    },
+    {
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "fieldConfig": {"defaults": {"color": {"mode": "palette-classic"}, "mappings": [], "thresholds": {"mode": "absolute", "steps": [{"color": "green", "value": null}]}, "unit": "ops"}, "overrides": []},
+      "gridPos": {"h": 7, "w": 10, "x": 6, "y": 37},
+      "id": 17,
+      "options": {"legend": {"calcs": [], "displayMode": "list", "placement": "bottom", "showLegend": true}, "tooltip": {"hideZeros": false, "mode": "multi", "sort": "desc"}},
+      "targets": [{"expr": "sum by (operation, result) (rate(fixture2030_telemetry_operations_total[5m]))", "legendFormat": "{{operation}} {{result}}", "refId": "A"}],
+      "title": "Operaciones InfluxDB",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "fieldConfig": {"defaults": {"color": {"mode": "thresholds"}, "mappings": [], "thresholds": {"mode": "absolute", "steps": [{"color": "green", "value": null}, {"color": "red", "value": 1}]}, "unit": "short"}, "overrides": []},
+      "gridPos": {"h": 7, "w": 8, "x": 16, "y": 37},
+      "id": 18,
+      "options": {"colorMode": "value", "graphMode": "area", "justifyMode": "auto", "orientation": "auto", "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": false}, "showPercentChange": false, "textMode": "auto", "wideLayout": true},
+      "targets": [{"expr": "sum(increase(fixture2030_telemetry_operations_total{result=\"ERROR\"}[5m]))", "legendFormat": "Errores", "refId": "A"}],
+      "title": "Errores InfluxDB (5m)",
+      "type": "stat"
     }
   ],
   "refresh": "5s",
   "schemaVersion": 41,
-  "tags": ["fixture2030", "api", "mongodb", "redis", "cassandra"],
+  "tags": ["fixture2030", "api", "mongodb", "redis", "cassandra", "influxdb"],
   "templating": {"list": []},
   "time": {"from": "now-15m", "to": "now"},
   "timepicker": {},
   "timezone": "browser",
-  "title": "Fixture2030 — API, MongoDB, Redis y Cassandra",
+  "title": "Fixture2030 — API y cuatro motores integrados",
   "uid": "fixture2030-api",
-  "version": 4
+  "version": 5
 }

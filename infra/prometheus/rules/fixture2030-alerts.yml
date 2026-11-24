@@ -90,3 +90,25 @@ groups:
         annotations:
           summary: MongoDB no posee un PRIMARY disponible
           description: La API conserva funciones aisladas, pero no puede confirmar eventos oficiales.
+
+  - name: fixture2030-influxdb
+    rules:
+      - alert: Fixture2030InfluxDown
+        expr: fixture2030_dependency_up{dependency="influxdb"} == 0
+        for: 30s
+        labels:
+          severity: critical
+          owner: plataforma
+        annotations:
+          summary: InfluxDB no esta disponible
+          description: La API no puede escribir ni consultar telemetria durante 30 segundos; el nucleo oficial continua aislado.
+
+      - alert: Fixture2030TelemetryWriteErrors
+        expr: increase(fixture2030_telemetry_operations_total{operation=~"write_.*",result="ERROR"}[5m]) > 5
+        for: 1m
+        labels:
+          severity: warning
+          owner: backend
+        annotations:
+          summary: Errores repetidos al escribir telemetria
+          description: Se registraron mas de cinco errores de escritura de series temporales en cinco minutos.

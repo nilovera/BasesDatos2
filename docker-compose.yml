@@ -127,6 +127,97 @@ services:
         /opt/cassandra/bin/cqlsh cassandra 9042 -f /opt/fixture2030/init/02_verify.cql
     restart: "no"
 
+  influxdb-permissions:
+    image: influxdb:3.12.3-core
+    user: "0:0"
+    entrypoint: ["/bin/sh", "-ec"]
+    command:
+      - |
+        mkdir -p /var/lib/influxdb3/data
+        chown -R influxdb3:influxdb3 /var/lib/influxdb3/data
+    volumes:
+      - fixture2030_influxdb_data:/var/lib/influxdb3/data
+    network_mode: "none"
+    restart: "no"
+
+  influxdb:
+    image: influxdb:3.12.3-core
+    container_name: fixture2030-influxdb
+    depends_on:
+      influxdb-permissions:
+        condition: service_completed_successfully
+    command:
+      - influxdb3
+      - serve
+      - --node-id=fixture2030-local
+      - --object-store=file
+      - --data-dir=/var/lib/influxdb3/data
+      - --http-bind=0.0.0.0:8181
+      - --admin-token-file=/run/secrets/influxdb-admin-token
+    ports:
+      - "127.0.0.1:8181:8181"
+    volumes:
+      - fixture2030_influxdb_data:/var/lib/influxdb3/data
+    secrets:
+      - influxdb-admin-token
+      - influxdb-admin-token-raw
+    networks:
+      - fixture2030
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - >-
+          influxdb3 show databases --host http://localhost:8181
+          --token "$$(cat /run/secrets/influxdb-admin-token-raw)"
+          --format json >/dev/null 2>&1
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 15s
+    restart: unless-stopped
+
+  influxdb-init:
+    image: influxdb:3.12.3-core
+    depends_on:
+      influxdb:
+        condition: service_healthy
+    secrets:
+      - influxdb-admin-token-raw
+    networks:
+      - fixture2030
+    entrypoint: ["/bin/sh", "-ec"]
+    command:
+      - |
+        set -eu
+        TOKEN="$$(cat /run/secrets/influxdb-admin-token-raw)"
+        HOST="http://influxdb:8181"
+
+        ensure_database() {
+          database_name="$$1"
+          database_retention="$$2"
+          if ! influxdb3 show databases --host "$$HOST" --token "$$TOKEN" --format json | grep -Fq "$$database_name"; then
+            influxdb3 create database --host "$$HOST" --token "$$TOKEN" --retention-period "$$database_retention" "$$database_name"
+          fi
+        }
+
+        ensure_table() {
+          table_database="$$1"
+          table_name="$$2"
+          table_tags="$$3"
+          table_fields="$$4"
+          if ! influxdb3 query --host "$$HOST" --token "$$TOKEN" --database "$$table_database" --format json "SHOW TABLES" | grep -Fq "$$table_name"; then
+            influxdb3 create table --host "$$HOST" --token "$$TOKEN" --database "$$table_database" --tags "$$table_tags" --fields "$$table_fields" "$$table_name"
+          fi
+        }
+
+        ensure_database fixture2030-detalle 7d
+        ensure_database fixture2030-historico 365d
+        ensure_table fixture2030-detalle posiciones_jugador "partido_id,equipo_id,jugador_id" "x:float64,y:float64,periodo:int64,segundo_partido:int64"
+        ensure_table fixture2030-detalle estadisticas_equipo "partido_id,equipo_id" "posesion_pct:float64,pases_intervalo:int64,tiros_acumulados:int64,goles_acumulados:int64,periodo:int64,segundo_partido:int64"
+        ensure_table fixture2030-historico resumen_equipo_15m "partido_id,equipo_id" "posesion_promedio:float64,pases_total:int64,tiros_finales:int64,goles_finales:int64,muestras:int64"
+        echo "InfluxDB inicializado: detalle=7d, historico=365d."
+    restart: "no"
+
   api:
     build:
       context: .
@@ -144,6 +235,13 @@ services:
       CASSANDRA_PORT: "9042"
       CASSANDRA_KEYSPACE: fixture2030_comments
       CASSANDRA_TIMEOUT_SECONDS: "3.0"
+      INFLUXDB_URL: http://influxdb:8181
+      INFLUXDB_TOKEN_FILE: /run/secrets/influxdb-admin-token-raw
+      INFLUXDB_DETAIL_DATABASE: fixture2030-detalle
+      INFLUXDB_HISTORICAL_DATABASE: fixture2030-historico
+      INFLUXDB_TIMEOUT_SECONDS: "3.0"
+    secrets:
+      - influxdb-admin-token-raw
     ports:
       - "127.0.0.1:8000:8000"
     networks:
@@ -156,6 +254,8 @@ services:
       redis:
         condition: service_healthy
       cassandra-init:
+        condition: service_completed_successfully
+      influxdb-init:
         condition: service_completed_successfully
     healthcheck:
       test:
@@ -182,6 +282,8 @@ services:
       - ./infra/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
       - ./infra/prometheus/rules:/etc/prometheus/rules:ro
       - fixture2030_prometheus_data:/prometheus
+    secrets:
+      - influxdb-admin-token-raw
     networks:
       - fixture2030
     depends_on:
@@ -224,3 +326,11 @@ volumes:
     name: fixture2030-redis-data
   fixture2030_cassandra_data:
     name: fixture2030-cassandra-data
+  fixture2030_influxdb_data:
+    name: fixture2030-influxdb-data
+
+secrets:
+  influxdb-admin-token:
+    file: ./.secretos/influxdb-admin-token.json
+  influxdb-admin-token-raw:
+    file: ./.secretos/influxdb-admin-token.txt

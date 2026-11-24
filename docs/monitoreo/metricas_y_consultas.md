@@ -117,13 +117,41 @@ sum by (operation, result) (rate(fixture2030_comment_operations_total[5m]))
 ## Comparación de dependencias
 
 ```promql
-fixture2030_dependency_up{dependency=~"mongodb|redis|cassandra"}
+fixture2030_dependency_up{dependency=~"mongodb|redis|cassandra|influxdb"}
 ```
 
 - Unidad: booleano por dependencia.
 - Periodo: último chequeo funcional de la API.
 - Uso: comparar en una misma ventana qué subsistema se degradó sin confundirlo
   con la disponibilidad del proceso HTTP.
+
+## Disponibilidad de InfluxDB
+
+```promql
+fixture2030_dependency_up{dependency="influxdb"}
+```
+
+- Unidad: booleano (`1` responde con autenticación, `0` no disponible).
+- Periodo: último chequeo de `/health` de la API.
+- Uso: demostrar degradación aislada de telemetría sin confundirla con la
+  continuidad del partido oficial.
+
+El target directo también se consulta con:
+
+```promql
+up{job="fixture2030-influxdb"}
+```
+
+## Operaciones de telemetría
+
+```promql
+sum by (operation, result) (rate(fixture2030_telemetry_operations_total[5m]))
+```
+
+- Unidad: operaciones por segundo.
+- Periodo: ventana móvil de 5 minutos.
+- Uso: observar escrituras de posiciones/estadísticas, consultas, mapas de
+  calor, agregaciones y errores.
 
 Prometheus conserva siete días en el laboratorio. Esa retención permite revisar
 la demostración local, pero no representa una política productiva ni sustituye

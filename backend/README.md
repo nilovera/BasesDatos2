@@ -1,7 +1,7 @@
 # Backend — API ejecutable
 
 Servicio FastAPI que implementa el flujo oficial sobre MongoDB, una capa
-temporal Redis y comentarios durables en Cassandra. El contrato estable está en `openapi.json` y la documentación
+temporal Redis, comentarios durables en Cassandra y telemetría en InfluxDB. El contrato estable está en `openapi.json` y la documentación
 interactiva queda disponible en `http://localhost:8000/docs`.
 
 ## Endpoints
@@ -18,10 +18,19 @@ interactiva queda disponible en `http://localhost:8000/docs`.
 - `POST/GET /api/v1/partidos/{partidoId}/comentarios`
 - `GET /api/v1/usuarios/{usuarioId}/comentarios`
 - `PATCH /api/v1/comentarios/{comentarioId}/moderacion`
+- `POST/GET /api/v1/partidos/{partidoId}/telemetria/posiciones`
+- `GET /api/v1/partidos/{partidoId}/jugadores/{jugadorId}/mapa-calor`
+- `POST /api/v1/partidos/{partidoId}/telemetria/estadisticas-equipos`
+- `POST /api/v1/partidos/{partidoId}/telemetria/agregaciones/15m`
+- `GET /api/v1/partidos/{partidoId}/telemetria/resumenes-equipos/15m`
 
-Toda escritura requiere `Idempotency-Key`. Una creación devuelve `201`; una
+Los eventos oficiales y comentarios requieren `Idempotency-Key`. Una creación devuelve `201`; una
 repetición del mismo body devuelve `200` y `Idempotency-Replayed: true`; la
 misma clave con otro body devuelve `409`.
+
+La telemetría usa como identidad tabla + tags + timestamp. Repetir el mismo
+lote converge sobre los mismos puntos; dentro de un lote se rechazan dos
+valores para el mismo jugador/equipo y timestamp.
 
 ## Atomicidad
 
@@ -49,7 +58,14 @@ La moderación actualiza ambas vistas sin escaneos ni `ALLOW FILTERING`. La
 paginación devuelve un cursor opaco compuesto por timestamp e identificador,
 por lo que no omite comentarios con la misma marca temporal.
 
-`GET /health` devuelve `UP` cuando MongoDB, Redis y Cassandra están operativos,
+## InfluxDB
+
+Los lotes de hasta 250 muestras se escriben por `/api/v3/write_lp` con
+`accept_partial=false`. La lectura de posiciones usa cursor opaco compuesto por
+timestamp y jugador, y el mapa de calor se reproduce desde los puntos. Los
+resúmenes de 15 minutos se guardan en una base de mayor retención.
+
+`GET /health` devuelve `UP` cuando MongoDB, Redis, Cassandra e InfluxDB están operativos,
 y `DEGRADED` con el estado individual cuando una dependencia falla. El proceso
 HTTP continúa observable para diferenciar la caída de una base de la caída de
 la propia API.

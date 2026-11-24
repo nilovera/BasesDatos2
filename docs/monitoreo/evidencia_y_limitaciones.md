@@ -5,6 +5,11 @@ estado de contenedores, resultado de pruebas y consultas relevantes. Las
 capturas deben indicar la misma ventana temporal que los archivos de la
 ejecucion.
 
+`capturar_evidencia.ps1` exige por defecto un árbol Git limpio, ejecuta las
+verificaciones mediante procesos con stdout y stderr separados y genera un
+manifiesto SHA-256. Esto evita que la salida informativa de `unittest` sea
+interpretada como error por Windows PowerShell 5.1.
+
 ## Clasificacion obligatoria
 
 - **Implementado:** existe configuracion o codigo versionado.
@@ -23,11 +28,13 @@ local.
 
 ## Limitaciones actuales
 
-- MongoDB se observa indirectamente mediante la API; falta su exporter.
+- MongoDB se observa indirectamente mediante la API; falta su exporter. La
+  caída controlada verifica estado degradado, métrica y alerta específicas.
 - Cassandra forma parte del entorno y expone salud funcional desde la API; las métricas JMX internas quedan pendientes para el escenario RF=3.
 - InfluxDB y Neo4j aun no son parte de este incremento.
 - Redis es standalone: RDB/AOF permiten recuperacion local, no alta disponibilidad.
 - No hay resultados de capacidad, SLO, RPO ni RTO.
 - Las alertas no tienen todavia un canal externo de notificacion.
 - Un replica set MongoDB de un miembro no demuestra alta disponibilidad.
-- Sigue pendiente corregir la captura automática y versionar por separado las evidencias válidas de fallas controladas.
+- Las ejecuciones finales y capturas de Grafana todavía deben generarse sobre
+  un commit limpio y luego versionarse sin secretos.

@@ -165,7 +165,10 @@ class ComentarioCreado(ComentarioResponse):
 
 class PaginaComentarios(ApiModel):
     items: list[ComentarioResponse]
-    siguiente_cursor: datetime | None = Field(alias="siguienteCursor")
+    siguiente_cursor: str | None = Field(
+        alias="siguienteCursor",
+        description="Cursor opaco para solicitar la página siguiente",
+    )
 
 
 class ModeracionComentario(ApiModel):

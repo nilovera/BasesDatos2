@@ -10,12 +10,12 @@ incorpora después de revisar identidad, configuración, dependencias y pruebas.
 |---|---|---|
 | 1-5 | Conservar alcance, patrones, comparación, arquitectura, diagramas y objetivos | Antecedentes incorporados |
 | 6.1 | Identidad, tiempos, estados, autoridad del dato y catálogo común | Base inicial verificada |
-| 6.2 | Diseño físico de MongoDB | Diseñado; script creado; ejecución en motor pendiente |
+| 6.2 | Diseño físico de MongoDB | Diseñado, ejecutado y verificado en replica set local de un miembro |
 | 6.3-6.6 | Diseño físico de Redis, Cassandra, InfluxDB y Neo4j | Redis y Cassandra diseñados; dos motores pendientes |
 | 7 | Escrituras, idempotencia, outbox, sincronización y fallos | Primer flujo transaccional implementado; consumidores pendientes |
 | 8 | Revisión y recuperación selectiva de los hitos | Fuentes identificadas; incorporación pendiente |
 | 9 | Implementación incremental y Docker integrado | MongoDB, Redis, Cassandra, API, Prometheus y Grafana incorporados; dos motores pendientes |
-| 10 | Monitoreo, validación integrada, evidencia y defensa | API, Redis y salud Cassandra instrumentados; medición de carga pendiente |
+| 10 | Monitoreo, validación integrada, evidencia y defensa | API y tres dependencias instrumentadas; evidencia final, carga y defensa pendientes |
 
 IRIS no recibe diseño físico ni contenedor. Su evaluación y exclusión se registran
 en `docs/diseno/ADR-001-exclusion-iris.md`.

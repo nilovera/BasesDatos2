@@ -4,8 +4,11 @@ Esta carpeta conserva resultados del laboratorio vinculados a un commit. Los
 archivos se generan con:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File scripts\capturar_evidencia.ps1
+powershell -ExecutionPolicy Bypass -File scripts\capturar_evidencia.ps1 -Scenario verificacion-integrada
 powershell -ExecutionPolicy Bypass -File scripts\probar_falla_api.ps1
+powershell -ExecutionPolicy Bypass -File scripts\probar_falla_mongodb.ps1
+powershell -ExecutionPolicy Bypass -File scripts\probar_falla_redis.ps1
+powershell -ExecutionPolicy Bypass -File scripts\probar_falla_cassandra.ps1
 ```
 
 Cada subcarpeta de ejecucion usa una marca temporal UTC. Antes de versionarla:
@@ -15,6 +18,7 @@ Cada subcarpeta de ejecucion usa una marca temporal UTC. Antes de versionarla:
 3. agregar capturas de Grafana con la misma ventana temporal si se usaran en la defensa;
 4. documentar si cada valor fue medido, objetivo, estimado o no obtenido.
 
-Los scripts nunca eliminan volumenes. La prueba de falla detiene solamente la
-API, comprueba `up=0` y la alerta `Fixture2030ApiDown` en estado `firing`, y la
-recupera en un bloque `finally`.
+La captura integrada exige por defecto un árbol Git limpio y genera hashes de
+los archivos. Los scripts nunca eliminan volúmenes: cada prueba detiene un solo
+contenedor, comprueba la métrica y la alerta correspondiente, y lo recupera en
+un bloque `finally`.

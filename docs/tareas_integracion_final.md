@@ -70,10 +70,11 @@ compromiso; ninguna capacidad se presenta como observada sin ejecución.
 
 ## T07 — Evidencia automática y saneamiento de ejecuciones
 
-- Corregir `capturar_evidencia.ps1` para que PowerShell no trate la salida
-  informativa de `unittest` como un fallo nativo.
+- `capturar_evidencia.ps1` ya separa stdout/stderr, exige commit limpio y
+  genera manifiesto SHA-256.
+- Las fallas de MongoDB, Redis y Cassandra ya generan resultados persistentes
+  con valores antes/durante/después y recuperación.
 - Conservar y revisar la evidencia válida de la falla controlada de API.
-- Generar evidencia persistente para las fallas de Redis y Cassandra.
 - Excluir o reemplazar la captura incompleta `20261123T192234Z`.
 - Adjuntar capturas de Grafana con la misma ventana temporal y commit.
 

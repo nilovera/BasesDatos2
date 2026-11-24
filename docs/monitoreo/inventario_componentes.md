@@ -1,20 +1,20 @@
 # Inventario de monitoreo
 
-Este inventario distingue lo que ya se observa de lo que se incorporara con
-los siguientes motores. No implica que todos los componentes cumplan todavia
-un SLA.
+El inventario distingue medición directa, exporter e inferencia funcional. Una
+base pendiente o presente solamente en un diagrama no se declara monitoreada.
 
-| Componente | Fuente actual | Estado observable | Estado de la cobertura |
-|---|---|---|---|
-| API FastAPI | `/metrics` y `/health` | disponibilidad, solicitudes, latencia, errores y resultado funcional | Directa |
-| Prometheus | metricas propias | disponibilidad del recolector y evaluacion de reglas | Directa |
-| MongoDB | `/health` y metricas de dominio de la API | PRIMARY, transaccion funcional y pendientes de Outbox | Indirecta; exporter pendiente |
-| Grafana | `/api/health` y dashboard | salud del visualizador | Verificacion operativa; no es target de Prometheus |
-| Redis | Redis Exporter y `/health` | disponibilidad, memoria, hits, misses, evictions, persistencia y conexiones | Directa |
-| Cassandra | `/health`, métrica de dependencia y métricas de dominio | disponibilidad, comentarios y moderación | Funcional; JMX detallado pendiente |
-| InfluxDB | pendiente | telemetria y mapas de calor | No incorporado |
-| Neo4j | pendiente | relaciones y recorridos | No incorporado |
+| Componente | Modelo y función en Fixture2030 | Puerto o endpoint | Mecanismo | Métricas seleccionadas | Riesgo observado | Limitación actual |
+|---|---|---|---|---|---|---|
+| API FastAPI | integración de los subsistemas y contrato HTTP | `8000`, `/health`, `/metrics` | instrumentación directa con `prometheus-client` | disponibilidad, requests, p95, 5xx, eventos, comentarios y Outbox | indisponibilidad, errores y aumento de latencia | un worker; todavía sin escenario de capacidad |
+| MongoDB | documentos autoritativos de catálogo, partidos, eventos y Outbox | `27017`; salud funcional desde `/health` | inferencia de la API mediante `hello` y métrica `fixture2030_dependency_up` | PRIMARY disponible y pendientes de Outbox | no poder confirmar eventos oficiales o acumular propagaciones | un miembro; sin exporter ni alta disponibilidad real |
+| Redis | clave-valor para Cache-Aside, sesiones, TTL, contadores y ranking | `6379`; exporter `9121` | Redis Exporter directo y salud funcional de la API | `redis_up`, memoria, hit/miss, evictions, persistencia y conexiones | pérdida anticipada de temporales, saturación o sesiones no disponibles | standalone; RDB/AOF no equivalen a replicación |
+| Cassandra | wide-column para comentarios y vistas por consulta | `9042`; salud funcional desde `/health` | inferencia de la API y contadores de dominio | disponibilidad, publicaciones, replays, lecturas, moderaciones y errores | módulo social degradado, partición caliente o divergencia de vistas | RF=1 local; JMX, compactions y tombstones pendientes para RF=3 |
+| Prometheus | series técnicas de observabilidad | `9090`, API HTTP de Prometheus | métricas propias y tres jobs configurados | estado de targets, evaluación de reglas y retención de 7 días | pérdida de visibilidad o reglas sin evaluar | una instancia; no es almacenamiento funcional del Fixture |
+| Grafana | visualización de Prometheus | `3000`, `/api/health` | verificación operativa y provisioning versionado | salud del visualizador y dashboard exportable | defensa sin paneles o datasource no disponible | no es target de Prometheus; capturas finales pendientes |
+| InfluxDB | series temporales deportivas, posiciones y mapas de calor | pendiente | pendiente | pendiente | telemetría sin persistencia ni downsampling | no incorporado todavía |
+| Neo4j | grafo de relaciones entre jugadores, equipos y partidos | pendiente | pendiente | pendiente | recorridos y relaciones no demostrados | no incorporado todavía |
 
-La solucion posee tres targets directos: API, Prometheus y Redis Exporter.
-MongoDB y Cassandra se observan funcionalmente a través de la API; sus
-exporters internos quedan pendientes.
+Prometheus posee tres targets directos: Prometheus, API y Redis Exporter. La
+disponibilidad de MongoDB y Cassandra se mide funcionalmente desde la API. El
+dashboard debe indicar esta diferencia para no presentar una inferencia como
+métrica interna de la base.

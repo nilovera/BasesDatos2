@@ -45,7 +45,14 @@ renovación ejecuta la actualización de manera explícita y atómica.
 
 La publicación usa `Idempotency-Key`. Las vistas por partido y usuario se
 escriben en un batch acotado y se consultan por claves de partición conocidas.
-La moderación actualiza ambas vistas sin escaneos ni `ALLOW FILTERING`.
+La moderación actualiza ambas vistas sin escaneos ni `ALLOW FILTERING`. La
+paginación devuelve un cursor opaco compuesto por timestamp e identificador,
+por lo que no omite comentarios con la misma marca temporal.
+
+`GET /health` devuelve `UP` cuando MongoDB, Redis y Cassandra están operativos,
+y `DEGRADED` con el estado individual cuando una dependencia falla. El proceso
+HTTP continúa observable para diferenciar la caída de una base de la caída de
+la propia API.
 
 Regenerar el contrato después de modificar rutas o modelos:
 

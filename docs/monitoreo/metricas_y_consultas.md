@@ -38,14 +38,26 @@ sum(rate(fixture2030_http_requests_total[1m]))
 ## Proporcion de errores 5xx
 
 ```promql
-sum(rate(fixture2030_http_requests_total{status=~"5.."}[2m]))
+sum(rate(fixture2030_http_requests_total{route!="/health",status=~"5.."}[2m]))
 /
-clamp_min(sum(rate(fixture2030_http_requests_total[2m])), 0.001)
+clamp_min(sum(rate(fixture2030_http_requests_total{route!="/health"}[2m])), 0.001)
 ```
 
 - Unidad: proporcion entre 0 y 1; multiplicar por 100 para porcentaje.
 - Periodo: ventana movil de 2 minutos.
-- Uso: alerta de tasa de error superior al 5 %.
+- Uso: alerta de tasa de error superior al 5 %. Se excluye `/health` para que
+  los sondeos internos no oculten errores de tráfico funcional.
+
+## Disponibilidad funcional de MongoDB
+
+```promql
+fixture2030_dependency_up{dependency="mongodb"}
+```
+
+- Unidad: booleano (`1` existe PRIMARY, `0` no está disponible).
+- Periodo: último chequeo de `/health`, ejecutado también por el healthcheck.
+- Uso: diferenciar una API viva de la imposibilidad de confirmar eventos
+  oficiales. No reemplaza las métricas internas de un MongoDB Exporter.
 
 ## Disponibilidad de Redis
 
@@ -101,3 +113,18 @@ sum by (operation, result) (rate(fixture2030_comment_operations_total[5m]))
 - Uso: observar publicaciones, replays, lecturas, moderaciones y errores.
 - Límite: compactions, tombstones y latencia interna requieren JMX en el
   escenario Cassandra RF=3.
+
+## Comparación de dependencias
+
+```promql
+fixture2030_dependency_up{dependency=~"mongodb|redis|cassandra"}
+```
+
+- Unidad: booleano por dependencia.
+- Periodo: último chequeo funcional de la API.
+- Uso: comparar en una misma ventana qué subsistema se degradó sin confundirlo
+  con la disponibilidad del proceso HTTP.
+
+Prometheus conserva siete días en el laboratorio. Esa retención permite revisar
+la demostración local, pero no representa una política productiva ni sustituye
+la evidencia versionada por ejecución.

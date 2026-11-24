@@ -543,15 +543,16 @@
             "schema": {
               "anyOf": [
                 {
-                  "type": "string",
-                  "format": "date-time"
+                  "type": "string"
                 },
                 {
                   "type": "null"
                 }
               ],
+              "description": "Cursor opaco devuelto por siguienteCursor; no es una fecha editable",
               "title": "Antesde"
-            }
+            },
+            "description": "Cursor opaco devuelto por siguienteCursor; no es una fecha editable"
           },
           {
             "name": "limite",
@@ -634,15 +635,16 @@
             "schema": {
               "anyOf": [
                 {
-                  "type": "string",
-                  "format": "date-time"
+                  "type": "string"
                 },
                 {
                   "type": "null"
                 }
               ],
+              "description": "Cursor opaco devuelto por siguienteCursor; no es una fecha editable",
               "title": "Antesde"
-            }
+            },
+            "description": "Cursor opaco devuelto por siguienteCursor; no es una fecha editable"
           },
           {
             "name": "limite",
@@ -1293,14 +1295,14 @@
           "siguienteCursor": {
             "anyOf": [
               {
-                "type": "string",
-                "format": "date-time"
+                "type": "string"
               },
               {
                 "type": "null"
               }
             ],
-            "title": "Siguientecursor"
+            "title": "Siguientecursor",
+            "description": "Cursor opaco para solicitar la página siguiente"
           }
         },
         "additionalProperties": false,

@@ -21,8 +21,8 @@ puede cambiarse definiendo `GRAFANA_ADMIN_PASSWORD` antes del primer arranque.
 No es una configuración productiva.
 
 Prometheus carga las reglas versionadas de `infra/prometheus/rules/`. Incluyen
-indisponibilidad de la API, tasa de HTTP 5xx y acumulación de Outbox. Los
-umbrales y responsables están documentados en
+indisponibilidad de la API y de MongoDB, Redis y Cassandra, tasa de HTTP 5xx,
+presión Redis y acumulación de Outbox. Los umbrales y responsables están documentados en
 `docs/monitoreo/alertas_y_umbrales.md`.
 
 ## Ejecución
@@ -38,8 +38,9 @@ powershell -ExecutionPolicy Bypass -File scripts\probar_falla_redis.ps1
 powershell -ExecutionPolicy Bypass -File scripts\verificar_cassandra.ps1
 powershell -ExecutionPolicy Bypass -File scripts\probar_comentarios_cassandra.ps1
 powershell -ExecutionPolicy Bypass -File scripts\probar_falla_cassandra.ps1
-powershell -ExecutionPolicy Bypass -File scripts\capturar_evidencia.ps1
+powershell -ExecutionPolicy Bypass -File scripts\capturar_evidencia.ps1 -Scenario verificacion-integrada
 powershell -ExecutionPolicy Bypass -File scripts\probar_falla_api.ps1
+powershell -ExecutionPolicy Bypass -File scripts\probar_falla_mongodb.ps1
 powershell -ExecutionPolicy Bypass -File scripts\verificar_plataforma.ps1
 ```
 

@@ -1,20 +1,20 @@
 # Alertas y umbrales iniciales
 
-Los umbrales son hipotesis operativas para el laboratorio. Se ajustaran con
-los escenarios de humo, trafico normal y estres; no constituyen por si solos un
-SLA medido.
+Los umbrales son hipótesis operativas de laboratorio. Se ajustarán con humo,
+tráfico normal y estrés; no constituyen por sí solos un SLA medido.
 
-| Alerta | Condicion y duracion | Riesgo | Responsable | Accion inicial |
-|---|---|---|---|---|
-| `Fixture2030ApiDown` | `up == 0` durante 30 s | indisponibilidad del flujo deportivo | Plataforma | revisar contenedor, logs, MongoDB y reiniciar solo el servicio afectado |
-| `Fixture2030ApiHighErrorRate` | mas de 5 % de HTTP 5xx durante 2 min | operaciones fallidas aunque el proceso siga activo | Backend | correlacionar endpoint, excepciones y estado de MongoDB |
-| `Fixture2030OutboxBacklog` | mas de 100 pendientes durante 5 min | demora de convergencia entre motores | Integracion | revisar consumidor y reintentos sin eliminar mensajes |
-| `Fixture2030RedisDown` | `redis_up == 0` durante 30 s | sesiones no disponibles y cache en bypass | Plataforma | revisar contenedor, volumen, configuracion y conectividad |
-| `Fixture2030RedisHighMemory` | mas de 85 % de `maxmemory` durante 5 min | evicciones y perdida anticipada de claves temporales | Plataforma | revisar TTL, LFU, cardinalidad y capacidad |
-| `Fixture2030RedisEvictions` | al menos una eviction en 5 min durante 1 min | presion de memoria o TTL/politica inadecuados | Backend | correlacionar hit rate, memoria y escenario de carga |
-| `Fixture2030CassandraDown` | salud Cassandra igual a 0 durante 30 s | comentarios no disponibles; fixture y sesiones continúan | Plataforma | revisar nodo, volumen y conectividad; no confirmar comentarios |
+| Alerta | Métrica, condición y duración | Severidad | Componente | Impacto o riesgo | Responsable y acción | Fundamento inicial |
+|---|---|---|---|---|---|---|
+| `Fixture2030ApiDown` | `up{job="fixture2030-api"} == 0` durante 30 s | crítica | API | ningún flujo HTTP queda accesible | Plataforma: revisar contenedor, logs y red; recuperar solo la API | seis scrapes fallidos evitan alertar por un arranque o demora aislada |
+| `Fixture2030ApiHighErrorRate` | proporción HTTP 5xx sin `/health` mayor a 5 % durante 2 min | advertencia | API | la API responde pero falla un flujo funcional | Backend: identificar ruta y correlacionar dependencias | 5 % es experimental y debe recalibrarse con tráfico normal |
+| `Fixture2030OutboxBacklog` | `fixture2030_outbox_pending > 100` durante 5 min | advertencia | integración | demora de convergencia entre motores | Integración: revisar consumidor y reintentos sin eliminar mensajes | 100 es una hipótesis previa al consumidor y a la prueba de carga |
+| `Fixture2030MongoDown` | `fixture2030_dependency_up{dependency="mongodb"} == 0` durante 30 s | crítica | MongoDB | no se pueden confirmar eventos oficiales | Plataforma: revisar PRIMARY, réplica, volumen y conectividad | la API puede seguir viva; se necesita distinguir base caída de proceso caído |
+| `Fixture2030RedisDown` | `redis_up{job="fixture2030-redis"} == 0` durante 30 s | crítica | Redis | sesiones no disponibles y caché en bypass | Plataforma: revisar contenedor, volumen y conectividad | separa la degradación temporal de la caída de la API |
+| `Fixture2030RedisHighMemory` | memoria usada / `maxmemory` mayor a 85 % durante 5 min | advertencia | Redis | `allkeys-lfu` puede expulsar sesiones o caché antes del TTL | Plataforma: revisar TTL, cardinalidad y capacidad | deja margen antes del límite de 256 MB; se validará bajo estrés |
+| `Fixture2030RedisEvictions` | al menos una eviction en 5 min durante 1 min | advertencia | Redis | presión de memoria o política inadecuada | Backend: correlacionar hit rate, memoria y escenario | en la línea base no se esperan evicciones |
+| `Fixture2030CassandraDown` | `fixture2030_dependency_up{dependency="cassandra"} == 0` durante 30 s | crítica | Cassandra | comentarios no disponibles; fixture y sesiones continúan | Plataforma: revisar nodo, volumen y conectividad; no confirmar comentarios | demuestra degradación aislada del módulo social |
 
-La alerta de API ya posee una prueba controlada. Redis se verificara mediante
-reinicio y recuperacion; la alerta de memoria se ejercitara durante los
-escenarios de carga. Outbox quedara funcionalmente verificable cuando exista
-el consumidor de proyecciones.
+Las fallas controladas de API, MongoDB, Redis y Cassandra conservan valores
+antes/durante/después y el estado `firing` cuando la regla correspondiente lo
+permite. La alerta de memoria se ejercitará con carga. Outbox será validable
+cuando exista el consumidor de proyecciones.

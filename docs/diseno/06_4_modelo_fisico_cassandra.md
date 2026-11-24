@@ -23,7 +23,11 @@ distintas. No se usan joins, índices secundarios ni `ALLOW FILTERING`.
 El feed usa buckets de un minuto UTC y cuatro shards estables calculados desde
 `usuarioId`. Así una final no concentra toda la escritura en una partición y
 la lectura hace fan-out solamente sobre cuatro particiones conocidas. La API
-fusiona los resultados y pagina mediante el límite temporal `antesDe`.
+fusiona los resultados y pagina mediante `antesDe`, un cursor opaco que incluye
+`created_at` y `comment_id`. El segundo componente evita omisiones cuando dos
+comentarios comparten timestamp. La lectura pública continúa recorriendo una
+partición hasta reunir comentarios visibles, por lo que una secuencia de
+comentarios ocultos no produce un falso fin de página.
 
 El historial por usuario usa un bucket diario porque el volumen individual es
 mucho menor. La cantidad de shards deberá validarse con los escenarios `1x`,
@@ -54,4 +58,6 @@ contenido.
 - La autenticación/autorización administrativa es simulada.
 - La convergencia se ejecuta sin worker de reparación; se agregará junto con
   el procesamiento completo de Outbox.
+- El filtrado de ocultos se realiza en la API sobre particiones acotadas. Si la
+  tasa de moderación o el volumen crecen, se evaluará una vista pública separada.
 

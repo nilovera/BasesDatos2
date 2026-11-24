@@ -92,6 +92,19 @@ class ContractTests(unittest.TestCase):
             if item.get("in") == "query"
         }
         self.assertEqual({"bucket", "antesDe", "limite", "incluirOcultos"}, query_names)
+        cursor_parameter = next(
+            item for item in paths[match_path]["get"]["parameters"]
+            if item.get("name") == "antesDe"
+        )
+        cursor_types = {
+            variant.get("type") for variant in cursor_parameter["schema"]["anyOf"]
+        }
+        self.assertEqual({"string", "null"}, cursor_types)
+        self.assertIn("Cursor opaco", cursor_parameter["description"])
+        response_cursor = self.openapi["components"]["schemas"]["PaginaComentarios"][
+            "properties"
+        ]["siguienteCursor"]
+        self.assertNotIn("format", response_cursor["anyOf"][0])
 
     def test_match_read_documents_cache_result_header(self):
         response = self.openapi["paths"]["/api/v1/partidos/{partidoId}"]["get"][

@@ -54,10 +54,10 @@ python -m scripts.catalogo --check
 | `tests/` | Pruebas del catálogo, contratos, dominio, API e infraestructura | Ejecutadas estáticamente |
 | `docs/antecedentes/` | Siete documentos de diseño previos | Conservados como antecedentes |
 | `docs/diseno/` | Convenciones y decisiones de la rama final | Base inicial documentada |
-| `backend/` | FastAPI, contrato OpenAPI, transacción e idempotencia | Implementado; ejecución integrada pendiente |
+| `backend/` | FastAPI, contrato OpenAPI, transacción e idempotencia | Implementado y validado con MongoDB, Redis y Cassandra |
 | `mongodb/` | Replica set, validadores, índices, carga y verificación | Implementado y validado en Docker |
-| `redis/` | Cache-Aside, sesiones, TTL, LFU, RDB y AOF | Implementado; ejecución Docker pendiente |
-| `cassandra/` | Esquema por consulta, buckets, shards e idempotencia | Implementado; ejecución Docker pendiente |
+| `redis/` | Cache-Aside, sesiones, TTL, LFU, RDB y AOF | Implementado y validado en Docker; evidencia final pendiente |
+| `cassandra/` | Esquema por consulta, buckets, shards e idempotencia | Implementado y validado en Docker; evidencia final pendiente |
 | `infra/` | Prometheus, reglas de alerta, Grafana y dashboard inicial | Implementado y ejecutado en Docker |
 | `evidencia/` | Resultados trazables por commit y prueba de falla controlada | Estructura y captura automatizadas; ejecuciones pendientes de versionar |
 
@@ -92,20 +92,20 @@ sus consecuencias están documentadas en
 
 ## Orden de trabajo
 
-1. Validar la API, transacciones, idempotencia, Prometheus y Grafana en Docker.
-2. Validar Cassandra y luego incorporar InfluxDB y Neo4j mediante adaptadores revisados.
+1. Conservar la validación de API, transacciones, idempotencia, Redis, Cassandra, Prometheus y Grafana.
+2. Incorporar InfluxDB y Neo4j mediante adaptadores revisados.
 3. Procesar la Outbox y construir las proyecciones idempotentes.
 4. Completar usuarios, asistencias, telemetría y simulador sintético.
 5. Agregar exporters, alertas y dashboards de los cinco motores.
 6. Ejecutar humo, tráfico normal, estrés y recuperación.
 7. Preparar la demostración y defensa final.
 
-## Evidencia del incremento 03
+## Evidencia reproducible
 
 Con la plataforma operativa, capturar el estado reproducible:
 
 ```text
-powershell -ExecutionPolicy Bypass -File scripts\capturar_evidencia.ps1
+powershell -ExecutionPolicy Bypass -File scripts\capturar_evidencia.ps1 -Scenario verificacion-integrada
 ```
 
 Luego ejecutar la falla controlada de la API. El script detiene solamente ese
@@ -121,6 +121,37 @@ Los resultados quedan bajo `evidencia/ejecuciones/`. Deben revisarse antes de
 versionarlos y complementarse con capturas de Grafana de la misma ventana
 temporal. Las consultas, umbrales, responsables y limitaciones están en
 [`docs/monitoreo`](docs/monitoreo/).
+
+La correspondencia entre la consigna de monitoreo, lo implementado y la
+evidencia todavía pendiente está en la
+[`matriz de cumplimiento`](docs/monitoreo/matriz_cumplimiento_hito_13.md).
+
+La captura exige por defecto un commit limpio. Las fallas de MongoDB, Redis y
+Cassandra también generan `resultado.json` con commit, valores
+antes/durante/después, alerta y recuperación:
+
+```text
+powershell -ExecutionPolicy Bypass -File scripts\probar_falla_mongodb.ps1
+powershell -ExecutionPolicy Bypass -File scripts\probar_falla_redis.ps1
+powershell -ExecutionPolicy Bypass -File scripts\probar_falla_cassandra.ps1
+```
+
+## Accesos y detención segura
+
+Con la plataforma iniciada:
+
+- API y Swagger: `http://localhost:8000/docs`
+- métricas de la API: `http://localhost:8000/metrics`
+- Prometheus: `http://localhost:9090`
+- Grafana: `http://localhost:3000`
+
+Para detener sin borrar MongoDB, Redis, Cassandra ni las series de monitoreo:
+
+```text
+powershell -ExecutionPolicy Bypass -File scripts\detener_plataforma.ps1
+```
+
+No utilizar `docker compose down -v` en las pruebas normales.
 
 ## Incremento 04 Redis
 
@@ -142,7 +173,8 @@ El modelo y sus trade-offs están en
 ## Incremento 05 Cassandra
 
 Cassandra conserva comentarios por partido y por usuario, aplica idempotencia,
-moderación y paginación temporal, y se degrada sin bloquear el fixture:
+moderación y paginación mediante cursor opaco `(timestamp, comentarioId)`, y se
+degrada sin bloquear el fixture:
 
 ```text
 powershell -ExecutionPolicy Bypass -File scripts\iniciar_plataforma.ps1
@@ -164,6 +196,8 @@ telemetría, simulación y carga están registradas en
 
 MongoDB fue ejecutado en el equipo del grupo con 64 equipos, 1.024 jugadores,
 un partido, replica set PRIMARY e idempotencia de la carga. La API, Redis,
-Prometheus y Grafana también fueron iniciados y verificados. Cassandra queda
-como incremento implementado pendiente de ejecución en el equipo del grupo.
-Todavía no se versionaron mediciones de capacidad, SLO ni convergencia completa.
+Cassandra, Prometheus y Grafana también fueron iniciados y verificados. Las
+pruebas funcionales incluyen persistencia Redis, comentarios Cassandra y
+degradación controlada de los servicios. Todavía deben versionarse las
+ejecuciones finales y no existen mediciones de capacidad, SLO ni convergencia
+completa.

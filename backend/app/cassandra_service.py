@@ -1,3 +1,5 @@
+import base64
+import binascii
 import hashlib
 import json
 import zlib
@@ -45,6 +47,38 @@ def day_bucket(value):
 
 def stable_shard(user_id, shard_count=4):
     return zlib.crc32(user_id.encode("utf-8")) % shard_count
+
+
+def encode_cursor(created_at, comment_id):
+    payload = json.dumps(
+        {
+            "v": 1,
+            "t": ensure_utc(created_at).isoformat().replace("+00:00", "Z"),
+            "id": str(comment_id),
+        },
+        separators=(",", ":"),
+    ).encode("utf-8")
+    return base64.urlsafe_b64encode(payload).decode("ascii").rstrip("=")
+
+
+def decode_cursor(value):
+    if value is None:
+        return None
+    try:
+        padded = value + "=" * (-len(value) % 4)
+        payload = json.loads(base64.urlsafe_b64decode(padded.encode("ascii")))
+        if payload.get("v") != 1:
+            raise ValueError("version de cursor no soportada")
+        created_at = datetime.fromisoformat(payload["t"].replace("Z", "+00:00"))
+        if created_at.tzinfo is None or created_at.utcoffset() is None:
+            raise ValueError("cursor sin zona horaria")
+        return ensure_utc(created_at), UUID(payload["id"])
+    except (UnicodeError, ValueError, TypeError, KeyError, json.JSONDecodeError, binascii.Error) as error:
+        raise DomainError(
+            400,
+            "INVALID_COMMENT_CURSOR",
+            "El cursor de comentarios no es válido",
+        ) from error
 
 
 def conditional_applied(row):
@@ -170,38 +204,120 @@ class CassandraCommentService:
         except Exception as error:
             raise DomainError(503, "CASSANDRA_UNAVAILABLE", "Cassandra no está disponible") from error
 
-    def list_by_match(self, match_id, bucket, before, limit, include_hidden=False):
+    @staticmethod
+    def _take_eligible(results, limit, include_hidden):
+        selected = []
+        for result in results:
+            for row in result:
+                if include_hidden or row.status == "VISIBLE":
+                    selected.append(row)
+                    if len(selected) >= limit + 1:
+                        return selected
+        return selected
+
+    def _match_partition_rows(
+        self, match_id, bucket, shard, cursor, limit, include_hidden
+    ):
+        projection = """
+            SELECT comment_id, match_id, user_id, content, status, created_at
+            FROM comments_by_match_bucket_shard
+        """
+        if cursor is None:
+            results = [
+                self.session.execute(
+                    projection
+                    + " WHERE match_id = %s AND bucket = %s AND shard = %s",
+                    (match_id, bucket, shard),
+                )
+            ]
+        else:
+            created_at, comment_id = cursor
+            results = [
+                self.session.execute(
+                    projection
+                    + """
+                      WHERE match_id = %s AND bucket = %s AND shard = %s
+                        AND created_at = %s AND comment_id > %s
+                    """,
+                    (match_id, bucket, shard, created_at, comment_id),
+                ),
+                self.session.execute(
+                    projection
+                    + """
+                      WHERE match_id = %s AND bucket = %s AND shard = %s
+                        AND created_at < %s
+                    """,
+                    (match_id, bucket, shard, created_at),
+                ),
+            ]
+        return self._take_eligible(results, limit, include_hidden)
+
+    def _user_partition_rows(self, user_id, bucket, cursor, limit, include_hidden):
+        projection = """
+            SELECT comment_id, match_id, user_id, content, status, created_at
+            FROM comments_by_user_day
+        """
+        if cursor is None:
+            results = [
+                self.session.execute(
+                    projection + " WHERE user_id = %s AND day_bucket = %s",
+                    (user_id, bucket),
+                )
+            ]
+        else:
+            created_at, comment_id = cursor
+            results = [
+                self.session.execute(
+                    projection
+                    + """
+                      WHERE user_id = %s AND day_bucket = %s
+                        AND created_at = %s AND comment_id > %s
+                    """,
+                    (user_id, bucket, created_at, comment_id),
+                ),
+                self.session.execute(
+                    projection
+                    + """
+                      WHERE user_id = %s AND day_bucket = %s
+                        AND created_at < %s
+                    """,
+                    (user_id, bucket, created_at),
+                ),
+            ]
+        return self._take_eligible(results, limit, include_hidden)
+
+    def list_by_match(self, match_id, bucket, cursor_value, limit, include_hidden=False):
+        cursor = decode_cursor(cursor_value)
         rows = []
         try:
             for shard in range(self.shard_count):
-                result = self.session.execute(
-                    """
-                    SELECT comment_id, match_id, user_id, content, status, created_at
-                    FROM comments_by_match_bucket_shard
-                    WHERE match_id = %s AND bucket = %s AND shard = %s
-                      AND created_at < %s LIMIT %s
-                    """,
-                    (match_id, bucket, shard, before, limit + 1),
+                rows.extend(
+                    self._match_partition_rows(
+                        match_id,
+                        bucket,
+                        shard,
+                        cursor,
+                        limit,
+                        include_hidden,
+                    )
                 )
-                rows.extend(result)
         except Exception as error:
             raise DomainError(503, "CASSANDRA_UNAVAILABLE", "Cassandra no está disponible") from error
         return self._page(rows, limit, include_hidden)
 
-    def list_by_user(self, user_id, bucket, before, limit, include_hidden=False):
+    def list_by_user(self, user_id, bucket, cursor_value, limit, include_hidden=False):
+        cursor = decode_cursor(cursor_value)
         try:
-            rows = self.session.execute(
-                """
-                SELECT comment_id, match_id, user_id, content, status, created_at
-                FROM comments_by_user_day
-                WHERE user_id = %s AND day_bucket = %s
-                  AND created_at < %s LIMIT %s
-                """,
-                (user_id, bucket, before, limit + 1),
+            rows = self._user_partition_rows(
+                user_id,
+                bucket,
+                cursor,
+                limit,
+                include_hidden,
             )
         except Exception as error:
             raise DomainError(503, "CASSANDRA_UNAVAILABLE", "Cassandra no está disponible") from error
-        return self._page(list(rows), limit, include_hidden)
+        return self._page(rows, limit, include_hidden)
 
     def moderate(self, comment_id, status, moderator_id, reason):
         from cassandra import ConsistencyLevel
@@ -276,7 +392,12 @@ class CassandraCommentService:
     @staticmethod
     def _page(rows, limit, include_hidden):
         visible = [row for row in rows if include_hidden or row.status == "VISIBLE"]
-        visible.sort(key=lambda row: (row.created_at, str(row.comment_id)), reverse=True)
+        visible.sort(
+            key=lambda row: (
+                -ensure_utc(row.created_at).timestamp(),
+                UUID(str(row.comment_id)).int,
+            )
+        )
         has_more = len(visible) > limit
         selected = visible[:limit]
         items = [
@@ -290,5 +411,9 @@ class CassandraCommentService:
             }
             for row in selected
         ]
-        cursor = ensure_utc(selected[-1].created_at) if has_more and selected else None
+        cursor = (
+            encode_cursor(selected[-1].created_at, selected[-1].comment_id)
+            if has_more and selected
+            else None
+        )
         return {"items": items, "siguienteCursor": cursor}

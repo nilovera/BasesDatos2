@@ -56,6 +56,7 @@ function Wait-AlertFiring {
 }
 
 $commit = (& git rev-parse HEAD).Trim()
+$branch = (& git branch --show-current).Trim()
 $before = Get-ApiUp
 if ($null -eq $before -or $before -ne 1) {
     throw "La API debe estar UP en Prometheus antes de iniciar la prueba."
@@ -106,7 +107,8 @@ try {
 
     $record = [ordered]@{
         runId = "falla-api-$runId"
-        commit = $commit
+        sourceCommit = $commit
+        branch = $branch
         scenario = "falla-controlada-api"
         classification = "medido"
         startedAtUtc = $startedAt

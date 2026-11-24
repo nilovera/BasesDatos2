@@ -1,7 +1,6 @@
 import re
 import time
 from contextlib import asynccontextmanager
-from datetime import datetime, timedelta, timezone
 from uuid import uuid4
 
 from fastapi import FastAPI, Header, Query, Request, Response
@@ -163,18 +162,21 @@ async def validation_error_handler(request: Request, error: RequestValidationErr
 
 @app.get("/health", response_model=HealthResponse)
 def health():
-    mongo = repository().health()
+    mongo_status = repository().health_status()
     redis_status = redis_service().health()
     try:
         cassandra_status = comment_service().health()
     except Exception:
         cassandra_status = "DOWN"
-    DEPENDENCY_UP.labels("mongodb").set(1 if mongo.get("mongodb") == "PRIMARY" else 0)
+    DEPENDENCY_UP.labels("mongodb").set(1 if mongo_status == "PRIMARY" else 0)
     DEPENDENCY_UP.labels("redis").set(1 if redis_status == "UP" else 0)
     DEPENDENCY_UP.labels("cassandra").set(1 if cassandra_status == "UP" else 0)
     return {
-        **mongo,
-        "status": "UP" if redis_status == "UP" and cassandra_status == "UP" else "DEGRADED",
+        "service": "fixture2030-api",
+        "status": "UP"
+        if mongo_status == "PRIMARY" and redis_status == "UP" and cassandra_status == "UP"
+        else "DEGRADED",
+        "mongodb": mongo_status,
         "redis": redis_status,
         "cassandra": cassandra_status,
     }
@@ -384,17 +386,24 @@ def publish_comment(
 def list_match_comments(
     partidoId: str,
     bucket: str = Query(pattern=r"^[0-9]{12}$"),
-    antes_de: datetime | None = Query(None, alias="antesDe"),
+    antes_de: str | None = Query(
+        None,
+        alias="antesDe",
+        description="Cursor opaco devuelto por siguienteCursor; no es una fecha editable",
+    ),
     limite: int = Query(50, ge=1, le=100),
     incluir_ocultos: bool = Query(False, alias="incluirOcultos"),
 ):
     validate_match_id(partidoId)
-    cursor = antes_de or (datetime.now(timezone.utc) + timedelta(seconds=1))
-    result = comment_service().list_by_match(
-        partidoId, bucket, cursor, limite, incluir_ocultos
-    )
-    COMMENT_OPERATIONS.labels("read_match", "OK").inc()
-    return result
+    try:
+        result = comment_service().list_by_match(
+            partidoId, bucket, antes_de, limite, incluir_ocultos
+        )
+        COMMENT_OPERATIONS.labels("read_match", "OK").inc()
+        return result
+    except DomainError:
+        COMMENT_OPERATIONS.labels("read_match", "ERROR").inc()
+        raise
 
 
 @app.get(
@@ -405,17 +414,24 @@ def list_match_comments(
 def list_user_comments(
     usuarioId: str,
     bucket: str = Query(pattern=r"^[0-9]{8}$"),
-    antes_de: datetime | None = Query(None, alias="antesDe"),
+    antes_de: str | None = Query(
+        None,
+        alias="antesDe",
+        description="Cursor opaco devuelto por siguienteCursor; no es una fecha editable",
+    ),
     limite: int = Query(50, ge=1, le=100),
     incluir_ocultos: bool = Query(False, alias="incluirOcultos"),
 ):
     validate_user_id(usuarioId)
-    cursor = antes_de or (datetime.now(timezone.utc) + timedelta(seconds=1))
-    result = comment_service().list_by_user(
-        usuarioId, bucket, cursor, limite, incluir_ocultos
-    )
-    COMMENT_OPERATIONS.labels("read_user", "OK").inc()
-    return result
+    try:
+        result = comment_service().list_by_user(
+            usuarioId, bucket, antes_de, limite, incluir_ocultos
+        )
+        COMMENT_OPERATIONS.labels("read_user", "OK").inc()
+        return result
+    except DomainError:
+        COMMENT_OPERATIONS.labels("read_user", "ERROR").inc()
+        raise
 
 
 @app.patch(
@@ -428,8 +444,12 @@ def list_user_comments(
 )
 def moderate_comment(comentarioId: str, command: ModeracionComentario):
     validate_comment_id(comentarioId)
-    result = comment_service().moderate(
-        comentarioId, command.estado, command.moderador_id, command.motivo
-    )
-    COMMENT_OPERATIONS.labels("moderate", "OK").inc()
-    return result
+    try:
+        result = comment_service().moderate(
+            comentarioId, command.estado, command.moderador_id, command.motivo
+        )
+        COMMENT_OPERATIONS.labels("moderate", "OK").inc()
+        return result
+    except DomainError:
+        COMMENT_OPERATIONS.labels("moderate", "ERROR").inc()
+        raise

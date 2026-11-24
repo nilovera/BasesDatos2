@@ -44,20 +44,22 @@ class MongoRepository:
         self.client = client
         self.db = client.get_database(settings.mongodb_database)
 
-    def health(self):
+    def health_status(self):
         try:
             hello = self.client.admin.command("hello")
-        except PyMongoError as error:
+        except PyMongoError:
+            return "DOWN"
+        if hello.get("setName") != "rs0" or not hello.get("isWritablePrimary"):
+            return "DOWN"
+        return "PRIMARY"
+
+    def health(self):
+        status = self.health_status()
+        if status == "DOWN":
             raise DomainError(
                 503, "OFFICIAL_STORE_UNAVAILABLE", "MongoDB no respondió"
-            ) from error
-        if hello.get("setName") != "rs0" or not hello.get("isWritablePrimary"):
-            raise DomainError(
-                503,
-                "OFFICIAL_STORE_UNAVAILABLE",
-                "MongoDB no está operativo como PRIMARY de rs0",
             )
-        return {"status": "UP", "service": "fixture2030-api", "mongodb": "PRIMARY"}
+        return {"status": "UP", "service": "fixture2030-api", "mongodb": status}
 
     def get_match(self, partido_id):
         try:

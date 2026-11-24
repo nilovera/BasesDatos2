@@ -62,6 +62,7 @@ class RuntimeIncrementTests(unittest.TestCase):
             "Fixture2030RedisHighMemory",
             "Fixture2030RedisEvictions",
             "Fixture2030CassandraDown",
+            "Fixture2030MongoDown",
         ):
             self.assertIn(f"alert: {alert}", rules)
         self.assertIn("owner: plataforma", rules)
@@ -100,8 +101,20 @@ class RuntimeIncrementTests(unittest.TestCase):
         self.assertIn("git rev-parse HEAD", script)
         self.assertIn("api/v1/targets", script)
         self.assertIn("api/v1/rules", script)
+        self.assertIn("Start-Process", script)
+        self.assertIn("workingTreeCleanBeforeCapture", script)
+        self.assertIn("manifest-sha256.json", script)
+        self.assertNotIn("verificacion-incremento-03", script)
         self.assertNotIn("Get-ChildItem Env:", script)
         self.assertNotIn("docker inspect", script)
+
+        matrix = (
+            ROOT / "docs" / "monitoreo" / "matriz_cumplimiento_hito_13.md"
+        ).read_text(encoding="utf-8")
+        self.assertIn("Implementado no equivale", matrix.replace("**", ""))
+        self.assertIn("Pruebas de humo, tráfico normal y estrés", matrix)
+        self.assertIn("Defensa de 20 minutos", matrix)
+        self.assertIn("no se declara completamente cerrado", matrix)
 
     def test_grafana_dashboard_is_valid_and_provisioned(self):
         dashboard = json.loads(
@@ -109,6 +122,19 @@ class RuntimeIncrementTests(unittest.TestCase):
         )
         self.assertEqual("fixture2030-api", dashboard["uid"])
         self.assertGreaterEqual(len(dashboard["panels"]), 10)
+        expressions = {
+            target["expr"]
+            for panel in dashboard["panels"]
+            for target in panel.get("targets", [])
+        }
+        self.assertIn('fixture2030_dependency_up{dependency="mongodb"}', expressions)
+        self.assertIn(
+            'fixture2030_dependency_up{dependency=~"mongodb|redis|cassandra"}',
+            expressions,
+        )
+        self.assertTrue(
+            any("increase(fixture2030_http_requests_total" in expression for expression in expressions)
+        )
         datasource = (
             ROOT
             / "infra"
@@ -195,6 +221,25 @@ class RuntimeIncrementTests(unittest.TestCase):
         failure = (ROOT / "scripts" / "probar_falla_cassandra.ps1").read_text(encoding="utf-8")
         self.assertIn("finally {", failure)
         self.assertIn("docker start fixture2030-cassandra", failure)
+        self.assertIn("Fixture2030CassandraDown", failure)
+        self.assertIn("resultado.json", failure)
+
+    def test_dependency_health_and_failures_are_observable(self):
+        main = (ROOT / "backend" / "app" / "main.py").read_text(encoding="utf-8")
+        repository = (ROOT / "backend" / "app" / "repository.py").read_text(encoding="utf-8")
+        self.assertIn("def health_status(self):", repository)
+        self.assertIn("mongo_status = repository().health_status()", main)
+        self.assertIn('DEPENDENCY_UP.labels("mongodb")', main)
+
+        mongo_failure = (ROOT / "scripts" / "probar_falla_mongodb.ps1").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("docker stop fixture2030-mongo", mongo_failure)
+        self.assertIn("docker start fixture2030-mongo", mongo_failure)
+        self.assertIn("Fixture2030MongoDown", mongo_failure)
+        self.assertIn("resultado.json", mongo_failure)
+        self.assertIn("finally {", mongo_failure)
+        self.assertNotIn("down -v", mongo_failure.lower())
 
     def test_powershell_query_string_delimits_base_url_variable(self):
         script = (ROOT / "scripts" / "probar_flujo_mongodb.ps1").read_text(

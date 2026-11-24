@@ -1,7 +1,7 @@
 # Backend — API ejecutable
 
-Servicio FastAPI que implementa el flujo oficial sobre MongoDB y una capa
-temporal Redis. El contrato estable está en `openapi.json` y la documentación
+Servicio FastAPI que implementa el flujo oficial sobre MongoDB, una capa
+temporal Redis y comentarios durables en Cassandra. El contrato estable está en `openapi.json` y la documentación
 interactiva queda disponible en `http://localhost:8000/docs`.
 
 ## Endpoints
@@ -15,6 +15,9 @@ interactiva queda disponible en `http://localhost:8000/docs`.
 - `GET /api/v1/sesiones/{sesionId}`
 - `POST /api/v1/sesiones/{sesionId}/renovacion`
 - `DELETE /api/v1/sesiones/{sesionId}`
+- `POST/GET /api/v1/partidos/{partidoId}/comentarios`
+- `GET /api/v1/usuarios/{usuarioId}/comentarios`
+- `PATCH /api/v1/comentarios/{comentarioId}/moderacion`
 
 Toda escritura requiere `Idempotency-Key`. Una creación devuelve `201`; una
 repetición del mismo body devuelve `200` y `Idempotency-Replayed: true`; la
@@ -37,6 +40,18 @@ La lectura de partidos usa Cache-Aside y expone `X-Cache: HIT`, `MISS` o
 `BYPASS`. Después de una escritura oficial se invalida la clave. Las sesiones
 se guardan como Hash con TTL; un GET no renueva el tiempo y el endpoint de
 renovación ejecuta la actualización de manera explícita y atómica.
+
+## Cassandra
+
+La publicación usa `Idempotency-Key`. Las vistas por partido y usuario se
+escriben en un batch acotado y se consultan por claves de partición conocidas.
+La moderación actualiza ambas vistas sin escaneos ni `ALLOW FILTERING`.
+
+Regenerar el contrato después de modificar rutas o modelos:
+
+```text
+python scripts/exportar_openapi.py
+```
 
 ## Alcance actual
 

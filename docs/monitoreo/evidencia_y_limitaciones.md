@@ -24,8 +24,10 @@ local.
 ## Limitaciones actuales
 
 - MongoDB se observa indirectamente mediante la API; falta su exporter.
-- Cassandra, InfluxDB y Neo4j aun no son parte de este incremento.
+- Cassandra forma parte del entorno y expone salud funcional desde la API; las métricas JMX internas quedan pendientes para el escenario RF=3.
+- InfluxDB y Neo4j aun no son parte de este incremento.
 - Redis es standalone: RDB/AOF permiten recuperacion local, no alta disponibilidad.
 - No hay resultados de capacidad, SLO, RPO ni RTO.
 - Las alertas no tienen todavia un canal externo de notificacion.
 - Un replica set MongoDB de un miembro no demuestra alta disponibilidad.
+- Sigue pendiente corregir la captura automática y versionar por separado las evidencias válidas de fallas controladas.

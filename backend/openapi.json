@@ -2,8 +2,8 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Fixture 2030 API",
-    "description": "Núcleo deportivo en MongoDB con cache y sesiones temporales en Redis.",
-    "version": "0.3.0"
+    "description": "Núcleo deportivo en MongoDB, cache y sesiones en Redis, y comentarios en Cassandra.",
+    "version": "0.4.0"
   },
   "paths": {
     "/health": {
@@ -427,10 +427,473 @@
           }
         }
       }
+    },
+    "/api/v1/partidos/{partidoId}/comentarios": {
+      "post": {
+        "summary": "Publish Comment",
+        "operationId": "publish_comment_api_v1_partidos__partidoId__comentarios_post",
+        "parameters": [
+          {
+            "name": "partidoId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Partidoid"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 16,
+              "maxLength": 128,
+              "title": "Idempotency-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ComentarioCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ComentarioCreado"
+                }
+              }
+            }
+          },
+          "200": {
+            "headers": {
+              "Idempotency-Replayed": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ComentarioCreado"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "404": {
+            "description": "Partido inexistente"
+          },
+          "409": {
+            "description": "Conflicto de idempotencia"
+          },
+          "503": {
+            "description": "MongoDB o Cassandra no disponible"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "List Match Comments",
+        "operationId": "list_match_comments_api_v1_partidos__partidoId__comentarios_get",
+        "parameters": [
+          {
+            "name": "partidoId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Partidoid"
+            }
+          },
+          {
+            "name": "bucket",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9]{12}$",
+              "title": "Bucket"
+            }
+          },
+          {
+            "name": "antesDe",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Antesde"
+            }
+          },
+          {
+            "name": "limite",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 50,
+              "title": "Limite"
+            }
+          },
+          {
+            "name": "incluirOcultos",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false,
+              "title": "Incluirocultos"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginaComentarios"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Cassandra no disponible"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/usuarios/{usuarioId}/comentarios": {
+      "get": {
+        "summary": "List User Comments",
+        "operationId": "list_user_comments_api_v1_usuarios__usuarioId__comentarios_get",
+        "parameters": [
+          {
+            "name": "usuarioId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Usuarioid"
+            }
+          },
+          {
+            "name": "bucket",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9]{8}$",
+              "title": "Bucket"
+            }
+          },
+          {
+            "name": "antesDe",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Antesde"
+            }
+          },
+          {
+            "name": "limite",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 50,
+              "title": "Limite"
+            }
+          },
+          {
+            "name": "incluirOcultos",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false,
+              "title": "Incluirocultos"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginaComentarios"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Cassandra no disponible"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/comentarios/{comentarioId}/moderacion": {
+      "patch": {
+        "summary": "Moderate Comment",
+        "operationId": "moderate_comment_api_v1_comentarios__comentarioId__moderacion_patch",
+        "parameters": [
+          {
+            "name": "comentarioId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Comentarioid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ModeracionComentario"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModeracionResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Comentario inexistente"
+          },
+          "503": {
+            "description": "Cassandra no disponible"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
+      "ComentarioCreado": {
+        "properties": {
+          "comentarioId": {
+            "type": "string",
+            "title": "Comentarioid"
+          },
+          "partidoId": {
+            "type": "string",
+            "title": "Partidoid"
+          },
+          "usuarioId": {
+            "type": "string",
+            "title": "Usuarioid"
+          },
+          "contenido": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Contenido"
+          },
+          "estado": {
+            "type": "string",
+            "enum": [
+              "VISIBLE",
+              "OCULTO"
+            ],
+            "title": "Estado"
+          },
+          "creadoEn": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Creadoen"
+          },
+          "bucket": {
+            "type": "string",
+            "pattern": "^[0-9]{12}$",
+            "title": "Bucket"
+          },
+          "shard": {
+            "type": "integer",
+            "maximum": 15.0,
+            "minimum": 0.0,
+            "title": "Shard"
+          },
+          "repetido": {
+            "type": "boolean",
+            "title": "Repetido"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "comentarioId",
+          "partidoId",
+          "usuarioId",
+          "contenido",
+          "estado",
+          "creadoEn",
+          "bucket",
+          "shard",
+          "repetido"
+        ],
+        "title": "ComentarioCreado"
+      },
+      "ComentarioCreate": {
+        "properties": {
+          "usuarioId": {
+            "type": "string",
+            "pattern": "^USR-[0-9]{4}$",
+            "title": "Usuarioid"
+          },
+          "contenido": {
+            "type": "string",
+            "maxLength": 280,
+            "minLength": 1,
+            "title": "Contenido"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "usuarioId",
+          "contenido"
+        ],
+        "title": "ComentarioCreate"
+      },
+      "ComentarioResponse": {
+        "properties": {
+          "comentarioId": {
+            "type": "string",
+            "title": "Comentarioid"
+          },
+          "partidoId": {
+            "type": "string",
+            "title": "Partidoid"
+          },
+          "usuarioId": {
+            "type": "string",
+            "title": "Usuarioid"
+          },
+          "contenido": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Contenido"
+          },
+          "estado": {
+            "type": "string",
+            "enum": [
+              "VISIBLE",
+              "OCULTO"
+            ],
+            "title": "Estado"
+          },
+          "creadoEn": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Creadoen"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "comentarioId",
+          "partidoId",
+          "usuarioId",
+          "contenido",
+          "estado",
+          "creadoEn"
+        ],
+        "title": "ComentarioResponse"
+      },
       "CorreccionEventoCommand": {
         "properties": {
           "ocurridoEn": {
@@ -689,6 +1152,10 @@
           "redis": {
             "type": "string",
             "title": "Redis"
+          },
+          "cassandra": {
+            "type": "string",
+            "title": "Cassandra"
           }
         },
         "additionalProperties": false,
@@ -697,7 +1164,8 @@
           "status",
           "service",
           "mongodb",
-          "redis"
+          "redis",
+          "cassandra"
         ],
         "title": "HealthResponse"
       },
@@ -742,6 +1210,106 @@
           "visitante"
         ],
         "title": "Marcador"
+      },
+      "ModeracionComentario": {
+        "properties": {
+          "estado": {
+            "type": "string",
+            "enum": [
+              "VISIBLE",
+              "OCULTO"
+            ],
+            "title": "Estado"
+          },
+          "moderadorId": {
+            "type": "string",
+            "pattern": "^USR-[0-9]{4}$",
+            "title": "Moderadorid"
+          },
+          "motivo": {
+            "type": "string",
+            "maxLength": 300,
+            "minLength": 3,
+            "title": "Motivo"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "estado",
+          "moderadorId",
+          "motivo"
+        ],
+        "title": "ModeracionComentario"
+      },
+      "ModeracionResponse": {
+        "properties": {
+          "comentarioId": {
+            "type": "string",
+            "title": "Comentarioid"
+          },
+          "estado": {
+            "type": "string",
+            "enum": [
+              "VISIBLE",
+              "OCULTO"
+            ],
+            "title": "Estado"
+          },
+          "moderadoEn": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Moderadoen"
+          },
+          "moderadorId": {
+            "type": "string",
+            "title": "Moderadorid"
+          },
+          "motivo": {
+            "type": "string",
+            "title": "Motivo"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "comentarioId",
+          "estado",
+          "moderadoEn",
+          "moderadorId",
+          "motivo"
+        ],
+        "title": "ModeracionResponse"
+      },
+      "PaginaComentarios": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/ComentarioResponse"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "siguienteCursor": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Siguientecursor"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "items",
+          "siguienteCursor"
+        ],
+        "title": "PaginaComentarios"
       },
       "PaginaEventos": {
         "properties": {

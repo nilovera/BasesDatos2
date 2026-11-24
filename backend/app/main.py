@@ -1,6 +1,7 @@
 import re
 import time
 from contextlib import asynccontextmanager
+from datetime import datetime, timedelta, timezone
 from uuid import uuid4
 
 from fastapi import FastAPI, Header, Query, Request, Response
@@ -9,12 +10,16 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from prometheus_client import make_asgi_app
 
+from .cassandra_client import close_cassandra_client, get_cassandra_session
+from .cassandra_service import CassandraCommentService
 from .config import settings
 from .database import close_client, get_client
 from .errors import DomainError
 from .metrics import (
     CACHE_INVALIDATIONS,
     CACHE_READS,
+    COMMENT_OPERATIONS,
+    DEPENDENCY_UP,
     EVENTS_CONFIRMED,
     HTTP_DURATION,
     HTTP_REQUESTS,
@@ -25,7 +30,12 @@ from .metrics import (
 from .models import (
     EventoCommand,
     EventoConfirmado,
+    ComentarioCreate,
+    ComentarioCreado,
     HealthResponse,
+    ModeracionComentario,
+    ModeracionResponse,
+    PaginaComentarios,
     PaginaEventos,
     PartidoResponse,
     SesionCreate,
@@ -38,6 +48,8 @@ from .repository import MongoRepository
 
 
 PARTIDO_ID = re.compile(r"^PAR-[0-9]{4}$")
+USER_ID = re.compile(r"^USR-[0-9]{4}$")
+COMMENT_ID = re.compile(r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
 SESSION_ID = re.compile(
     r"^SES-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
 )
@@ -52,14 +64,15 @@ async def lifespan(_app):
         # proceso arranque y exponga diagnóstico.
         pass
     yield
+    close_cassandra_client()
     close_redis_client()
     close_client()
 
 
 app = FastAPI(
     title="Fixture 2030 API",
-    version="0.3.0",
-    description="Núcleo deportivo en MongoDB con cache y sesiones temporales en Redis.",
+    version="0.4.0",
+    description="Núcleo deportivo en MongoDB, cache y sesiones en Redis, y comentarios en Cassandra.",
     lifespan=lifespan,
 )
 app.mount("/metrics", make_asgi_app())
@@ -77,6 +90,10 @@ def redis_service():
     )
 
 
+def comment_service():
+    return CassandraCommentService(get_cassandra_session())
+
+
 def request_id(request):
     return getattr(request.state, "request_id", str(uuid4()))
 
@@ -89,6 +106,16 @@ def validate_match_id(partido_id):
 def validate_session_id(session_id):
     if not SESSION_ID.fullmatch(session_id):
         raise DomainError(400, "INVALID_SESSION_ID", "Formato de sesionId inválido")
+
+
+def validate_user_id(user_id):
+    if not USER_ID.fullmatch(user_id):
+        raise DomainError(400, "INVALID_USER_ID", "Formato de usuarioId inválido")
+
+
+def validate_comment_id(comment_id):
+    if not COMMENT_ID.fullmatch(comment_id):
+        raise DomainError(400, "INVALID_COMMENT_ID", "Formato de comentarioId inválido")
 
 
 @app.middleware("http")
@@ -138,10 +165,18 @@ async def validation_error_handler(request: Request, error: RequestValidationErr
 def health():
     mongo = repository().health()
     redis_status = redis_service().health()
+    try:
+        cassandra_status = comment_service().health()
+    except Exception:
+        cassandra_status = "DOWN"
+    DEPENDENCY_UP.labels("mongodb").set(1 if mongo.get("mongodb") == "PRIMARY" else 0)
+    DEPENDENCY_UP.labels("redis").set(1 if redis_status == "UP" else 0)
+    DEPENDENCY_UP.labels("cassandra").set(1 if cassandra_status == "UP" else 0)
     return {
         **mongo,
-        "status": "UP" if redis_status == "UP" else "DEGRADED",
+        "status": "UP" if redis_status == "UP" and cassandra_status == "UP" else "DEGRADED",
         "redis": redis_status,
+        "cassandra": cassandra_status,
     }
 
 
@@ -303,3 +338,98 @@ def delete_session(sesionId: str):
         SESSION_OPERATIONS.labels("delete", "ERROR").inc()
         raise
     return Response(status_code=204)
+
+
+@app.post(
+    "/api/v1/partidos/{partidoId}/comentarios",
+    response_model=ComentarioCreado,
+    status_code=201,
+    responses={
+        200: {
+            "model": ComentarioCreado,
+            "headers": {"Idempotency-Replayed": {"schema": {"type": "boolean"}}},
+        },
+        404: {"description": "Partido inexistente"},
+        409: {"description": "Conflicto de idempotencia"},
+        503: {"description": "MongoDB o Cassandra no disponible"},
+    },
+)
+def publish_comment(
+    partidoId: str,
+    command: ComentarioCreate,
+    response: Response,
+    idempotency_key: str = Header(alias="Idempotency-Key", min_length=16, max_length=128),
+):
+    validate_match_id(partidoId)
+    repository().get_match(partidoId)
+    try:
+        result = comment_service().publish(
+            partidoId, command.usuario_id, command.contenido, idempotency_key
+        )
+        replayed = result["repetido"]
+        response.status_code = 200 if replayed else 201
+        response.headers["Idempotency-Replayed"] = str(replayed).lower()
+        COMMENT_OPERATIONS.labels("publish", "REPLAY" if replayed else "OK").inc()
+        return result
+    except DomainError:
+        COMMENT_OPERATIONS.labels("publish", "ERROR").inc()
+        raise
+
+
+@app.get(
+    "/api/v1/partidos/{partidoId}/comentarios",
+    response_model=PaginaComentarios,
+    responses={503: {"description": "Cassandra no disponible"}},
+)
+def list_match_comments(
+    partidoId: str,
+    bucket: str = Query(pattern=r"^[0-9]{12}$"),
+    antes_de: datetime | None = Query(None, alias="antesDe"),
+    limite: int = Query(50, ge=1, le=100),
+    incluir_ocultos: bool = Query(False, alias="incluirOcultos"),
+):
+    validate_match_id(partidoId)
+    cursor = antes_de or (datetime.now(timezone.utc) + timedelta(seconds=1))
+    result = comment_service().list_by_match(
+        partidoId, bucket, cursor, limite, incluir_ocultos
+    )
+    COMMENT_OPERATIONS.labels("read_match", "OK").inc()
+    return result
+
+
+@app.get(
+    "/api/v1/usuarios/{usuarioId}/comentarios",
+    response_model=PaginaComentarios,
+    responses={503: {"description": "Cassandra no disponible"}},
+)
+def list_user_comments(
+    usuarioId: str,
+    bucket: str = Query(pattern=r"^[0-9]{8}$"),
+    antes_de: datetime | None = Query(None, alias="antesDe"),
+    limite: int = Query(50, ge=1, le=100),
+    incluir_ocultos: bool = Query(False, alias="incluirOcultos"),
+):
+    validate_user_id(usuarioId)
+    cursor = antes_de or (datetime.now(timezone.utc) + timedelta(seconds=1))
+    result = comment_service().list_by_user(
+        usuarioId, bucket, cursor, limite, incluir_ocultos
+    )
+    COMMENT_OPERATIONS.labels("read_user", "OK").inc()
+    return result
+
+
+@app.patch(
+    "/api/v1/comentarios/{comentarioId}/moderacion",
+    response_model=ModeracionResponse,
+    responses={
+        404: {"description": "Comentario inexistente"},
+        503: {"description": "Cassandra no disponible"},
+    },
+)
+def moderate_comment(comentarioId: str, command: ModeracionComentario):
+    validate_comment_id(comentarioId)
+    result = comment_service().moderate(
+        comentarioId, command.estado, command.moderador_id, command.motivo
+    )
+    COMMENT_OPERATIONS.labels("moderate", "OK").inc()
+    return result

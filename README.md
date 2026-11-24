@@ -3,9 +3,9 @@
 Integración final del trabajo de Ingeniería de Datos II dentro del repositorio
 `nilovera/BasesDatos2`, rama `trabajo-final`.
 
-**Estado:** MongoDB autoritativo, API transaccional, Redis para datos calientes
-y observabilidad con Prometheus y Grafana. Cassandra, InfluxDB y Neo4j siguen
-pendientes de integración en la rama final.
+**Estado:** MongoDB autoritativo, API transaccional, Redis para datos calientes,
+Cassandra para comentarios y observabilidad con Prometheus y Grafana. InfluxDB
+y Neo4j siguen pendientes de integración en la rama final.
 
 ## Preparar la rama limpia
 
@@ -57,6 +57,7 @@ python -m scripts.catalogo --check
 | `backend/` | FastAPI, contrato OpenAPI, transacción e idempotencia | Implementado; ejecución integrada pendiente |
 | `mongodb/` | Replica set, validadores, índices, carga y verificación | Implementado y validado en Docker |
 | `redis/` | Cache-Aside, sesiones, TTL, LFU, RDB y AOF | Implementado; ejecución Docker pendiente |
+| `cassandra/` | Esquema por consulta, buckets, shards e idempotencia | Implementado; ejecución Docker pendiente |
 | `infra/` | Prometheus, reglas de alerta, Grafana y dashboard inicial | Implementado y ejecutado en Docker |
 | `evidencia/` | Resultados trazables por commit y prueba de falla controlada | Estructura y captura automatizadas; ejecuciones pendientes de versionar |
 
@@ -67,7 +68,7 @@ La solución final utiliza cinco motores con responsabilidades diferentes:
 | Motor | Responsabilidad principal |
 |---|---|
 | MongoDB | Fuente oficial de equipos, jugadores, partidos, alineaciones y eventos deportivos |
-| Cassandra | Comentarios, moderación y vistas de consulta por partido y por usuario |
+| Cassandra | Comentarios, moderación y vistas por partido/usuario con buckets y shards |
 | Redis | Sesiones, caché, concurrencia y datos temporales |
 | InfluxDB | Estadísticas, posiciones y series temporales |
 | Neo4j | Relaciones y recorridos entre jugadores, equipos y partidos |
@@ -92,7 +93,7 @@ sus consecuencias están documentadas en
 ## Orden de trabajo
 
 1. Validar la API, transacciones, idempotencia, Prometheus y Grafana en Docker.
-2. Validar Redis y luego incorporar Cassandra, InfluxDB y Neo4j mediante adaptadores revisados.
+2. Validar Cassandra y luego incorporar InfluxDB y Neo4j mediante adaptadores revisados.
 3. Procesar la Outbox y construir las proyecciones idempotentes.
 4. Completar usuarios, asistencias, telemetría y simulador sintético.
 5. Agregar exporters, alertas y dashboards de los cinco motores.
@@ -138,6 +139,21 @@ powershell -ExecutionPolicy Bypass -File scripts\probar_falla_redis.ps1
 El modelo y sus trade-offs están en
 [`06_3_modelo_fisico_redis.md`](docs/diseno/06_3_modelo_fisico_redis.md).
 
+## Incremento 05 Cassandra
+
+Cassandra conserva comentarios por partido y por usuario, aplica idempotencia,
+moderación y paginación temporal, y se degrada sin bloquear el fixture:
+
+```text
+powershell -ExecutionPolicy Bypass -File scripts\iniciar_plataforma.ps1
+powershell -ExecutionPolicy Bypass -File scripts\verificar_cassandra.ps1
+powershell -ExecutionPolicy Bypass -File scripts\probar_comentarios_cassandra.ps1
+powershell -ExecutionPolicy Bypass -File scripts\probar_falla_cassandra.ps1
+```
+
+El modelo y la diferencia entre RF=1 local y RF=3 objetivo están en
+[`06_4_modelo_fisico_cassandra.md`](docs/diseno/06_4_modelo_fisico_cassandra.md).
+
 Ver el [plan de incorporación](docs/plan_incorporacion.md), el
 [registro de los 17 puntos](docs/pendientes.md) y las
 [fuentes inspeccionadas](docs/fuentes.md). Las tareas de usuarios, asistencias,
@@ -147,7 +163,7 @@ telemetría, simulación y carga están registradas en
 ## Alcance de las verificaciones actuales
 
 MongoDB fue ejecutado en el equipo del grupo con 64 equipos, 1.024 jugadores,
-un partido, replica set PRIMARY e idempotencia de la carga. La API, Prometheus y
-Grafana también fueron iniciados y verificados. Todavía no se han versionado la
-prueba de falla ni mediciones de capacidad, SLO, recuperación o convergencia
-entre motores.
+un partido, replica set PRIMARY e idempotencia de la carga. La API, Redis,
+Prometheus y Grafana también fueron iniciados y verificados. Cassandra queda
+como incremento implementado pendiente de ejecución en el equipo del grupo.
+Todavía no se versionaron mediciones de capacidad, SLO ni convergencia completa.

@@ -1,6 +1,6 @@
 # Infraestructura y observabilidad
 
-El Compose actual levanta MongoDB, Redis, sus componentes auxiliares, la API,
+El Compose actual levanta MongoDB, Redis, Cassandra, sus componentes auxiliares, la API,
 Prometheus y Grafana. Todos los puertos se publican solamente sobre `127.0.0.1`.
 
 ## Servicios actuales
@@ -11,8 +11,9 @@ Prometheus y Grafana. Todos los puertos se publican solamente sobre `127.0.0.1`.
 | MongoDB | 27017 | Fuente oficial y Outbox |
 | Redis | 6379 | Caché, sesiones y datos temporales |
 | Redis Exporter | 9121 | Memoria, hits, misses, evictions y persistencia |
+| Cassandra | 9042 | Comentarios y moderación por consulta |
 | Prometheus | 9090 | Recolección de métricas técnicas |
-| Grafana | 3000 | Dashboard `Fixture2030 — API, MongoDB y Redis` |
+| Grafana | 3000 | Dashboard `Fixture2030 — API, MongoDB, Redis y Cassandra` |
 
 Grafana se aprovisiona automáticamente con Prometheus como fuente. Usuario
 local: `admin`. La contraseña de laboratorio por defecto es `fixture2030` y
@@ -34,6 +35,9 @@ powershell -ExecutionPolicy Bypass -File scripts\verificar_redis.ps1
 powershell -ExecutionPolicy Bypass -File scripts\probar_patrones_redis.ps1
 powershell -ExecutionPolicy Bypass -File scripts\probar_persistencia_redis.ps1
 powershell -ExecutionPolicy Bypass -File scripts\probar_falla_redis.ps1
+powershell -ExecutionPolicy Bypass -File scripts\verificar_cassandra.ps1
+powershell -ExecutionPolicy Bypass -File scripts\probar_comentarios_cassandra.ps1
+powershell -ExecutionPolicy Bypass -File scripts\probar_falla_cassandra.ps1
 powershell -ExecutionPolicy Bypass -File scripts\capturar_evidencia.ps1
 powershell -ExecutionPolicy Bypass -File scripts\probar_falla_api.ps1
 powershell -ExecutionPolicy Bypass -File scripts\verificar_plataforma.ps1
@@ -50,7 +54,8 @@ todos los volúmenes del laboratorio.
 
 ## Límites
 
-El replica set MongoDB y Redis tienen un único miembro: permiten demostrar los
+MongoDB, Redis y Cassandra tienen un único miembro: permiten demostrar los
 patrones, pero no alta disponibilidad. Redis Exporter aporta un tercer target
-directo a Prometheus. El dashboard sigue siendo una línea base y no evidencia
-aún un SLO alcanzado.
+directo a Prometheus; Cassandra se observa funcionalmente mediante la API y
+requiere JMX para métricas internas en RF=3. El dashboard sigue siendo una
+línea base y no evidencia aún un SLO alcanzado.

@@ -40,3 +40,13 @@ SESSION_OPERATIONS = Counter(
     "Operaciones sobre sesiones temporales de Redis",
     ["operation", "result"],
 )
+DEPENDENCY_UP = Gauge(
+    "fixture2030_dependency_up",
+    "Disponibilidad de dependencias observada por la API",
+    ["dependency"],
+)
+COMMENT_OPERATIONS = Counter(
+    "fixture2030_comment_operations",
+    "Operaciones de comentarios en Cassandra",
+    ["operation", "result"],
+)

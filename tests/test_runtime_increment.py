@@ -14,7 +14,7 @@ class RuntimeIncrementTests(unittest.TestCase):
 
     def test_direct_dependencies_are_pinned(self):
         requirements = (ROOT / "backend" / "requirements.txt").read_text(encoding="utf-8")
-        for dependency in ("fastapi", "pymongo", "prometheus-client", "redis", "uvicorn"):
+        for dependency in ("fastapi", "cassandra-driver", "pymongo", "prometheus-client", "redis", "uvicorn"):
             self.assertRegex(requirements, rf"(?m)^{dependency}==[^\s]+$")
 
     def test_compose_contains_api_prometheus_and_grafana(self):
@@ -61,6 +61,7 @@ class RuntimeIncrementTests(unittest.TestCase):
             "Fixture2030RedisDown",
             "Fixture2030RedisHighMemory",
             "Fixture2030RedisEvictions",
+            "Fixture2030CassandraDown",
         ):
             self.assertIn(f"alert: {alert}", rules)
         self.assertIn("owner: plataforma", rules)
@@ -171,6 +172,29 @@ class RuntimeIncrementTests(unittest.TestCase):
         self.assertIn("docker stop fixture2030-redis", failure_script)
         self.assertIn("docker start fixture2030-redis", failure_script)
         self.assertIn('"BYPASS"', failure_script)
+
+    def test_cassandra_is_persistent_partitioned_and_observable(self):
+        compose = (ROOT / "docker-compose.yml").read_text(encoding="utf-8")
+        schema = (ROOT / "cassandra" / "init" / "01_schema.cql").read_text(encoding="utf-8")
+        metrics = (ROOT / "backend" / "app" / "metrics.py").read_text(encoding="utf-8")
+        for service in ("  cassandra:", "  cassandra-init:"):
+            self.assertIn(service, compose)
+        self.assertIn("cassandra:5.0.9", compose)
+        self.assertIn("fixture2030_cassandra_data:/var/lib/cassandra", compose)
+        self.assertIn("/opt/cassandra/bin/cqlsh cassandra 9042", compose)
+        self.assertIn("comments_by_match_bucket_shard", schema)
+        self.assertIn("comments_by_user_day", schema)
+        self.assertNotIn("ALLOW FILTERING", schema.upper())
+        self.assertIn("fixture2030_dependency_up", metrics)
+
+    def test_cassandra_scripts_are_safe_and_recoverable(self):
+        for name in ("verificar_cassandra.ps1", "probar_comentarios_cassandra.ps1", "probar_falla_cassandra.ps1"):
+            source = (ROOT / "scripts" / name).read_text(encoding="utf-8")
+            self.assertNotIn("down -v", source.lower())
+            self.assertNotIn("ALLOW FILTERING", source.upper())
+        failure = (ROOT / "scripts" / "probar_falla_cassandra.ps1").read_text(encoding="utf-8")
+        self.assertIn("finally {", failure)
+        self.assertIn("docker start fixture2030-cassandra", failure)
 
     def test_powershell_query_string_delimits_base_url_variable(self):
         script = (ROOT / "scripts" / "probar_flujo_mongodb.ps1").read_text(

@@ -14,7 +14,8 @@ for ($attempt = 1; $attempt -le 30; $attempt++) {
 if ($null -eq $health -or $health.status -ne "UP") {
     $mongoState = if ($null -ne $health) { $health.mongodb } else { "SIN_RESPUESTA" }
     $redisState = if ($null -ne $health) { $health.redis } else { "SIN_RESPUESTA" }
-    throw "La API no quedo UP. MongoDB=$mongoState Redis=$redisState."
+    $cassandraState = if ($null -ne $health) { $health.cassandra } else { "SIN_RESPUESTA" }
+    throw "La API no quedo UP. MongoDB=$mongoState Redis=$redisState Cassandra=$cassandraState."
 }
 
 $match = Invoke-RestMethod -Uri "http://localhost:8000/api/v1/partidos/PAR-0001" -TimeoutSec 3
@@ -41,6 +42,7 @@ if ($null -eq $grafana -or $grafana.database -ne "ok") {
 
 Write-Host "OK: API" $health.status "MongoDB" $health.mongodb
 Write-Host "OK: Redis" $health.redis
+Write-Host "OK: Cassandra" $health.cassandra
 Write-Host "OK: partido" $match.partidoId "estado" $match.estado "version" $match.version
 Write-Host "OK: Prometheus" $prometheus
 Write-Host "OK: Grafana" $grafana.database

@@ -67,3 +67,15 @@ expone p50/p95/p99, throughput, errores, concurrencia y retraso de Outbox.
 
 **Aceptación:** Grafana y la evidencia distinguen objetivo, medición, estimación y
 compromiso; ninguna capacidad se presenta como observada sin ejecución.
+
+## T07 — Evidencia automática y saneamiento de ejecuciones
+
+- Corregir `capturar_evidencia.ps1` para que PowerShell no trate la salida
+  informativa de `unittest` como un fallo nativo.
+- Conservar y revisar la evidencia válida de la falla controlada de API.
+- Generar evidencia persistente para las fallas de Redis y Cassandra.
+- Excluir o reemplazar la captura incompleta `20261123T192234Z`.
+- Adjuntar capturas de Grafana con la misma ventana temporal y commit.
+
+**Aceptación:** cada escenario crea una carpeta autocontenida con commit,
+servicios, pruebas, métricas, alertas y recuperación, sin secretos.

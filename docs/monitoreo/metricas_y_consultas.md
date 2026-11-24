@@ -79,3 +79,25 @@ clamp_min(sum(rate(redis_keyspace_hits_total[5m])) + sum(rate(redis_keyspace_mis
 - Periodo: ventana movil de 5 minutos.
 - Uso: evaluar Cache-Aside junto con latencia, consistencia y memoria; una tasa
   alta por si sola no garantiza un diseño correcto.
+
+## Disponibilidad funcional de Cassandra
+
+```promql
+fixture2030_dependency_up{dependency="cassandra"}
+```
+
+- Unidad: booleano (`1` disponible, `0` no disponible).
+- Periodo: se actualiza cuando la API ejecuta `/health`.
+- Uso: distinguir una API disponible de comentarios temporalmente degradados.
+
+## Operaciones de comentarios
+
+```promql
+sum by (operation, result) (rate(fixture2030_comment_operations_total[5m]))
+```
+
+- Unidad: operaciones por segundo.
+- Periodo: ventana móvil de 5 minutos.
+- Uso: observar publicaciones, replays, lecturas, moderaciones y errores.
+- Límite: compactions, tombstones y latencia interna requieren JMX en el
+  escenario Cassandra RF=3.

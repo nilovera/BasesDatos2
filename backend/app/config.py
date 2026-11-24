@@ -13,6 +13,10 @@ class Settings:
     redis_timeout_seconds: float = float(os.getenv("REDIS_TIMEOUT_SECONDS", "1.0"))
     match_cache_ttl_seconds: int = int(os.getenv("MATCH_CACHE_TTL_SECONDS", "60"))
     session_default_ttl_seconds: int = int(os.getenv("SESSION_DEFAULT_TTL_SECONDS", "1800"))
+    cassandra_host: str = os.getenv("CASSANDRA_HOST", "localhost")
+    cassandra_port: int = int(os.getenv("CASSANDRA_PORT", "9042"))
+    cassandra_keyspace: str = os.getenv("CASSANDRA_KEYSPACE", "fixture2030_comments")
+    cassandra_timeout_seconds: float = float(os.getenv("CASSANDRA_TIMEOUT_SECONDS", "3.0"))
 
 
 settings = Settings()

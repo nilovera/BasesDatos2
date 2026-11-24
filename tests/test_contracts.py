@@ -73,6 +73,26 @@ class ContractTests(unittest.TestCase):
         schema = renewal["requestBody"]["content"]["application/json"]["schema"]
         self.assertEqual("#/components/schemas/SesionRenovacion", schema["$ref"])
 
+    def test_comment_contract_exposes_query_views_and_moderation(self):
+        paths = self.openapi["paths"]
+        match_path = "/api/v1/partidos/{partidoId}/comentarios"
+        user_path = "/api/v1/usuarios/{usuarioId}/comentarios"
+        moderation_path = "/api/v1/comentarios/{comentarioId}/moderacion"
+        self.assertIn("post", paths[match_path])
+        self.assertIn("get", paths[match_path])
+        self.assertIn("get", paths[user_path])
+        self.assertIn("patch", paths[moderation_path])
+        parameter = next(
+            item for item in paths[match_path]["post"]["parameters"]
+            if item.get("name") == "Idempotency-Key"
+        )
+        self.assertTrue(parameter["required"])
+        query_names = {
+            item["name"] for item in paths[match_path]["get"]["parameters"]
+            if item.get("in") == "query"
+        }
+        self.assertEqual({"bucket", "antesDe", "limite", "incluirOcultos"}, query_names)
+
     def test_match_read_documents_cache_result_header(self):
         response = self.openapi["paths"]["/api/v1/partidos/{partidoId}"]["get"][
             "responses"

@@ -66,3 +66,15 @@ groups:
         annotations:
           summary: Redis esta expulsando claves
           description: Se detectaron evicciones durante los ultimos 5 minutos.
+
+  - name: fixture2030-cassandra
+    rules:
+      - alert: Fixture2030CassandraDown
+        expr: fixture2030_dependency_up{dependency="cassandra"} == 0
+        for: 30s
+        labels:
+          severity: critical
+          owner: plataforma
+        annotations:
+          summary: Cassandra no esta disponible
+          description: La API no puede consultar Cassandra durante 30 segundos; comentarios quedan degradados.

@@ -11,11 +11,11 @@ incorpora después de revisar identidad, configuración, dependencias y pruebas.
 | 1-5 | Conservar alcance, patrones, comparación, arquitectura, diagramas y objetivos | Antecedentes incorporados |
 | 6.1 | Identidad, tiempos, estados, autoridad del dato y catálogo común | Base inicial verificada |
 | 6.2 | Diseño físico de MongoDB | Diseñado; script creado; ejecución en motor pendiente |
-| 6.3-6.6 | Diseño físico de Redis, Cassandra, InfluxDB y Neo4j | Redis diseñado; tres motores pendientes |
+| 6.3-6.6 | Diseño físico de Redis, Cassandra, InfluxDB y Neo4j | Redis y Cassandra diseñados; dos motores pendientes |
 | 7 | Escrituras, idempotencia, outbox, sincronización y fallos | Primer flujo transaccional implementado; consumidores pendientes |
 | 8 | Revisión y recuperación selectiva de los hitos | Fuentes identificadas; incorporación pendiente |
-| 9 | Implementación incremental y Docker integrado | MongoDB, Redis, API, Prometheus y Grafana incorporados; tres motores pendientes |
-| 10 | Monitoreo, validación integrada, evidencia y defensa | API y Redis instrumentados; medición de carga pendiente |
+| 9 | Implementación incremental y Docker integrado | MongoDB, Redis, Cassandra, API, Prometheus y Grafana incorporados; dos motores pendientes |
+| 10 | Monitoreo, validación integrada, evidencia y defensa | API, Redis y salud Cassandra instrumentados; medición de carga pendiente |
 
 IRIS no recibe diseño físico ni contenedor. Su evaluación y exclusión se registran
 en `docs/diseno/ADR-001-exclusion-iris.md`.
@@ -40,7 +40,7 @@ métricas; no es la base de la rama final. La rama `InlfuxDB` no se utiliza.
 2. **MongoDB reproducible:** equipos, jugadores, partidos, índices y replica set.
 3. **API y observabilidad inicial:** eventos, transacción, outbox, Prometheus y Grafana.
 4. **Redis:** sesiones, caché real, invalidación y control de concurrencia.
-5. **Cassandra:** comentarios, moderación, paginación y convergencia de vistas.
+5. **Cassandra:** comentarios, moderación y paginación implementados; validar carga, shards y RF=3 fuera del laboratorio local.
 6. **InfluxDB:** estadísticas, posiciones, cursores y mapas de calor.
 7. **Neo4j:** carga desde el catálogo y consultas multisalto justificadas.
 8. **Integración:** consumidores Outbox y proyecciones idempotentes.

@@ -120,6 +120,7 @@ class HealthResponse(ApiModel):
     service: Literal["fixture2030-api"]
     mongodb: str
     redis: str
+    cassandra: str
 
 
 class SesionCreate(ApiModel):
@@ -140,3 +141,42 @@ class SesionResponse(ApiModel):
     ultimo_acceso: datetime = Field(alias="ultimoAcceso")
     renovaciones: int = Field(ge=0)
     ttl_segundos: int = Field(alias="ttlSegundos", ge=0)
+
+
+class ComentarioCreate(ApiModel):
+    usuario_id: str = Field(alias="usuarioId", pattern=r"^USR-[0-9]{4}$")
+    contenido: str = Field(min_length=1, max_length=280)
+
+
+class ComentarioResponse(ApiModel):
+    comentario_id: str = Field(alias="comentarioId")
+    partido_id: str = Field(alias="partidoId")
+    usuario_id: str = Field(alias="usuarioId")
+    contenido: str | None
+    estado: Literal["VISIBLE", "OCULTO"]
+    creado_en: datetime = Field(alias="creadoEn")
+
+
+class ComentarioCreado(ComentarioResponse):
+    bucket: str = Field(pattern=r"^[0-9]{12}$")
+    shard: int = Field(ge=0, le=15)
+    repetido: bool
+
+
+class PaginaComentarios(ApiModel):
+    items: list[ComentarioResponse]
+    siguiente_cursor: datetime | None = Field(alias="siguienteCursor")
+
+
+class ModeracionComentario(ApiModel):
+    estado: Literal["VISIBLE", "OCULTO"]
+    moderador_id: str = Field(alias="moderadorId", pattern=r"^USR-[0-9]{4}$")
+    motivo: str = Field(min_length=3, max_length=300)
+
+
+class ModeracionResponse(ApiModel):
+    comentario_id: str = Field(alias="comentarioId")
+    estado: Literal["VISIBLE", "OCULTO"]
+    moderado_en: datetime = Field(alias="moderadoEn")
+    moderador_id: str = Field(alias="moderadorId")
+    motivo: str

@@ -12,6 +12,7 @@ SLA medido.
 | `Fixture2030RedisDown` | `redis_up == 0` durante 30 s | sesiones no disponibles y cache en bypass | Plataforma | revisar contenedor, volumen, configuracion y conectividad |
 | `Fixture2030RedisHighMemory` | mas de 85 % de `maxmemory` durante 5 min | evicciones y perdida anticipada de claves temporales | Plataforma | revisar TTL, LFU, cardinalidad y capacidad |
 | `Fixture2030RedisEvictions` | al menos una eviction en 5 min durante 1 min | presion de memoria o TTL/politica inadecuados | Backend | correlacionar hit rate, memoria y escenario de carga |
+| `Fixture2030CassandraDown` | salud Cassandra igual a 0 durante 30 s | comentarios no disponibles; fixture y sesiones continúan | Plataforma | revisar nodo, volumen y conectividad; no confirmar comentarios |
 
 La alerta de API ya posee una prueba controlada. Redis se verificara mediante
 reinicio y recuperacion; la alerta de memoria se ejercitara durante los

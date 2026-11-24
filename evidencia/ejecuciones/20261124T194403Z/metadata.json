@@ -1,0 +1,10 @@
+﻿{
+    "runId":  "20261124T194403Z",
+    "capturedAtUtc":  "2026-11-24T19:44:03.5897384Z",
+    "capturedAtLocal":  "2026-11-24T16:44:03.5897384-03:00",
+    "sourceCommit":  "d076b2149f2de3d5f961af0192218f566ee7d971",
+    "branch":  "trabajo-final",
+    "scenario":  "incremento-06-influxdb",
+    "classification":  "medido",
+    "workingTreeCleanBeforeCapture":  true
+}

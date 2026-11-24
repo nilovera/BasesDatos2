@@ -1,0 +1,19 @@
+﻿{
+    "runId":  "falla-influxdb-20261124T195020Z",
+    "sourceCommit":  "d076b2149f2de3d5f961af0192218f566ee7d971",
+    "branch":  "trabajo-final",
+    "scenario":  "falla-controlada-influxdb",
+    "classification":  "medido",
+    "startedAtUtc":  "2026-11-24T19:50:25.2490725Z",
+    "finishedAtUtc":  "2026-11-24T19:51:15.6834953Z",
+    "dependencyUpBefore":  1,
+    "dependencyUpDuring":  0,
+    "influxdbDownAlertDuring":  "firing",
+    "apiDegradedObserved":  true,
+    "officialReadAvailable":  true,
+    "telemetryUnavailable":  true,
+    "dependencyUpAfter":  1,
+    "result":  "OK",
+    "error":  null,
+    "safety":  "Solo se detuvo y reinicio fixture2030-influxdb; no se eliminaron volumenes ni secretos."
+}

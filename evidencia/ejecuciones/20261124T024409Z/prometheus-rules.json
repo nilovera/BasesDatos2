@@ -1,0 +1,159 @@
+﻿{
+    "status":  "success",
+    "data":  {
+                 "groups":  [
+                                {
+                                    "name":  "fixture2030-api",
+                                    "file":  "/etc/prometheus/rules/fixture2030-alerts.yml",
+                                    "rules":  [
+                                                  {
+                                                      "state":  "inactive",
+                                                      "name":  "Fixture2030ApiDown",
+                                                      "query":  "up{job=\"fixture2030-api\"} == 0",
+                                                      "duration":  30,
+                                                      "keepFiringFor":  0,
+                                                      "labels":  {
+                                                                     "owner":  "plataforma",
+                                                                     "severity":  "critical"
+                                                                 },
+                                                      "annotations":  {
+                                                                          "description":  "Prometheus no puede recolectar /metrics de la API durante 30 segundos.",
+                                                                          "summary":  "La API de Fixture2030 no esta disponible"
+                                                                      },
+                                                      "alerts":  [
+
+                                                                 ],
+                                                      "health":  "ok",
+                                                      "evaluationTime":  0.000259399,
+                                                      "lastEvaluation":  "2026-11-24T02:44:17.207547854Z",
+                                                      "type":  "alerting"
+                                                  },
+                                                  {
+                                                      "state":  "inactive",
+                                                      "name":  "Fixture2030ApiHighErrorRate",
+                                                      "query":  "sum(rate(fixture2030_http_requests_total{status=~\"5..\"}[2m])) / clamp_min(sum(rate(fixture2030_http_requests_total[2m])), 0.001) \u003e 0.05",
+                                                      "duration":  120,
+                                                      "keepFiringFor":  0,
+                                                      "labels":  {
+                                                                     "owner":  "backend",
+                                                                     "severity":  "warning"
+                                                                 },
+                                                      "annotations":  {
+                                                                          "description":  "Mas del 5 por ciento de las solicitudes de la API termina en 5xx durante 2 minutos.",
+                                                                          "summary":  "Tasa elevada de errores HTTP 5xx"
+                                                                      },
+                                                      "alerts":  [
+
+                                                                 ],
+                                                      "health":  "ok",
+                                                      "evaluationTime":  0.000283339,
+                                                      "lastEvaluation":  "2026-11-24T02:44:17.207813149Z",
+                                                      "type":  "alerting"
+                                                  },
+                                                  {
+                                                      "state":  "inactive",
+                                                      "name":  "Fixture2030OutboxBacklog",
+                                                      "query":  "fixture2030_outbox_pending \u003e 100",
+                                                      "duration":  300,
+                                                      "keepFiringFor":  0,
+                                                      "labels":  {
+                                                                     "owner":  "integracion",
+                                                                     "severity":  "warning"
+                                                                 },
+                                                      "annotations":  {
+                                                                          "description":  "Hay mas de 100 eventos sin proyectar durante al menos 5 minutos.",
+                                                                          "summary":  "Acumulacion de eventos pendientes en la Outbox"
+                                                                      },
+                                                      "alerts":  [
+
+                                                                 ],
+                                                      "health":  "ok",
+                                                      "evaluationTime":  0.000052244,
+                                                      "lastEvaluation":  "2026-11-24T02:44:17.208104483Z",
+                                                      "type":  "alerting"
+                                                  }
+                                              ],
+                                    "interval":  5,
+                                    "limit":  0,
+                                    "evaluationTime":  0.000664662,
+                                    "lastEvaluation":  "2026-11-24T02:44:17.207496285Z"
+                                },
+                                {
+                                    "name":  "fixture2030-redis",
+                                    "file":  "/etc/prometheus/rules/fixture2030-alerts.yml",
+                                    "rules":  [
+                                                  {
+                                                      "state":  "inactive",
+                                                      "name":  "Fixture2030RedisDown",
+                                                      "query":  "redis_up{job=\"fixture2030-redis\"} == 0",
+                                                      "duration":  30,
+                                                      "keepFiringFor":  0,
+                                                      "labels":  {
+                                                                     "owner":  "plataforma",
+                                                                     "severity":  "critical"
+                                                                 },
+                                                      "annotations":  {
+                                                                          "description":  "El exporter no puede ejecutar PING contra Redis durante 30 segundos.",
+                                                                          "summary":  "Redis no esta disponible"
+                                                                      },
+                                                      "alerts":  [
+
+                                                                 ],
+                                                      "health":  "ok",
+                                                      "evaluationTime":  0.000349919,
+                                                      "lastEvaluation":  "2026-11-24T02:44:15.96804405Z",
+                                                      "type":  "alerting"
+                                                  },
+                                                  {
+                                                      "state":  "inactive",
+                                                      "name":  "Fixture2030RedisHighMemory",
+                                                      "query":  "redis_memory_used_bytes / redis_memory_max_bytes \u003e 0.85",
+                                                      "duration":  300,
+                                                      "keepFiringFor":  0,
+                                                      "labels":  {
+                                                                     "owner":  "plataforma",
+                                                                     "severity":  "warning"
+                                                                 },
+                                                      "annotations":  {
+                                                                          "description":  "La presion de memoria puede activar la politica allkeys-lfu.",
+                                                                          "summary":  "Redis supera el 85 por ciento de maxmemory"
+                                                                      },
+                                                      "alerts":  [
+
+                                                                 ],
+                                                      "health":  "ok",
+                                                      "evaluationTime":  0.000147804,
+                                                      "lastEvaluation":  "2026-11-24T02:44:15.968403639Z",
+                                                      "type":  "alerting"
+                                                  },
+                                                  {
+                                                      "state":  "inactive",
+                                                      "name":  "Fixture2030RedisEvictions",
+                                                      "query":  "increase(redis_evicted_keys_total[5m]) \u003e 0",
+                                                      "duration":  60,
+                                                      "keepFiringFor":  0,
+                                                      "labels":  {
+                                                                     "owner":  "backend",
+                                                                     "severity":  "warning"
+                                                                 },
+                                                      "annotations":  {
+                                                                          "description":  "Se detectaron evicciones durante los ultimos 5 minutos.",
+                                                                          "summary":  "Redis esta expulsando claves"
+                                                                      },
+                                                      "alerts":  [
+
+                                                                 ],
+                                                      "health":  "ok",
+                                                      "evaluationTime":  0.000193264,
+                                                      "lastEvaluation":  "2026-11-24T02:44:15.968557231Z",
+                                                      "type":  "alerting"
+                                                  }
+                                              ],
+                                    "interval":  5,
+                                    "limit":  0,
+                                    "evaluationTime":  0.000809565,
+                                    "lastEvaluation":  "2026-11-24T02:44:15.967958714Z"
+                                }
+                            ]
+             }
+}

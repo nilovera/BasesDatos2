@@ -1,0 +1,92 @@
+﻿[
+    {
+        "file":  "api-health.json",
+        "sha256":  "f4d88b947a04a33c498144b88a7463d755dc7ec71947f3e39d68c63b60226110",
+        "bytes":  140
+    },
+    {
+        "file":  "cassandra-verificacion.txt",
+        "sha256":  "3e5b667b1bf4fc0b403484d8e467954e9451bd54a946be8bd6de22c65307a5b8",
+        "bytes":  182
+    },
+    {
+        "file":  "docker-compose-ps.txt",
+        "sha256":  "fba0607313bcc837df1553d552e0c46827798fba4b25bee022b1108158bb0c5f",
+        "bytes":  1728
+    },
+    {
+        "file":  "git-status-antes.txt",
+        "sha256":  "9cee0d9800b4d3ebd137b36bbc88c0245b818d7b6d9d0c94aeb837e125803c7a",
+        "bytes":  10
+    },
+    {
+        "file":  "grafana-health.json",
+        "sha256":  "9ee22eb602b4f3d6d874a54e4b96a6e6f6ad2b625e10d1d4029884d3046ab9b1",
+        "bytes":  119
+    },
+    {
+        "file":  "metadata.json",
+        "sha256":  "8d55433f15a30acfd41101260f0431a8c6f5cec540824928592a21ab37d74ef7",
+        "bytes":  382
+    },
+    {
+        "file":  "mongodb-verificacion.txt",
+        "sha256":  "a7ae118dd69dbe4b1801cf8304af8f6b876df324038ed2cb0a9d49bd73e24217",
+        "bytes":  284
+    },
+    {
+        "file":  "partido-PAR-0001.json",
+        "sha256":  "064882af2bb68ca4ea490c36319246594f14399f4241b3057f3eb6148de30f2b",
+        "bytes":  307
+    },
+    {
+        "file":  "plataforma-verificacion.txt",
+        "sha256":  "2c39afac974246ccc43a29886db3abc5cd0977a433f8dffeae6e1701227dae9f",
+        "bytes":  194
+    },
+    {
+        "file":  "prometheus-api-up.json",
+        "sha256":  "f218101e5ffa5c15fdb3e6a79b5c8ab4a46734bb440ea3ff5fc0cd1bd6cc847d",
+        "bytes":  790
+    },
+    {
+        "file":  "prometheus-dependencias.json",
+        "sha256":  "1384384b5da3007131409a3e68a69eef75acac9dd171f7d1405b1ba0808b3cab",
+        "bytes":  2329
+    },
+    {
+        "file":  "prometheus-errores-5m.json",
+        "sha256":  "ee353aed8750f50349ae1d9dd015f018b4ce09e9053ce2f7cdb0eb1985b3de6c",
+        "bytes":  175
+    },
+    {
+        "file":  "prometheus-latencia-p95.json",
+        "sha256":  "599fa1182dfc6823d6c7cd6858af6d4b425ffbda0c6659af6839bf0c5682035e",
+        "bytes":  584
+    },
+    {
+        "file":  "prometheus-rules.json",
+        "sha256":  "977f770e6f2e9537ea7e17c51577aeccb76911a3c9505cc72896b615c2e60cff",
+        "bytes":  12054
+    },
+    {
+        "file":  "prometheus-targets.json",
+        "sha256":  "4d0de06a949f6209fc1740529824023625b8f271a42cdb56920bf87822880b2d",
+        "bytes":  6932
+    },
+    {
+        "file":  "prometheus-throughput.json",
+        "sha256":  "6161697bd36f086d158e36cd1e2c203227ca28720c5c85e3ceaad856cce39211",
+        "bytes":  584
+    },
+    {
+        "file":  "pruebas-unitarias.txt",
+        "sha256":  "387722917dd6991d9a9478f0b5f63ea42740d9b62d2a56ce9bb6a7217e116cdb",
+        "bytes":  6164
+    },
+    {
+        "file":  "redis-verificacion.txt",
+        "sha256":  "cdc789ba05f6b8e7ba5e34bc9be008c58b7f9daae70107d3965db8cff2acbf72",
+        "bytes":  171
+    }
+]

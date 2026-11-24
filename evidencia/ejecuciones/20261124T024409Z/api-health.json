@@ -1,0 +1,7 @@
+﻿{
+    "status":  "UP",
+    "service":  "fixture2030-api",
+    "mongodb":  "PRIMARY",
+    "redis":  "UP",
+    "cassandra":  "UP"
+}

@@ -1,0 +1,18 @@
+﻿{
+    "runId":  "falla-redis-20261124T024737Z",
+    "sourceCommit":  "020753f0dd14fb9a93326ac16b7c2a1b50a3d391",
+    "branch":  "trabajo-final",
+    "scenario":  "falla-controlada-redis",
+    "classification":  "medido",
+    "startedAtUtc":  "2026-11-24T02:47:41.5679445Z",
+    "finishedAtUtc":  "2026-11-24T02:48:30.7253132Z",
+    "redisUpBefore":  1,
+    "redisUpDuring":  0,
+    "redisDownAlertDuring":  "firing",
+    "apiDegradedObserved":  true,
+    "cacheBypassObserved":  true,
+    "redisUpAfter":  1,
+    "result":  "OK",
+    "error":  null,
+    "safety":  "Solo se detuvo y reinicio fixture2030-redis; no se eliminaron volumenes."
+}

@@ -1,0 +1,10 @@
+﻿{
+    "runId":  "20261124T024409Z",
+    "capturedAtUtc":  "2026-11-24T02:44:10.1664688Z",
+    "capturedAtLocal":  "2026-11-23T23:44:10.1664688-03:00",
+    "sourceCommit":  "020753f0dd14fb9a93326ac16b7c2a1b50a3d391",
+    "branch":  "trabajo-final",
+    "scenario":  "verificacion-integrada",
+    "classification":  "medido",
+    "workingTreeCleanBeforeCapture":  true
+}

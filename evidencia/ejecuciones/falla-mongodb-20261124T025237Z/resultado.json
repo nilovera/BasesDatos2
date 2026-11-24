@@ -1,0 +1,18 @@
+﻿{
+    "runId":  "falla-mongodb-20261124T025237Z",
+    "sourceCommit":  "020753f0dd14fb9a93326ac16b7c2a1b50a3d391",
+    "branch":  "trabajo-final",
+    "scenario":  "falla-controlada-mongodb",
+    "classification":  "medido",
+    "startedAtUtc":  "2026-11-24T02:52:42.4011211Z",
+    "finishedAtUtc":  "2026-11-24T02:53:37.7068978Z",
+    "dependencyUpBefore":  1,
+    "dependencyUpDuring":  0,
+    "mongoDownAlertDuring":  "firing",
+    "apiDegradedObserved":  true,
+    "redisSessionAvailable":  true,
+    "dependencyUpAfter":  1,
+    "result":  "OK",
+    "error":  null,
+    "safety":  "Solo se detuvo y reinicio fixture2030-mongo; no se eliminaron volumenes."
+}

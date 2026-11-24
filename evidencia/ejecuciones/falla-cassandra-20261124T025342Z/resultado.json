@@ -1,0 +1,18 @@
+﻿{
+    "runId":  "falla-cassandra-20261124T025342Z",
+    "sourceCommit":  "020753f0dd14fb9a93326ac16b7c2a1b50a3d391",
+    "branch":  "trabajo-final",
+    "scenario":  "falla-controlada-cassandra",
+    "classification":  "medido",
+    "startedAtUtc":  "2026-11-24T02:53:46.8463424Z",
+    "finishedAtUtc":  "2026-11-24T02:55:12.2112451Z",
+    "dependencyUpBefore":  1,
+    "dependencyUpDuring":  0,
+    "cassandraDownAlertDuring":  "firing",
+    "apiDegradedObserved":  true,
+    "officialReadAvailable":  true,
+    "dependencyUpAfter":  1,
+    "result":  "OK",
+    "error":  null,
+    "safety":  "Solo se detuvo y reinicio fixture2030-cassandra; no se eliminaron volumenes."
+}

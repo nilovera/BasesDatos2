@@ -1,0 +1,8 @@
+﻿NAME                         IMAGE                                                                     COMMAND                  SERVICE          CREATED          STATUS                    PORTS
+fixture2030-api              sha256:c2f520160f69e0be9bd4a0089d7cb849b6f2fa493024ed800dde3aaeedaf9c25   "uvicorn app.main:apâ€¦"   api              17 minutes ago   Up 17 minutes (healthy)   127.0.0.1:8000->8000/tcp
+fixture2030-cassandra        cassandra:5.0.9                                                           "docker-entrypoint.sâ€¦"   cassandra        3 hours ago      Up 56 minutes (healthy)   127.0.0.1:9042->9042/tcp
+fixture2030-grafana          grafana/grafana:13.3.1                                                    "/run.sh"                grafana          10 minutes ago   Up 9 minutes              127.0.0.1:3000->3000/tcp
+fixture2030-mongo            mongo:8.0                                                                 "docker-entrypoint.sâ€¦"   mongo            9 hours ago      Up 9 hours (healthy)      127.0.0.1:27017->27017/tcp
+fixture2030-prometheus       prom/prometheus:v3.16.0                                                   "/bin/prometheus --câ€¦"   prometheus       7 hours ago      Up 4 hours                127.0.0.1:9090->9090/tcp
+fixture2030-redis            redis:7.4.2-alpine                                                        "docker-entrypoint.sâ€¦"   redis            4 hours ago      Up 4 hours (healthy)      127.0.0.1:6379->6379/tcp
+fixture2030-redis-exporter   oliver006/redis_exporter:v1.67.0                                          "/redis_exporter"        redis-exporter   4 hours ago      Up 4 hours                127.0.0.1:9121->9121/tcp

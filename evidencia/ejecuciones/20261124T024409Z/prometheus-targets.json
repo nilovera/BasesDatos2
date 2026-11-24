@@ -1,0 +1,93 @@
+﻿{
+    "status":  "success",
+    "data":  {
+                 "activeTargets":  [
+                                       {
+                                           "discoveredLabels":  {
+                                                                    "__address__":  "api:8000",
+                                                                    "__always_scrape_classic_histograms__":  "false",
+                                                                    "__convert_classic_histograms_to_nhcb__":  "false",
+                                                                    "__metrics_path__":  "/metrics",
+                                                                    "__scheme__":  "http",
+                                                                    "__scrape_interval__":  "5s",
+                                                                    "__scrape_native_histograms__":  "false",
+                                                                    "__scrape_timeout__":  "5s",
+                                                                    "job":  "fixture2030-api"
+                                                                },
+                                           "labels":  {
+                                                          "instance":  "api:8000",
+                                                          "job":  "fixture2030-api"
+                                                      },
+                                           "scrapePool":  "fixture2030-api",
+                                           "scrapeUrl":  "http://api:8000/metrics",
+                                           "globalUrl":  "http://api:8000/metrics",
+                                           "lastError":  "",
+                                           "lastScrape":  "2026-11-24T02:44:14.339085223Z",
+                                           "lastScrapeDuration":  0.008954143,
+                                           "health":  "up",
+                                           "scrapeInterval":  "5s",
+                                           "scrapeTimeout":  "5s"
+                                       },
+                                       {
+                                           "discoveredLabels":  {
+                                                                    "__address__":  "redis-exporter:9121",
+                                                                    "__always_scrape_classic_histograms__":  "false",
+                                                                    "__convert_classic_histograms_to_nhcb__":  "false",
+                                                                    "__metrics_path__":  "/metrics",
+                                                                    "__scheme__":  "http",
+                                                                    "__scrape_interval__":  "5s",
+                                                                    "__scrape_native_histograms__":  "false",
+                                                                    "__scrape_timeout__":  "5s",
+                                                                    "job":  "fixture2030-redis"
+                                                                },
+                                           "labels":  {
+                                                          "instance":  "redis-exporter:9121",
+                                                          "job":  "fixture2030-redis"
+                                                      },
+                                           "scrapePool":  "fixture2030-redis",
+                                           "scrapeUrl":  "http://redis-exporter:9121/metrics",
+                                           "globalUrl":  "http://redis-exporter:9121/metrics",
+                                           "lastError":  "",
+                                           "lastScrape":  "2026-11-24T02:44:17.235200181Z",
+                                           "lastScrapeDuration":  0.01050232,
+                                           "health":  "up",
+                                           "scrapeInterval":  "5s",
+                                           "scrapeTimeout":  "5s"
+                                       },
+                                       {
+                                           "discoveredLabels":  {
+                                                                    "__address__":  "prometheus:9090",
+                                                                    "__always_scrape_classic_histograms__":  "false",
+                                                                    "__convert_classic_histograms_to_nhcb__":  "false",
+                                                                    "__metrics_path__":  "/metrics",
+                                                                    "__scheme__":  "http",
+                                                                    "__scrape_interval__":  "5s",
+                                                                    "__scrape_native_histograms__":  "false",
+                                                                    "__scrape_timeout__":  "5s",
+                                                                    "job":  "prometheus"
+                                                                },
+                                           "labels":  {
+                                                          "instance":  "prometheus:9090",
+                                                          "job":  "prometheus"
+                                                      },
+                                           "scrapePool":  "prometheus",
+                                           "scrapeUrl":  "http://prometheus:9090/metrics",
+                                           "globalUrl":  "http://prometheus:9090/metrics",
+                                           "lastError":  "",
+                                           "lastScrape":  "2026-11-24T02:44:13.797906965Z",
+                                           "lastScrapeDuration":  0.006683571,
+                                           "health":  "up",
+                                           "scrapeInterval":  "5s",
+                                           "scrapeTimeout":  "5s"
+                                       }
+                                   ],
+                 "droppedTargets":  [
+
+                                    ],
+                 "droppedTargetCounts":  {
+                                             "fixture2030-api":  0,
+                                             "fixture2030-redis":  0,
+                                             "prometheus":  0
+                                         }
+             }
+}

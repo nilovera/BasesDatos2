@@ -1,0 +1,17 @@
+﻿{
+    "runId":  "falla-api-20261124T024455Z",
+    "sourceCommit":  "020753f0dd14fb9a93326ac16b7c2a1b50a3d391",
+    "branch":  "trabajo-final",
+    "scenario":  "falla-controlada-api",
+    "classification":  "medido",
+    "startedAtUtc":  "2026-11-24T02:44:58.1071693Z",
+    "finishedAtUtc":  "2026-11-24T02:45:47.3132777Z",
+    "prometheusUpBefore":  1,
+    "prometheusUpDuring":  0,
+    "apiDownAlertDuring":  "firing",
+    "prometheusUpAfter":  1,
+    "apiHealthRecovered":  true,
+    "result":  "OK",
+    "error":  null,
+    "safety":  "Solo se detuvo y reinicio fixture2030-api; no se eliminaron volumenes."
+}

@@ -10,7 +10,8 @@ for ($attempt = 1; $attempt -le 30; $attempt++) {
             $health.mongodb -eq "PRIMARY" -and
             $health.redis -eq "UP" -and
             $health.cassandra -eq "UP" -and
-            $health.influxdb -eq "UP"
+            $health.influxdb -eq "UP" -and
+            $health.neo4j -eq "UP"
         ) { break }
     } catch {
         # La API puede estar iniciando o una dependencia puede estar temporalmente caída.
@@ -23,13 +24,15 @@ if (
     $health.mongodb -ne "PRIMARY" -or
     $health.redis -ne "UP" -or
     $health.cassandra -ne "UP" -or
-    $health.influxdb -ne "UP"
+    $health.influxdb -ne "UP" -or
+    $health.neo4j -ne "UP"
 ) {
     $mongoState = if ($null -ne $health) { $health.mongodb } else { "SIN_RESPUESTA" }
     $redisState = if ($null -ne $health) { $health.redis } else { "SIN_RESPUESTA" }
     $cassandraState = if ($null -ne $health) { $health.cassandra } else { "SIN_RESPUESTA" }
     $influxState = if ($null -ne $health) { $health.influxdb } else { "SIN_RESPUESTA" }
-    throw "La API no quedo UP. MongoDB=$mongoState Redis=$redisState Cassandra=$cassandraState InfluxDB=$influxState."
+    $neo4jState = if ($null -ne $health) { $health.neo4j } else { "SIN_RESPUESTA" }
+    throw "La API no quedo UP. MongoDB=$mongoState Redis=$redisState Cassandra=$cassandraState InfluxDB=$influxState Neo4j=$neo4jState."
 }
 
 $match = Invoke-RestMethod -Uri "http://localhost:8000/api/v1/partidos/PAR-0001" -TimeoutSec 3
@@ -58,6 +61,7 @@ Write-Host "OK: API" $health.status "MongoDB" $health.mongodb
 Write-Host "OK: Redis" $health.redis
 Write-Host "OK: Cassandra" $health.cassandra
 Write-Host "OK: InfluxDB" $health.influxdb
+Write-Host "OK: Neo4j" $health.neo4j
 Write-Host "OK: partido" $match.partidoId "estado" $match.estado "version" $match.version
 Write-Host "OK: Prometheus" $prometheus
 Write-Host "OK: Grafana" $grafana.database

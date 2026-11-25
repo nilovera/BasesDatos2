@@ -1,7 +1,8 @@
 # Backend — API ejecutable
 
 Servicio FastAPI que implementa el flujo oficial sobre MongoDB, una capa
-temporal Redis, comentarios durables en Cassandra y telemetría en InfluxDB. El contrato estable está en `openapi.json` y la documentación
+temporal Redis, comentarios durables en Cassandra, telemetría en InfluxDB y
+recorridos en Neo4j. El contrato estable está en `openapi.json` y la documentación
 interactiva queda disponible en `http://localhost:8000/docs`.
 
 ## Endpoints
@@ -23,6 +24,10 @@ interactiva queda disponible en `http://localhost:8000/docs`.
 - `POST /api/v1/partidos/{partidoId}/telemetria/estadisticas-equipos`
 - `POST /api/v1/partidos/{partidoId}/telemetria/agregaciones/15m`
 - `GET /api/v1/partidos/{partidoId}/telemetria/resumenes-equipos/15m`
+- `GET /api/v1/grafo/resumen`
+- `GET /api/v1/grafo/equipos/{equipoId}/rivales`
+- `GET /api/v1/grafo/jugadores/{jugadorId}/recomendaciones`
+- `GET /api/v1/grafo/equipos/{origenId}/camino/{destinoId}`
 
 Los eventos oficiales y comentarios requieren `Idempotency-Key`. Una creación devuelve `201`; una
 repetición del mismo body devuelve `200` y `Idempotency-Replayed: true`; la
@@ -65,7 +70,13 @@ Los lotes de hasta 250 muestras se escriben por `/api/v3/write_lp` con
 timestamp y jugador, y el mapa de calor se reproduce desde los puntos. Los
 resúmenes de 15 minutos se guardan en una base de mayor retención.
 
-`GET /health` devuelve `UP` cuando MongoDB, Redis, Cassandra e InfluxDB están operativos,
+## Neo4j
+
+El grafo es una proyección del catálogo autoritativo. Permite recorrer partidos,
+recomendar jugadores con el mismo puesto y confederación, y explicar caminos
+entre equipos. La carga repetida converge mediante `MERGE`.
+
+`GET /health` devuelve `UP` cuando MongoDB, Redis, Cassandra, InfluxDB y Neo4j están operativos,
 y `DEGRADED` con el estado individual cuando una dependencia falla. El proceso
 HTTP continúa observable para diferenciar la caída de una base de la caída de
 la propia API.

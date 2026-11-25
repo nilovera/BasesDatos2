@@ -112,3 +112,25 @@ groups:
         annotations:
           summary: Errores repetidos al escribir telemetria
           description: Se registraron mas de cinco errores de escritura de series temporales en cinco minutos.
+
+  - name: fixture2030-neo4j
+    rules:
+      - alert: Fixture2030Neo4jDown
+        expr: fixture2030_dependency_up{dependency="neo4j"} == 0
+        for: 30s
+        labels:
+          severity: critical
+          owner: plataforma
+        annotations:
+          summary: Neo4j no esta disponible
+          description: La API no puede resolver recorridos ni recomendaciones durante 30 segundos; el nucleo oficial continua aislado.
+
+      - alert: Fixture2030GraphErrors
+        expr: increase(fixture2030_graph_operations_total{result="ERROR"}[5m]) > 5
+        for: 1m
+        labels:
+          severity: warning
+          owner: backend
+        annotations:
+          summary: Errores repetidos en consultas de grafo
+          description: Se registraron mas de cinco errores de recorridos o recomendaciones en cinco minutos.

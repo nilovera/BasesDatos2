@@ -2,8 +2,8 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Fixture 2030 API",
-    "description": "Núcleo deportivo en MongoDB, datos calientes en Redis, comentarios en Cassandra y series temporales en InfluxDB.",
-    "version": "0.5.0"
+    "description": "Núcleo deportivo en MongoDB, datos calientes en Redis, comentarios en Cassandra, series temporales en InfluxDB y relaciones en Neo4j.",
+    "version": "0.6.0"
   },
   "paths": {
     "/health": {
@@ -1157,6 +1157,192 @@
           }
         }
       }
+    },
+    "/api/v1/grafo/resumen": {
+      "get": {
+        "summary": "Get Graph Summary",
+        "operationId": "get_graph_summary_api_v1_grafo_resumen_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GrafoResumen"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Neo4j no disponible"
+          }
+        }
+      }
+    },
+    "/api/v1/grafo/equipos/{equipoId}/rivales": {
+      "get": {
+        "summary": "Get Team Rivals",
+        "operationId": "get_team_rivals_api_v1_grafo_equipos__equipoId__rivales_get",
+        "parameters": [
+          {
+            "name": "equipoId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Equipoid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RivalesResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Identificador inválido"
+          },
+          "404": {
+            "description": "Equipo inexistente"
+          },
+          "503": {
+            "description": "Neo4j no disponible"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/grafo/jugadores/{jugadorId}/recomendaciones": {
+      "get": {
+        "summary": "Get Player Recommendations",
+        "operationId": "get_player_recommendations_api_v1_grafo_jugadores__jugadorId__recomendaciones_get",
+        "parameters": [
+          {
+            "name": "jugadorId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Jugadorid"
+            }
+          },
+          {
+            "name": "limite",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 50,
+              "minimum": 1,
+              "default": 10,
+              "title": "Limite"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecomendacionesJugadoresResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Identificador inválido"
+          },
+          "404": {
+            "description": "Jugador inexistente"
+          },
+          "503": {
+            "description": "Neo4j no disponible"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/grafo/equipos/{origenId}/camino/{destinoId}": {
+      "get": {
+        "summary": "Get Team Path",
+        "operationId": "get_team_path_api_v1_grafo_equipos__origenId__camino__destinoId__get",
+        "parameters": [
+          {
+            "name": "origenId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Origenid"
+            }
+          },
+          {
+            "name": "destinoId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Destinoid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CaminoGrafoResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Identificador inválido"
+          },
+          "404": {
+            "description": "Equipo o camino inexistente"
+          },
+          "503": {
+            "description": "Neo4j no disponible"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1191,6 +1377,72 @@
           "baseDestino"
         ],
         "title": "AgregacionResponse"
+      },
+      "CaminoGrafoNodo": {
+        "properties": {
+          "tipo": {
+            "type": "string",
+            "title": "Tipo"
+          },
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "nombre": {
+            "type": "string",
+            "title": "Nombre"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "tipo",
+          "id",
+          "nombre"
+        ],
+        "title": "CaminoGrafoNodo"
+      },
+      "CaminoGrafoResponse": {
+        "properties": {
+          "origenId": {
+            "type": "string",
+            "title": "Origenid"
+          },
+          "destinoId": {
+            "type": "string",
+            "title": "Destinoid"
+          },
+          "nodos": {
+            "items": {
+              "$ref": "#/components/schemas/CaminoGrafoNodo"
+            },
+            "type": "array",
+            "title": "Nodos"
+          },
+          "relaciones": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Relaciones"
+          },
+          "saltos": {
+            "type": "integer",
+            "maximum": 4.0,
+            "minimum": 0.0,
+            "title": "Saltos"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "origenId",
+          "destinoId",
+          "nodos",
+          "relaciones",
+          "saltos"
+        ],
+        "title": "CaminoGrafoResponse"
       },
       "CeldaMapaCalor": {
         "properties": {
@@ -1694,6 +1946,45 @@
         ],
         "title": "GolFields"
       },
+      "GrafoResumen": {
+        "properties": {
+          "equipos": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Equipos"
+          },
+          "jugadores": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Jugadores"
+          },
+          "partidos": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Partidos"
+          },
+          "confederaciones": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Confederaciones"
+          },
+          "relaciones": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Relaciones"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "equipos",
+          "jugadores",
+          "partidos",
+          "confederaciones",
+          "relaciones"
+        ],
+        "title": "GrafoResumen"
+      },
       "HTTPValidationError": {
         "properties": {
           "detail": {
@@ -1737,6 +2028,10 @@
           "influxdb": {
             "type": "string",
             "title": "Influxdb"
+          },
+          "neo4j": {
+            "type": "string",
+            "title": "Neo4J"
           }
         },
         "additionalProperties": false,
@@ -1747,7 +2042,8 @@
           "mongodb",
           "redis",
           "cassandra",
-          "influxdb"
+          "influxdb",
+          "neo4j"
         ],
         "title": "HealthResponse"
       },
@@ -1771,6 +2067,51 @@
           "tipo"
         ],
         "title": "InicioPartidoCommand"
+      },
+      "JugadorRecomendado": {
+        "properties": {
+          "jugadorId": {
+            "type": "string",
+            "title": "Jugadorid"
+          },
+          "nombre": {
+            "type": "string",
+            "title": "Nombre"
+          },
+          "posicion": {
+            "type": "string",
+            "title": "Posicion"
+          },
+          "equipoId": {
+            "type": "string",
+            "title": "Equipoid"
+          },
+          "equipo": {
+            "type": "string",
+            "title": "Equipo"
+          },
+          "diferenciaRanking": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Diferenciaranking"
+          },
+          "criterio": {
+            "type": "string",
+            "title": "Criterio"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "jugadorId",
+          "nombre",
+          "posicion",
+          "equipoId",
+          "equipo",
+          "diferenciaRanking",
+          "criterio"
+        ],
+        "title": "JugadorRecomendado"
       },
       "MapaCalorResponse": {
         "properties": {
@@ -2187,6 +2528,34 @@
         ],
         "title": "PosicionesBatch"
       },
+      "RecomendacionesJugadoresResponse": {
+        "properties": {
+          "jugadorId": {
+            "type": "string",
+            "title": "Jugadorid"
+          },
+          "criterio": {
+            "type": "string",
+            "const": "MISMA_POSICION_Y_CONFEDERACION",
+            "title": "Criterio"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/JugadorRecomendado"
+            },
+            "type": "array",
+            "title": "Items"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "jugadorId",
+          "criterio",
+          "items"
+        ],
+        "title": "RecomendacionesJugadoresResponse"
+      },
       "ResumenEquipoHistorico": {
         "properties": {
           "partidoId": {
@@ -2242,6 +2611,57 @@
           "muestras"
         ],
         "title": "ResumenEquipoHistorico"
+      },
+      "RivalEquipo": {
+        "properties": {
+          "partidoId": {
+            "type": "string",
+            "title": "Partidoid"
+          },
+          "equipoId": {
+            "type": "string",
+            "title": "Equipoid"
+          },
+          "nombre": {
+            "type": "string",
+            "title": "Nombre"
+          },
+          "inicioProgramado": {
+            "type": "string",
+            "title": "Inicioprogramado"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "partidoId",
+          "equipoId",
+          "nombre",
+          "inicioProgramado"
+        ],
+        "title": "RivalEquipo"
+      },
+      "RivalesResponse": {
+        "properties": {
+          "equipoId": {
+            "type": "string",
+            "title": "Equipoid"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/RivalEquipo"
+            },
+            "type": "array",
+            "title": "Items"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "equipoId",
+          "items"
+        ],
+        "title": "RivalesResponse"
       },
       "SesionCreate": {
         "properties": {

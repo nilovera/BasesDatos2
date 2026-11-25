@@ -11,11 +11,11 @@ incorpora después de revisar identidad, configuración, dependencias y pruebas.
 | 1-5 | Conservar alcance, patrones, comparación, arquitectura, diagramas y objetivos | Antecedentes incorporados |
 | 6.1 | Identidad, tiempos, estados, autoridad del dato y catálogo común | Base inicial verificada |
 | 6.2 | Diseño físico de MongoDB | Diseñado, ejecutado y verificado en replica set local de un miembro |
-| 6.3-6.6 | Diseño físico de Redis, Cassandra, InfluxDB y Neo4j | Redis, Cassandra e InfluxDB diseñados; Neo4j pendiente |
+| 6.3-6.6 | Diseño físico de Redis, Cassandra, InfluxDB y Neo4j | Los cuatro diseños especializados están implementados; Neo4j pendiente de ejecución local |
 | 7 | Escrituras, idempotencia, outbox, sincronización y fallos | Primer flujo transaccional implementado; consumidores pendientes |
 | 8 | Revisión y recuperación selectiva de los hitos | Fuentes identificadas; incorporación pendiente |
-| 9 | Implementación incremental y Docker integrado | MongoDB, Redis, Cassandra, InfluxDB, API, Prometheus y Grafana incorporados; Neo4j pendiente |
-| 10 | Monitoreo, validación integrada, evidencia y defensa | API y cuatro dependencias instrumentadas; evidencia InfluxDB, carga y defensa pendientes |
+| 9 | Implementación incremental y Docker integrado | Los cinco motores, API, Prometheus y Grafana están incorporados |
+| 10 | Monitoreo, validación integrada, evidencia y defensa | API y cinco dependencias instrumentadas; evidencia Neo4j, carga y defensa pendientes |
 
 IRIS no recibe diseño físico ni contenedor. Su evaluación y exclusión se registran
 en `docs/diseno/ADR-001-exclusion-iris.md`.
@@ -42,7 +42,7 @@ métricas; no es la base de la rama final. La rama `InlfuxDB` no se utiliza.
 4. **Redis:** sesiones, caché real, invalidación y control de concurrencia.
 5. **Cassandra:** comentarios, moderación y paginación implementados; validar carga, shards y RF=3 fuera del laboratorio local.
 6. **InfluxDB:** estadísticas, posiciones, cursores y mapas de calor implementados; ejecutar evidencia Docker.
-7. **Neo4j:** carga desde el catálogo y consultas multisalto justificadas.
+7. **Neo4j:** carga idempotente, CRUD, recomendaciones y consultas multisalto implementadas; falta ejecución local.
 8. **Integración:** consumidores Outbox y proyecciones idempotentes.
 9. **Observabilidad completa:** exporters, alertas y prueba controlada.
 10. **Validación y defensa:** carga, recuperación, evidencia, demo y guion de 20 minutos.

@@ -122,6 +122,7 @@ class HealthResponse(ApiModel):
     redis: str
     cassandra: str
     influxdb: str
+    neo4j: str
 
 
 class SesionCreate(ApiModel):
@@ -281,3 +282,53 @@ class ResumenEquipoHistorico(ApiModel):
 
 class PaginaResumenesEquipo(ApiModel):
     items: list[ResumenEquipoHistorico]
+
+
+class GrafoResumen(ApiModel):
+    equipos: int = Field(ge=0)
+    jugadores: int = Field(ge=0)
+    partidos: int = Field(ge=0)
+    confederaciones: int = Field(ge=0)
+    relaciones: int = Field(ge=0)
+
+
+class RivalEquipo(ApiModel):
+    partido_id: str = Field(alias="partidoId")
+    equipo_id: str = Field(alias="equipoId")
+    nombre: str
+    inicio_programado: str = Field(alias="inicioProgramado")
+
+
+class RivalesResponse(ApiModel):
+    equipo_id: str = Field(alias="equipoId")
+    items: list[RivalEquipo]
+
+
+class JugadorRecomendado(ApiModel):
+    jugador_id: str = Field(alias="jugadorId")
+    nombre: str
+    posicion: str
+    equipo_id: str = Field(alias="equipoId")
+    equipo: str
+    diferencia_ranking: int = Field(alias="diferenciaRanking", ge=0)
+    criterio: str
+
+
+class RecomendacionesJugadoresResponse(ApiModel):
+    jugador_id: str = Field(alias="jugadorId")
+    criterio: Literal["MISMA_POSICION_Y_CONFEDERACION"]
+    items: list[JugadorRecomendado]
+
+
+class CaminoGrafoNodo(ApiModel):
+    tipo: str
+    id: str
+    nombre: str
+
+
+class CaminoGrafoResponse(ApiModel):
+    origen_id: str = Field(alias="origenId")
+    destino_id: str = Field(alias="destinoId")
+    nodos: list[CaminoGrafoNodo]
+    relaciones: list[str]
+    saltos: int = Field(ge=0, le=4)

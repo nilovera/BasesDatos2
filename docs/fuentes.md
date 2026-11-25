@@ -12,7 +12,11 @@ Fecha de revisión de referencia: 20 de noviembre de 2026.
 | API H10, antecedente | nilovera/BasesDatos2 — API | 91981c10a230812fb36cc3ee8b6b40179629016f |
 | Rama Neo, contenido MongoDB antiguo | nilovera/BasesDatos2 — Neo | 6c574ad704c6f3185246d78ed9cb07dc8c4146d1 |
 
-Los scripts reales de Neo4j están en entorno-local/datos/neo4j dentro de monitoreo. InlfuxDB es una rama desactualizada y no se utiliza como referencia.
+La rama `Neo` no contiene una implementación Neo4j reutilizable: conserva una
+carga MongoDB antigua. Por eso el incremento final de Neo4j se construye como
+proyección nueva a partir del catálogo común, sin importar datos ni credenciales
+del contenedor histórico. `InlfuxDB` es una rama desactualizada y no se utiliza
+como referencia.
 
 `data/fuentes/catalogo_base.json` conserva selecciones, perfiles de nombres y posiciones del generador MongoDB del commit indicado. `scripts/catalogo.py` reproduce sus IDs, nombres, fechas y pertenencias. La demostración de partido y sus equivalencias se agregan como decisión explícita de la rama limpia `trabajo-final`.
 
@@ -43,4 +47,17 @@ restricción de nombres.
 Versiones directas fijadas para reproducibilidad: FastAPI 0.165.0, PyMongo
 4.20.1, Prometheus Client 0.26.0 y Uvicorn 0.54.0. Las imágenes de laboratorio
 son Prometheus 3.16.0 y Grafana 13.3.1.
+
+## Referencias técnicas del incremento de Neo4j
+
+- Neo4j Operations Manual, imágenes Docker: https://neo4j.com/docs/operations-manual/current/docker/introduction/
+- Neo4j Operations Manual, secretos Docker y `NEO4J_AUTH_FILE`: https://neo4j.com/docs/operations-manual/current/docker/configuration/#docker-secrets
+- Cypher Manual, restricciones: https://neo4j.com/docs/cypher-manual/current/constraints/
+- Cypher Manual, `MERGE`: https://neo4j.com/docs/cypher-manual/current/clauses/merge/
+- Cypher Manual, caminos más cortos: https://neo4j.com/docs/cypher-manual/current/patterns/shortest-paths/
+- Neo4j Python Driver Manual: https://neo4j.com/docs/python-manual/current/
+
+Se fija `neo4j:5.26.34-community-trixie` y el driver Python `6.4.1`. El grafo es
+una proyección reconstruible de MongoDB y el catálogo común; no se reutilizan
+los volúmenes del contenedor histórico.
 

@@ -14,7 +14,7 @@ class RuntimeIncrementTests(unittest.TestCase):
 
     def test_direct_dependencies_are_pinned(self):
         requirements = (ROOT / "backend" / "requirements.txt").read_text(encoding="utf-8")
-        for dependency in ("fastapi", "cassandra-driver", "pymongo", "prometheus-client", "redis", "uvicorn"):
+        for dependency in ("fastapi", "cassandra-driver", "neo4j", "pymongo", "prometheus-client", "redis", "uvicorn"):
             self.assertRegex(requirements, rf"(?m)^{dependency}==[^\s]+$")
 
     def test_compose_contains_api_prometheus_and_grafana(self):
@@ -65,6 +65,8 @@ class RuntimeIncrementTests(unittest.TestCase):
             "Fixture2030MongoDown",
             "Fixture2030InfluxDown",
             "Fixture2030TelemetryWriteErrors",
+            "Fixture2030Neo4jDown",
+            "Fixture2030GraphErrors",
         ):
             self.assertIn(f"alert: {alert}", rules)
         self.assertIn("owner: plataforma", rules)
@@ -131,10 +133,11 @@ class RuntimeIncrementTests(unittest.TestCase):
         }
         self.assertIn('fixture2030_dependency_up{dependency="mongodb"}', expressions)
         self.assertIn(
-            'fixture2030_dependency_up{dependency=~"mongodb|redis|cassandra|influxdb"}',
+            'fixture2030_dependency_up{dependency=~"mongodb|redis|cassandra|influxdb|neo4j"}',
             expressions,
         )
         self.assertIn('fixture2030_dependency_up{dependency="influxdb"}', expressions)
+        self.assertIn('fixture2030_dependency_up{dependency="neo4j"}', expressions)
         self.assertTrue(
             any("fixture2030_telemetry_operations_total" in expression for expression in expressions)
         )
@@ -323,6 +326,54 @@ class RuntimeIncrementTests(unittest.TestCase):
         )
         self.assertIn('"${baseUrl}?desdeSecuencia=0&limite=100"', script)
         self.assertNotIn('"$baseUrl?desdeSecuencia=0&limite=100"', script)
+
+    def test_neo4j_is_pinned_persistent_authenticated_and_observable(self):
+        compose = (ROOT / "docker-compose.yml").read_text(encoding="utf-8")
+        seed = (ROOT / "neo4j" / "init" / "seed.py").read_text(encoding="utf-8")
+        metrics = (ROOT / "backend" / "app" / "metrics.py").read_text(encoding="utf-8")
+        for service in ("  neo4j:", "  neo4j-init:"):
+            self.assertIn(service, compose)
+        self.assertIn("neo4j:5.26.34-community-trixie", compose)
+        self.assertNotIn("image: neo4j:latest", compose)
+        self.assertIn("NEO4J_AUTH_FILE: /run/secrets/neo4j-auth", compose)
+        self.assertIn("fixture2030_neo4j_data:/data", compose)
+        self.assertIn("fixture2030_neo4j_logs:/logs", compose)
+        self.assertIn("fixture2030_neo4j_import:/var/lib/neo4j/import", compose)
+        self.assertIn("CREATE CONSTRAINT fixture2030_equipo_id IF NOT EXISTS", seed)
+        self.assertIn("MERGE (j:Jugador", seed)
+        self.assertIn("jugadoresHuerfanos", seed)
+        self.assertIn("fixture2030_graph_operations", metrics)
+
+    def test_neo4j_scripts_are_safe_idempotent_and_recoverable(self):
+        graph_test = (ROOT / "scripts" / "probar_grafo_neo4j.ps1").read_text(
+            encoding="utf-8"
+        )
+        platform_check = (ROOT / "scripts" / "verificar_plataforma.ps1").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("docker compose run --rm neo4j-init", graph_test)
+        self.assertIn("--demo-crud", graph_test)
+        self.assertIn("camino/EQ-33", graph_test)
+        self.assertIn('$health.neo4j -eq "UP"', platform_check)
+        self.assertIn('$health.neo4j -ne "UP"', platform_check)
+        for name in (
+            "preparar_neo4j.ps1",
+            "verificar_neo4j.ps1",
+            "probar_grafo_neo4j.ps1",
+            "probar_persistencia_neo4j.ps1",
+            "probar_falla_neo4j.ps1",
+        ):
+            source = (ROOT / "scripts" / name).read_text(encoding="utf-8")
+            self.assertNotIn("down -v", source.lower())
+            self.assertNotIn("docker rm", source.lower())
+        failure = (ROOT / "scripts" / "probar_falla_neo4j.ps1").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("finally {", failure)
+        self.assertIn("docker stop fixture2030-neo4j", failure)
+        self.assertIn("docker start fixture2030-neo4j", failure)
+        self.assertIn("Fixture2030Neo4jDown", failure)
+        self.assertIn("resultado.json", failure)
 
 
 if __name__ == "__main__":

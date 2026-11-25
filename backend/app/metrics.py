@@ -55,3 +55,8 @@ TELEMETRY_OPERATIONS = Counter(
     "Operaciones de series temporales en InfluxDB",
     ["operation", "result"],
 )
+GRAPH_OPERATIONS = Counter(
+    "fixture2030_graph_operations",
+    "Operaciones de recorridos y recomendaciones en Neo4j",
+    ["operation", "result"],
+)

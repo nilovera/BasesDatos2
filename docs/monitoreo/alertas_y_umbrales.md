@@ -15,8 +15,10 @@ tráfico normal y estrés; no constituyen por sí solos un SLA medido.
 | `Fixture2030CassandraDown` | `fixture2030_dependency_up{dependency="cassandra"} == 0` durante 30 s | crítica | Cassandra | comentarios no disponibles; fixture y sesiones continúan | Plataforma: revisar nodo, volumen y conectividad; no confirmar comentarios | demuestra degradación aislada del módulo social |
 | `Fixture2030InfluxDown` | `fixture2030_dependency_up{dependency="influxdb"} == 0` durante 30 s | crítica | InfluxDB | posiciones, estadísticas y mapas no disponibles; núcleo oficial continúa | Plataforma: revisar nodo, token, volumen y red; recuperar solo InfluxDB | demuestra degradación aislada de telemetría |
 | `Fixture2030TelemetryWriteErrors` | más de 5 errores de escritura en 5 min durante 1 min | advertencia | API/InfluxDB | lotes rechazados o referencias inconsistentes | Backend: revisar contrato, tipos, tags y disponibilidad | umbral inicial pendiente de carga normal |
+| `Fixture2030Neo4jDown` | `fixture2030_dependency_up{dependency="neo4j"} == 0` durante 30 s | crítica | Neo4j | recorridos y recomendaciones no disponibles; núcleo oficial continúa | Plataforma: revisar nodo, secreto, volumen y red; recuperar solo Neo4j | demuestra degradación aislada del grafo |
+| `Fixture2030GraphErrors` | más de 5 errores de grafo en 5 min durante 1 min | advertencia | API/Neo4j | patrones o recomendaciones fallan repetidamente | Backend: revisar consultas, cardinalidad y disponibilidad | umbral inicial pendiente de tráfico normal |
 
-Las fallas controladas de API, MongoDB, Redis, Cassandra e InfluxDB conservan valores
+Las fallas controladas de API, MongoDB, Redis, Cassandra, InfluxDB y Neo4j conservan valores
 antes/durante/después y el estado `firing` cuando la regla correspondiente lo
 permite. La alerta de memoria se ejercitará con carga. Outbox será validable
 cuando exista el consumidor de proyecciones.

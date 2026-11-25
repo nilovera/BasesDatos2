@@ -5,7 +5,12 @@ if ($LASTEXITCODE -ne 0) {
     throw "No se pudieron preparar los secretos de InfluxDB (codigo $LASTEXITCODE)."
 }
 
-Write-Host "Construyendo e iniciando API, MongoDB, Redis, Cassandra, InfluxDB, Prometheus y Grafana..."
+& powershell -NoProfile -ExecutionPolicy Bypass -File (Join-Path $PSScriptRoot "preparar_neo4j.ps1")
+if ($LASTEXITCODE -ne 0) {
+    throw "No se pudieron preparar los secretos de Neo4j (codigo $LASTEXITCODE)."
+}
+
+Write-Host "Construyendo e iniciando API, MongoDB, Redis, Cassandra, InfluxDB, Neo4j, Prometheus y Grafana..."
 docker compose up -d --build
 if ($LASTEXITCODE -ne 0) {
     throw "No se pudo iniciar la plataforma (codigo $LASTEXITCODE)."

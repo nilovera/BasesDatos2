@@ -11,5 +11,6 @@ data
 docs
 infra
 mongodb
+neo4j
 scripts
 tests

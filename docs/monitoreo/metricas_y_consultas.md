@@ -117,7 +117,7 @@ sum by (operation, result) (rate(fixture2030_comment_operations_total[5m]))
 ## Comparación de dependencias
 
 ```promql
-fixture2030_dependency_up{dependency=~"mongodb|redis|cassandra|influxdb"}
+fixture2030_dependency_up{dependency=~"mongodb|redis|cassandra|influxdb|neo4j"}
 ```
 
 - Unidad: booleano por dependencia.
@@ -152,6 +152,22 @@ sum by (operation, result) (rate(fixture2030_telemetry_operations_total[5m]))
 - Periodo: ventana móvil de 5 minutos.
 - Uso: observar escrituras de posiciones/estadísticas, consultas, mapas de
   calor, agregaciones y errores.
+
+## Disponibilidad y operaciones de Neo4j
+
+```promql
+fixture2030_dependency_up{dependency="neo4j"}
+```
+
+La métrica vale `1` cuando la API puede ejecutar una consulta Bolt y `0` cuando
+los recorridos están degradados. No equivale a métricas internas del proceso.
+
+```promql
+sum by (operation, result) (rate(fixture2030_graph_operations_total[5m]))
+```
+
+Permite observar resúmenes, rivales, recomendaciones, caminos y errores por
+segundo durante una ventana móvil de cinco minutos.
 
 Prometheus conserva siete días en el laboratorio. Esa retención permite revisar
 la demostración local, pero no representa una política productiva ni sustituye

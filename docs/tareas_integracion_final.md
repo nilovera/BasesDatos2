@@ -81,7 +81,7 @@ compromiso; ninguna capacidad se presenta como observada sin ejecución.
   genera manifiesto SHA-256.
 - Las fallas de MongoDB, Redis y Cassandra ya generan resultados persistentes
   con valores antes/durante/después y recuperación. El mismo mecanismo quedó
-  implementado para InfluxDB y requiere ejecución/versionado en el equipo.
+  implementado para InfluxDB y Neo4j; Neo4j requiere ejecución/versionado en el equipo.
 - Conservar y revisar la evidencia válida de la falla controlada de API.
 - Excluir o reemplazar la captura incompleta `20261123T192234Z`.
 - Adjuntar capturas de Grafana con la misma ventana temporal y commit.

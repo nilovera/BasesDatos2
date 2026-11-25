@@ -82,6 +82,7 @@ Save-JsonResponse -Uri "http://localhost:9090/api/v1/rules" -Path (Join-Path $ou
 Save-PrometheusQuery -Query 'up{job="fixture2030-api"}' -Path (Join-Path $outputDir "prometheus-api-up.json")
 Save-PrometheusQuery -Query 'fixture2030_dependency_up' -Path (Join-Path $outputDir "prometheus-dependencias.json")
 Save-PrometheusQuery -Query 'up{job="fixture2030-influxdb"}' -Path (Join-Path $outputDir "prometheus-influxdb-up.json")
+Save-PrometheusQuery -Query 'fixture2030_dependency_up{dependency="neo4j"}' -Path (Join-Path $outputDir "prometheus-neo4j-up.json")
 Save-PrometheusQuery -Query 'histogram_quantile(0.95, sum by (le) (rate(fixture2030_http_request_duration_seconds_bucket[5m])))' -Path (Join-Path $outputDir "prometheus-latencia-p95.json")
 Save-PrometheusQuery -Query 'sum(rate(fixture2030_http_requests_total{route!="/health"}[1m]))' -Path (Join-Path $outputDir "prometheus-throughput.json")
 Save-PrometheusQuery -Query 'sum(increase(fixture2030_http_requests_total{route!="/health",status=~"5.."}[5m]))' -Path (Join-Path $outputDir "prometheus-errores-5m.json")
@@ -107,6 +108,10 @@ Invoke-CapturedProcess -FilePath "powershell" `
     -ArgumentList ($powershellPrefix + @("scripts\verificar_influxdb.ps1")) `
     -OutputPath (Join-Path $outputDir "influxdb-verificacion.txt") `
     -FailureMessage "Fallo la verificacion de InfluxDB"
+Invoke-CapturedProcess -FilePath "powershell" `
+    -ArgumentList ($powershellPrefix + @("scripts\verificar_neo4j.ps1")) `
+    -OutputPath (Join-Path $outputDir "neo4j-verificacion.txt") `
+    -FailureMessage "Fallo la verificacion de Neo4j"
 Invoke-CapturedProcess -FilePath "python" `
     -ArgumentList @("-m", "unittest", "discover", "-s", "tests", "-v") `
     -OutputPath (Join-Path $outputDir "pruebas-unitarias.txt") `

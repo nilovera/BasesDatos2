@@ -4,8 +4,8 @@ Integración final del trabajo de Ingeniería de Datos II dentro del repositorio
 `nilovera/BasesDatos2`, rama `trabajo-final`.
 
 **Estado:** MongoDB autoritativo, API transaccional, Redis para datos calientes,
-Cassandra para comentarios, InfluxDB para series temporales y observabilidad
-con Prometheus y Grafana. Neo4j sigue pendiente de integración.
+Cassandra para comentarios, InfluxDB para series temporales, Neo4j para
+relaciones y observabilidad con Prometheus y Grafana.
 
 ## Preparar la rama limpia
 
@@ -54,11 +54,12 @@ python -m scripts.catalogo --check
 | `tests/` | Pruebas del catálogo, contratos, dominio, API e infraestructura | Ejecutadas estáticamente |
 | `docs/antecedentes/` | Siete documentos de diseño previos | Conservados como antecedentes |
 | `docs/diseno/` | Convenciones y decisiones de la rama final | Base inicial documentada |
-| `backend/` | FastAPI, contrato OpenAPI, transacción e idempotencia | Implementado con MongoDB, Redis, Cassandra e InfluxDB |
+| `backend/` | FastAPI, contrato OpenAPI, transacción e idempotencia | Implementado con los cinco motores |
 | `mongodb/` | Replica set, validadores, índices, carga y verificación | Implementado y validado en Docker |
 | `redis/` | Cache-Aside, sesiones, TTL, LFU, RDB y AOF | Implementado y validado en Docker; evidencia final pendiente |
 | `cassandra/` | Esquema por consulta, buckets, shards e idempotencia | Implementado y validado en Docker; evidencia final pendiente |
-| `influxdb/` | Retención, telemetría, cursores, mapas de calor y resúmenes | Implementado; ejecución Docker y evidencia pendientes |
+| `influxdb/` | Retención, telemetría, cursores, mapas de calor y resúmenes | Implementado y validado |
+| `neo4j/` | Proyección, restricciones, CRUD, recomendaciones y caminos | Implementado; ejecución Docker pendiente |
 | `infra/` | Prometheus, reglas de alerta, Grafana y dashboard inicial | Implementado y ejecutado en Docker |
 | `evidencia/` | Resultados trazables por commit y prueba de falla controlada | Estructura y captura automatizadas; ejecuciones pendientes de versionar |
 
@@ -93,9 +94,9 @@ sus consecuencias están documentadas en
 
 ## Orden de trabajo
 
-1. Conservar la validación de API, transacciones, idempotencia, Redis, Cassandra, InfluxDB, Prometheus y Grafana.
-2. Incorporar Neo4j mediante un adaptador revisado.
-3. Procesar la Outbox y construir las proyecciones idempotentes.
+1. Conservar la validación de API, transacciones, idempotencia y los cinco motores, además de Prometheus y Grafana.
+2. Ejecutar y conservar la evidencia reproducible de Neo4j en Docker.
+3. Procesar la Outbox y actualizar las proyecciones idempotentes.
 4. Completar usuarios, asistencias, telemetría y simulador sintético.
 5. Agregar exporters, alertas y dashboards de los cinco motores.
 6. Ejecutar humo, tráfico normal, estrés y recuperación.
@@ -128,7 +129,7 @@ evidencia todavía pendiente está en la
 [`matriz de cumplimiento`](docs/monitoreo/matriz_cumplimiento_hito_13.md).
 
 La captura exige por defecto un commit limpio. Las fallas de MongoDB, Redis,
-Cassandra e InfluxDB también generan `resultado.json` con commit, valores
+Cassandra, InfluxDB y Neo4j también generan `resultado.json` con commit, valores
 antes/durante/después, alerta y recuperación:
 
 ```text
@@ -136,6 +137,7 @@ powershell -ExecutionPolicy Bypass -File scripts\probar_falla_mongodb.ps1
 powershell -ExecutionPolicy Bypass -File scripts\probar_falla_redis.ps1
 powershell -ExecutionPolicy Bypass -File scripts\probar_falla_cassandra.ps1
 powershell -ExecutionPolicy Bypass -File scripts\probar_falla_influxdb.ps1
+powershell -ExecutionPolicy Bypass -File scripts\probar_falla_neo4j.ps1
 ```
 
 ## Accesos y detención segura
@@ -147,6 +149,7 @@ Con la plataforma iniciada:
 - Prometheus: `http://localhost:9090`
 - Grafana: `http://localhost:3000`
 - InfluxDB 3 Core: `http://localhost:8181` (API autenticada, no es una UI)
+- Neo4j Browser: `http://localhost:7474`
 
 Para detener sin borrar MongoDB, Redis, Cassandra, InfluxDB ni las series de monitoreo:
 
@@ -207,6 +210,23 @@ powershell -ExecutionPolicy Bypass -File scripts\probar_falla_influxdb.ps1
 El modelo, la seguridad del token, el cursor y las limitaciones de
 participación están en
 [`06_5_modelo_fisico_influxdb.md`](docs/diseno/06_5_modelo_fisico_influxdb.md).
+
+## Incremento 07 Neo4j
+
+Neo4j proyecta el catálogo común para resolver rivales, recomendaciones y
+caminos de varios saltos. La carga usa `MERGE`, restricciones únicas y una
+prueba CRUD temporal que no altera el catálogo:
+
+```text
+powershell -ExecutionPolicy Bypass -File scripts\iniciar_plataforma.ps1
+powershell -ExecutionPolicy Bypass -File scripts\verificar_neo4j.ps1
+powershell -ExecutionPolicy Bypass -File scripts\probar_grafo_neo4j.ps1
+powershell -ExecutionPolicy Bypass -File scripts\probar_persistencia_neo4j.ps1
+powershell -ExecutionPolicy Bypass -File scripts\probar_falla_neo4j.ps1
+```
+
+El modelo y sus límites están en
+[`06_6_modelo_fisico_neo4j.md`](docs/diseno/06_6_modelo_fisico_neo4j.md).
 
 Ver el [plan de incorporación](docs/plan_incorporacion.md), el
 [registro de los 17 puntos](docs/pendientes.md) y las

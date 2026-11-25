@@ -23,6 +23,7 @@ from .metrics import (
     COMMENT_OPERATIONS,
     DEPENDENCY_UP,
     EVENTS_CONFIRMED,
+    GRAPH_OPERATIONS,
     HTTP_DURATION,
     HTTP_REQUESTS,
     IDEMPOTENCY_REPLAYS,
@@ -36,6 +37,8 @@ from .models import (
     EventoConfirmado,
     ComentarioCreate,
     ComentarioCreado,
+    CaminoGrafoResponse,
+    GrafoResumen,
     HealthResponse,
     ModeracionComentario,
     ModeracionResponse,
@@ -47,17 +50,22 @@ from .models import (
     PaginaResumenesEquipo,
     PartidoResponse,
     PosicionesBatch,
+    RecomendacionesJugadoresResponse,
+    RivalesResponse,
     SesionCreate,
     SesionRenovacion,
     SesionResponse,
     TelemetryWriteResponse,
 )
+from .neo4j_client import close_neo4j_client, get_neo4j_client
+from .neo4j_service import Neo4jGraphService
 from .redis_client import RedisError, close_redis_client, get_redis_client
 from .redis_service import RedisService
 from .repository import MongoRepository
 
 
 PARTIDO_ID = re.compile(r"^PAR-[0-9]{4}$")
+TEAM_ID = re.compile(r"^EQ-[0-9]{2}$")
 PLAYER_ID = re.compile(r"^JUG-[0-9]{4}$")
 USER_ID = re.compile(r"^USR-[0-9]{4}$")
 COMMENT_ID = re.compile(r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
@@ -75,6 +83,7 @@ async def lifespan(_app):
         # proceso arranque y exponga diagnóstico.
         pass
     yield
+    close_neo4j_client()
     close_influx_client()
     close_cassandra_client()
     close_redis_client()
@@ -83,8 +92,8 @@ async def lifespan(_app):
 
 app = FastAPI(
     title="Fixture 2030 API",
-    version="0.5.0",
-    description="Núcleo deportivo en MongoDB, datos calientes en Redis, comentarios en Cassandra y series temporales en InfluxDB.",
+    version="0.6.0",
+    description="Núcleo deportivo en MongoDB, datos calientes en Redis, comentarios en Cassandra, series temporales en InfluxDB y relaciones en Neo4j.",
     lifespan=lifespan,
 )
 app.mount("/metrics", make_asgi_app())
@@ -114,6 +123,10 @@ def telemetry_service():
     )
 
 
+def graph_service():
+    return Neo4jGraphService(get_neo4j_client())
+
+
 def request_id(request):
     return getattr(request.state, "request_id", str(uuid4()))
 
@@ -121,6 +134,11 @@ def request_id(request):
 def validate_match_id(partido_id):
     if not PARTIDO_ID.fullmatch(partido_id):
         raise DomainError(400, "INVALID_MATCH_ID", "Formato de partidoId inválido")
+
+
+def validate_team_id(team_id):
+    if not TEAM_ID.fullmatch(team_id):
+        raise DomainError(400, "INVALID_TEAM_ID", "Formato de equipoId inválido")
 
 
 def validate_player_id(player_id):
@@ -198,10 +216,15 @@ def health():
         influxdb_status = telemetry_service().health()
     except Exception:
         influxdb_status = "DOWN"
+    try:
+        neo4j_status = graph_service().health()
+    except Exception:
+        neo4j_status = "DOWN"
     DEPENDENCY_UP.labels("mongodb").set(1 if mongo_status == "PRIMARY" else 0)
     DEPENDENCY_UP.labels("redis").set(1 if redis_status == "UP" else 0)
     DEPENDENCY_UP.labels("cassandra").set(1 if cassandra_status == "UP" else 0)
     DEPENDENCY_UP.labels("influxdb").set(1 if influxdb_status == "UP" else 0)
+    DEPENDENCY_UP.labels("neo4j").set(1 if neo4j_status == "UP" else 0)
     return {
         "service": "fixture2030-api",
         "status": "UP"
@@ -209,11 +232,13 @@ def health():
         and redis_status == "UP"
         and cassandra_status == "UP"
         and influxdb_status == "UP"
+        and neo4j_status == "UP"
         else "DEGRADED",
         "mongodb": mongo_status,
         "redis": redis_status,
         "cassandra": cassandra_status,
         "influxdb": influxdb_status,
+        "neo4j": neo4j_status,
     }
 
 
@@ -624,4 +649,83 @@ def list_team_summaries(partidoId: str):
         return result
     except DomainError:
         TELEMETRY_OPERATIONS.labels("read_summaries", "ERROR").inc()
+        raise
+
+
+@app.get(
+    "/api/v1/grafo/resumen",
+    response_model=GrafoResumen,
+    responses={503: {"description": "Neo4j no disponible"}},
+)
+def get_graph_summary():
+    try:
+        result = graph_service().summary()
+        GRAPH_OPERATIONS.labels("summary", "OK").inc()
+        return result
+    except DomainError:
+        GRAPH_OPERATIONS.labels("summary", "ERROR").inc()
+        raise
+
+
+@app.get(
+    "/api/v1/grafo/equipos/{equipoId}/rivales",
+    response_model=RivalesResponse,
+    responses={
+        400: {"description": "Identificador inválido"},
+        404: {"description": "Equipo inexistente"},
+        503: {"description": "Neo4j no disponible"},
+    },
+)
+def get_team_rivals(equipoId: str):
+    validate_team_id(equipoId)
+    try:
+        result = graph_service().rivals(equipoId)
+        GRAPH_OPERATIONS.labels("rivals", "OK").inc()
+        return result
+    except DomainError:
+        GRAPH_OPERATIONS.labels("rivals", "ERROR").inc()
+        raise
+
+
+@app.get(
+    "/api/v1/grafo/jugadores/{jugadorId}/recomendaciones",
+    response_model=RecomendacionesJugadoresResponse,
+    responses={
+        400: {"description": "Identificador inválido"},
+        404: {"description": "Jugador inexistente"},
+        503: {"description": "Neo4j no disponible"},
+    },
+)
+def get_player_recommendations(
+    jugadorId: str,
+    limite: int = Query(10, ge=1, le=50),
+):
+    validate_player_id(jugadorId)
+    try:
+        result = graph_service().recommendations(jugadorId, limite)
+        GRAPH_OPERATIONS.labels("recommendations", "OK").inc()
+        return result
+    except DomainError:
+        GRAPH_OPERATIONS.labels("recommendations", "ERROR").inc()
+        raise
+
+
+@app.get(
+    "/api/v1/grafo/equipos/{origenId}/camino/{destinoId}",
+    response_model=CaminoGrafoResponse,
+    responses={
+        400: {"description": "Identificador inválido"},
+        404: {"description": "Equipo o camino inexistente"},
+        503: {"description": "Neo4j no disponible"},
+    },
+)
+def get_team_path(origenId: str, destinoId: str):
+    validate_team_id(origenId)
+    validate_team_id(destinoId)
+    try:
+        result = graph_service().team_path(origenId, destinoId)
+        GRAPH_OPERATIONS.labels("team_path", "OK").inc()
+        return result
+    except DomainError:
+        GRAPH_OPERATIONS.labels("team_path", "ERROR").inc()
         raise

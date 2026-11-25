@@ -9,6 +9,8 @@ powershell -ExecutionPolicy Bypass -File scripts\probar_falla_api.ps1
 powershell -ExecutionPolicy Bypass -File scripts\probar_falla_mongodb.ps1
 powershell -ExecutionPolicy Bypass -File scripts\probar_falla_redis.ps1
 powershell -ExecutionPolicy Bypass -File scripts\probar_falla_cassandra.ps1
+powershell -ExecutionPolicy Bypass -File scripts\probar_falla_influxdb.ps1
+powershell -ExecutionPolicy Bypass -File scripts\probar_falla_neo4j.ps1
 ```
 
 Cada subcarpeta de ejecucion usa una marca temporal UTC. Antes de versionarla:

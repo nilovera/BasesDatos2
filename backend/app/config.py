@@ -30,6 +30,15 @@ class Settings:
     influxdb_timeout_seconds: float = float(
         os.getenv("INFLUXDB_TIMEOUT_SECONDS", "3.0")
     )
+    neo4j_uri: str = os.getenv("NEO4J_URI", "bolt://localhost:7687")
+    neo4j_user: str = os.getenv("NEO4J_USER", "neo4j")
+    neo4j_password_file: str = os.getenv(
+        "NEO4J_PASSWORD_FILE", ".secretos/neo4j-password.txt"
+    )
+    neo4j_database: str = os.getenv("NEO4J_DATABASE", "neo4j")
+    neo4j_timeout_seconds: float = float(
+        os.getenv("NEO4J_TIMEOUT_SECONDS", "3.0")
+    )
 
 
 settings = Settings()

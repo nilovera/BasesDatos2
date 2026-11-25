@@ -130,7 +130,20 @@ class ContractTests(unittest.TestCase):
             if parameter["name"] == "cursor"
         )
         self.assertIn("null", {item.get("type") for item in cursor["schema"]["anyOf"]})
-        self.assertEqual("0.5.0", self.openapi["info"]["version"])
+        self.assertEqual("0.6.0", self.openapi["info"]["version"])
+
+    def test_graph_contract_exposes_summary_rivals_recommendations_and_path(self):
+        paths = self.openapi["paths"]
+        expected = (
+            "/api/v1/grafo/resumen",
+            "/api/v1/grafo/equipos/{equipoId}/rivales",
+            "/api/v1/grafo/jugadores/{jugadorId}/recomendaciones",
+            "/api/v1/grafo/equipos/{origenId}/camino/{destinoId}",
+        )
+        for path in expected:
+            self.assertIn(path, paths)
+            self.assertIn("get", paths[path])
+        self.assertEqual("0.6.0", self.openapi["info"]["version"])
 
     def test_match_read_documents_cache_result_header(self):
         response = self.openapi["paths"]["/api/v1/partidos/{partidoId}"]["get"][

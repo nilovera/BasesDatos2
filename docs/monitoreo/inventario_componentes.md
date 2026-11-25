@@ -12,9 +12,9 @@ base pendiente o presente solamente en un diagrama no se declara monitoreada.
 | InfluxDB | series de posiciones, estadísticas y resúmenes temporales | `8181`, `/health`, `/metrics` autenticados | target directo de Prometheus, salud funcional y contadores de API | disponibilidad, escrituras, consultas, errores y persistencia | telemetría degradada, pérdida de series o cardinalidad excesiva | un nodo; sin alta disponibilidad ni backup probado |
 | Prometheus | series técnicas de observabilidad | `9090`, API HTTP de Prometheus | métricas propias y tres jobs configurados | estado de targets, evaluación de reglas y retención de 7 días | pérdida de visibilidad o reglas sin evaluar | una instancia; no es almacenamiento funcional del Fixture |
 | Grafana | visualización de Prometheus | `3000`, `/api/health` | verificación operativa y provisioning versionado | salud del visualizador y dashboard exportable | defensa sin paneles o datasource no disponible | no es target de Prometheus; capturas finales pendientes |
-| Neo4j | grafo de relaciones entre jugadores, equipos y partidos | pendiente | pendiente | pendiente | recorridos y relaciones no demostrados | no incorporado todavía |
+| Neo4j | proyección de relaciones entre jugadores, equipos, confederaciones, partidos y torneo | `7474`, `7687`; salud funcional desde `/health` | inferencia de la API y contadores de dominio | disponibilidad, resumen, rivales, recomendaciones, caminos y errores | recorridos y recomendaciones degradados | Community de un nodo; sin exporter interno ni alta disponibilidad |
 
 Prometheus posee cuatro targets directos: Prometheus, API, Redis Exporter e InfluxDB. La
-disponibilidad de MongoDB y Cassandra se mide funcionalmente desde la API. El
+disponibilidad de MongoDB, Cassandra y Neo4j se mide funcionalmente desde la API. El
 dashboard debe indicar esta diferencia para no presentar una inferencia como
 métrica interna de la base.

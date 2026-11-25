@@ -1,0 +1,24 @@
+﻿{
+    "scenario":  "comparacion-consulta-goles-por-equipo",
+    "classification":  "medido",
+    "warning":  "Con un solo partido esto es una linea base funcional; no demuestra por si sola la mejora exigida por Hito 12.",
+    "sourceCommit":  "70dc0d9c424d334122e49f85055e19b3f95c4d0d",
+    "capturedAtUtc":  "2026-11-25T19:28:25.0343703Z",
+    "equivalentResults":  true,
+    "operational":  {
+                        "iterations":  100,
+                        "p50Ms":  26.394,
+                        "p95Ms":  46.363,
+                        "p99Ms":  67.644,
+                        "errors":  0,
+                        "throughputReqS":  35.056
+                    },
+    "datamart":  {
+                     "iterations":  100,
+                     "p50Ms":  12.146,
+                     "p95Ms":  23.143,
+                     "p99Ms":  39.311,
+                     "errors":  0,
+                     "throughputReqS":  71.949
+                 }
+}

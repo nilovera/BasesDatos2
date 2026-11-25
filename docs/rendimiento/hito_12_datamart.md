@@ -42,7 +42,22 @@ PostgreSQL en cada solicitud dominaba una consulta sobre apenas cuatro filas.
 
 Se reemplazó la conexión por solicitud por un `ConnectionPool` de tamaño 2–10.
 No se cambió el SQL, los datos, el endpoint ni el script de 100 iteraciones. La
-misma prueba debe repetirse para cuantificar el efecto. Aun si mejora esta línea
-base, la prueba de volumen, concurrencia y recursos continuará pendiente hasta
-incorporar el simulador de humo/normal/estrés.
+prueba se repitió sobre el commit `70dc0d9`, con resultados equivalentes y cero
+errores:
+
+| Camino | p50 | p95 | p99 | Throughput |
+|---|---:|---:|---:|---:|
+| Operacional | 26,394 ms | 46,363 ms | 67,644 ms | 35,056 req/s |
+| Data Mart con pool | 12,146 ms | 23,143 ms | 39,311 ms | 71,949 req/s |
+
+Frente al Data Mart sin pool, la optimización redujo p50 un 34,54 %, p95 un
+19,79 % y p99 un 13,37 %, y aumentó el throughput un 47,86 %. Dentro de la misma
+ejecución, el Data Mart obtuvo p50 53,98 % menor, p95 50,08 % menor, p99 41,89 %
+menor y throughput 105,24 % mayor que el camino operacional.
+
+Esta comparación demuestra el efecto del pool bajo la línea base funcional,
+pero no aísla la variabilidad entre ejecuciones ni prueba comportamiento con
+volumen, concurrencia o presión de recursos. La validación completa del Hito 12
+continúa pendiente hasta incorporar los perfiles de humo, tráfico normal y
+estrés, medir CPU/memoria y repetir cada escenario varias veces.
 

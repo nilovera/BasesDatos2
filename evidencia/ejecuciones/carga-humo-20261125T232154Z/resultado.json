@@ -1,0 +1,471 @@
+{
+  "scenario": "carga-humo",
+  "classification": "medido",
+  "sourceCommit": "3f7e4880a5a2d1f5af934be115340b73225543c6",
+  "branch": "trabajo-final",
+  "capturedAtUtc": "2026-11-25T23:22:08.973391+00:00",
+  "sourceTreeCleanBeforeRun": true,
+  "preexistingLoadEvidence": [
+    "evidencia/ejecuciones/carga-estres-20261125T232053Z/recursos-rep-01.csv",
+    "evidencia/ejecuciones/carga-estres-20261125T232053Z/resultado.json",
+    "evidencia/ejecuciones/carga-estres-20261125T232053Z/solicitudes-rep-01.csv",
+    "evidencia/ejecuciones/carga-humo-20261125T231123Z/recursos-rep-01.csv",
+    "evidencia/ejecuciones/carga-humo-20261125T231123Z/resultado.json",
+    "evidencia/ejecuciones/carga-humo-20261125T231123Z/solicitudes-rep-01.csv",
+    "evidencia/ejecuciones/carga-normal-20261125T231315Z/recursos-rep-01.csv",
+    "evidencia/ejecuciones/carga-normal-20261125T231315Z/recursos-rep-02.csv",
+    "evidencia/ejecuciones/carga-normal-20261125T231315Z/recursos-rep-03.csv",
+    "evidencia/ejecuciones/carga-normal-20261125T231315Z/resultado.json",
+    "evidencia/ejecuciones/carga-normal-20261125T231315Z/solicitudes-rep-01.csv",
+    "evidencia/ejecuciones/carga-normal-20261125T231315Z/solicitudes-rep-02.csv",
+    "evidencia/ejecuciones/carga-normal-20261125T231315Z/solicitudes-rep-03.csv"
+  ],
+  "profile": "humo",
+  "seed": 2029,
+  "durationSecondsPerRepetition": 15,
+  "concurrency": 2,
+  "targetRps": 2,
+  "repetitions": 1,
+  "operationMix": [
+    {
+      "name": "partido",
+      "weightPct": 25
+    },
+    {
+      "name": "comentarios_partido",
+      "weightPct": 10
+    },
+    {
+      "name": "comentarios_usuario",
+      "weightPct": 5
+    },
+    {
+      "name": "posiciones",
+      "weightPct": 8
+    },
+    {
+      "name": "mapa_calor",
+      "weightPct": 7
+    },
+    {
+      "name": "resumenes_15m",
+      "weightPct": 5
+    },
+    {
+      "name": "grafo_resumen",
+      "weightPct": 5
+    },
+    {
+      "name": "grafo_rivales",
+      "weightPct": 5
+    },
+    {
+      "name": "grafo_recomendaciones",
+      "weightPct": 5
+    },
+    {
+      "name": "datamart_goles",
+      "weightPct": 15
+    },
+    {
+      "name": "operacional_goles",
+      "weightPct": 10
+    }
+  ],
+  "overall": {
+    "requests": 30,
+    "successes": 30,
+    "errors": 0,
+    "errorRatePct": 0.0,
+    "p50Ms": 18.491,
+    "p95Ms": 38.819,
+    "p99Ms": 45.311,
+    "maxMs": 46.934,
+    "elapsedSeconds": 14.549,
+    "throughputReqS": 2.062
+  },
+  "perOperation": {
+    "comentarios_partido": {
+      "requests": 3,
+      "successes": 3,
+      "errors": 0,
+      "errorRatePct": 0.0,
+      "p50Ms": 18.055,
+      "p95Ms": 18.055,
+      "p99Ms": 18.055,
+      "maxMs": 18.22,
+      "elapsedSeconds": 14.549,
+      "throughputReqS": 0.206
+    },
+    "comentarios_usuario": {
+      "requests": 1,
+      "successes": 1,
+      "errors": 0,
+      "errorRatePct": 0.0,
+      "p50Ms": 7.704,
+      "p95Ms": 7.704,
+      "p99Ms": 7.704,
+      "maxMs": 7.704,
+      "elapsedSeconds": 14.549,
+      "throughputReqS": 0.069
+    },
+    "datamart_goles": {
+      "requests": 3,
+      "successes": 3,
+      "errors": 0,
+      "errorRatePct": 0.0,
+      "p50Ms": 8.235,
+      "p95Ms": 8.235,
+      "p99Ms": 8.235,
+      "maxMs": 24.877,
+      "elapsedSeconds": 14.549,
+      "throughputReqS": 0.206
+    },
+    "grafo_recomendaciones": {
+      "requests": 2,
+      "successes": 2,
+      "errors": 0,
+      "errorRatePct": 0.0,
+      "p50Ms": 20.658,
+      "p95Ms": 20.658,
+      "p99Ms": 20.658,
+      "maxMs": 23.154,
+      "elapsedSeconds": 14.549,
+      "throughputReqS": 0.137
+    },
+    "grafo_resumen": {
+      "requests": 1,
+      "successes": 1,
+      "errors": 0,
+      "errorRatePct": 0.0,
+      "p50Ms": 14.005,
+      "p95Ms": 14.005,
+      "p99Ms": 14.005,
+      "maxMs": 14.005,
+      "elapsedSeconds": 14.549,
+      "throughputReqS": 0.069
+    },
+    "grafo_rivales": {
+      "requests": 2,
+      "successes": 2,
+      "errors": 0,
+      "errorRatePct": 0.0,
+      "p50Ms": 24.499,
+      "p95Ms": 24.499,
+      "p99Ms": 24.499,
+      "maxMs": 27.964,
+      "elapsedSeconds": 14.549,
+      "throughputReqS": 0.137
+    },
+    "mapa_calor": {
+      "requests": 6,
+      "successes": 6,
+      "errors": 0,
+      "errorRatePct": 0.0,
+      "p50Ms": 17.749,
+      "p95Ms": 34.982,
+      "p99Ms": 34.982,
+      "maxMs": 46.934,
+      "elapsedSeconds": 14.549,
+      "throughputReqS": 0.412
+    },
+    "operacional_goles": {
+      "requests": 6,
+      "successes": 6,
+      "errors": 0,
+      "errorRatePct": 0.0,
+      "p50Ms": 17.031,
+      "p95Ms": 19.352,
+      "p99Ms": 19.352,
+      "maxMs": 32.918,
+      "elapsedSeconds": 14.549,
+      "throughputReqS": 0.412
+    },
+    "partido": {
+      "requests": 5,
+      "successes": 5,
+      "errors": 0,
+      "errorRatePct": 0.0,
+      "p50Ms": 21.497,
+      "p95Ms": 35.73,
+      "p99Ms": 35.73,
+      "maxMs": 45.311,
+      "elapsedSeconds": 14.549,
+      "throughputReqS": 0.344
+    },
+    "resumenes_15m": {
+      "requests": 1,
+      "successes": 1,
+      "errors": 0,
+      "errorRatePct": 0.0,
+      "p50Ms": 38.819,
+      "p95Ms": 38.819,
+      "p99Ms": 38.819,
+      "maxMs": 38.819,
+      "elapsedSeconds": 14.549,
+      "throughputReqS": 0.069
+    }
+  },
+  "resourceSummary": {
+    "fixture2030-api": {
+      "samples": 4,
+      "cpuAvgPct": 11.81,
+      "cpuMaxPct": 26.67,
+      "memoryAvgMiB": 103.2,
+      "memoryMaxMiB": 103.5
+    },
+    "fixture2030-cassandra": {
+      "samples": 4,
+      "cpuAvgPct": 2.705,
+      "cpuMaxPct": 3.06,
+      "memoryAvgMiB": 1102.336,
+      "memoryMaxMiB": 1102.848
+    },
+    "fixture2030-datamart": {
+      "samples": 4,
+      "cpuAvgPct": 0.85,
+      "cpuMaxPct": 3.3,
+      "memoryAvgMiB": 41.1,
+      "memoryMaxMiB": 41.43
+    },
+    "fixture2030-influxdb": {
+      "samples": 4,
+      "cpuAvgPct": 1.49,
+      "cpuMaxPct": 4.97,
+      "memoryAvgMiB": 87.22,
+      "memoryMaxMiB": 88.52
+    },
+    "fixture2030-mongo": {
+      "samples": 4,
+      "cpuAvgPct": 6.19,
+      "cpuMaxPct": 16.53,
+      "memoryAvgMiB": 106.125,
+      "memoryMaxMiB": 110.2
+    },
+    "fixture2030-neo4j": {
+      "samples": 4,
+      "cpuAvgPct": 54.795,
+      "cpuMaxPct": 205.08,
+      "memoryAvgMiB": 762.15,
+      "memoryMaxMiB": 899.8
+    },
+    "fixture2030-redis": {
+      "samples": 4,
+      "cpuAvgPct": 2.482,
+      "cpuMaxPct": 5.06,
+      "memoryAvgMiB": 11.912,
+      "memoryMaxMiB": 12.19
+    }
+  },
+  "slo": {
+    "evaluated": true,
+    "passed": true,
+    "objectives": {
+      "maxErrorRatePct": 0.0,
+      "maxP95Ms": 750.0,
+      "maxP99Ms": 1500.0
+    },
+    "checks": {
+      "errorRatePct": true,
+      "p95Ms": true,
+      "p99Ms": true
+    }
+  },
+  "runs": [
+    {
+      "repetition": 1,
+      "seed": 2029,
+      "summary": {
+        "requests": 30,
+        "successes": 30,
+        "errors": 0,
+        "errorRatePct": 0.0,
+        "p50Ms": 18.491,
+        "p95Ms": 38.819,
+        "p99Ms": 45.311,
+        "maxMs": 46.934,
+        "elapsedSeconds": 14.549,
+        "throughputReqS": 2.062
+      },
+      "perOperation": {
+        "comentarios_partido": {
+          "requests": 3,
+          "successes": 3,
+          "errors": 0,
+          "errorRatePct": 0.0,
+          "p50Ms": 18.055,
+          "p95Ms": 18.055,
+          "p99Ms": 18.055,
+          "maxMs": 18.22,
+          "elapsedSeconds": 14.549,
+          "throughputReqS": 0.206
+        },
+        "comentarios_usuario": {
+          "requests": 1,
+          "successes": 1,
+          "errors": 0,
+          "errorRatePct": 0.0,
+          "p50Ms": 7.704,
+          "p95Ms": 7.704,
+          "p99Ms": 7.704,
+          "maxMs": 7.704,
+          "elapsedSeconds": 14.549,
+          "throughputReqS": 0.069
+        },
+        "datamart_goles": {
+          "requests": 3,
+          "successes": 3,
+          "errors": 0,
+          "errorRatePct": 0.0,
+          "p50Ms": 8.235,
+          "p95Ms": 8.235,
+          "p99Ms": 8.235,
+          "maxMs": 24.877,
+          "elapsedSeconds": 14.549,
+          "throughputReqS": 0.206
+        },
+        "grafo_recomendaciones": {
+          "requests": 2,
+          "successes": 2,
+          "errors": 0,
+          "errorRatePct": 0.0,
+          "p50Ms": 20.658,
+          "p95Ms": 20.658,
+          "p99Ms": 20.658,
+          "maxMs": 23.154,
+          "elapsedSeconds": 14.549,
+          "throughputReqS": 0.137
+        },
+        "grafo_resumen": {
+          "requests": 1,
+          "successes": 1,
+          "errors": 0,
+          "errorRatePct": 0.0,
+          "p50Ms": 14.005,
+          "p95Ms": 14.005,
+          "p99Ms": 14.005,
+          "maxMs": 14.005,
+          "elapsedSeconds": 14.549,
+          "throughputReqS": 0.069
+        },
+        "grafo_rivales": {
+          "requests": 2,
+          "successes": 2,
+          "errors": 0,
+          "errorRatePct": 0.0,
+          "p50Ms": 24.499,
+          "p95Ms": 24.499,
+          "p99Ms": 24.499,
+          "maxMs": 27.964,
+          "elapsedSeconds": 14.549,
+          "throughputReqS": 0.137
+        },
+        "mapa_calor": {
+          "requests": 6,
+          "successes": 6,
+          "errors": 0,
+          "errorRatePct": 0.0,
+          "p50Ms": 17.749,
+          "p95Ms": 34.982,
+          "p99Ms": 34.982,
+          "maxMs": 46.934,
+          "elapsedSeconds": 14.549,
+          "throughputReqS": 0.412
+        },
+        "operacional_goles": {
+          "requests": 6,
+          "successes": 6,
+          "errors": 0,
+          "errorRatePct": 0.0,
+          "p50Ms": 17.031,
+          "p95Ms": 19.352,
+          "p99Ms": 19.352,
+          "maxMs": 32.918,
+          "elapsedSeconds": 14.549,
+          "throughputReqS": 0.412
+        },
+        "partido": {
+          "requests": 5,
+          "successes": 5,
+          "errors": 0,
+          "errorRatePct": 0.0,
+          "p50Ms": 21.497,
+          "p95Ms": 35.73,
+          "p99Ms": 35.73,
+          "maxMs": 45.311,
+          "elapsedSeconds": 14.549,
+          "throughputReqS": 0.344
+        },
+        "resumenes_15m": {
+          "requests": 1,
+          "successes": 1,
+          "errors": 0,
+          "errorRatePct": 0.0,
+          "p50Ms": 38.819,
+          "p95Ms": 38.819,
+          "p99Ms": 38.819,
+          "maxMs": 38.819,
+          "elapsedSeconds": 14.549,
+          "throughputReqS": 0.069
+        }
+      },
+      "resourceSummary": {
+        "fixture2030-api": {
+          "samples": 4,
+          "cpuAvgPct": 11.81,
+          "cpuMaxPct": 26.67,
+          "memoryAvgMiB": 103.2,
+          "memoryMaxMiB": 103.5
+        },
+        "fixture2030-cassandra": {
+          "samples": 4,
+          "cpuAvgPct": 2.705,
+          "cpuMaxPct": 3.06,
+          "memoryAvgMiB": 1102.336,
+          "memoryMaxMiB": 1102.848
+        },
+        "fixture2030-datamart": {
+          "samples": 4,
+          "cpuAvgPct": 0.85,
+          "cpuMaxPct": 3.3,
+          "memoryAvgMiB": 41.1,
+          "memoryMaxMiB": 41.43
+        },
+        "fixture2030-influxdb": {
+          "samples": 4,
+          "cpuAvgPct": 1.49,
+          "cpuMaxPct": 4.97,
+          "memoryAvgMiB": 87.22,
+          "memoryMaxMiB": 88.52
+        },
+        "fixture2030-mongo": {
+          "samples": 4,
+          "cpuAvgPct": 6.19,
+          "cpuMaxPct": 16.53,
+          "memoryAvgMiB": 106.125,
+          "memoryMaxMiB": 110.2
+        },
+        "fixture2030-neo4j": {
+          "samples": 4,
+          "cpuAvgPct": 54.795,
+          "cpuMaxPct": 205.08,
+          "memoryAvgMiB": 762.15,
+          "memoryMaxMiB": 899.8
+        },
+        "fixture2030-redis": {
+          "samples": 4,
+          "cpuAvgPct": 2.482,
+          "cpuMaxPct": 5.06,
+          "memoryAvgMiB": 11.912,
+          "memoryMaxMiB": 12.19
+        }
+      },
+      "resourceWarnings": []
+    }
+  ],
+  "limitations": [
+    "Laboratorio local de un nodo por motor; no representa capacidad productiva.",
+    "Mezcla inicial de lectura segura; no genera goles ni modifica el partido oficial.",
+    "docker stats agrega sobrecarga pequena y sus valores se informan como medidos."
+  ]
+}

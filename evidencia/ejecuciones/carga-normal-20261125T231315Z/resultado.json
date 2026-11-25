@@ -1,0 +1,889 @@
+{
+  "scenario": "carga-normal",
+  "classification": "medido",
+  "sourceCommit": "3f7e4880a5a2d1f5af934be115340b73225543c6",
+  "branch": "trabajo-final",
+  "capturedAtUtc": "2026-11-25T23:16:25.546410+00:00",
+  "sourceTreeCleanBeforeRun": true,
+  "preexistingLoadEvidence": [
+    "evidencia/ejecuciones/carga-humo-20261125T231123Z/recursos-rep-01.csv",
+    "evidencia/ejecuciones/carga-humo-20261125T231123Z/resultado.json",
+    "evidencia/ejecuciones/carga-humo-20261125T231123Z/solicitudes-rep-01.csv"
+  ],
+  "profile": "normal",
+  "seed": 2030,
+  "durationSecondsPerRepetition": 60,
+  "concurrency": 12,
+  "targetRps": 20,
+  "repetitions": 3,
+  "operationMix": [
+    {
+      "name": "partido",
+      "weightPct": 25
+    },
+    {
+      "name": "comentarios_partido",
+      "weightPct": 10
+    },
+    {
+      "name": "comentarios_usuario",
+      "weightPct": 5
+    },
+    {
+      "name": "posiciones",
+      "weightPct": 8
+    },
+    {
+      "name": "mapa_calor",
+      "weightPct": 7
+    },
+    {
+      "name": "resumenes_15m",
+      "weightPct": 5
+    },
+    {
+      "name": "grafo_resumen",
+      "weightPct": 5
+    },
+    {
+      "name": "grafo_rivales",
+      "weightPct": 5
+    },
+    {
+      "name": "grafo_recomendaciones",
+      "weightPct": 5
+    },
+    {
+      "name": "datamart_goles",
+      "weightPct": 15
+    },
+    {
+      "name": "operacional_goles",
+      "weightPct": 10
+    }
+  ],
+  "overall": {
+    "requests": 3600,
+    "successes": 3600,
+    "errors": 0,
+    "errorRatePct": 0.0,
+    "p50Ms": 18.05,
+    "p95Ms": 34.926,
+    "p99Ms": 46.605,
+    "maxMs": 1690.769,
+    "elapsedSeconds": 180.018,
+    "throughputReqS": 19.998
+  },
+  "perOperation": {
+    "comentarios_partido": {
+      "requests": 368,
+      "successes": 368,
+      "errors": 0,
+      "errorRatePct": 0.0,
+      "p50Ms": 22.108,
+      "p95Ms": 40.009,
+      "p99Ms": 52.873,
+      "maxMs": 73.919,
+      "elapsedSeconds": 180.018,
+      "throughputReqS": 2.044
+    },
+    "comentarios_usuario": {
+      "requests": 197,
+      "successes": 197,
+      "errors": 0,
+      "errorRatePct": 0.0,
+      "p50Ms": 12.811,
+      "p95Ms": 28.023,
+      "p99Ms": 34.897,
+      "maxMs": 68.914,
+      "elapsedSeconds": 180.018,
+      "throughputReqS": 1.094
+    },
+    "datamart_goles": {
+      "requests": 510,
+      "successes": 510,
+      "errors": 0,
+      "errorRatePct": 0.0,
+      "p50Ms": 11.588,
+      "p95Ms": 26.034,
+      "p99Ms": 30.64,
+      "maxMs": 53.064,
+      "elapsedSeconds": 180.018,
+      "throughputReqS": 2.833
+    },
+    "grafo_recomendaciones": {
+      "requests": 163,
+      "successes": 163,
+      "errors": 0,
+      "errorRatePct": 0.0,
+      "p50Ms": 20.112,
+      "p95Ms": 39.285,
+      "p99Ms": 69.607,
+      "maxMs": 1690.769,
+      "elapsedSeconds": 180.018,
+      "throughputReqS": 0.905
+    },
+    "grafo_resumen": {
+      "requests": 169,
+      "successes": 169,
+      "errors": 0,
+      "errorRatePct": 0.0,
+      "p50Ms": 19.951,
+      "p95Ms": 37.733,
+      "p99Ms": 52.212,
+      "maxMs": 158.663,
+      "elapsedSeconds": 180.018,
+      "throughputReqS": 0.939
+    },
+    "grafo_rivales": {
+      "requests": 170,
+      "successes": 170,
+      "errors": 0,
+      "errorRatePct": 0.0,
+      "p50Ms": 19.617,
+      "p95Ms": 36.382,
+      "p99Ms": 54.039,
+      "maxMs": 626.273,
+      "elapsedSeconds": 180.018,
+      "throughputReqS": 0.944
+    },
+    "mapa_calor": {
+      "requests": 256,
+      "successes": 256,
+      "errors": 0,
+      "errorRatePct": 0.0,
+      "p50Ms": 20.403,
+      "p95Ms": 36.313,
+      "p99Ms": 39.819,
+      "maxMs": 47.114,
+      "elapsedSeconds": 180.018,
+      "throughputReqS": 1.422
+    },
+    "operacional_goles": {
+      "requests": 348,
+      "successes": 348,
+      "errors": 0,
+      "errorRatePct": 0.0,
+      "p50Ms": 20.115,
+      "p95Ms": 35.937,
+      "p99Ms": 45.338,
+      "maxMs": 62.87,
+      "elapsedSeconds": 180.018,
+      "throughputReqS": 1.933
+    },
+    "partido": {
+      "requests": 957,
+      "successes": 957,
+      "errors": 0,
+      "errorRatePct": 0.0,
+      "p50Ms": 11.522,
+      "p95Ms": 24.63,
+      "p99Ms": 27.812,
+      "maxMs": 39.228,
+      "elapsedSeconds": 180.018,
+      "throughputReqS": 5.316
+    },
+    "posiciones": {
+      "requests": 289,
+      "successes": 289,
+      "errors": 0,
+      "errorRatePct": 0.0,
+      "p50Ms": 20.741,
+      "p95Ms": 36.838,
+      "p99Ms": 44.201,
+      "maxMs": 70.414,
+      "elapsedSeconds": 180.018,
+      "throughputReqS": 1.605
+    },
+    "resumenes_15m": {
+      "requests": 173,
+      "successes": 173,
+      "errors": 0,
+      "errorRatePct": 0.0,
+      "p50Ms": 20.611,
+      "p95Ms": 34.647,
+      "p99Ms": 42.941,
+      "maxMs": 53.284,
+      "elapsedSeconds": 180.018,
+      "throughputReqS": 0.961
+    }
+  },
+  "resourceSummary": {
+    "fixture2030-api": {
+      "samples": 45,
+      "cpuAvgPct": 18.32,
+      "cpuMaxPct": 39.66,
+      "memoryAvgMiB": 100.996,
+      "memoryMaxMiB": 110.4
+    },
+    "fixture2030-cassandra": {
+      "samples": 45,
+      "cpuAvgPct": 12.838,
+      "cpuMaxPct": 63.28,
+      "memoryAvgMiB": 1101.141,
+      "memoryMaxMiB": 1141.76
+    },
+    "fixture2030-datamart": {
+      "samples": 45,
+      "cpuAvgPct": 0.905,
+      "cpuMaxPct": 5.96,
+      "memoryAvgMiB": 39.12,
+      "memoryMaxMiB": 39.82
+    },
+    "fixture2030-influxdb": {
+      "samples": 45,
+      "cpuAvgPct": 6.694,
+      "cpuMaxPct": 19.24,
+      "memoryAvgMiB": 83.868,
+      "memoryMaxMiB": 92.98
+    },
+    "fixture2030-mongo": {
+      "samples": 45,
+      "cpuAvgPct": 10.93,
+      "cpuMaxPct": 67.83,
+      "memoryAvgMiB": 121.369,
+      "memoryMaxMiB": 254.9
+    },
+    "fixture2030-neo4j": {
+      "samples": 45,
+      "cpuAvgPct": 45.643,
+      "cpuMaxPct": 218.23,
+      "memoryAvgMiB": 744.858,
+      "memoryMaxMiB": 914.6
+    },
+    "fixture2030-redis": {
+      "samples": 45,
+      "cpuAvgPct": 1.677,
+      "cpuMaxPct": 5.87,
+      "memoryAvgMiB": 12.083,
+      "memoryMaxMiB": 16.43
+    }
+  },
+  "slo": {
+    "evaluated": true,
+    "passed": true,
+    "objectives": {
+      "maxErrorRatePct": 1.0,
+      "maxP95Ms": 500.0,
+      "maxP99Ms": 1000.0
+    },
+    "checks": {
+      "errorRatePct": true,
+      "p95Ms": true,
+      "p99Ms": true
+    }
+  },
+  "runs": [
+    {
+      "repetition": 1,
+      "seed": 2030,
+      "summary": {
+        "requests": 1200,
+        "successes": 1200,
+        "errors": 0,
+        "errorRatePct": 0.0,
+        "p50Ms": 18.069,
+        "p95Ms": 36.482,
+        "p99Ms": 52.212,
+        "maxMs": 1690.769,
+        "elapsedSeconds": 60.025,
+        "throughputReqS": 19.992
+      },
+      "perOperation": {
+        "comentarios_partido": {
+          "requests": 126,
+          "successes": 126,
+          "errors": 0,
+          "errorRatePct": 0.0,
+          "p50Ms": 22.466,
+          "p95Ms": 39.566,
+          "p99Ms": 52.873,
+          "maxMs": 58.907,
+          "elapsedSeconds": 60.025,
+          "throughputReqS": 2.099
+        },
+        "comentarios_usuario": {
+          "requests": 52,
+          "successes": 52,
+          "errors": 0,
+          "errorRatePct": 0.0,
+          "p50Ms": 12.848,
+          "p95Ms": 26.777,
+          "p99Ms": 27.286,
+          "maxMs": 68.914,
+          "elapsedSeconds": 60.025,
+          "throughputReqS": 0.866
+        },
+        "datamart_goles": {
+          "requests": 179,
+          "successes": 179,
+          "errors": 0,
+          "errorRatePct": 0.0,
+          "p50Ms": 11.634,
+          "p95Ms": 26.153,
+          "p99Ms": 33.601,
+          "maxMs": 53.064,
+          "elapsedSeconds": 60.025,
+          "throughputReqS": 2.982
+        },
+        "grafo_recomendaciones": {
+          "requests": 50,
+          "successes": 50,
+          "errors": 0,
+          "errorRatePct": 0.0,
+          "p50Ms": 22.494,
+          "p95Ms": 49.506,
+          "p99Ms": 321.91,
+          "maxMs": 1690.769,
+          "elapsedSeconds": 60.025,
+          "throughputReqS": 0.833
+        },
+        "grafo_resumen": {
+          "requests": 60,
+          "successes": 60,
+          "errors": 0,
+          "errorRatePct": 0.0,
+          "p50Ms": 17.472,
+          "p95Ms": 37.733,
+          "p99Ms": 52.212,
+          "maxMs": 158.663,
+          "elapsedSeconds": 60.025,
+          "throughputReqS": 1.0
+        },
+        "grafo_rivales": {
+          "requests": 64,
+          "successes": 64,
+          "errors": 0,
+          "errorRatePct": 0.0,
+          "p50Ms": 21.934,
+          "p95Ms": 36.382,
+          "p99Ms": 84.659,
+          "maxMs": 626.273,
+          "elapsedSeconds": 60.025,
+          "throughputReqS": 1.066
+        },
+        "mapa_calor": {
+          "requests": 80,
+          "successes": 80,
+          "errors": 0,
+          "errorRatePct": 0.0,
+          "p50Ms": 19.807,
+          "p95Ms": 38.492,
+          "p99Ms": 44.593,
+          "maxMs": 47.114,
+          "elapsedSeconds": 60.025,
+          "throughputReqS": 1.333
+        },
+        "operacional_goles": {
+          "requests": 119,
+          "successes": 119,
+          "errors": 0,
+          "errorRatePct": 0.0,
+          "p50Ms": 20.585,
+          "p95Ms": 37.678,
+          "p99Ms": 41.411,
+          "maxMs": 45.757,
+          "elapsedSeconds": 60.025,
+          "throughputReqS": 1.983
+        },
+        "partido": {
+          "requests": 326,
+          "successes": 326,
+          "errors": 0,
+          "errorRatePct": 0.0,
+          "p50Ms": 11.266,
+          "p95Ms": 24.865,
+          "p99Ms": 28.624,
+          "maxMs": 38.322,
+          "elapsedSeconds": 60.025,
+          "throughputReqS": 5.431
+        },
+        "posiciones": {
+          "requests": 92,
+          "successes": 92,
+          "errors": 0,
+          "errorRatePct": 0.0,
+          "p50Ms": 19.927,
+          "p95Ms": 35.483,
+          "p99Ms": 43.142,
+          "maxMs": 70.414,
+          "elapsedSeconds": 60.025,
+          "throughputReqS": 1.533
+        },
+        "resumenes_15m": {
+          "requests": 52,
+          "successes": 52,
+          "errors": 0,
+          "errorRatePct": 0.0,
+          "p50Ms": 20.439,
+          "p95Ms": 31.306,
+          "p99Ms": 37.457,
+          "maxMs": 42.941,
+          "elapsedSeconds": 60.025,
+          "throughputReqS": 0.866
+        }
+      },
+      "resourceSummary": {
+        "fixture2030-api": {
+          "samples": 15,
+          "cpuAvgPct": 18.672,
+          "cpuMaxPct": 37.85,
+          "memoryAvgMiB": 101.081,
+          "memoryMaxMiB": 110.4
+        },
+        "fixture2030-cassandra": {
+          "samples": 15,
+          "cpuAvgPct": 11.637,
+          "cpuMaxPct": 62.8,
+          "memoryAvgMiB": 1115.341,
+          "memoryMaxMiB": 1141.76
+        },
+        "fixture2030-datamart": {
+          "samples": 15,
+          "cpuAvgPct": 1.177,
+          "cpuMaxPct": 5.96,
+          "memoryAvgMiB": 39.027,
+          "memoryMaxMiB": 39.54
+        },
+        "fixture2030-influxdb": {
+          "samples": 15,
+          "cpuAvgPct": 7.053,
+          "cpuMaxPct": 15.98,
+          "memoryAvgMiB": 83.579,
+          "memoryMaxMiB": 84.69
+        },
+        "fixture2030-mongo": {
+          "samples": 15,
+          "cpuAvgPct": 12.009,
+          "cpuMaxPct": 55.18,
+          "memoryAvgMiB": 134.24,
+          "memoryMaxMiB": 254.9
+        },
+        "fixture2030-neo4j": {
+          "samples": 15,
+          "cpuAvgPct": 48.69,
+          "cpuMaxPct": 150.24,
+          "memoryAvgMiB": 739.5,
+          "memoryMaxMiB": 852.2
+        },
+        "fixture2030-redis": {
+          "samples": 15,
+          "cpuAvgPct": 1.414,
+          "cpuMaxPct": 3.63,
+          "memoryAvgMiB": 11.927,
+          "memoryMaxMiB": 12.87
+        }
+      },
+      "resourceWarnings": []
+    },
+    {
+      "repetition": 2,
+      "seed": 102030,
+      "summary": {
+        "requests": 1200,
+        "successes": 1200,
+        "errors": 0,
+        "errorRatePct": 0.0,
+        "p50Ms": 17.487,
+        "p95Ms": 33.437,
+        "p99Ms": 42.273,
+        "maxMs": 53.827,
+        "elapsedSeconds": 59.994,
+        "throughputReqS": 20.002
+      },
+      "perOperation": {
+        "comentarios_partido": {
+          "requests": 118,
+          "successes": 118,
+          "errors": 0,
+          "errorRatePct": 0.0,
+          "p50Ms": 20.106,
+          "p95Ms": 39.707,
+          "p99Ms": 48.159,
+          "maxMs": 53.827,
+          "elapsedSeconds": 59.994,
+          "throughputReqS": 1.967
+        },
+        "comentarios_usuario": {
+          "requests": 78,
+          "successes": 78,
+          "errors": 0,
+          "errorRatePct": 0.0,
+          "p50Ms": 12.132,
+          "p95Ms": 27.42,
+          "p99Ms": 34.897,
+          "maxMs": 48.307,
+          "elapsedSeconds": 59.994,
+          "throughputReqS": 1.3
+        },
+        "datamart_goles": {
+          "requests": 162,
+          "successes": 162,
+          "errors": 0,
+          "errorRatePct": 0.0,
+          "p50Ms": 10.656,
+          "p95Ms": 24.607,
+          "p99Ms": 27.638,
+          "maxMs": 34.662,
+          "elapsedSeconds": 59.994,
+          "throughputReqS": 2.7
+        },
+        "grafo_recomendaciones": {
+          "requests": 55,
+          "successes": 55,
+          "errors": 0,
+          "errorRatePct": 0.0,
+          "p50Ms": 19.634,
+          "p95Ms": 33.697,
+          "p99Ms": 37.344,
+          "maxMs": 40.331,
+          "elapsedSeconds": 59.994,
+          "throughputReqS": 0.917
+        },
+        "grafo_resumen": {
+          "requests": 60,
+          "successes": 60,
+          "errors": 0,
+          "errorRatePct": 0.0,
+          "p50Ms": 25.705,
+          "p95Ms": 34.482,
+          "p99Ms": 39.809,
+          "maxMs": 43.688,
+          "elapsedSeconds": 59.994,
+          "throughputReqS": 1.0
+        },
+        "grafo_rivales": {
+          "requests": 58,
+          "successes": 58,
+          "errors": 0,
+          "errorRatePct": 0.0,
+          "p50Ms": 18.163,
+          "p95Ms": 30.728,
+          "p99Ms": 32.763,
+          "maxMs": 37.613,
+          "elapsedSeconds": 59.994,
+          "throughputReqS": 0.967
+        },
+        "mapa_calor": {
+          "requests": 91,
+          "successes": 91,
+          "errors": 0,
+          "errorRatePct": 0.0,
+          "p50Ms": 19.223,
+          "p95Ms": 36.092,
+          "p99Ms": 38.866,
+          "maxMs": 39.436,
+          "elapsedSeconds": 59.994,
+          "throughputReqS": 1.517
+        },
+        "operacional_goles": {
+          "requests": 120,
+          "successes": 120,
+          "errors": 0,
+          "errorRatePct": 0.0,
+          "p50Ms": 19.484,
+          "p95Ms": 33.584,
+          "p99Ms": 35.706,
+          "maxMs": 45.338,
+          "elapsedSeconds": 59.994,
+          "throughputReqS": 2.0
+        },
+        "partido": {
+          "requests": 303,
+          "successes": 303,
+          "errors": 0,
+          "errorRatePct": 0.0,
+          "p50Ms": 11.115,
+          "p95Ms": 24.449,
+          "p99Ms": 27.152,
+          "maxMs": 38.574,
+          "elapsedSeconds": 59.994,
+          "throughputReqS": 5.051
+        },
+        "posiciones": {
+          "requests": 94,
+          "successes": 94,
+          "errors": 0,
+          "errorRatePct": 0.0,
+          "p50Ms": 18.198,
+          "p95Ms": 35.264,
+          "p99Ms": 44.201,
+          "maxMs": 48.15,
+          "elapsedSeconds": 59.994,
+          "throughputReqS": 1.567
+        },
+        "resumenes_15m": {
+          "requests": 61,
+          "successes": 61,
+          "errors": 0,
+          "errorRatePct": 0.0,
+          "p50Ms": 20.5,
+          "p95Ms": 34.781,
+          "p99Ms": 43.142,
+          "maxMs": 53.284,
+          "elapsedSeconds": 59.994,
+          "throughputReqS": 1.017
+        }
+      },
+      "resourceSummary": {
+        "fixture2030-api": {
+          "samples": 15,
+          "cpuAvgPct": 18.138,
+          "cpuMaxPct": 39.66,
+          "memoryAvgMiB": 100.727,
+          "memoryMaxMiB": 101.5
+        },
+        "fixture2030-cassandra": {
+          "samples": 15,
+          "cpuAvgPct": 11.423,
+          "cpuMaxPct": 63.28,
+          "memoryAvgMiB": 1095.817,
+          "memoryMaxMiB": 1111.04
+        },
+        "fixture2030-datamart": {
+          "samples": 15,
+          "cpuAvgPct": 0.975,
+          "cpuMaxPct": 4.13,
+          "memoryAvgMiB": 39.099,
+          "memoryMaxMiB": 39.54
+        },
+        "fixture2030-influxdb": {
+          "samples": 15,
+          "cpuAvgPct": 6.353,
+          "cpuMaxPct": 19.24,
+          "memoryAvgMiB": 84.326,
+          "memoryMaxMiB": 92.98
+        },
+        "fixture2030-mongo": {
+          "samples": 15,
+          "cpuAvgPct": 12.584,
+          "cpuMaxPct": 67.83,
+          "memoryAvgMiB": 114.753,
+          "memoryMaxMiB": 254.6
+        },
+        "fixture2030-neo4j": {
+          "samples": 15,
+          "cpuAvgPct": 47.647,
+          "cpuMaxPct": 201.16,
+          "memoryAvgMiB": 747.4,
+          "memoryMaxMiB": 903.7
+        },
+        "fixture2030-redis": {
+          "samples": 15,
+          "cpuAvgPct": 1.505,
+          "cpuMaxPct": 4.34,
+          "memoryAvgMiB": 12.029,
+          "memoryMaxMiB": 12.75
+        }
+      },
+      "resourceWarnings": []
+    },
+    {
+      "repetition": 3,
+      "seed": 202030,
+      "summary": {
+        "requests": 1200,
+        "successes": 1200,
+        "errors": 0,
+        "errorRatePct": 0.0,
+        "p50Ms": 18.613,
+        "p95Ms": 34.567,
+        "p99Ms": 46.189,
+        "maxMs": 73.919,
+        "elapsedSeconds": 59.999,
+        "throughputReqS": 20.0
+      },
+      "perOperation": {
+        "comentarios_partido": {
+          "requests": 124,
+          "successes": 124,
+          "errors": 0,
+          "errorRatePct": 0.0,
+          "p50Ms": 26.003,
+          "p95Ms": 40.009,
+          "p99Ms": 47.736,
+          "maxMs": 73.919,
+          "elapsedSeconds": 59.999,
+          "throughputReqS": 2.067
+        },
+        "comentarios_usuario": {
+          "requests": 67,
+          "successes": 67,
+          "errors": 0,
+          "errorRatePct": 0.0,
+          "p50Ms": 13.229,
+          "p95Ms": 28.134,
+          "p99Ms": 28.771,
+          "maxMs": 32.875,
+          "elapsedSeconds": 59.999,
+          "throughputReqS": 1.117
+        },
+        "datamart_goles": {
+          "requests": 169,
+          "successes": 169,
+          "errors": 0,
+          "errorRatePct": 0.0,
+          "p50Ms": 12.234,
+          "p95Ms": 26.502,
+          "p99Ms": 29.045,
+          "maxMs": 31.872,
+          "elapsedSeconds": 59.999,
+          "throughputReqS": 2.817
+        },
+        "grafo_recomendaciones": {
+          "requests": 58,
+          "successes": 58,
+          "errors": 0,
+          "errorRatePct": 0.0,
+          "p50Ms": 17.25,
+          "p95Ms": 37.79,
+          "p99Ms": 39.486,
+          "maxMs": 62.383,
+          "elapsedSeconds": 59.999,
+          "throughputReqS": 0.967
+        },
+        "grafo_resumen": {
+          "requests": 49,
+          "successes": 49,
+          "errors": 0,
+          "errorRatePct": 0.0,
+          "p50Ms": 19.184,
+          "p95Ms": 39.899,
+          "p99Ms": 49.985,
+          "maxMs": 60.673,
+          "elapsedSeconds": 59.999,
+          "throughputReqS": 0.817
+        },
+        "grafo_rivales": {
+          "requests": 48,
+          "successes": 48,
+          "errors": 0,
+          "errorRatePct": 0.0,
+          "p50Ms": 19.617,
+          "p95Ms": 38.748,
+          "p99Ms": 50.197,
+          "maxMs": 54.039,
+          "elapsedSeconds": 59.999,
+          "throughputReqS": 0.8
+        },
+        "mapa_calor": {
+          "requests": 85,
+          "successes": 85,
+          "errors": 0,
+          "errorRatePct": 0.0,
+          "p50Ms": 25.426,
+          "p95Ms": 33.572,
+          "p99Ms": 35.079,
+          "maxMs": 36.005,
+          "elapsedSeconds": 59.999,
+          "throughputReqS": 1.417
+        },
+        "operacional_goles": {
+          "requests": 109,
+          "successes": 109,
+          "errors": 0,
+          "errorRatePct": 0.0,
+          "p50Ms": 19.85,
+          "p95Ms": 35.118,
+          "p99Ms": 45.499,
+          "maxMs": 62.87,
+          "elapsedSeconds": 59.999,
+          "throughputReqS": 1.817
+        },
+        "partido": {
+          "requests": 328,
+          "successes": 328,
+          "errors": 0,
+          "errorRatePct": 0.0,
+          "p50Ms": 12.287,
+          "p95Ms": 24.394,
+          "p99Ms": 26.611,
+          "maxMs": 39.228,
+          "elapsedSeconds": 59.999,
+          "throughputReqS": 5.467
+        },
+        "posiciones": {
+          "requests": 103,
+          "successes": 103,
+          "errors": 0,
+          "errorRatePct": 0.0,
+          "p50Ms": 22.983,
+          "p95Ms": 35.973,
+          "p99Ms": 40.868,
+          "maxMs": 50.099,
+          "elapsedSeconds": 59.999,
+          "throughputReqS": 1.717
+        },
+        "resumenes_15m": {
+          "requests": 60,
+          "successes": 60,
+          "errors": 0,
+          "errorRatePct": 0.0,
+          "p50Ms": 20.822,
+          "p95Ms": 34.363,
+          "p99Ms": 36.394,
+          "maxMs": 36.798,
+          "elapsedSeconds": 59.999,
+          "throughputReqS": 1.0
+        }
+      },
+      "resourceSummary": {
+        "fixture2030-api": {
+          "samples": 15,
+          "cpuAvgPct": 18.149,
+          "cpuMaxPct": 38.43,
+          "memoryAvgMiB": 101.18,
+          "memoryMaxMiB": 101.8
+        },
+        "fixture2030-cassandra": {
+          "samples": 15,
+          "cpuAvgPct": 15.455,
+          "cpuMaxPct": 58.25,
+          "memoryAvgMiB": 1092.267,
+          "memoryMaxMiB": 1093.632
+        },
+        "fixture2030-datamart": {
+          "samples": 15,
+          "cpuAvgPct": 0.562,
+          "cpuMaxPct": 3.2,
+          "memoryAvgMiB": 39.234,
+          "memoryMaxMiB": 39.82
+        },
+        "fixture2030-influxdb": {
+          "samples": 15,
+          "cpuAvgPct": 6.677,
+          "cpuMaxPct": 10.91,
+          "memoryAvgMiB": 83.7,
+          "memoryMaxMiB": 84.71
+        },
+        "fixture2030-mongo": {
+          "samples": 15,
+          "cpuAvgPct": 8.197,
+          "cpuMaxPct": 50.82,
+          "memoryAvgMiB": 115.113,
+          "memoryMaxMiB": 201.8
+        },
+        "fixture2030-neo4j": {
+          "samples": 15,
+          "cpuAvgPct": 40.591,
+          "cpuMaxPct": 218.23,
+          "memoryAvgMiB": 747.673,
+          "memoryMaxMiB": 914.6
+        },
+        "fixture2030-redis": {
+          "samples": 15,
+          "cpuAvgPct": 2.111,
+          "cpuMaxPct": 5.87,
+          "memoryAvgMiB": 12.294,
+          "memoryMaxMiB": 16.43
+        }
+      },
+      "resourceWarnings": []
+    }
+  ],
+  "limitations": [
+    "Laboratorio local de un nodo por motor; no representa capacidad productiva.",
+    "Mezcla inicial de lectura segura; no genera goles ni modifica el partido oficial.",
+    "docker stats agrega sobrecarga pequena y sus valores se informan como medidos."
+  ]
+}

@@ -1,0 +1,11 @@
+﻿NAME                         IMAGE                              COMMAND                  SERVICE          CREATED          STATUS                    PORTS
+fixture2030-api              fixture2030-api                    "uvicorn app.main:apâ€¦"   api              32 minutes ago   Up 31 minutes (healthy)   127.0.0.1:8000->8000/tcp
+fixture2030-cassandra        cassandra:5.0.9                    "docker-entrypoint.sâ€¦"   cassandra        42 hours ago     Up 39 hours (healthy)     127.0.0.1:9042->9042/tcp
+fixture2030-datamart         postgres:18.7-alpine3.24           "docker-entrypoint.sâ€¦"   datamart         43 seconds ago   Up 40 seconds (healthy)   127.0.0.1:5433->5432/tcp
+fixture2030-grafana          grafana/grafana:13.3.1             "/run.sh"                grafana          43 seconds ago   Up 33 seconds             127.0.0.1:3000->3000/tcp
+fixture2030-influxdb         influxdb:3.12.3-core               "/usr/bin/entrypointâ€¦"   influxdb         23 hours ago     Up 22 hours (healthy)     127.0.0.1:8181->8181/tcp
+fixture2030-mongo            mongo:8.0                          "docker-entrypoint.sâ€¦"   mongo            2 days ago       Up 39 hours (healthy)     127.0.0.1:27017->27017/tcp
+fixture2030-neo4j            neo4j:5.26.34-community-trixie     "tini -g -- /startupâ€¦"   neo4j            3 hours ago      Up 2 hours (healthy)      127.0.0.1:7474->7474/tcp, 127.0.0.1:7687->7687/tcp
+fixture2030-prometheus       prom/prometheus:v3.16.0            "/bin/prometheus --câ€¦"   prometheus       23 hours ago     Up 23 hours               127.0.0.1:9090->9090/tcp
+fixture2030-redis            redis:7.4.2-alpine                 "docker-entrypoint.sâ€¦"   redis            44 hours ago     Up 40 hours (healthy)     127.0.0.1:6379->6379/tcp
+fixture2030-redis-exporter   oliver006/redis_exporter:v1.67.0   "/redis_exporter"        redis-exporter   44 hours ago     Up 44 hours               127.0.0.1:9121->9121/tcp

@@ -1,0 +1,3 @@
+﻿Verificando Cassandra, esquema, API y metricas...
+OK: Cassandra UN, cuatro tablas, API UP y metrica=1.
+NOTA: RF=1 es laboratorio local; no demuestra quorum ni tolerancia real.

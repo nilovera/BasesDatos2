@@ -1,0 +1,10 @@
+﻿{
+    "runId":  "20261125T182041Z",
+    "capturedAtUtc":  "2026-11-25T18:20:42.1786558Z",
+    "capturedAtLocal":  "2026-11-25T15:20:42.1786558-03:00",
+    "sourceCommit":  "a279c62cf4804142685e9a8ec594f6ab1da75174",
+    "branch":  "trabajo-final",
+    "scenario":  "incremento-08-datamart",
+    "classification":  "medido",
+    "workingTreeCleanBeforeCapture":  true
+}

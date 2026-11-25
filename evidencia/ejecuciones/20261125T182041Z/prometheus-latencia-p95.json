@@ -1,0 +1,17 @@
+﻿{
+    "status":  "success",
+    "data":  {
+                 "resultType":  "vector",
+                 "result":  [
+                                {
+                                    "metric":  {
+
+                                               },
+                                    "value":  [
+                                                  1795630849.737,
+                                                  "0.06916666666666671"
+                                              ]
+                                }
+                            ]
+             }
+}

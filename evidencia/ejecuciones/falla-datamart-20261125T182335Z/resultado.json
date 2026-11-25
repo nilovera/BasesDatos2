@@ -1,0 +1,15 @@
+﻿{
+    "runId":  "falla-datamart-20261125T182335Z",
+    "sourceCommit":  "a279c62cf4804142685e9a8ec594f6ab1da75174",
+    "scenario":  "falla-controlada-datamart",
+    "classification":  "medido",
+    "dependencyUpBefore":  1,
+    "dependencyUpDuring":  0,
+    "datamartDownAlertDuring":  "firing",
+    "officialReadAvailable":  true,
+    "analyticalReadUnavailable":  true,
+    "dependencyUpAfter":  1,
+    "result":  "OK",
+    "error":  null,
+    "safety":  "Solo se detuvo y reinicio fixture2030-datamart; no se eliminaron volumenes ni secretos."
+}

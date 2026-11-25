@@ -1,0 +1,3 @@
+﻿Verificando Redis, persistencia, memoria y exporter...
+OK: Redis PONG, API UP y exporter redis_up=1.
+OK: maxmemory 256mb, eviction allkeys-lfu, AOF activo y RDB OK.

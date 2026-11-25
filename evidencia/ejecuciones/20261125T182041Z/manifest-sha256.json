@@ -1,0 +1,122 @@
+﻿[
+    {
+        "file":  "api-health.json",
+        "sha256":  "17c26d2ff87a3f9310a75463752c21d5973c86375e2a177e5122f3973845d5c5",
+        "bytes":  209
+    },
+    {
+        "file":  "cassandra-verificacion.txt",
+        "sha256":  "3e5b667b1bf4fc0b403484d8e467954e9451bd54a946be8bd6de22c65307a5b8",
+        "bytes":  182
+    },
+    {
+        "file":  "datamart-verificacion.txt",
+        "sha256":  "2df6a90a387797a3bad2827bbb9fe0ee6b15058af9e747da52aab469403b7423",
+        "bytes":  119
+    },
+    {
+        "file":  "docker-compose-ps.txt",
+        "sha256":  "faf52074921f160327f693e6831faf67a675e4c99bf7b0665b59cdc4d614130b",
+        "bytes":  1985
+    },
+    {
+        "file":  "git-status-antes.txt",
+        "sha256":  "9cee0d9800b4d3ebd137b36bbc88c0245b818d7b6d9d0c94aeb837e125803c7a",
+        "bytes":  10
+    },
+    {
+        "file":  "grafana-health.json",
+        "sha256":  "9ee22eb602b4f3d6d874a54e4b96a6e6f6ad2b625e10d1d4029884d3046ab9b1",
+        "bytes":  119
+    },
+    {
+        "file":  "influxdb-verificacion.txt",
+        "sha256":  "5d4bf0f187b4d97f55bd0ec2b021e1a80f52a2aa81586c646d8070b7c2c394b2",
+        "bytes":  322
+    },
+    {
+        "file":  "metadata.json",
+        "sha256":  "dec634f62cee5b3168304cb6ae879bf46265c1c784d67ba26d60ed8bf017b633",
+        "bytes":  382
+    },
+    {
+        "file":  "mongodb-verificacion.txt",
+        "sha256":  "a7ae118dd69dbe4b1801cf8304af8f6b876df324038ed2cb0a9d49bd73e24217",
+        "bytes":  284
+    },
+    {
+        "file":  "neo4j-verificacion.txt",
+        "sha256":  "a677eedd53c83321ea151439e91e671fe128a877f687062a348b35305e090e54",
+        "bytes":  169
+    },
+    {
+        "file":  "partido-PAR-0001.json",
+        "sha256":  "064882af2bb68ca4ea490c36319246594f14399f4241b3057f3eb6148de30f2b",
+        "bytes":  307
+    },
+    {
+        "file":  "plataforma-verificacion.txt",
+        "sha256":  "3687d3a85cb9380624fcdbb1e10c01c16b02e095da0626168202f5c502dc191d",
+        "bytes":  243
+    },
+    {
+        "file":  "prometheus-api-up.json",
+        "sha256":  "c7535f0f722e605a0935a2ac403ee2f53ebda57a632adbc0053b436d7f040a6a",
+        "bytes":  790
+    },
+    {
+        "file":  "prometheus-datamart-up.json",
+        "sha256":  "53d672d9de555c8019820e58b19509e4bd1b39eb00839fc4e1a3ea2fae73cb55",
+        "bytes":  892
+    },
+    {
+        "file":  "prometheus-dependencias.json",
+        "sha256":  "ad6da238f999d38bfe9c68535357a17a022a518dc191fae60f6a67ba872ceca8",
+        "bytes":  4486
+    },
+    {
+        "file":  "prometheus-errores-5m.json",
+        "sha256":  "ee353aed8750f50349ae1d9dd015f018b4ce09e9053ce2f7cdb0eb1985b3de6c",
+        "bytes":  175
+    },
+    {
+        "file":  "prometheus-influxdb-up.json",
+        "sha256":  "1b2e159622662578c305caa422b4dec33a4ba5373bd82e07809d87438550ebf9",
+        "bytes":  800
+    },
+    {
+        "file":  "prometheus-latencia-p95.json",
+        "sha256":  "37c131c575d73374b28f1b4d952830466e32c2db07331e73747a8a487b0488aa",
+        "bytes":  584
+    },
+    {
+        "file":  "prometheus-neo4j-up.json",
+        "sha256":  "a8cb2e468115d08a37d9622fe4d1b161fe0d94b64c7e7b54f8274e366c1f2d13",
+        "bytes":  889
+    },
+    {
+        "file":  "prometheus-rules.json",
+        "sha256":  "374e49e529a9ea5194c4beeeed7bfe789a93ad13e3a7da86511b28d8a7526353",
+        "bytes":  29610
+    },
+    {
+        "file":  "prometheus-targets.json",
+        "sha256":  "1d464306b6c56500becb5d64d6cb847628bf65652ef67680f0e2fdc7b0c388b7",
+        "bytes":  9160
+    },
+    {
+        "file":  "prometheus-throughput.json",
+        "sha256":  "1785ba57d5ac971ca9d1f159cc4f2104f0cc3b81ec52e1aacb02b79ab0f60242",
+        "bytes":  585
+    },
+    {
+        "file":  "pruebas-unitarias.txt",
+        "sha256":  "1d9d9724ff3a075626dd72a09e9a457590449a78f4e39d0fe3152f11ea2149bb",
+        "bytes":  8958
+    },
+    {
+        "file":  "redis-verificacion.txt",
+        "sha256":  "cdc789ba05f6b8e7ba5e34bc9be008c58b7f9daae70107d3965db8cff2acbf72",
+        "bytes":  171
+    }
+]

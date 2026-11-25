@@ -1,0 +1,10 @@
+﻿Esperando la API...
+OK: API UP MongoDB PRIMARY
+OK: Redis UP
+OK: Cassandra UP
+OK: InfluxDB UP
+OK: Neo4j UP
+OK: partido PAR-0001 estado EN_CURSO version 6
+OK: Prometheus Prometheus Server is Ready.
+
+OK: Grafana ok

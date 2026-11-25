@@ -1,0 +1,13 @@
+﻿Verificando replica set, catalogo e indices...
+{
+  estado: 'OK',
+  replicaSet: 'rs0',
+  primary: 'mongo:27017',
+  equipos: 64,
+  jugadores: 1024,
+  partidos: 1,
+  eventos: 5,
+  outbox: 5,
+  jugadoresHuerfanos: 0
+}
+OK: MongoDB PRIMARY en replica set, API y Prometheus.

@@ -1,0 +1,10 @@
+﻿{
+    "runId":  "20261125T164837Z",
+    "capturedAtUtc":  "2026-11-25T16:48:38.1263962Z",
+    "capturedAtLocal":  "2026-11-25T13:48:38.1263962-03:00",
+    "sourceCommit":  "7c922e49efb63274818bd679f1c37b953a3c883b",
+    "branch":  "trabajo-final",
+    "scenario":  "incremento-07-neo4j",
+    "classification":  "medido",
+    "workingTreeCleanBeforeCapture":  true
+}

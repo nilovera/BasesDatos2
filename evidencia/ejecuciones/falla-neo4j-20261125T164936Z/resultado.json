@@ -1,0 +1,19 @@
+﻿{
+    "runId":  "falla-neo4j-20261125T164936Z",
+    "sourceCommit":  "7c922e49efb63274818bd679f1c37b953a3c883b",
+    "branch":  "trabajo-final",
+    "scenario":  "falla-controlada-neo4j",
+    "classification":  "medido",
+    "startedAtUtc":  "2026-11-25T16:49:41.2477237Z",
+    "finishedAtUtc":  "2026-11-25T16:50:46.8311032Z",
+    "dependencyUpBefore":  1,
+    "dependencyUpDuring":  0,
+    "neo4jDownAlertDuring":  "firing",
+    "apiDegradedObserved":  true,
+    "officialReadAvailable":  true,
+    "graphUnavailable":  true,
+    "dependencyUpAfter":  1,
+    "result":  "OK",
+    "error":  null,
+    "safety":  "Solo se detuvo y reinicio fixture2030-neo4j; no se eliminaron volumenes ni secretos."
+}

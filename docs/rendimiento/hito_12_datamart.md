@@ -25,8 +25,24 @@ powershell -ExecutionPolicy Bypass -File scripts\comparar_rendimiento_datamart.p
 
 ## Estado
 
-El modelo, ETL, equivalencia funcional, persistencia, métricas y script de
-comparación están implementados. La prueba con volumen, concurrencia y recursos
-se mantiene pendiente hasta incorporar el simulador de humo/normal/estrés. Por
-lo tanto todavía no se afirma una mejora porcentual.
+### Línea base `2260cad`
+
+Con 100 iteraciones, un partido y cuatro hechos, ambos caminos devolvieron el
+mismo resultado y cero errores:
+
+| Camino | p50 | p95 | p99 | Throughput |
+|---|---:|---:|---:|---:|
+| Operacional | 11,117 ms | 21,554 ms | 26,283 ms | 74,688 req/s |
+| Data Mart sin pool | 18,555 ms | 28,853 ms | 45,378 ms | 48,661 req/s |
+
+La línea base no demostró mejora: permitió identificar que abrir una conexión
+PostgreSQL en cada solicitud dominaba una consulta sobre apenas cuatro filas.
+
+### Cambio técnico aislado
+
+Se reemplazó la conexión por solicitud por un `ConnectionPool` de tamaño 2–10.
+No se cambió el SQL, los datos, el endpoint ni el script de 100 iteraciones. La
+misma prueba debe repetirse para cuantificar el efecto. Aun si mejora esta línea
+base, la prueba de volumen, concurrencia y recursos continuará pendiente hasta
+incorporar el simulador de humo/normal/estrés.
 

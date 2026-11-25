@@ -31,6 +31,15 @@ La carga es deliberadamente batch. El costo es que la analítica puede estar
 atrasada hasta el siguiente refresh; el beneficio es aislar la escritura oficial
 y poder reconstruir la proyección.
 
+## Pool de conexiones
+
+La primera línea base mostró que, con solo cuatro hechos, el costo de crear una
+conexión PostgreSQL por solicitud dominaba el tiempo de la consulta. La API ahora
+mantiene un pool síncrono acotado entre 2 y 10 conexiones, espera como máximo 3
+segundos y cierra el pool durante el apagado ordenado. Esto elimina handshakes
+repetidos sin abrir conexiones ilimitadas. Los timeouts y la saturación del pool
+se traducen a `503 DATAMART_UNAVAILABLE`.
+
 ## Comparación exigida por Hito 12
 
 Los endpoints operacional y analítico responden la misma pregunta, goles por

@@ -13,7 +13,7 @@ from prometheus_client import make_asgi_app
 from .cassandra_client import close_cassandra_client, get_cassandra_session
 from .cassandra_service import CassandraCommentService
 from .config import settings
-from .datamart_client import connect_datamart
+from .datamart_client import close_datamart_pool, datamart_connection
 from .datamart_service import DataMartService
 from .database import close_client, get_client
 from .errors import DomainError
@@ -90,6 +90,7 @@ async def lifespan(_app):
         pass
     yield
     close_neo4j_client()
+    close_datamart_pool()
     close_influx_client()
     close_cassandra_client()
     close_redis_client()
@@ -134,7 +135,7 @@ def graph_service():
 
 
 def datamart_service():
-    return DataMartService(connect_datamart)
+    return DataMartService(datamart_connection)
 
 
 def request_id(request):

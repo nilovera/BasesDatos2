@@ -15,7 +15,7 @@ class RuntimeIncrementTests(unittest.TestCase):
 
     def test_direct_dependencies_are_pinned(self):
         requirements = (ROOT / "backend" / "requirements.txt").read_text(encoding="utf-8")
-        for dependency in ("fastapi", "cassandra-driver", "neo4j", "psycopg[binary]", "pymongo", "prometheus-client", "redis", "uvicorn"):
+        for dependency in ("fastapi", "cassandra-driver", "neo4j", "psycopg[binary]", "psycopg-pool", "pymongo", "prometheus-client", "redis", "uvicorn"):
             self.assertRegex(requirements, rf"(?m)^{re.escape(dependency)}==[^\s]+$")
 
     def test_compose_contains_api_prometheus_and_grafana(self):

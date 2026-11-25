@@ -333,6 +333,10 @@ services:
       DATAMART_USER: fixture2030
       DATAMART_PASSWORD_FILE: /run/secrets/datamart-password
       DATAMART_TIMEOUT_SECONDS: "3"
+      DATAMART_POOL_MIN_SIZE: "2"
+      DATAMART_POOL_MAX_SIZE: "10"
+      DATAMART_POOL_TIMEOUT_SECONDS: "3.0"
+      DATAMART_POOL_MAX_IDLE_SECONDS: "300.0"
     secrets:
       - influxdb-admin-token-raw
       - neo4j-password

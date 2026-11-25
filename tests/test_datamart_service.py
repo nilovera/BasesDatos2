@@ -45,3 +45,22 @@ class DataMartServiceTests(unittest.TestCase):
             self.assertIn(percentile, script)
         self.assertIn("no demuestra por si sola", script)
 
+    def test_client_reuses_a_bounded_connection_pool(self):
+        client = (ROOT / "backend" / "app" / "datamart_client.py").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("ConnectionPool", client)
+        self.assertIn("min_size=settings.datamart_pool_min_size", client)
+        self.assertIn("max_size=settings.datamart_pool_max_size", client)
+        self.assertIn("get_datamart_pool().connection", client)
+        self.assertIn("def close_datamart_pool", client)
+        self.assertNotIn("psycopg.connect", client)
+
+    def test_pool_failures_remain_domain_503_errors(self):
+        service = (ROOT / "backend" / "app" / "datamart_service.py").read_text(
+            encoding="utf-8"
+        )
+        for error in ("PoolClosed", "PoolTimeout", "TooManyRequests"):
+            self.assertIn(error, service)
+        self.assertIn("DATAMART_CONNECTION_ERRORS", service)
+

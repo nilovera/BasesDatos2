@@ -2,8 +2,18 @@ from datetime import datetime, timezone
 from uuid import uuid4
 
 from psycopg import Error as PsycopgError
+from psycopg_pool import PoolClosed, PoolTimeout, TooManyRequests
 
 from .errors import DomainError
+
+
+DATAMART_CONNECTION_ERRORS = (
+    OSError,
+    PsycopgError,
+    PoolClosed,
+    PoolTimeout,
+    TooManyRequests,
+)
 
 
 def _utc(value):
@@ -24,7 +34,7 @@ class DataMartService:
                 with connection.cursor() as cursor:
                     cursor.execute("SELECT 1 AS ok")
                     return "UP" if cursor.fetchone()["ok"] == 1 else "DOWN"
-        except (OSError, PsycopgError):
+        except DATAMART_CONNECTION_ERRORS:
             return "DOWN"
 
     def refresh(self, snapshot, summaries):
@@ -125,7 +135,7 @@ class DataMartService:
                         (len(snapshot["eventos"]), len(summaries), execution_id),
                     )
             return {"ejecucionId": str(execution_id), "estado": "OK", "eventosCargados": len(snapshot["eventos"]), "resumenesCargados": len(summaries)}
-        except (OSError, PsycopgError) as error:
+        except DATAMART_CONNECTION_ERRORS as error:
             try:
                 with self.connection_factory() as connection:
                     with connection.cursor() as cursor:
@@ -137,7 +147,7 @@ class DataMartService:
                             "finalizada_en=now(),estado='ERROR',error=EXCLUDED.error",
                             (execution_id, str(error)[:500]),
                         )
-            except (OSError, PsycopgError):
+            except DATAMART_CONNECTION_ERRORS:
                 pass
             raise DomainError(503, "DATAMART_UNAVAILABLE", "El Data Mart no pudo completar la carga") from error
 
@@ -156,7 +166,7 @@ class DataMartService:
                         {"equipoId": row["equipo_id"], "nombre": row["nombre"], "goles": row["goles"]}
                         for row in cursor.fetchall()
                     ]}
-        except (OSError, PsycopgError) as error:
+        except DATAMART_CONNECTION_ERRORS as error:
             raise DomainError(503, "DATAMART_UNAVAILABLE", "El Data Mart no respondió") from error
 
     def summary(self):
@@ -165,5 +175,5 @@ class DataMartService:
                 with connection.cursor() as cursor:
                     cursor.execute("SELECT (SELECT count(*) FROM analytics.dim_equipo) AS equipos,(SELECT count(*) FROM analytics.dim_jugador) AS jugadores,(SELECT count(*) FROM analytics.dim_partido) AS partidos,(SELECT count(*) FROM analytics.fact_evento_partido) AS eventos,(SELECT count(*) FROM analytics.fact_estadistica_equipo_15m) AS resumenes")
                     return dict(cursor.fetchone())
-        except (OSError, PsycopgError) as error:
+        except DATAMART_CONNECTION_ERRORS as error:
             raise DomainError(503, "DATAMART_UNAVAILABLE", "El Data Mart no respondió") from error

@@ -47,6 +47,14 @@ class Settings:
         "DATAMART_PASSWORD_FILE", ".secretos/datamart-password.txt"
     )
     datamart_timeout_seconds: int = int(os.getenv("DATAMART_TIMEOUT_SECONDS", "3"))
+    datamart_pool_min_size: int = int(os.getenv("DATAMART_POOL_MIN_SIZE", "2"))
+    datamart_pool_max_size: int = int(os.getenv("DATAMART_POOL_MAX_SIZE", "10"))
+    datamart_pool_timeout_seconds: float = float(
+        os.getenv("DATAMART_POOL_TIMEOUT_SECONDS", "3.0")
+    )
+    datamart_pool_max_idle_seconds: float = float(
+        os.getenv("DATAMART_POOL_MAX_IDLE_SECONDS", "300.0")
+    )
 
 
 settings = Settings()

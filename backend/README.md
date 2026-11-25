@@ -83,7 +83,9 @@ entre equipos. La carga repetida converge mediante `MERGE`.
 
 PostgreSQL recibe por lote una proyección analítica de MongoDB e InfluxDB. El
 refresh usa UPSERT y conserva por separado eventos oficiales y ventanas de 15
-minutos. Estas rutas no participan de la transacción oficial.
+minutos. Estas rutas no participan de la transacción oficial. Las consultas
+reutilizan un pool PostgreSQL acotado de 2 a 10 conexiones; la configuración es
+ajustable mediante `DATAMART_POOL_*`.
 
 `GET /health` devuelve `UP` cuando MongoDB, Redis, Cassandra, InfluxDB, Neo4j y Data Mart están operativos,
 y `DEGRADED` con el estado individual cuando una dependencia falla. El proceso

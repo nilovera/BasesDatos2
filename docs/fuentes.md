@@ -65,8 +65,10 @@ los volúmenes del contenedor histórico.
 
 - Imagen oficial PostgreSQL y secretos `_FILE`: https://hub.docker.com/_/postgres
 - Psycopg 3, instalación binaria: https://www.psycopg.org/install/
+- Psycopg 3, pool de conexiones: https://www.psycopg.org/psycopg3/docs/advanced/pool.html
 - PostgreSQL, `INSERT ... ON CONFLICT`: https://www.postgresql.org/docs/current/sql-insert.html
 
-Se fija `postgres:18.7-alpine3.24` y `psycopg[binary]==3.3.9`. PostgreSQL es una
+Se fija `postgres:18.7-alpine3.24`, `psycopg[binary]==3.3.9` y
+`psycopg-pool==3.3.3`. PostgreSQL es una
 proyección analítica reconstruible y no participa de la transacción oficial.
 

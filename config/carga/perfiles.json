@@ -1,0 +1,63 @@
+{
+  "version": 1,
+  "baseUrl": "http://localhost:8000",
+  "timeoutSeconds": 10,
+  "resourceSampleSeconds": 2,
+  "recoverySeconds": 5,
+  "containers": [
+    "fixture2030-api",
+    "fixture2030-mongo",
+    "fixture2030-redis",
+    "fixture2030-cassandra",
+    "fixture2030-influxdb",
+    "fixture2030-neo4j",
+    "fixture2030-datamart"
+  ],
+  "profiles": {
+    "humo": {
+      "seed": 2029,
+      "durationSeconds": 15,
+      "concurrency": 2,
+      "targetRps": 2,
+      "repetitions": 1,
+      "slo": {
+        "maxErrorRatePct": 0.0,
+        "maxP95Ms": 750.0,
+        "maxP99Ms": 1500.0
+      }
+    },
+    "normal": {
+      "seed": 2030,
+      "durationSeconds": 60,
+      "concurrency": 12,
+      "targetRps": 20,
+      "repetitions": 3,
+      "slo": {
+        "maxErrorRatePct": 1.0,
+        "maxP95Ms": 500.0,
+        "maxP99Ms": 1000.0
+      }
+    },
+    "estres": {
+      "seed": 2031,
+      "durationSeconds": 60,
+      "concurrency": 40,
+      "targetRps": 80,
+      "repetitions": 1,
+      "slo": null
+    }
+  },
+  "operations": [
+    {"name": "partido", "weight": 25, "path": "/api/v1/partidos/PAR-0001"},
+    {"name": "comentarios_partido", "weight": 10, "path": "/api/v1/partidos/PAR-0001/comentarios?bucket=202611240147&limite=20"},
+    {"name": "comentarios_usuario", "weight": 5, "path": "/api/v1/usuarios/USR-0003/comentarios?bucket=20261124&limite=20"},
+    {"name": "posiciones", "weight": 8, "path": "/api/v1/partidos/PAR-0001/telemetria/posiciones?jugadorId=JUG-0001&limite=50"},
+    {"name": "mapa_calor", "weight": 7, "path": "/api/v1/partidos/PAR-0001/jugadores/JUG-0001/mapa-calor?resolucion=10"},
+    {"name": "resumenes_15m", "weight": 5, "path": "/api/v1/partidos/PAR-0001/telemetria/resumenes-equipos/15m"},
+    {"name": "grafo_resumen", "weight": 5, "path": "/api/v1/grafo/resumen"},
+    {"name": "grafo_rivales", "weight": 5, "path": "/api/v1/grafo/equipos/EQ-01/rivales"},
+    {"name": "grafo_recomendaciones", "weight": 5, "path": "/api/v1/grafo/jugadores/JUG-0001/recomendaciones?limite=10"},
+    {"name": "datamart_goles", "weight": 15, "path": "/api/v1/analitica/datamart/goles-por-equipo"},
+    {"name": "operacional_goles", "weight": 10, "path": "/api/v1/analitica/operacional/goles-por-equipo"}
+  ]
+}

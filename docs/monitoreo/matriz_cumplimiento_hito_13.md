@@ -15,17 +15,17 @@ objetivo no se presenta como resultado.
 | Comparación entre componentes | Implementado | Panel temporal conjunto MongoDB/Redis/Cassandra/InfluxDB/Neo4j/Data Mart | Conservar captura final de la misma ventana temporal |
 | Dos o más consultas PromQL útiles | Implementado | Consultas documentadas en `metricas_y_consultas.md` y capturadas por script | Guardar sus resultados en la ejecución final |
 | Dos o más alertas justificadas | Implementado | Reglas de API, latencia, errores y cinco dependencias con umbral, duración, severidad y responsable | Verificar las alertas de Neo4j en el runtime final |
-| Falla controlada y recuperación | Implementado; evidencia Data Mart pendiente | Scripts aislados para API, cinco motores y Data Mart con `finally`, alerta y recuperación; evidencia operacional y Neo4j ya versionada | Ejecutar Data Mart desde un commit limpio y versionar `resultado.json` y captura |
+| Falla controlada y recuperación | Implementado | Scripts aislados para API, cinco motores y Data Mart con `finally`, alerta y recuperación; resultados versionados | Conservar capturas finales de Grafana de las mismas ventanas temporales |
 | Inventario técnico | Implementado | `inventario_componentes.md` registra modelo, función, endpoint, mecanismo, métricas, riesgo y limitación de los cinco motores | Revisarlo ante cambios del runtime final |
 | Reproducibilidad y trazabilidad | Implementado | Compose, versiones fijadas, `sourceCommit`, rama, escenario, estado de servicios y manifiesto SHA-256 | Ejecutar la captura final y revisar secretos antes del commit |
-| Pruebas de humo, tráfico normal y estrés | Diseñado | T04-T05 definen semillas y datos mínimos | Implementar simulador, ejecutar y conservar resultados comparables |
-| SLI, SLO, límites y recuperación | Diseñado | T06 y antecedentes de capacidad separan objetivo, estimación y medición | Obtener resultados después de integrar los cinco motores |
+| Pruebas de humo, tráfico normal y estrés | Implementado; ejecución pendiente | Simulador reproducible con semillas 2029/2030/2031, mezcla versionada, concurrencia y recursos | Ejecutar desde commit limpio y conservar resultados comparables |
+| SLI, SLO, límites y recuperación | Implementado; ejecución pendiente | Error rate, p95, p99, throughput, CPU y memoria; SLO de laboratorio separados del SLA | Medir los tres perfiles, ejecutar humo después del estrés y revisar objetivos |
 | Defensa de 20 minutos y plan alternativo | Pendiente | Los archivos de evidencia permiten una demostración sin depender solo de la interfaz | Preparar guion, capturas y resultados legibles si Grafana no estuviera disponible |
 | Ausencia de secretos | Implementado como control | La captura no exporta variables de entorno ni `docker inspect`; `.env` no se versiona | Revisión humana de JSON, TXT y capturas antes de cada commit |
 
 ## Criterio de cierre
 
-El Hito 13 no se declara completamente cerrado mientras falten la ejecución y
-evidencia del Data Mart, las pruebas de carga y el guion de defensa. La evidencia
-de los cinco motores ya está versionada; los resultados de capacidad siguen
-pendientes y no se reemplazan por objetivos.
+El Hito 13 no se declara completamente cerrado mientras falten las pruebas de
+carga y el guion de defensa. La evidencia funcional y de fallas ya está
+versionada; los resultados de capacidad siguen pendientes y no se reemplazan
+por objetivos.

@@ -250,6 +250,21 @@ El diseño y el protocolo honesto del Hito 12 están en
 [`06_7_modelo_fisico_datamart.md`](docs/diseno/06_7_modelo_fisico_datamart.md) y
 [`hito_12_datamart.md`](docs/rendimiento/hito_12_datamart.md).
 
+## Incremento 09 — carga y SLO de laboratorio
+
+El simulador recorre la cadena completa con perfiles reproducibles de humo,
+tráfico normal y estrés. Conserva percentiles, throughput, errores y muestras
+de CPU/memoria por contenedor sin modificar el partido oficial:
+
+```text
+powershell -ExecutionPolicy Bypass -File scripts\probar_carga.ps1 -Perfil humo
+powershell -ExecutionPolicy Bypass -File scripts\probar_carga.ps1 -Perfil normal
+powershell -ExecutionPolicy Bypass -File scripts\probar_carga.ps1 -Perfil estres
+```
+
+Los perfiles, SLI, SLO iniciales y limitaciones están en
+[`pruebas_carga_sla_slo.md`](docs/rendimiento/pruebas_carga_sla_slo.md).
+
 Ver el [plan de incorporación](docs/plan_incorporacion.md), el
 [registro de los 17 puntos](docs/pendientes.md) y las
 [fuentes inspeccionadas](docs/fuentes.md). Las tareas de usuarios, asistencias,

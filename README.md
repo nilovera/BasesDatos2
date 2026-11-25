@@ -5,7 +5,7 @@ Integración final del trabajo de Ingeniería de Datos II dentro del repositorio
 
 **Estado:** MongoDB autoritativo, API transaccional, Redis para datos calientes,
 Cassandra para comentarios, InfluxDB para series temporales, Neo4j para
-relaciones y observabilidad con Prometheus y Grafana.
+relaciones, un Data Mart analítico en PostgreSQL y observabilidad con Prometheus y Grafana.
 
 ## Preparar la rama limpia
 
@@ -60,12 +60,13 @@ python -m scripts.catalogo --check
 | `cassandra/` | Esquema por consulta, buckets, shards e idempotencia | Implementado y validado en Docker; evidencia final pendiente |
 | `influxdb/` | Retención, telemetría, cursores, mapas de calor y resúmenes | Implementado y validado |
 | `neo4j/` | Proyección, restricciones, CRUD, recomendaciones y caminos | Implementado; ejecución Docker pendiente |
+| `datamart/` | Esquema estrella, hechos de eventos y resúmenes de 15 minutos | Implementado; ejecución Docker pendiente |
 | `infra/` | Prometheus, reglas de alerta, Grafana y dashboard inicial | Implementado y ejecutado en Docker |
 | `evidencia/` | Resultados trazables por commit y prueba de falla controlada | Estructura y captura automatizadas; ejecuciones pendientes de versionar |
 
 ## Arquitectura objetivo
 
-La solución final utiliza cinco motores con responsabilidades diferentes:
+La solución final utiliza cinco motores operacionales y un destino analítico separado:
 
 | Motor | Responsabilidad principal |
 |---|---|
@@ -74,6 +75,7 @@ La solución final utiliza cinco motores con responsabilidades diferentes:
 | Redis | Sesiones, caché, concurrencia y datos temporales |
 | InfluxDB | Estadísticas, posiciones y series temporales |
 | Neo4j | Relaciones y recorridos entre jugadores, equipos y partidos |
+| PostgreSQL Data Mart | Dimensiones conformadas, hechos y consultas analíticas sin cargar el camino operacional |
 
 InterSystems IRIS fue evaluado y queda excluido de la arquitectura ejecutable.
 La decisión, las alternativas consideradas, las responsabilidades reasignadas y
@@ -95,7 +97,7 @@ sus consecuencias están documentadas en
 ## Orden de trabajo
 
 1. Conservar la validación de API, transacciones, idempotencia y los cinco motores, además de Prometheus y Grafana.
-2. Ejecutar y conservar la evidencia reproducible de Neo4j en Docker.
+2. Ejecutar y conservar la evidencia reproducible del Data Mart en Docker.
 3. Procesar la Outbox y actualizar las proyecciones idempotentes.
 4. Completar usuarios, asistencias, telemetría y simulador sintético.
 5. Agregar exporters, alertas y dashboards de los cinco motores.
@@ -150,6 +152,7 @@ Con la plataforma iniciada:
 - Grafana: `http://localhost:3000`
 - InfluxDB 3 Core: `http://localhost:8181` (API autenticada, no es una UI)
 - Neo4j Browser: `http://localhost:7474`
+- PostgreSQL Data Mart: `localhost:5433` (sin UI; consultas por API/psql)
 
 Para detener sin borrar MongoDB, Redis, Cassandra, InfluxDB ni las series de monitoreo:
 
@@ -227,6 +230,25 @@ powershell -ExecutionPolicy Bypass -File scripts\probar_falla_neo4j.ps1
 
 El modelo y sus límites están en
 [`06_6_modelo_fisico_neo4j.md`](docs/diseno/06_6_modelo_fisico_neo4j.md).
+
+## Incremento 08 Data Mart
+
+PostgreSQL materializa un esquema estrella separado. El ETL por lote es
+idempotente, conserva dos granos y permite comparar la misma consulta contra la
+fuente operacional:
+
+```text
+powershell -ExecutionPolicy Bypass -File scripts\iniciar_plataforma.ps1
+powershell -ExecutionPolicy Bypass -File scripts\verificar_datamart.ps1
+powershell -ExecutionPolicy Bypass -File scripts\probar_datamart.ps1
+powershell -ExecutionPolicy Bypass -File scripts\comparar_rendimiento_datamart.ps1 -Iteraciones 100
+powershell -ExecutionPolicy Bypass -File scripts\probar_persistencia_datamart.ps1
+powershell -ExecutionPolicy Bypass -File scripts\probar_falla_datamart.ps1
+```
+
+El diseño y el protocolo honesto del Hito 12 están en
+[`06_7_modelo_fisico_datamart.md`](docs/diseno/06_7_modelo_fisico_datamart.md) y
+[`hito_12_datamart.md`](docs/rendimiento/hito_12_datamart.md).
 
 Ver el [plan de incorporación](docs/plan_incorporacion.md), el
 [registro de los 17 puntos](docs/pendientes.md) y las

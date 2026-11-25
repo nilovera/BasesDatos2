@@ -2,8 +2,8 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Fixture 2030 API",
-    "description": "Núcleo deportivo en MongoDB, datos calientes en Redis, comentarios en Cassandra, series temporales en InfluxDB y relaciones en Neo4j.",
-    "version": "0.6.0"
+    "description": "Plataforma operacional políglota y Data Mart analítico PostgreSQL para Fixture 2030.",
+    "version": "0.8.0"
   },
   "paths": {
     "/health": {
@@ -1343,6 +1343,90 @@
           }
         }
       }
+    },
+    "/api/v1/analitica/datamart/refrescar": {
+      "post": {
+        "summary": "Refresh Datamart",
+        "operationId": "refresh_datamart_api_v1_analitica_datamart_refrescar_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataMartRefreshResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "MongoDB, InfluxDB o Data Mart no disponible"
+          }
+        }
+      }
+    },
+    "/api/v1/analitica/datamart/resumen": {
+      "get": {
+        "summary": "Get Datamart Summary",
+        "operationId": "get_datamart_summary_api_v1_analitica_datamart_resumen_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataMartSummary"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Data Mart no disponible"
+          }
+        }
+      }
+    },
+    "/api/v1/analitica/datamart/goles-por-equipo": {
+      "get": {
+        "summary": "Get Datamart Goals By Team",
+        "operationId": "get_datamart_goals_by_team_api_v1_analitica_datamart_goles_por_equipo_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GoalsByTeamResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Data Mart no disponible"
+          }
+        }
+      }
+    },
+    "/api/v1/analitica/operacional/goles-por-equipo": {
+      "get": {
+        "summary": "Get Operational Goals By Team",
+        "operationId": "get_operational_goals_by_team_api_v1_analitica_operacional_goles_por_equipo_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GoalsByTeamResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "MongoDB no disponible"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1694,6 +1778,77 @@
         ],
         "title": "CorreccionEventoCommand"
       },
+      "DataMartRefreshResponse": {
+        "properties": {
+          "ejecucionId": {
+            "type": "string",
+            "title": "Ejecucionid"
+          },
+          "estado": {
+            "type": "string",
+            "const": "OK",
+            "title": "Estado"
+          },
+          "eventosCargados": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Eventoscargados"
+          },
+          "resumenesCargados": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Resumenescargados"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "ejecucionId",
+          "estado",
+          "eventosCargados",
+          "resumenesCargados"
+        ],
+        "title": "DataMartRefreshResponse"
+      },
+      "DataMartSummary": {
+        "properties": {
+          "equipos": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Equipos"
+          },
+          "jugadores": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Jugadores"
+          },
+          "partidos": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Partidos"
+          },
+          "eventos": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Eventos"
+          },
+          "resumenes": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Resumenes"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "equipos",
+          "jugadores",
+          "partidos",
+          "eventos",
+          "resumenes"
+        ],
+        "title": "DataMartSummary"
+      },
       "EstadisticaEquipoMuestra": {
         "properties": {
           "capturadoEn": {
@@ -1857,6 +2012,57 @@
           "ocurridoEn"
         ],
         "title": "EventoResumen"
+      },
+      "GoalByTeam": {
+        "properties": {
+          "equipoId": {
+            "type": "string",
+            "title": "Equipoid"
+          },
+          "nombre": {
+            "type": "string",
+            "title": "Nombre"
+          },
+          "goles": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Goles"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "equipoId",
+          "nombre",
+          "goles"
+        ],
+        "title": "GoalByTeam"
+      },
+      "GoalsByTeamResponse": {
+        "properties": {
+          "fuente": {
+            "type": "string",
+            "enum": [
+              "OPERACIONAL",
+              "DATAMART"
+            ],
+            "title": "Fuente"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/GoalByTeam"
+            },
+            "type": "array",
+            "title": "Items"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "fuente",
+          "items"
+        ],
+        "title": "GoalsByTeamResponse"
       },
       "GolCommand": {
         "properties": {
@@ -2032,6 +2238,10 @@
           "neo4j": {
             "type": "string",
             "title": "Neo4J"
+          },
+          "datamart": {
+            "type": "string",
+            "title": "Datamart"
           }
         },
         "additionalProperties": false,
@@ -2043,7 +2253,8 @@
           "redis",
           "cassandra",
           "influxdb",
-          "neo4j"
+          "neo4j",
+          "datamart"
         ],
         "title": "HealthResponse"
       },

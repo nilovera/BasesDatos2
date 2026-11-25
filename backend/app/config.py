@@ -39,6 +39,14 @@ class Settings:
     neo4j_timeout_seconds: float = float(
         os.getenv("NEO4J_TIMEOUT_SECONDS", "3.0")
     )
+    datamart_host: str = os.getenv("DATAMART_HOST", "localhost")
+    datamart_port: int = int(os.getenv("DATAMART_PORT", "5433"))
+    datamart_database: str = os.getenv("DATAMART_DATABASE", "fixture2030_analytics")
+    datamart_user: str = os.getenv("DATAMART_USER", "fixture2030")
+    datamart_password_file: str = os.getenv(
+        "DATAMART_PASSWORD_FILE", ".secretos/datamart-password.txt"
+    )
+    datamart_timeout_seconds: int = int(os.getenv("DATAMART_TIMEOUT_SECONDS", "3"))
 
 
 settings = Settings()

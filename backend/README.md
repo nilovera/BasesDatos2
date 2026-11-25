@@ -2,7 +2,7 @@
 
 Servicio FastAPI que implementa el flujo oficial sobre MongoDB, una capa
 temporal Redis, comentarios durables en Cassandra, telemetría en InfluxDB y
-recorridos en Neo4j. El contrato estable está en `openapi.json` y la documentación
+recorridos en Neo4j y un Data Mart PostgreSQL separado. El contrato estable está en `openapi.json` y la documentación
 interactiva queda disponible en `http://localhost:8000/docs`.
 
 ## Endpoints
@@ -28,6 +28,9 @@ interactiva queda disponible en `http://localhost:8000/docs`.
 - `GET /api/v1/grafo/equipos/{equipoId}/rivales`
 - `GET /api/v1/grafo/jugadores/{jugadorId}/recomendaciones`
 - `GET /api/v1/grafo/equipos/{origenId}/camino/{destinoId}`
+- `POST /api/v1/analitica/datamart/refrescar`
+- `GET /api/v1/analitica/datamart/resumen`
+- `GET /api/v1/analitica/{datamart|operacional}/goles-por-equipo`
 
 Los eventos oficiales y comentarios requieren `Idempotency-Key`. Una creación devuelve `201`; una
 repetición del mismo body devuelve `200` y `Idempotency-Replayed: true`; la
@@ -76,7 +79,13 @@ El grafo es una proyección del catálogo autoritativo. Permite recorrer partido
 recomendar jugadores con el mismo puesto y confederación, y explicar caminos
 entre equipos. La carga repetida converge mediante `MERGE`.
 
-`GET /health` devuelve `UP` cuando MongoDB, Redis, Cassandra, InfluxDB y Neo4j están operativos,
+## Data Mart
+
+PostgreSQL recibe por lote una proyección analítica de MongoDB e InfluxDB. El
+refresh usa UPSERT y conserva por separado eventos oficiales y ventanas de 15
+minutos. Estas rutas no participan de la transacción oficial.
+
+`GET /health` devuelve `UP` cuando MongoDB, Redis, Cassandra, InfluxDB, Neo4j y Data Mart están operativos,
 y `DEGRADED` con el estado individual cuando una dependencia falla. El proceso
 HTTP continúa observable para diferenciar la caída de una base de la caída de
 la propia API.

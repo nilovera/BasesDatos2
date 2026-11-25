@@ -35,6 +35,8 @@ local.
   todavía falta ejecutar y versionar su evidencia sobre el equipo del grupo.
 - Neo4j forma parte del entorno mediante salud funcional y contadores de API;
   no expone métricas internas ni clustering en Community Edition.
+- El Data Mart usa salud funcional y contadores de API; falta exporter de PostgreSQL
+  y una medición con volumen suficiente para cerrar Hito 12.
 - Redis es standalone: RDB/AOF permiten recuperacion local, no alta disponibilidad.
 - No hay resultados de capacidad, SLO, RPO ni RTO.
 - Las alertas no tienen todavia un canal externo de notificacion.

@@ -17,8 +17,10 @@ tráfico normal y estrés; no constituyen por sí solos un SLA medido.
 | `Fixture2030TelemetryWriteErrors` | más de 5 errores de escritura en 5 min durante 1 min | advertencia | API/InfluxDB | lotes rechazados o referencias inconsistentes | Backend: revisar contrato, tipos, tags y disponibilidad | umbral inicial pendiente de carga normal |
 | `Fixture2030Neo4jDown` | `fixture2030_dependency_up{dependency="neo4j"} == 0` durante 30 s | crítica | Neo4j | recorridos y recomendaciones no disponibles; núcleo oficial continúa | Plataforma: revisar nodo, secreto, volumen y red; recuperar solo Neo4j | demuestra degradación aislada del grafo |
 | `Fixture2030GraphErrors` | más de 5 errores de grafo en 5 min durante 1 min | advertencia | API/Neo4j | patrones o recomendaciones fallan repetidamente | Backend: revisar consultas, cardinalidad y disponibilidad | umbral inicial pendiente de tráfico normal |
+| `Fixture2030DataMartDown` | `fixture2030_dependency_up{dependency="datamart"} == 0` durante 30 s | advertencia | PostgreSQL | analítica y ETL degradados; núcleo continúa | Datos: revisar contenedor, secreto, volumen y red | aísla la analítica del camino oficial |
+| `Fixture2030DataMartErrors` | más de 3 errores en 5 min durante 1 min | advertencia | API/Data Mart | cargas o consultas fallan repetidamente | Datos: revisar fuentes, SQL, frescura y capacidad | umbral experimental pendiente de carga normal |
 
-Las fallas controladas de API, MongoDB, Redis, Cassandra, InfluxDB y Neo4j conservan valores
+Las fallas controladas de API, MongoDB, Redis, Cassandra, InfluxDB, Neo4j y Data Mart conservan valores
 antes/durante/después y el estado `firing` cuando la regla correspondiente lo
 permite. La alerta de memoria se ejercitará con carga. Outbox será validable
 cuando exista el consumidor de proyecciones.

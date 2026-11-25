@@ -117,7 +117,7 @@ sum by (operation, result) (rate(fixture2030_comment_operations_total[5m]))
 ## Comparación de dependencias
 
 ```promql
-fixture2030_dependency_up{dependency=~"mongodb|redis|cassandra|influxdb|neo4j"}
+fixture2030_dependency_up{dependency=~"mongodb|redis|cassandra|influxdb|neo4j|datamart"}
 ```
 
 - Unidad: booleano por dependencia.
@@ -168,6 +168,19 @@ sum by (operation, result) (rate(fixture2030_graph_operations_total[5m]))
 
 Permite observar resúmenes, rivales, recomendaciones, caminos y errores por
 segundo durante una ventana móvil de cinco minutos.
+
+## Disponibilidad y operaciones del Data Mart
+
+```promql
+fixture2030_dependency_up{dependency="datamart"}
+```
+
+```promql
+sum by (operation, result) (rate(fixture2030_datamart_operations_total[5m]))
+```
+
+Miden la salud funcional de PostgreSQL y la tasa de refresh/consultas. No son
+métricas internas de PostgreSQL; CPU, buffers y locks requieren un exporter.
 
 Prometheus conserva siete días en el laboratorio. Esa retención permite revisar
 la demostración local, pero no representa una política productiva ni sustituye

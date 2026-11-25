@@ -383,3 +383,69 @@ class MongoRepository:
 
     def pending_outbox(self):
         return self.db.outbox.count_documents({"estado": "PENDIENTE"})
+
+    def datamart_snapshot(self):
+        """Extrae un corte consistente a nivel de documento para el ETL por lote."""
+        try:
+            teams = list(self.db.equipos.find(
+                {"activo": True}, {"_id": 0, "equipoId": 1, "nombre": 1, "confederacion": 1}
+            ).sort("equipoId", ASCENDING))
+            players = list(self.db.jugadores.find(
+                {"activo": True}, {"_id": 0, "jugadorId": 1, "equipoId": 1, "nombre": 1, "posicion": 1}
+            ).sort("jugadorId", ASCENDING))
+            matches = [
+                {
+                    "partidoId": item["partidoId"],
+                    "localId": item["equipos"]["localId"],
+                    "visitanteId": item["equipos"]["visitanteId"],
+                    "inicioProgramado": item["inicioProgramado"],
+                    "estado": item["estado"],
+                }
+                for item in self.db.partidos.find({}).sort("partidoId", ASCENDING)
+            ]
+            raw_events = list(self.db.eventos_oficiales.find({}).sort(
+                [("partidoId", ASCENDING), ("secuencia", ASCENDING)]
+            ))
+        except PyMongoError as error:
+            raise DomainError(503, "OFFICIAL_STORE_UNAVAILABLE", "MongoDB no respondió") from error
+
+        corrected = {
+            event.get("referencia", {}).get("eventoOriginalId")
+            for event in raw_events if event["tipo"] == "CORRECCION_EVENTO"
+        }
+        events = []
+        for event in raw_events:
+            if event["eventoId"] in corrected:
+                continue
+            data = dict(event.get("datos") or {})
+            event_type = event["tipo"]
+            origin = None
+            if event_type == "CORRECCION_EVENTO":
+                origin = event.get("referencia", {}).get("eventoOriginalId")
+                replacement = data.get("reemplazo") or {}
+                event_type = replacement.get("tipo", event_type)
+                data = replacement
+            events.append({
+                "eventoId": event["eventoId"], "partidoId": event["partidoId"],
+                "secuencia": int(event["secuencia"]), "tipo": event_type,
+                "ocurridoEn": event["ocurridoEn"], "equipoId": data.get("equipoId"),
+                "jugadorId": data.get("jugadorId"), "eventoOrigenId": origin,
+                "goles": 1 if event_type == "GOL" else 0,
+                "asistencias": 1 if event_type == "GOL" and data.get("asistenteJugadorId") else 0,
+            })
+        return {"equipos": teams, "jugadores": players, "partidos": matches, "eventos": events}
+
+    def operational_goals_by_team(self):
+        snapshot = self.datamart_snapshot()
+        names = {team["equipoId"]: team["nombre"] for team in snapshot["equipos"]}
+        counts = {}
+        for event in snapshot["eventos"]:
+            if event["goles"] and event.get("equipoId"):
+                counts[event["equipoId"]] = counts.get(event["equipoId"], 0) + 1
+        return {
+            "fuente": "OPERACIONAL",
+            "items": [
+                {"equipoId": team_id, "nombre": names.get(team_id, team_id), "goles": goals}
+                for team_id, goals in sorted(counts.items(), key=lambda row: (-row[1], row[0]))
+            ],
+        }

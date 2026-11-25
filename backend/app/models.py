@@ -123,6 +123,33 @@ class HealthResponse(ApiModel):
     cassandra: str
     influxdb: str
     neo4j: str
+    datamart: str
+
+
+class DataMartRefreshResponse(ApiModel):
+    ejecucion_id: str = Field(alias="ejecucionId")
+    estado: Literal["OK"]
+    eventos_cargados: int = Field(alias="eventosCargados", ge=0)
+    resumenes_cargados: int = Field(alias="resumenesCargados", ge=0)
+
+
+class DataMartSummary(ApiModel):
+    equipos: int = Field(ge=0)
+    jugadores: int = Field(ge=0)
+    partidos: int = Field(ge=0)
+    eventos: int = Field(ge=0)
+    resumenes: int = Field(ge=0)
+
+
+class GoalByTeam(ApiModel):
+    equipo_id: str = Field(alias="equipoId")
+    nombre: str
+    goles: int = Field(ge=0)
+
+
+class GoalsByTeamResponse(ApiModel):
+    fuente: Literal["OPERACIONAL", "DATAMART"]
+    items: list[GoalByTeam]
 
 
 class SesionCreate(ApiModel):

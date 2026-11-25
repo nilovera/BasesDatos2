@@ -275,6 +275,30 @@ services:
     command: ["python", "/opt/fixture2030/neo4j-init/seed.py", "--seed"]
     restart: "no"
 
+  datamart:
+    image: postgres:18.7-alpine3.24
+    container_name: fixture2030-datamart
+    environment:
+      POSTGRES_DB: fixture2030_analytics
+      POSTGRES_USER: fixture2030
+      POSTGRES_PASSWORD_FILE: /run/secrets/datamart-password
+    secrets:
+      - datamart-password
+    ports:
+      - "127.0.0.1:5433:5432"
+    volumes:
+      - fixture2030_datamart_data:/var/lib/postgresql
+      - ./datamart/init:/docker-entrypoint-initdb.d:ro
+    networks:
+      - fixture2030
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U fixture2030 -d fixture2030_analytics"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 15s
+    restart: unless-stopped
+
   api:
     image: fixture2030-api
     build:
@@ -303,9 +327,16 @@ services:
       NEO4J_PASSWORD_FILE: /run/secrets/neo4j-password
       NEO4J_DATABASE: neo4j
       NEO4J_TIMEOUT_SECONDS: "3.0"
+      DATAMART_HOST: datamart
+      DATAMART_PORT: "5432"
+      DATAMART_DATABASE: fixture2030_analytics
+      DATAMART_USER: fixture2030
+      DATAMART_PASSWORD_FILE: /run/secrets/datamart-password
+      DATAMART_TIMEOUT_SECONDS: "3"
     secrets:
       - influxdb-admin-token-raw
       - neo4j-password
+      - datamart-password
     ports:
       - "127.0.0.1:8000:8000"
     networks:
@@ -323,6 +354,8 @@ services:
         condition: service_completed_successfully
       neo4j-init:
         condition: service_completed_successfully
+      datamart:
+        condition: service_healthy
     healthcheck:
       test:
         - CMD-SHELL
@@ -400,6 +433,8 @@ volumes:
     name: fixture2030-neo4j-logs
   fixture2030_neo4j_import:
     name: fixture2030-neo4j-import
+  fixture2030_datamart_data:
+    name: fixture2030-datamart-data
 
 secrets:
   influxdb-admin-token:
@@ -410,3 +445,5 @@ secrets:
     file: ./.secretos/neo4j-auth.txt
   neo4j-password:
     file: ./.secretos/neo4j-password.txt
+  datamart-password:
+    file: ./.secretos/datamart-password.txt

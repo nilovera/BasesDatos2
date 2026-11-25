@@ -13,6 +13,17 @@ VERIFY_SCRIPT_PATH = ROOT / "scripts" / "verificar_mongodb.ps1"
 
 
 class ContractTests(unittest.TestCase):
+    def test_datamart_contract_exposes_refresh_summary_and_comparison(self):
+        contract = json.loads((ROOT / "backend" / "openapi.json").read_text(encoding="utf-8"))
+        paths = contract["paths"]
+        for path in (
+            "/api/v1/analitica/datamart/refrescar",
+            "/api/v1/analitica/datamart/resumen",
+            "/api/v1/analitica/datamart/goles-por-equipo",
+            "/api/v1/analitica/operacional/goles-por-equipo",
+        ):
+            self.assertIn(path, paths)
+
     @classmethod
     def setUpClass(cls):
         cls.openapi = json.loads(OPENAPI_PATH.read_text(encoding="utf-8"))
@@ -130,7 +141,7 @@ class ContractTests(unittest.TestCase):
             if parameter["name"] == "cursor"
         )
         self.assertIn("null", {item.get("type") for item in cursor["schema"]["anyOf"]})
-        self.assertEqual("0.6.0", self.openapi["info"]["version"])
+        self.assertEqual("0.8.0", self.openapi["info"]["version"])
 
     def test_graph_contract_exposes_summary_rivals_recommendations_and_path(self):
         paths = self.openapi["paths"]
@@ -143,7 +154,7 @@ class ContractTests(unittest.TestCase):
         for path in expected:
             self.assertIn(path, paths)
             self.assertIn("get", paths[path])
-        self.assertEqual("0.6.0", self.openapi["info"]["version"])
+        self.assertEqual("0.8.0", self.openapi["info"]["version"])
 
     def test_match_read_documents_cache_result_header(self):
         response = self.openapi["paths"]["/api/v1/partidos/{partidoId}"]["get"][

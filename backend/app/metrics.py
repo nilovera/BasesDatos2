@@ -60,3 +60,8 @@ GRAPH_OPERATIONS = Counter(
     "Operaciones de recorridos y recomendaciones en Neo4j",
     ["operation", "result"],
 )
+DATAMART_OPERATIONS = Counter(
+    "fixture2030_datamart_operations",
+    "Operaciones ETL y consultas del Data Mart analitico",
+    ["operation", "result"],
+)

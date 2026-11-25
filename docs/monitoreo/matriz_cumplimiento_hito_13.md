@@ -12,10 +12,10 @@ objetivo no se presenta como resultado.
 | Latencia | Implementado | Histograma HTTP y panel p95 | Medir p50/p95/p99 en los tres escenarios de carga |
 | Volumen o throughput | Implementado | Tasa de solicitudes y contadores de dominio | Fijar intensidad y duración del workload final |
 | Errores | Implementado | HTTP 5xx en ventana de 5 minutos y errores por dominio | Validar razón de errores bajo tráfico normal y estrés |
-| Comparación entre componentes | Implementado | Panel temporal conjunto MongoDB/Redis/Cassandra/InfluxDB/Neo4j | Conservar captura final de la misma ventana temporal |
+| Comparación entre componentes | Implementado | Panel temporal conjunto MongoDB/Redis/Cassandra/InfluxDB/Neo4j/Data Mart | Conservar captura final de la misma ventana temporal |
 | Dos o más consultas PromQL útiles | Implementado | Consultas documentadas en `metricas_y_consultas.md` y capturadas por script | Guardar sus resultados en la ejecución final |
 | Dos o más alertas justificadas | Implementado | Reglas de API, latencia, errores y cinco dependencias con umbral, duración, severidad y responsable | Verificar las alertas de Neo4j en el runtime final |
-| Falla controlada y recuperación | Implementado; evidencia Neo4j pendiente | Scripts aislados para API y los cinco motores con `finally`, alerta y recuperación; API, MongoDB, Redis, Cassandra e InfluxDB ya tienen evidencia versionada | Ejecutar Neo4j desde un commit limpio y versionar `resultado.json` y captura |
+| Falla controlada y recuperación | Implementado; evidencia Data Mart pendiente | Scripts aislados para API, cinco motores y Data Mart con `finally`, alerta y recuperación; evidencia operacional y Neo4j ya versionada | Ejecutar Data Mart desde un commit limpio y versionar `resultado.json` y captura |
 | Inventario técnico | Implementado | `inventario_componentes.md` registra modelo, función, endpoint, mecanismo, métricas, riesgo y limitación de los cinco motores | Revisarlo ante cambios del runtime final |
 | Reproducibilidad y trazabilidad | Implementado | Compose, versiones fijadas, `sourceCommit`, rama, escenario, estado de servicios y manifiesto SHA-256 | Ejecutar la captura final y revisar secretos antes del commit |
 | Pruebas de humo, tráfico normal y estrés | Diseñado | T04-T05 definen semillas y datos mínimos | Implementar simulador, ejecutar y conservar resultados comparables |
@@ -26,6 +26,6 @@ objetivo no se presenta como resultado.
 ## Criterio de cierre
 
 El Hito 13 no se declara completamente cerrado mientras falten la ejecución y
-evidencia de Neo4j, las pruebas de carga y el guion de defensa. La evidencia de
-InfluxDB ya está versionada; el estado actual deja una base verificable para
-validar el quinto motor sin mezclar objetivos con resultados medidos.
+evidencia del Data Mart, las pruebas de carga y el guion de defensa. La evidencia
+de los cinco motores ya está versionada; los resultados de capacidad siguen
+pendientes y no se reemplazan por objetivos.

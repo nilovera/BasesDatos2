@@ -134,3 +134,25 @@ groups:
         annotations:
           summary: Errores repetidos en consultas de grafo
           description: Se registraron mas de cinco errores de recorridos o recomendaciones en cinco minutos.
+
+  - name: fixture2030-datamart
+    rules:
+      - alert: Fixture2030DataMartDown
+        expr: fixture2030_dependency_up{dependency="datamart"} == 0
+        for: 30s
+        labels:
+          severity: warning
+          owner: datos
+        annotations:
+          summary: El Data Mart analitico no esta disponible
+          description: Las consultas analiticas y el ETL estan degradados; el camino operacional debe continuar disponible.
+
+      - alert: Fixture2030DataMartErrors
+        expr: increase(fixture2030_datamart_operations_total{result="ERROR"}[5m]) > 3
+        for: 1m
+        labels:
+          severity: warning
+          owner: datos
+        annotations:
+          summary: Errores repetidos en el Data Mart
+          description: Se registraron mas de tres errores de carga o consulta analitica en cinco minutos.

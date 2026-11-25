@@ -1,8 +1,8 @@
 # Tareas posteriores a la integración de las bases
 
-Estas tareas se ejecutarán cuando MongoDB, Cassandra, Redis, InfluxDB y Neo4j
-estén integrados mediante la API. No bloquean la construcción inicial de cada
-motor, pero forman parte de la validación final y no deben omitirse.
+MongoDB, Cassandra, Redis, InfluxDB, Neo4j y el Data Mart ya poseen incrementos
+integrados. Las siguientes tareas forman parte de la validación final y no deben
+omitirse.
 
 ## T01 — Usuarios sintéticos durables
 
@@ -88,3 +88,13 @@ compromiso; ninguna capacidad se presenta como observada sin ejecución.
 
 **Aceptación:** cada escenario crea una carpeta autocontenida con commit,
 servicios, pruebas, métricas, alertas y recuperación, sin secretos.
+
+## T08 — Cierre cuantitativo del Hito 12
+
+- Usar el simulador de T04/T05 para cargar un volumen analítico representativo.
+- Ejecutar exactamente la misma consulta operacional y de Data Mart.
+- Conservar p50/p95/p99, throughput, errores, concurrencia, CPU y memoria.
+- Explicar el cuello de botella, la mejora aplicada y el costo de frescura eventual.
+
+**Aceptación:** una ejecución versionada demuestra o refuta cuantitativamente la
+mejora; la línea base de un solo partido no se presenta como conclusión.

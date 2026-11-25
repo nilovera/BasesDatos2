@@ -13,8 +13,9 @@ base pendiente o presente solamente en un diagrama no se declara monitoreada.
 | Prometheus | series técnicas de observabilidad | `9090`, API HTTP de Prometheus | métricas propias y tres jobs configurados | estado de targets, evaluación de reglas y retención de 7 días | pérdida de visibilidad o reglas sin evaluar | una instancia; no es almacenamiento funcional del Fixture |
 | Grafana | visualización de Prometheus | `3000`, `/api/health` | verificación operativa y provisioning versionado | salud del visualizador y dashboard exportable | defensa sin paneles o datasource no disponible | no es target de Prometheus; capturas finales pendientes |
 | Neo4j | proyección de relaciones entre jugadores, equipos, confederaciones, partidos y torneo | `7474`, `7687`; salud funcional desde `/health` | inferencia de la API y contadores de dominio | disponibilidad, resumen, rivales, recomendaciones, caminos y errores | recorridos y recomendaciones degradados | Community de un nodo; sin exporter interno ni alta disponibilidad |
+| PostgreSQL Data Mart | estrella analítica de eventos y resúmenes por equipo/15m | `5433`; salud funcional desde `/health` | inferencia de la API y contadores de ETL/consulta | disponibilidad, refresh, consultas y errores | analítica atrasada o no disponible sin bloquear el núcleo | un nodo; ETL batch y sin réplica |
 
 Prometheus posee cuatro targets directos: Prometheus, API, Redis Exporter e InfluxDB. La
-disponibilidad de MongoDB, Cassandra y Neo4j se mide funcionalmente desde la API. El
+disponibilidad de MongoDB, Cassandra, Neo4j y Data Mart se mide funcionalmente desde la API. El
 dashboard debe indicar esta diferencia para no presentar una inferencia como
 métrica interna de la base.

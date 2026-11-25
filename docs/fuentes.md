@@ -61,3 +61,12 @@ Se fija `neo4j:5.26.34-community-trixie` y el driver Python `6.4.1`. El grafo es
 una proyección reconstruible de MongoDB y el catálogo común; no se reutilizan
 los volúmenes del contenedor histórico.
 
+## Referencias técnicas del Data Mart
+
+- Imagen oficial PostgreSQL y secretos `_FILE`: https://hub.docker.com/_/postgres
+- Psycopg 3, instalación binaria: https://www.psycopg.org/install/
+- PostgreSQL, `INSERT ... ON CONFLICT`: https://www.postgresql.org/docs/current/sql-insert.html
+
+Se fija `postgres:18.7-alpine3.24` y `psycopg[binary]==3.3.9`. PostgreSQL es una
+proyección analítica reconstruible y no participa de la transacción oficial.
+

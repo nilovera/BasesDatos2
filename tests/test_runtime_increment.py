@@ -1,5 +1,6 @@
 import ast
 import json
+import re
 import unittest
 from pathlib import Path
 
@@ -14,8 +15,8 @@ class RuntimeIncrementTests(unittest.TestCase):
 
     def test_direct_dependencies_are_pinned(self):
         requirements = (ROOT / "backend" / "requirements.txt").read_text(encoding="utf-8")
-        for dependency in ("fastapi", "cassandra-driver", "neo4j", "pymongo", "prometheus-client", "redis", "uvicorn"):
-            self.assertRegex(requirements, rf"(?m)^{dependency}==[^\s]+$")
+        for dependency in ("fastapi", "cassandra-driver", "neo4j", "psycopg[binary]", "pymongo", "prometheus-client", "redis", "uvicorn"):
+            self.assertRegex(requirements, rf"(?m)^{re.escape(dependency)}==[^\s]+$")
 
     def test_compose_contains_api_prometheus_and_grafana(self):
         compose = (ROOT / "docker-compose.yml").read_text(encoding="utf-8")
@@ -67,6 +68,8 @@ class RuntimeIncrementTests(unittest.TestCase):
             "Fixture2030TelemetryWriteErrors",
             "Fixture2030Neo4jDown",
             "Fixture2030GraphErrors",
+            "Fixture2030DataMartDown",
+            "Fixture2030DataMartErrors",
         ):
             self.assertIn(f"alert: {alert}", rules)
         self.assertIn("owner: plataforma", rules)
@@ -133,11 +136,12 @@ class RuntimeIncrementTests(unittest.TestCase):
         }
         self.assertIn('fixture2030_dependency_up{dependency="mongodb"}', expressions)
         self.assertIn(
-            'fixture2030_dependency_up{dependency=~"mongodb|redis|cassandra|influxdb|neo4j"}',
+            'fixture2030_dependency_up{dependency=~"mongodb|redis|cassandra|influxdb|neo4j|datamart"}',
             expressions,
         )
         self.assertIn('fixture2030_dependency_up{dependency="influxdb"}', expressions)
         self.assertIn('fixture2030_dependency_up{dependency="neo4j"}', expressions)
+        self.assertIn('fixture2030_dependency_up{dependency="datamart"}', expressions)
         self.assertTrue(
             any("fixture2030_telemetry_operations_total" in expression for expression in expressions)
         )
@@ -161,6 +165,27 @@ class RuntimeIncrementTests(unittest.TestCase):
         ]
         for path in paths:
             self.assertNotIn("iris", path.read_text(encoding="utf-8").lower(), path)
+
+    def test_datamart_is_persistent_isolated_and_observable(self):
+        compose = (ROOT / "docker-compose.yml").read_text(encoding="utf-8")
+        metrics = (ROOT / "backend" / "app" / "metrics.py").read_text(encoding="utf-8")
+        self.assertIn("  datamart:", compose)
+        self.assertIn("postgres:18.7-alpine3.24", compose)
+        self.assertIn("127.0.0.1:5433:5432", compose)
+        self.assertIn("fixture2030_datamart_data:/var/lib/postgresql", compose)
+        self.assertIn("POSTGRES_PASSWORD_FILE", compose)
+        self.assertIn("fixture2030_datamart_operations", metrics)
+        self.assertNotIn("datamart", (ROOT / "mongodb" / "init" / "01_schema.js").read_text(encoding="utf-8").lower())
+
+    def test_datamart_scripts_are_safe_and_reproducible(self):
+        for name in ("verificar_datamart.ps1", "probar_datamart.ps1", "probar_persistencia_datamart.ps1", "probar_falla_datamart.ps1", "comparar_rendimiento_datamart.ps1"):
+            script = (ROOT / "scripts" / name).read_text(encoding="utf-8")
+            self.assertNotIn("down -v", script.lower())
+            self.assertNotIn("docker rm", script.lower())
+        failure = (ROOT / "scripts" / "probar_falla_datamart.ps1").read_text(encoding="utf-8")
+        self.assertIn("finally {", failure)
+        self.assertIn("docker stop fixture2030-datamart", failure)
+        self.assertIn("officialReadAvailable", failure)
 
     def test_redis_is_persistent_observable_and_memory_bounded(self):
         compose = (ROOT / "docker-compose.yml").read_text(encoding="utf-8")

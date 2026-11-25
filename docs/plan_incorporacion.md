@@ -15,7 +15,7 @@ incorpora después de revisar identidad, configuración, dependencias y pruebas.
 | 7 | Escrituras, idempotencia, outbox, sincronización y fallos | Primer flujo transaccional implementado; consumidores pendientes |
 | 8 | Revisión y recuperación selectiva de los hitos | Fuentes identificadas; incorporación pendiente |
 | 9 | Implementación incremental y Docker integrado | Los cinco motores, API, Prometheus y Grafana están incorporados |
-| 10 | Monitoreo, validación integrada, evidencia y defensa | API y cinco dependencias instrumentadas; evidencia Neo4j, carga y defensa pendientes |
+| 10 | Monitoreo, validación integrada, evidencia y defensa | API, cinco motores y Data Mart instrumentados; carga y defensa pendientes |
 
 IRIS no recibe diseño físico ni contenedor. Su evaluación y exclusión se registran
 en `docs/diseno/ADR-001-exclusion-iris.md`.
@@ -43,9 +43,9 @@ métricas; no es la base de la rama final. La rama `InlfuxDB` no se utiliza.
 5. **Cassandra:** comentarios, moderación y paginación implementados; validar carga, shards y RF=3 fuera del laboratorio local.
 6. **InfluxDB:** estadísticas, posiciones, cursores y mapas de calor implementados; ejecutar evidencia Docker.
 7. **Neo4j:** carga idempotente, CRUD, recomendaciones y consultas multisalto implementadas; falta ejecución local.
-8. **Integración:** consumidores Outbox y proyecciones idempotentes.
-9. **Observabilidad completa:** exporters, alertas y prueba controlada.
-10. **Validación y defensa:** carga, recuperación, evidencia, demo y guion de 20 minutos.
+8. **Data Mart:** estrella PostgreSQL, ETL idempotente y línea base del Hito 12.
+9. **Integración:** consumidores Outbox y proyecciones idempotentes.
+10. **Observabilidad y defensa:** carga, recuperación, evidencia, demo y guion de 20 minutos.
 
 Después de integrar los cinco motores se ejecutarán las tareas T01-T06 de
 `docs/tareas_integracion_final.md`: usuarios sintéticos, asistencias, telemetría,

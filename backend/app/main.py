@@ -13,6 +13,8 @@ from prometheus_client import make_asgi_app
 from .cassandra_client import close_cassandra_client, get_cassandra_session
 from .cassandra_service import CassandraCommentService
 from .config import settings
+from .datamart_client import connect_datamart
+from .datamart_service import DataMartService
 from .database import close_client, get_client
 from .errors import DomainError
 from .influx_client import close_influx_client, get_influx_client
@@ -24,6 +26,7 @@ from .metrics import (
     DEPENDENCY_UP,
     EVENTS_CONFIRMED,
     GRAPH_OPERATIONS,
+    DATAMART_OPERATIONS,
     HTTP_DURATION,
     HTTP_REQUESTS,
     IDEMPOTENCY_REPLAYS,
@@ -38,8 +41,11 @@ from .models import (
     ComentarioCreate,
     ComentarioCreado,
     CaminoGrafoResponse,
+    DataMartRefreshResponse,
+    DataMartSummary,
     GrafoResumen,
     HealthResponse,
+    GoalsByTeamResponse,
     ModeracionComentario,
     ModeracionResponse,
     EstadisticasEquipoBatch,
@@ -92,8 +98,8 @@ async def lifespan(_app):
 
 app = FastAPI(
     title="Fixture 2030 API",
-    version="0.6.0",
-    description="Núcleo deportivo en MongoDB, datos calientes en Redis, comentarios en Cassandra, series temporales en InfluxDB y relaciones en Neo4j.",
+    version="0.8.0",
+    description="Plataforma operacional políglota y Data Mart analítico PostgreSQL para Fixture 2030.",
     lifespan=lifespan,
 )
 app.mount("/metrics", make_asgi_app())
@@ -125,6 +131,10 @@ def telemetry_service():
 
 def graph_service():
     return Neo4jGraphService(get_neo4j_client())
+
+
+def datamart_service():
+    return DataMartService(connect_datamart)
 
 
 def request_id(request):
@@ -220,11 +230,16 @@ def health():
         neo4j_status = graph_service().health()
     except Exception:
         neo4j_status = "DOWN"
+    try:
+        datamart_status = datamart_service().health()
+    except Exception:
+        datamart_status = "DOWN"
     DEPENDENCY_UP.labels("mongodb").set(1 if mongo_status == "PRIMARY" else 0)
     DEPENDENCY_UP.labels("redis").set(1 if redis_status == "UP" else 0)
     DEPENDENCY_UP.labels("cassandra").set(1 if cassandra_status == "UP" else 0)
     DEPENDENCY_UP.labels("influxdb").set(1 if influxdb_status == "UP" else 0)
     DEPENDENCY_UP.labels("neo4j").set(1 if neo4j_status == "UP" else 0)
+    DEPENDENCY_UP.labels("datamart").set(1 if datamart_status == "UP" else 0)
     return {
         "service": "fixture2030-api",
         "status": "UP"
@@ -233,12 +248,14 @@ def health():
         and cassandra_status == "UP"
         and influxdb_status == "UP"
         and neo4j_status == "UP"
+        and datamart_status == "UP"
         else "DEGRADED",
         "mongodb": mongo_status,
         "redis": redis_status,
         "cassandra": cassandra_status,
         "influxdb": influxdb_status,
         "neo4j": neo4j_status,
+        "datamart": datamart_status,
     }
 
 
@@ -729,3 +746,63 @@ def get_team_path(origenId: str, destinoId: str):
     except DomainError:
         GRAPH_OPERATIONS.labels("team_path", "ERROR").inc()
         raise
+
+
+@app.post(
+    "/api/v1/analitica/datamart/refrescar",
+    response_model=DataMartRefreshResponse,
+    responses={503: {"description": "MongoDB, InfluxDB o Data Mart no disponible"}},
+)
+def refresh_datamart():
+    try:
+        snapshot = repository().datamart_snapshot()
+        summaries = []
+        for match in snapshot["partidos"]:
+            summaries.extend(
+                telemetry_service().list_historical_summaries(match["partidoId"])["items"]
+            )
+        result = datamart_service().refresh(snapshot, summaries)
+        DATAMART_OPERATIONS.labels("refresh", "OK").inc()
+        return result
+    except DomainError:
+        DATAMART_OPERATIONS.labels("refresh", "ERROR").inc()
+        raise
+
+
+@app.get(
+    "/api/v1/analitica/datamart/resumen",
+    response_model=DataMartSummary,
+    responses={503: {"description": "Data Mart no disponible"}},
+)
+def get_datamart_summary():
+    try:
+        result = datamart_service().summary()
+        DATAMART_OPERATIONS.labels("summary", "OK").inc()
+        return result
+    except DomainError:
+        DATAMART_OPERATIONS.labels("summary", "ERROR").inc()
+        raise
+
+
+@app.get(
+    "/api/v1/analitica/datamart/goles-por-equipo",
+    response_model=GoalsByTeamResponse,
+    responses={503: {"description": "Data Mart no disponible"}},
+)
+def get_datamart_goals_by_team():
+    try:
+        result = datamart_service().goals_by_team()
+        DATAMART_OPERATIONS.labels("goals_by_team", "OK").inc()
+        return result
+    except DomainError:
+        DATAMART_OPERATIONS.labels("goals_by_team", "ERROR").inc()
+        raise
+
+
+@app.get(
+    "/api/v1/analitica/operacional/goles-por-equipo",
+    response_model=GoalsByTeamResponse,
+    responses={503: {"description": "MongoDB no disponible"}},
+)
+def get_operational_goals_by_team():
+    return repository().operational_goals_by_team()

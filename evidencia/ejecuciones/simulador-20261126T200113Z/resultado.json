@@ -1,0 +1,30 @@
+﻿{
+    "scenario":  "simulador-partido-reproducible",
+    "result":  "OK",
+    "sourceCommit":  "d115007c5eb3eabc44d48cef85ce47f0dbe581d1",
+    "capturedAtUtc":  "2026-11-26T20:01:13.9559283Z",
+    "simulationId":  "SIM-03d79157-7e12-4bbc-939f-a885caae8ca0",
+    "matchId":  "PAR-1004",
+    "seed":  2030,
+    "logicalSeconds":  5400,
+    "finalState":  "FINALIZADA",
+    "score":  {
+                  "local":  1,
+                  "visitor":  2
+              },
+    "officialEvents":  17,
+    "requiredEventTypes":  [
+                               "INICIO_PARTIDO",
+                               "GOL",
+                               "TARJETA",
+                               "SUSTITUCION",
+                               "GOL_ANULADO_VAR",
+                               "FIN_PARTIDO"
+                           ],
+    "commentsVerified":  156,
+    "ballSamplesVerified":  20,
+    "positionSamplesVerified":  20,
+    "redisFinalScoreVerified":  true,
+    "neo4jSportsRelationsVerified":  true,
+    "outboxConverged":  true
+}

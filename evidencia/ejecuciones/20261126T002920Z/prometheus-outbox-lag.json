@@ -1,0 +1,20 @@
+﻿{
+    "status":  "success",
+    "data":  {
+                 "resultType":  "vector",
+                 "result":  [
+                                {
+                                    "metric":  {
+                                                   "__name__":  "fixture2030_outbox_oldest_pending_seconds",
+                                                   "consumer":  "redis",
+                                                   "instance":  "outbox-worker:9101",
+                                                   "job":  "fixture2030-outbox"
+                                               },
+                                    "value":  [
+                                                  1795652970.422,
+                                                  "0"
+                                              ]
+                                }
+                            ]
+             }
+}

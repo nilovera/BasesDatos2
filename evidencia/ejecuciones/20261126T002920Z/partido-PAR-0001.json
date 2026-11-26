@@ -1,0 +1,12 @@
+﻿{
+    "partidoId":  "PAR-0001",
+    "localId":  "EQ-01",
+    "visitanteId":  "EQ-33",
+    "inicioProgramado":  "2030-06-13T20:00:00Z",
+    "estado":  "EN_CURSO",
+    "marcador":  {
+                     "local":  1,
+                     "visitante":  0
+                 },
+    "version":  9
+}

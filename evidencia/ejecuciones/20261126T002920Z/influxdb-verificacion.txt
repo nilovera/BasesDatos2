@@ -1,0 +1,4 @@
+﻿Verificando InfluxDB, bases, tablas, API y metricas...
+OK: InfluxDB UP, dos bases, tres tablas, API y target Prometheus operativos.
+NOTA: las retenciones 7d/365d se fijan al crear las bases; este chequeo no las vuelve a inferir por nombre.
+NOTA: el token se leyo como secreto y no se imprimio en esta verificacion.

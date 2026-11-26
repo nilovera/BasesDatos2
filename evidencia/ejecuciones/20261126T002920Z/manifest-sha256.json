@@ -1,0 +1,142 @@
+﻿[
+    {
+        "file":  "api-health.json",
+        "sha256":  "17c26d2ff87a3f9310a75463752c21d5973c86375e2a177e5122f3973845d5c5",
+        "bytes":  209
+    },
+    {
+        "file":  "cassandra-verificacion.txt",
+        "sha256":  "3e5b667b1bf4fc0b403484d8e467954e9451bd54a946be8bd6de22c65307a5b8",
+        "bytes":  182
+    },
+    {
+        "file":  "datamart-verificacion.txt",
+        "sha256":  "2df6a90a387797a3bad2827bbb9fe0ee6b15058af9e747da52aab469403b7423",
+        "bytes":  119
+    },
+    {
+        "file":  "docker-compose-ps.txt",
+        "sha256":  "3466f1a77e7865313663c1af368e3ea681476f1d33f761c7452e9844dedabb09",
+        "bytes":  2618
+    },
+    {
+        "file":  "git-status-antes.txt",
+        "sha256":  "9cee0d9800b4d3ebd137b36bbc88c0245b818d7b6d9d0c94aeb837e125803c7a",
+        "bytes":  10
+    },
+    {
+        "file":  "grafana-health.json",
+        "sha256":  "9ee22eb602b4f3d6d874a54e4b96a6e6f6ad2b625e10d1d4029884d3046ab9b1",
+        "bytes":  119
+    },
+    {
+        "file":  "influxdb-verificacion.txt",
+        "sha256":  "5d4bf0f187b4d97f55bd0ec2b021e1a80f52a2aa81586c646d8070b7c2c394b2",
+        "bytes":  322
+    },
+    {
+        "file":  "metadata.json",
+        "sha256":  "0538641e26d1ef1e16e23a50bd95c05a5fe5d3a79ec0ee94b2005737fe65f4f8",
+        "bytes":  372
+    },
+    {
+        "file":  "mongodb-verificacion.txt",
+        "sha256":  "b5e659161d6c12306c8db28448763d3ade2fb888065cf887fcd17bb9827312d1",
+        "bytes":  284
+    },
+    {
+        "file":  "neo4j-verificacion.txt",
+        "sha256":  "a677eedd53c83321ea151439e91e671fe128a877f687062a348b35305e090e54",
+        "bytes":  169
+    },
+    {
+        "file":  "outbox-verificacion.txt",
+        "sha256":  "4893a5985752592853abc7b334b53ed7376d9c6e0b1bf96fdffc3c5cb81350cc",
+        "bytes":  128
+    },
+    {
+        "file":  "partido-PAR-0001.json",
+        "sha256":  "82d968acf64586d214986a2a0494c0135e4f23e9efcc5f92e002dae3437ecea2",
+        "bytes":  307
+    },
+    {
+        "file":  "plataforma-verificacion.txt",
+        "sha256":  "f07f256788a8c2bd59861b2f13f48117dafffe711326e54e92192d8e096ad677",
+        "bytes":  265
+    },
+    {
+        "file":  "prometheus-api-up.json",
+        "sha256":  "498eb75f04d27065a21ffcc5c465cd09fbdd1915946f58b4981af0b545f717f0",
+        "bytes":  790
+    },
+    {
+        "file":  "prometheus-datamart-up.json",
+        "sha256":  "0e23532de1fbbe7a8dd125d0f4f6616691314e3868beade981fc69dd6d30a756",
+        "bytes":  892
+    },
+    {
+        "file":  "prometheus-dependencias.json",
+        "sha256":  "5f7dda92a961407a837292bfa37052525368ed6b3d98eb3f65be060922012718",
+        "bytes":  4486
+    },
+    {
+        "file":  "prometheus-errores-5m.json",
+        "sha256":  "ee353aed8750f50349ae1d9dd015f018b4ce09e9053ce2f7cdb0eb1985b3de6c",
+        "bytes":  175
+    },
+    {
+        "file":  "prometheus-influxdb-up.json",
+        "sha256":  "c8b7717af408098e358728605b378d22043cf50fb9364c0c71be6a45bad979e4",
+        "bytes":  800
+    },
+    {
+        "file":  "prometheus-latencia-p95.json",
+        "sha256":  "4ee5c3453b6b58f374dd0354959dad137bd852a5ae9389559d16c4555dbdd0b5",
+        "bytes":  585
+    },
+    {
+        "file":  "prometheus-neo4j-up.json",
+        "sha256":  "37de316b3309805497236e1d368259320efaec1561875a23eec8f96c22784838",
+        "bytes":  889
+    },
+    {
+        "file":  "prometheus-outbox-lag.json",
+        "sha256":  "e1799557de51c5a4c438f57bc7c7c66625faad76f37faa30186185d839e3bdc9",
+        "bytes":  916
+    },
+    {
+        "file":  "prometheus-outbox-pending.json",
+        "sha256":  "b280dc73cf91b2427bad1c4c5aa6e958e5e45950327ff862473c6497e92e1499",
+        "bytes":  901
+    },
+    {
+        "file":  "prometheus-outbox-up.json",
+        "sha256":  "6855636845ceb2059f645eb5570dbd194aed1645264123770f3a7ec78760f856",
+        "bytes":  803
+    },
+    {
+        "file":  "prometheus-rules.json",
+        "sha256":  "c1406eee40de25d8bbdee4621abb35dd7cc5a4c3f4546eb5627b4c496c71087a",
+        "bytes":  35030
+    },
+    {
+        "file":  "prometheus-targets.json",
+        "sha256":  "844d67b95aadc3cf89ae85a186fc702ab4657048d603e105348345af4b75a186",
+        "bytes":  11397
+    },
+    {
+        "file":  "prometheus-throughput.json",
+        "sha256":  "656c92379b2022ea5810f2f7b557b94f6eddf5b1c073e9fe9aa0ab44743d9665",
+        "bytes":  566
+    },
+    {
+        "file":  "pruebas-unitarias.txt",
+        "sha256":  "1a60bc400424230d71392c85c49aa83d21e1ce4c282bb78b50de1ffa7a2acbee",
+        "bytes":  10834
+    },
+    {
+        "file":  "redis-verificacion.txt",
+        "sha256":  "cdc789ba05f6b8e7ba5e34bc9be008c58b7f9daae70107d3965db8cff2acbf72",
+        "bytes":  171
+    }
+]

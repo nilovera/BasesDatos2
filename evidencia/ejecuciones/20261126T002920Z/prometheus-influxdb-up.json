@@ -1,0 +1,19 @@
+﻿{
+    "status":  "success",
+    "data":  {
+                 "resultType":  "vector",
+                 "result":  [
+                                {
+                                    "metric":  {
+                                                   "__name__":  "up",
+                                                   "instance":  "influxdb:8181",
+                                                   "job":  "fixture2030-influxdb"
+                                               },
+                                    "value":  [
+                                                  1795652970.444,
+                                                  "1"
+                                              ]
+                                }
+                            ]
+             }
+}

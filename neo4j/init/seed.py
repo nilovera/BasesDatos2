@@ -31,6 +31,7 @@ def apply_constraints(session):
         "CREATE CONSTRAINT fixture2030_confederacion_id IF NOT EXISTS FOR (n:Confederacion) REQUIRE n.id IS UNIQUE",
         "CREATE CONSTRAINT fixture2030_torneo_id IF NOT EXISTS FOR (n:Torneo) REQUIRE n.id IS UNIQUE",
         "CREATE CONSTRAINT fixture2030_demo_id IF NOT EXISTS FOR (n:NodoDemo) REQUIRE n.id IS UNIQUE",
+        "CREATE CONSTRAINT fixture2030_evento_id IF NOT EXISTS FOR (n:EventoOficial) REQUIRE n.id IS UNIQUE",
         "CREATE INDEX fixture2030_jugador_posicion IF NOT EXISTS FOR (n:Jugador) ON (n.posicion)",
         "CREATE INDEX fixture2030_equipo_ranking IF NOT EXISTS FOR (n:Equipo) ON (n.ranking)",
     )
@@ -119,7 +120,8 @@ def verify(session, expected_confederations):
     query = """
     MATCH (e:Equipo) WITH count(e) AS equipos
     MATCH (j:Jugador) WITH equipos, count(j) AS jugadores
-    MATCH (p:Partido) WITH equipos, jugadores, count(p) AS partidos
+    MATCH (p:Partido {alcance: 'DEMOSTRACION'})
+    WITH equipos, jugadores, count(p) AS partidos
     MATCH (c:Confederacion) WITH equipos, jugadores, partidos, count(c) AS confederaciones
     MATCH (t:Torneo) WITH equipos, jugadores, partidos, confederaciones, count(t) AS torneos
     OPTIONAL MATCH (orphan:Jugador)

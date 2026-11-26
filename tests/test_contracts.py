@@ -54,6 +54,9 @@ class ContractTests(unittest.TestCase):
                 "InicioPartidoCommand",
                 "GolCommand",
                 "SustitucionCommand",
+                "TarjetaCommand",
+                "GolAnuladoVarCommand",
+                "FinPartidoCommand",
                 "CorreccionEventoCommand",
             },
             names,
@@ -141,7 +144,23 @@ class ContractTests(unittest.TestCase):
             if parameter["name"] == "cursor"
         )
         self.assertIn("null", {item.get("type") for item in cursor["schema"]["anyOf"]})
-        self.assertEqual("0.8.0", self.openapi["info"]["version"])
+        self.assertEqual("0.9.0", self.openapi["info"]["version"])
+
+    def test_simulator_contract_exposes_controls_and_ball(self):
+        paths = self.openapi["paths"]
+        for path in (
+            "/api/v1/simulaciones",
+            "/api/v1/simulaciones/{simulacionId}",
+            "/api/v1/simulaciones/{simulacionId}/iniciar",
+            "/api/v1/simulaciones/{simulacionId}/pausar",
+            "/api/v1/simulaciones/{simulacionId}/reanudar",
+            "/api/v1/simulaciones/{simulacionId}/velocidad",
+            "/api/v1/partidos/{partidoId}/telemetria/pelota",
+        ):
+            self.assertIn(path, paths)
+        schemas = json.dumps(self.openapi["components"]["schemas"], ensure_ascii=False)
+        for event_type in ("TARJETA", "GOL_ANULADO_VAR", "FIN_PARTIDO"):
+            self.assertIn(event_type, schemas)
 
     def test_graph_contract_exposes_summary_rivals_recommendations_and_path(self):
         paths = self.openapi["paths"]
@@ -154,7 +173,7 @@ class ContractTests(unittest.TestCase):
         for path in expected:
             self.assertIn(path, paths)
             self.assertIn("get", paths[path])
-        self.assertEqual("0.8.0", self.openapi["info"]["version"])
+        self.assertEqual("0.9.0", self.openapi["info"]["version"])
 
     def test_match_read_documents_cache_result_header(self):
         response = self.openapi["paths"]["/api/v1/partidos/{partidoId}"]["get"][
@@ -171,6 +190,7 @@ class ContractTests(unittest.TestCase):
             "eventos_oficiales",
             "outbox",
             "contadores",
+            "simulaciones",
         ):
             self.assertIn(f'ensureCollection("{collection}"', self.mongo_schema)
 

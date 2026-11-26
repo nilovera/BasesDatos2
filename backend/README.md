@@ -109,9 +109,11 @@ python scripts/exportar_openapi.py
 
 ## Alcance actual
 
-Implementa `INICIO_PARTIDO`, `GOL`, `CORRECCION_EVENTO` y `SUSTITUCION`. En
-este incremento la participación se valida por pertenencia al plantel activo;
-la alineación minuto a minuto se incorporará con el simulador y la telemetría.
+Implementa `INICIO_PARTIDO`, `GOL`, `TARJETA`, `SUSTITUCION`,
+`GOL_ANULADO_VAR`, `FIN_PARTIDO` y `CORRECCION_EVENTO`. El simulador crea una
+alineación 1-4-4-2, aplica cambios puesto por puesto y sólo genera telemetría de
+los once jugadores activos. Para escrituras manuales externas todavía se valida
+plantel/equipo, no la participación histórica completa.
 
 La API corre con un worker para mantener simples las métricas de proceso. La
 prueba de carga definirá luego la estrategia de múltiples workers.

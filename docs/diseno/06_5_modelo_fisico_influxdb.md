@@ -39,6 +39,13 @@ misma posición no agrega una fila; escribir otros valores para la misma
 identidad reemplaza el punto. Un lote rechaza dos valores distintos para el
 mismo jugador y timestamp antes de enviarlos.
 
+### `posiciones_pelota`
+
+- Tags: `partido_id`, `equipo_posesion_id`.
+- Campos: `x`, `y`, `periodo`, `segundo_partido`, `evento_id`.
+- Identidad: serie + timestamp. El simulador escribe cada cinco segundos
+  lógicos y alinea los puntos de gol/VAR con el evento oficial.
+
 ### `estadisticas_equipo`
 
 | Tipo | Columnas |
@@ -116,12 +123,11 @@ La API exige acotar la ventana si supera 10.000 puntos.
 
 ## Límites declarados
 
-El catálogo actual tiene alineaciones vacías. Por eso este incremento valida
-pertenencia al plantel, pero todavía no puede demostrar que el jugador estaba
-en cancha en cada segundo. La aceptación completa se cerrará al incorporar
-alineaciones y sustituciones al simulador (T03). Tampoco existe todavía el
-consumidor de Outbox que proyectará automáticamente eventos oficiales hacia
-las estadísticas; la prueba actual carga telemetría sintética mediante la API.
+El partido base conserva alineaciones vacías. Cada simulación nueva construye
+su formación y delimita la participación mediante sustituciones; una carga
+manual externa continúa validando solamente plantel/equipo. Outbox proyecta
+eventos oficiales a Redis y Neo4j, mientras la telemetría detallada continúa
+siendo responsabilidad directa del motor de simulación.
 
 La instancia local es un solo nodo. El volumen demuestra reinicio persistente,
 no alta disponibilidad, backup probado ni recuperación ante pérdida del host.

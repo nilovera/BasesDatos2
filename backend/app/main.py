@@ -1,7 +1,7 @@
 import re
 import time
 from contextlib import asynccontextmanager
-from datetime import datetime
+from datetime import datetime, timezone
 from uuid import uuid4
 
 from fastapi import FastAPI, Header, Query, Request, Response
@@ -51,21 +51,28 @@ from .models import (
     PaginaComentarios,
     PaginaEventos,
     PaginaPosiciones,
+    PaginaPelota,
     PaginaResumenesEquipo,
     PartidoResponse,
     PosicionesBatch,
+    PelotaBatch,
     RecomendacionesJugadoresResponse,
     RivalesResponse,
     SesionCreate,
     SesionRenovacion,
     SesionResponse,
     TelemetryWriteResponse,
+    SimulacionCrear,
+    SimulacionEstado,
+    SimulacionVelocidad,
 )
 from .neo4j_client import close_neo4j_client, get_neo4j_client
 from .neo4j_service import Neo4jGraphService
 from .redis_client import RedisError, close_redis_client, get_redis_client
 from .redis_service import RedisService
 from .repository import MongoRepository
+from .simulation_worker import start_simulation_worker, stop_simulation_worker
+from .simulator_engine import build_plan, select_lineup
 
 
 PARTIDO_ID = re.compile(r"^PAR-[0-9]{4}$")
@@ -80,7 +87,9 @@ SESSION_ID = re.compile(
 
 @asynccontextmanager
 async def lifespan(_app):
+    start_simulation_worker()
     yield
+    stop_simulation_worker()
     close_neo4j_client()
     close_datamart_pool()
     close_influx_client()
@@ -91,7 +100,7 @@ async def lifespan(_app):
 
 app = FastAPI(
     title="Fixture 2030 API",
-    version="0.8.0",
+    version="0.9.0",
     description="Plataforma operacional políglota y Data Mart analítico PostgreSQL para Fixture 2030.",
     lifespan=lifespan,
 )
@@ -332,6 +341,84 @@ def post_event(
 
 
 @app.post(
+    "/api/v1/simulaciones",
+    response_model=SimulacionEstado,
+    status_code=201,
+    responses={404: {"description": "Partido base inexistente"}, 503: {"description": "MongoDB no disponible"}},
+)
+def create_simulation(command: SimulacionCrear):
+    context = repository().simulation_context(command.partido_base_id)
+    rosters = {
+        team: [player for player in context["jugadores"] if player["equipoId"] == team]
+        for team in (context["localId"], context["visitanteId"])
+    }
+    local_starters, local_bench = select_lineup(rosters[context["localId"]])
+    visitor_starters, visitor_bench = select_lineup(rosters[context["visitanteId"]])
+    plan = build_plan(
+        command.semilla,
+        context["localId"],
+        context["visitanteId"],
+        rosters,
+        datetime.now(timezone.utc),
+    )
+    lineups = {
+        "local": {
+            "titulares": [player["jugadorId"] for player in local_starters],
+            "suplentes": [player["jugadorId"] for player in local_bench],
+        },
+        "visitante": {
+            "titulares": [player["jugadorId"] for player in visitor_starters],
+            "suplentes": [player["jugadorId"] for player in visitor_bench],
+        },
+    }
+    return repository().create_simulation(
+        command.partido_base_id, command.semilla, command.velocidad, plan, lineups
+    )
+
+
+@app.get("/api/v1/simulaciones/{simulacionId}", response_model=SimulacionEstado)
+def get_simulation(simulacionId: str):
+    return repository().get_simulation(simulacionId)
+
+
+def _control_simulation(simulation_id, action, speed=None):
+    result = repository().control_simulation(simulation_id, action, speed)
+    try:
+        get_redis_client().hset(
+            f"marcador:partido:{result['partidoId']}",
+            mapping={
+                "simulacionEstado": result["estado"],
+                "velocidad": result["velocidad"],
+                "segundoPartido": result["segundoPartido"],
+                "minuto": result["minutoPartido"],
+            },
+        )
+    except RedisError:
+        pass
+    return result
+
+
+@app.post("/api/v1/simulaciones/{simulacionId}/iniciar", response_model=SimulacionEstado)
+def start_simulation(simulacionId: str):
+    return _control_simulation(simulacionId, "INICIAR")
+
+
+@app.post("/api/v1/simulaciones/{simulacionId}/pausar", response_model=SimulacionEstado)
+def pause_simulation(simulacionId: str):
+    return _control_simulation(simulacionId, "PAUSAR")
+
+
+@app.post("/api/v1/simulaciones/{simulacionId}/reanudar", response_model=SimulacionEstado)
+def resume_simulation(simulacionId: str):
+    return _control_simulation(simulacionId, "REANUDAR")
+
+
+@app.patch("/api/v1/simulaciones/{simulacionId}/velocidad", response_model=SimulacionEstado)
+def change_simulation_speed(simulacionId: str, command: SimulacionVelocidad):
+    return _control_simulation(simulacionId, "VELOCIDAD", command.velocidad)
+
+
+@app.post(
     "/api/v1/sesiones",
     response_model=SesionResponse,
     status_code=201,
@@ -539,6 +626,34 @@ def write_positions(partidoId: str, command: PosicionesBatch):
     except DomainError:
         TELEMETRY_OPERATIONS.labels("write_positions", "ERROR").inc()
         raise
+
+
+@app.post(
+    "/api/v1/partidos/{partidoId}/telemetria/pelota",
+    response_model=TelemetryWriteResponse,
+    status_code=202,
+)
+def write_ball_positions(partidoId: str, command: PelotaBatch):
+    validate_match_id(partidoId)
+    repository().validate_match_teams(
+        partidoId,
+        [sample.equipo_posesion_id for sample in command.muestras if sample.equipo_posesion_id],
+    )
+    return telemetry_service().write_ball_positions(partidoId, command.muestras)
+
+
+@app.get(
+    "/api/v1/partidos/{partidoId}/telemetria/pelota",
+    response_model=PaginaPelota,
+)
+def list_ball_positions(
+    partidoId: str,
+    desde: datetime | None = Query(None),
+    hasta: datetime | None = Query(None),
+    limite: int = Query(250, ge=1, le=1000),
+):
+    validate_match_id(partidoId)
+    return telemetry_service().list_ball_positions(partidoId, desde, hasta, limite)
 
 
 @app.get(

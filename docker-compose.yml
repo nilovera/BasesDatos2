@@ -213,6 +213,7 @@ services:
         ensure_database fixture2030-detalle 7d
         ensure_database fixture2030-historico 365d
         ensure_table fixture2030-detalle posiciones_jugador "partido_id,equipo_id,jugador_id" "x:float64,y:float64,periodo:int64,segundo_partido:int64"
+        ensure_table fixture2030-detalle posiciones_pelota "partido_id,equipo_posesion_id" "x:float64,y:float64,periodo:int64,segundo_partido:int64,evento_id:utf8"
         ensure_table fixture2030-detalle estadisticas_equipo "partido_id,equipo_id" "posesion_pct:float64,pases_intervalo:int64,tiros_acumulados:int64,goles_acumulados:int64,periodo:int64,segundo_partido:int64"
         ensure_table fixture2030-historico resumen_equipo_15m "partido_id,equipo_id" "posesion_promedio:float64,pases_total:int64,tiros_finales:int64,goles_finales:int64,muestras:int64"
         echo "InfluxDB inicializado: detalle=7d, historico=365d."
@@ -390,6 +391,13 @@ services:
       OUTBOX_MAX_ATTEMPTS: "8"
       OUTBOX_RETENTION_DAYS: "30"
       OUTBOX_METRICS_PORT: "9101"
+      NEO4J_URI: bolt://neo4j:7687
+      NEO4J_USER: neo4j
+      NEO4J_PASSWORD_FILE: /run/secrets/neo4j-password
+      NEO4J_DATABASE: neo4j
+      NEO4J_TIMEOUT_SECONDS: "3.0"
+    secrets:
+      - neo4j-password
     networks:
       - fixture2030
     depends_on:
@@ -397,6 +405,8 @@ services:
         condition: service_completed_successfully
       redis:
         condition: service_healthy
+      neo4j-init:
+        condition: service_completed_successfully
     healthcheck:
       test:
         - CMD-SHELL

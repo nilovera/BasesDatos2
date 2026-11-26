@@ -3,7 +3,7 @@
   "info": {
     "title": "Fixture 2030 API",
     "description": "Plataforma operacional políglota y Data Mart analítico PostgreSQL para Fixture 2030.",
-    "version": "0.8.0"
+    "version": "0.9.0"
   },
   "paths": {
     "/health": {
@@ -187,6 +187,15 @@
                     "$ref": "#/components/schemas/SustitucionCommand"
                   },
                   {
+                    "$ref": "#/components/schemas/TarjetaCommand"
+                  },
+                  {
+                    "$ref": "#/components/schemas/GolAnuladoVarCommand"
+                  },
+                  {
+                    "$ref": "#/components/schemas/FinPartidoCommand"
+                  },
+                  {
                     "$ref": "#/components/schemas/CorreccionEventoCommand"
                   }
                 ],
@@ -196,6 +205,9 @@
                     "INICIO_PARTIDO": "#/components/schemas/InicioPartidoCommand",
                     "GOL": "#/components/schemas/GolCommand",
                     "SUSTITUCION": "#/components/schemas/SustitucionCommand",
+                    "TARJETA": "#/components/schemas/TarjetaCommand",
+                    "GOL_ANULADO_VAR": "#/components/schemas/GolAnuladoVarCommand",
+                    "FIN_PARTIDO": "#/components/schemas/FinPartidoCommand",
                     "CORRECCION_EVENTO": "#/components/schemas/CorreccionEventoCommand"
                   }
                 },
@@ -247,6 +259,255 @@
           },
           "503": {
             "description": "MongoDB no disponible"
+          }
+        }
+      }
+    },
+    "/api/v1/simulaciones": {
+      "post": {
+        "summary": "Create Simulation",
+        "operationId": "create_simulation_api_v1_simulaciones_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SimulacionCrear"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SimulacionEstado"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Partido base inexistente"
+          },
+          "503": {
+            "description": "MongoDB no disponible"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/simulaciones/{simulacionId}": {
+      "get": {
+        "summary": "Get Simulation",
+        "operationId": "get_simulation_api_v1_simulaciones__simulacionId__get",
+        "parameters": [
+          {
+            "name": "simulacionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Simulacionid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SimulacionEstado"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/simulaciones/{simulacionId}/iniciar": {
+      "post": {
+        "summary": "Start Simulation",
+        "operationId": "start_simulation_api_v1_simulaciones__simulacionId__iniciar_post",
+        "parameters": [
+          {
+            "name": "simulacionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Simulacionid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SimulacionEstado"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/simulaciones/{simulacionId}/pausar": {
+      "post": {
+        "summary": "Pause Simulation",
+        "operationId": "pause_simulation_api_v1_simulaciones__simulacionId__pausar_post",
+        "parameters": [
+          {
+            "name": "simulacionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Simulacionid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SimulacionEstado"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/simulaciones/{simulacionId}/reanudar": {
+      "post": {
+        "summary": "Resume Simulation",
+        "operationId": "resume_simulation_api_v1_simulaciones__simulacionId__reanudar_post",
+        "parameters": [
+          {
+            "name": "simulacionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Simulacionid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SimulacionEstado"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/simulaciones/{simulacionId}/velocidad": {
+      "patch": {
+        "summary": "Change Simulation Speed",
+        "operationId": "change_simulation_speed_api_v1_simulaciones__simulacionId__velocidad_patch",
+        "parameters": [
+          {
+            "name": "simulacionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Simulacionid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SimulacionVelocidad"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SimulacionEstado"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
           }
         }
       }
@@ -909,6 +1170,138 @@
           },
           "503": {
             "description": "InfluxDB no disponible"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/partidos/{partidoId}/telemetria/pelota": {
+      "post": {
+        "summary": "Write Ball Positions",
+        "operationId": "write_ball_positions_api_v1_partidos__partidoId__telemetria_pelota_post",
+        "parameters": [
+          {
+            "name": "partidoId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Partidoid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PelotaBatch"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TelemetryWriteResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "List Ball Positions",
+        "operationId": "list_ball_positions_api_v1_partidos__partidoId__telemetria_pelota_get",
+        "parameters": [
+          {
+            "name": "partidoId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Partidoid"
+            }
+          },
+          {
+            "name": "desde",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Desde"
+            }
+          },
+          {
+            "name": "hasta",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Hasta"
+            }
+          },
+          {
+            "name": "limite",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 1000,
+              "minimum": 1,
+              "default": 250,
+              "title": "Limite"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginaPelota"
+                }
+              }
+            }
           },
           "422": {
             "description": "Validation Error",
@@ -2001,6 +2394,11 @@
             "type": "string",
             "format": "date-time",
             "title": "Ocurridoen"
+          },
+          "datos": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Datos"
           }
         },
         "additionalProperties": false,
@@ -2009,9 +2407,44 @@
           "eventoId",
           "secuencia",
           "tipo",
-          "ocurridoEn"
+          "ocurridoEn",
+          "datos"
         ],
         "title": "EventoResumen"
+      },
+      "FinPartidoCommand": {
+        "properties": {
+          "ocurridoEn": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Ocurridoen"
+          },
+          "tipo": {
+            "type": "string",
+            "const": "FIN_PARTIDO",
+            "title": "Tipo"
+          },
+          "periodo": {
+            "type": "integer",
+            "const": 2,
+            "title": "Periodo",
+            "default": 2
+          },
+          "minuto": {
+            "type": "integer",
+            "maximum": 150.0,
+            "minimum": 90.0,
+            "title": "Minuto"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "ocurridoEn",
+          "tipo",
+          "minuto"
+        ],
+        "title": "FinPartidoCommand"
       },
       "GoalByTeam": {
         "properties": {
@@ -2064,6 +2497,77 @@
         ],
         "title": "GoalsByTeamResponse"
       },
+      "GolAnuladoVarCommand": {
+        "properties": {
+          "ocurridoEn": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Ocurridoen"
+          },
+          "tipo": {
+            "type": "string",
+            "const": "GOL_ANULADO_VAR",
+            "title": "Tipo"
+          },
+          "periodo": {
+            "type": "integer",
+            "maximum": 5.0,
+            "minimum": 1.0,
+            "title": "Periodo"
+          },
+          "minuto": {
+            "type": "integer",
+            "maximum": 150.0,
+            "minimum": 0.0,
+            "title": "Minuto"
+          },
+          "equipoId": {
+            "type": "string",
+            "pattern": "^EQ-[0-9]{2}$",
+            "title": "Equipoid"
+          },
+          "jugadorId": {
+            "type": "string",
+            "pattern": "^JUG-[0-9]{4}$",
+            "title": "Jugadorid"
+          },
+          "motivo": {
+            "type": "string",
+            "enum": [
+              "OFFSIDE",
+              "FALTA_PREVIA",
+              "MANO"
+            ],
+            "title": "Motivo"
+          },
+          "x": {
+            "type": "number",
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "title": "X"
+          },
+          "y": {
+            "type": "number",
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "title": "Y"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "ocurridoEn",
+          "tipo",
+          "periodo",
+          "minuto",
+          "equipoId",
+          "jugadorId",
+          "motivo",
+          "x",
+          "y"
+        ],
+        "title": "GolAnuladoVarCommand"
+      },
       "GolCommand": {
         "properties": {
           "tipo": {
@@ -2092,6 +2596,44 @@
             "type": "string",
             "pattern": "^JUG-[0-9]{4}$",
             "title": "Jugadorid"
+          },
+          "asistenteJugadorId": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^JUG-[0-9]{4}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Asistentejugadorid"
+          },
+          "x": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 100.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "X"
+          },
+          "y": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 100.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Y"
           },
           "ocurridoEn": {
             "type": "string",
@@ -2139,6 +2681,44 @@
             "type": "string",
             "pattern": "^JUG-[0-9]{4}$",
             "title": "Jugadorid"
+          },
+          "asistenteJugadorId": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^JUG-[0-9]{4}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Asistentejugadorid"
+          },
+          "x": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 100.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "X"
+          },
+          "y": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 100.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Y"
           }
         },
         "additionalProperties": false,
@@ -2514,6 +3094,23 @@
         ],
         "title": "PaginaEventos"
       },
+      "PaginaPelota": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/PelotaResponse"
+            },
+            "type": "array",
+            "title": "Items"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "items"
+        ],
+        "title": "PaginaPelota"
+      },
       "PaginaPosiciones": {
         "properties": {
           "items": {
@@ -2604,6 +3201,164 @@
           "version"
         ],
         "title": "PartidoResponse"
+      },
+      "PelotaBatch": {
+        "properties": {
+          "muestras": {
+            "items": {
+              "$ref": "#/components/schemas/PelotaMuestra"
+            },
+            "type": "array",
+            "maxItems": 250,
+            "minItems": 1,
+            "title": "Muestras"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "muestras"
+        ],
+        "title": "PelotaBatch"
+      },
+      "PelotaMuestra": {
+        "properties": {
+          "capturadoEn": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Capturadoen"
+          },
+          "x": {
+            "type": "number",
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "title": "X"
+          },
+          "y": {
+            "type": "number",
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "title": "Y"
+          },
+          "periodo": {
+            "type": "integer",
+            "maximum": 5.0,
+            "minimum": 1.0,
+            "title": "Periodo"
+          },
+          "segundoPartido": {
+            "type": "integer",
+            "maximum": 10800.0,
+            "minimum": 0.0,
+            "title": "Segundopartido"
+          },
+          "equipoPosesionId": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^EQ-[0-9]{2}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Equipoposesionid"
+          },
+          "eventoId": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 64
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Eventoid"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "capturadoEn",
+          "x",
+          "y",
+          "periodo",
+          "segundoPartido"
+        ],
+        "title": "PelotaMuestra"
+      },
+      "PelotaResponse": {
+        "properties": {
+          "capturadoEn": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Capturadoen"
+          },
+          "x": {
+            "type": "number",
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "title": "X"
+          },
+          "y": {
+            "type": "number",
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "title": "Y"
+          },
+          "periodo": {
+            "type": "integer",
+            "maximum": 5.0,
+            "minimum": 1.0,
+            "title": "Periodo"
+          },
+          "segundoPartido": {
+            "type": "integer",
+            "maximum": 10800.0,
+            "minimum": 0.0,
+            "title": "Segundopartido"
+          },
+          "equipoPosesionId": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^EQ-[0-9]{2}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Equipoposesionid"
+          },
+          "eventoId": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 64
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Eventoid"
+          },
+          "partidoId": {
+            "type": "string",
+            "title": "Partidoid"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "capturadoEn",
+          "x",
+          "y",
+          "periodo",
+          "segundoPartido",
+          "partidoId"
+        ],
+        "title": "PelotaResponse"
       },
       "PosicionMuestra": {
         "properties": {
@@ -2970,6 +3725,128 @@
         ],
         "title": "SesionResponse"
       },
+      "SimulacionCrear": {
+        "properties": {
+          "partidoBaseId": {
+            "type": "string",
+            "pattern": "^PAR-[0-9]{4}$",
+            "title": "Partidobaseid",
+            "default": "PAR-0001"
+          },
+          "semilla": {
+            "type": "integer",
+            "maximum": 2147483647.0,
+            "minimum": 0.0,
+            "title": "Semilla",
+            "default": 2030
+          },
+          "velocidad": {
+            "type": "number",
+            "maximum": 120.0,
+            "minimum": 1.0,
+            "title": "Velocidad",
+            "description": "Segundos de partido simulados por cada segundo real",
+            "default": 30.0
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "SimulacionCrear"
+      },
+      "SimulacionEstado": {
+        "properties": {
+          "simulacionId": {
+            "type": "string",
+            "title": "Simulacionid"
+          },
+          "partidoId": {
+            "type": "string",
+            "title": "Partidoid"
+          },
+          "partidoBaseId": {
+            "type": "string",
+            "title": "Partidobaseid"
+          },
+          "semilla": {
+            "type": "integer",
+            "title": "Semilla"
+          },
+          "velocidad": {
+            "type": "number",
+            "title": "Velocidad"
+          },
+          "estado": {
+            "type": "string",
+            "enum": [
+              "LISTA",
+              "EJECUTANDO",
+              "PAUSADA",
+              "FINALIZADA",
+              "ERROR"
+            ],
+            "title": "Estado"
+          },
+          "segundoPartido": {
+            "type": "integer",
+            "maximum": 5400.0,
+            "minimum": 0.0,
+            "title": "Segundopartido"
+          },
+          "minutoPartido": {
+            "type": "number",
+            "maximum": 90.0,
+            "minimum": 0.0,
+            "title": "Minutopartido"
+          },
+          "progresoPct": {
+            "type": "number",
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "title": "Progresopct"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "simulacionId",
+          "partidoId",
+          "partidoBaseId",
+          "semilla",
+          "velocidad",
+          "estado",
+          "segundoPartido",
+          "minutoPartido",
+          "progresoPct"
+        ],
+        "title": "SimulacionEstado"
+      },
+      "SimulacionVelocidad": {
+        "properties": {
+          "velocidad": {
+            "type": "number",
+            "maximum": 120.0,
+            "minimum": 1.0,
+            "title": "Velocidad"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "velocidad"
+        ],
+        "title": "SimulacionVelocidad"
+      },
       "SustitucionCommand": {
         "properties": {
           "tipo": {
@@ -3069,6 +3946,69 @@
           "entraJugadorId"
         ],
         "title": "SustitucionFields"
+      },
+      "TarjetaCommand": {
+        "properties": {
+          "ocurridoEn": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Ocurridoen"
+          },
+          "tipo": {
+            "type": "string",
+            "const": "TARJETA",
+            "title": "Tipo"
+          },
+          "periodo": {
+            "type": "integer",
+            "maximum": 5.0,
+            "minimum": 1.0,
+            "title": "Periodo"
+          },
+          "minuto": {
+            "type": "integer",
+            "maximum": 150.0,
+            "minimum": 0.0,
+            "title": "Minuto"
+          },
+          "equipoId": {
+            "type": "string",
+            "pattern": "^EQ-[0-9]{2}$",
+            "title": "Equipoid"
+          },
+          "jugadorId": {
+            "type": "string",
+            "pattern": "^JUG-[0-9]{4}$",
+            "title": "Jugadorid"
+          },
+          "color": {
+            "type": "string",
+            "enum": [
+              "AMARILLA",
+              "ROJA"
+            ],
+            "title": "Color"
+          },
+          "motivo": {
+            "type": "string",
+            "maxLength": 160,
+            "minLength": 3,
+            "title": "Motivo"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "ocurridoEn",
+          "tipo",
+          "periodo",
+          "minuto",
+          "equipoId",
+          "jugadorId",
+          "color",
+          "motivo"
+        ],
+        "title": "TarjetaCommand"
       },
       "TelemetryWriteResponse": {
         "properties": {

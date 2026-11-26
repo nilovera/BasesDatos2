@@ -124,3 +124,60 @@ class Neo4jGraphService:
             "destinoId": destination_id,
             **result,
         }
+
+    def project_official_event(self, message):
+        """Proyección idempotente: todos los MERGE se identifican por eventoId."""
+        payload = message["payload"]["evento"]
+        result = message["payload"]["resultado"]
+        parameters = {
+            "event_id": message["eventoId"],
+            "match_id": message["partidoId"],
+            "type": message["tipo"],
+            "sequence": int(message["secuencia"]),
+            "minute": payload.get("minuto"),
+            "player_id": payload.get("jugadorId"),
+            "assistant_id": payload.get("asistenteJugadorId"),
+            "leaving_id": payload.get("saleJugadorId"),
+            "entering_id": payload.get("entraJugadorId"),
+            "card": payload.get("color"),
+            "status": result["estadoPartido"],
+            "local_id": message["payload"].get("partido", {}).get("localId"),
+            "visitor_id": message["payload"].get("partido", {}).get("visitanteId"),
+        }
+        self._one(
+            """
+            MERGE (p:Partido {id: $match_id})
+            ON CREATE SET p.alcance = 'OPERACIONAL'
+            WITH p
+            OPTIONAL MATCH (local:Equipo)
+            WHERE $local_id IS NOT NULL AND local.id = $local_id
+            OPTIONAL MATCH (visitante:Equipo)
+            WHERE $visitor_id IS NOT NULL AND visitante.id = $visitor_id
+            FOREACH (_ IN CASE WHEN local IS NULL THEN [] ELSE [1] END | MERGE (local)-[:LOCAL_EN]->(p))
+            FOREACH (_ IN CASE WHEN visitante IS NULL THEN [] ELSE [1] END | MERGE (visitante)-[:VISITANTE_EN]->(p))
+            WITH p
+            MERGE (ev:EventoOficial {id: $event_id})
+            SET ev.tipo = $type, ev.secuencia = $sequence, ev.minuto = $minute
+            MERGE (ev)-[:OCURRIO_EN]->(p)
+            SET p.estado = $status
+            WITH p, ev
+            OPTIONAL MATCH (autor:Jugador {id: $player_id})
+            FOREACH (_ IN CASE WHEN $type = 'GOL' AND autor IS NOT NULL THEN [1] ELSE [] END |
+              MERGE (autor)-[:ANOTO {eventoId: $event_id}]->(p))
+            FOREACH (_ IN CASE WHEN $type = 'GOL_ANULADO_VAR' AND autor IS NOT NULL THEN [1] ELSE [] END |
+              MERGE (autor)-[:TUVO_GOL_ANULADO {eventoId: $event_id}]->(p))
+            FOREACH (_ IN CASE WHEN $type = 'TARJETA' AND autor IS NOT NULL THEN [1] ELSE [] END |
+              MERGE (autor)-[:RECIBIO_TARJETA {eventoId: $event_id, color: $card}]->(p))
+            WITH p, ev
+            OPTIONAL MATCH (asistente:Jugador {id: $assistant_id})
+            FOREACH (_ IN CASE WHEN asistente IS NULL THEN [] ELSE [1] END |
+              MERGE (asistente)-[:ASISTIO {eventoId: $event_id}]->(p))
+            WITH p, ev
+            OPTIONAL MATCH (sale:Jugador {id: $leaving_id})
+            OPTIONAL MATCH (entra:Jugador {id: $entering_id})
+            FOREACH (_ IN CASE WHEN sale IS NOT NULL AND entra IS NOT NULL THEN [1] ELSE [] END |
+              MERGE (entra)-[:ENTRO_POR {eventoId: $event_id}]->(sale))
+            RETURN ev.id AS eventoId
+            """,
+            parameters,
+        )

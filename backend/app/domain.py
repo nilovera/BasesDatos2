@@ -36,6 +36,19 @@ def _validate_goal(match, event, player_teams):
             "El jugador no pertenece al equipo informado",
             {"jugadorId": player_id, "equipoId": team_id},
         )
+    assistant = event.get("asistenteJugadorId")
+    if assistant:
+        if assistant == player_id:
+            raise DomainError(422, "INVALID_ASSIST", "El goleador no puede asistirse a si mismo")
+        if player_teams.get(assistant) != team_id:
+            raise DomainError(422, "PLAYER_NOT_IN_TEAM", "El asistente no pertenece al equipo informado")
+
+
+def _validate_player_event(match, event, player_teams):
+    if event["equipoId"] not in _match_teams(match):
+        raise DomainError(422, "TEAM_NOT_IN_MATCH", "El equipo no participa del partido")
+    if player_teams.get(event["jugadorId"]) != event["equipoId"]:
+        raise DomainError(422, "PLAYER_NOT_IN_TEAM", "El jugador no pertenece al equipo informado")
 
 
 def _validate_substitution(match, event, player_teams):
@@ -92,6 +105,17 @@ def apply_event(match, event, player_teams=None, original_event=None):
         if match["estado"] != "EN_CURSO":
             raise DomainError(409, "INVALID_MATCH_STATE", "El partido no está en curso")
         _validate_substitution(match, event, player_teams)
+
+    elif event_type in {"TARJETA", "GOL_ANULADO_VAR"}:
+        if match["estado"] != "EN_CURSO":
+            raise DomainError(409, "INVALID_MATCH_STATE", "El partido no está en curso")
+        _validate_player_event(match, event, player_teams)
+
+    elif event_type == "FIN_PARTIDO":
+        if match["estado"] != "EN_CURSO":
+            raise DomainError(409, "INVALID_MATCH_STATE", "El partido no está en curso")
+        updated["estado"] = "FINALIZADO"
+        updated["finReal"] = event["ocurridoEn"]
 
     elif event_type == "CORRECCION_EVENTO":
         if original_event is None:

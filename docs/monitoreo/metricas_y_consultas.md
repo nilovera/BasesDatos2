@@ -4,6 +4,13 @@ Prometheus recolecta cada 5 segundos. Las ventanas siguientes son decisiones
 de laboratorio y deben conservarse junto con la fecha, commit y escenario de
 cada ejecucion.
 
+## Simulador de partido
+
+- `fixture2030_simulation_running`: `1` mientras avanza el reloj lógico.
+- `fixture2030_simulation_second`: segundo alcanzado entre `0` y `5400`.
+- `fixture2030_simulation_speed`: multiplicador activo (`30` en la demo).
+- `increase(fixture2030_simulation_errors_total[5m])`: fallas recuperables del motor.
+
 ## Disponibilidad de la API
 
 ```promql

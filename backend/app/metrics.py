@@ -85,3 +85,19 @@ DATAMART_OPERATIONS = Counter(
     "Operaciones ETL y consultas del Data Mart analitico",
     ["operation", "result"],
 )
+SIMULATION_RUNNING = Gauge(
+    "fixture2030_simulation_running",
+    "Indica si existe un partido simulado en ejecucion",
+)
+SIMULATION_SECOND = Gauge(
+    "fixture2030_simulation_second",
+    "Segundo logico alcanzado por el simulador de partido",
+)
+SIMULATION_SPEED = Gauge(
+    "fixture2030_simulation_speed",
+    "Multiplicador actual del reloj del partido",
+)
+SIMULATION_ERRORS = Counter(
+    "fixture2030_simulation_errors",
+    "Errores del motor de simulacion",
+)

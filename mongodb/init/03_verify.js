@@ -15,7 +15,11 @@ if (hello.setName !== "rs0" || hello.isWritablePrimary !== true) {
 
 assertEqual(db.equipos.countDocuments({}), 64, "cantidad de equipos");
 assertEqual(db.jugadores.countDocuments({}), 1024, "cantidad de jugadores");
-assertEqual(db.partidos.countDocuments({}), 1, "cantidad de partidos de demostración");
+assertEqual(
+  db.partidos.countDocuments({ _id: "PAR-0001" }),
+  1,
+  "partido de demostración PAR-0001"
+);
 
 const eventCount = db.eventos_oficiales.countDocuments({});
 const outboxCount = db.outbox.countDocuments({});
@@ -78,7 +82,7 @@ printjson({
   primary: hello.primary,
   equipos: 64,
   jugadores: 1024,
-  partidos: 1,
+  partidos: db.partidos.countDocuments({}),
   eventos: eventCount,
   outbox: outboxCount,
   jugadoresHuerfanos: 0

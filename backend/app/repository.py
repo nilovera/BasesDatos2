@@ -72,6 +72,157 @@ class MongoRepository:
             raise DomainError(404, "MATCH_NOT_FOUND", "El partido no existe")
         return _match_response(document)
 
+    def simulation_context(self, base_match_id):
+        """Devuelve equipos y planteles activos para preparar una simulación."""
+        try:
+            match = self.db.partidos.find_one({"_id": base_match_id})
+            if match is None:
+                raise DomainError(404, "MATCH_NOT_FOUND", "El partido base no existe")
+            team_ids = [match["equipos"]["localId"], match["equipos"]["visitanteId"]]
+            players = list(
+                self.db.jugadores.find(
+                    {"equipoId": {"$in": team_ids}, "activo": True},
+                    {"_id": 0, "jugadorId": 1, "equipoId": 1, "nombre": 1, "posicion": 1},
+                ).sort("jugadorId", ASCENDING)
+            )
+        except DomainError:
+            raise
+        except PyMongoError as error:
+            raise DomainError(503, "OFFICIAL_STORE_UNAVAILABLE", "MongoDB no respondió") from error
+        return {
+            "basePartidoId": base_match_id,
+            "localId": team_ids[0],
+            "visitanteId": team_ids[1],
+            "jugadores": players,
+        }
+
+    def create_simulation(self, base_match_id, seed, speed, plan, lineups):
+        """Crea un agregado nuevo; nunca reinicia ni borra un partido oficial."""
+        now = datetime.now(timezone.utc)
+        simulation_id = f"SIM-{uuid4()}"
+
+        def transaction(session):
+            counter = self.db.contadores.find_one_and_update(
+                {"_id": "partidos_simulados"},
+                {"$inc": {"valor": 1}},
+                upsert=True,
+                return_document=ReturnDocument.AFTER,
+                session=session,
+            )
+            number = 999 + int(counter["valor"])
+            if number > 9999:
+                raise DomainError(503, "SIMULATION_ID_EXHAUSTED", "Se agotó el rango de partidos simulados")
+            match_id = f"PAR-{number:04d}"
+            base = self.db.partidos.find_one({"_id": base_match_id}, session=session)
+            if base is None:
+                raise DomainError(404, "MATCH_NOT_FOUND", "El partido base no existe")
+            self.db.partidos.insert_one({
+                "_id": match_id,
+                "partidoId": match_id,
+                "equipos": dict(base["equipos"]),
+                "inicioProgramado": now,
+                "inicioReal": None,
+                "finReal": None,
+                "estado": "PROGRAMADO",
+                "marcador": {"local": 0, "visitante": 0},
+                "alineaciones": lineups,
+                "ultimaSecuencia": Int64(0),
+                "version": Int64(1),
+                "creadoEn": now,
+                "actualizadoEn": now,
+            }, session=session)
+            self.db.simulaciones.insert_one({
+                "_id": simulation_id,
+                "simulacionId": simulation_id,
+                "partidoId": match_id,
+                "partidoBaseId": base_match_id,
+                "semilla": int(seed),
+                "velocidad": float(speed),
+                "estado": "LISTA",
+                "segundoPartido": 0.0,
+                "ultimoSegundoTelemetria": 0,
+                "siguienteEvento": 0,
+                "siguienteComentario": 20,
+                "plan": plan,
+                "error": None,
+                "ultimoTickEn": None,
+                "creadoEn": now,
+                "actualizadoEn": now,
+            }, session=session)
+
+        try:
+            with self.client.start_session() as session:
+                session.with_transaction(
+                    transaction,
+                    read_concern=ReadConcern("snapshot"),
+                    write_concern=WriteConcern("majority", wtimeout=5000),
+                    read_preference=ReadPreference.PRIMARY,
+                )
+        except DomainError:
+            raise
+        except PyMongoError as error:
+            raise DomainError(503, "OFFICIAL_STORE_UNAVAILABLE", "MongoDB no pudo crear la simulación") from error
+        return self.get_simulation(simulation_id)
+
+    @staticmethod
+    def _simulation_response(document):
+        second = min(5400.0, max(0.0, float(document["segundoPartido"])))
+        return {
+            "simulacionId": document["simulacionId"],
+            "partidoId": document["partidoId"],
+            "partidoBaseId": document["partidoBaseId"],
+            "semilla": int(document["semilla"]),
+            "velocidad": float(document["velocidad"]),
+            "estado": document["estado"],
+            "segundoPartido": int(second),
+            "minutoPartido": round(second / 60.0, 2),
+            "progresoPct": round(second / 54.0, 2),
+            "error": document.get("error"),
+        }
+
+    def get_simulation(self, simulation_id):
+        try:
+            document = self.db.simulaciones.find_one({"_id": simulation_id})
+        except PyMongoError as error:
+            raise DomainError(503, "OFFICIAL_STORE_UNAVAILABLE", "MongoDB no respondió") from error
+        if document is None:
+            raise DomainError(404, "SIMULATION_NOT_FOUND", "La simulación no existe")
+        return self._simulation_response(document)
+
+    def control_simulation(self, simulation_id, action, speed=None):
+        now = datetime.now(timezone.utc)
+        allowed = {
+            "INICIAR": ({"LISTA", "PAUSADA"}, "EJECUTANDO"),
+            "PAUSAR": ({"EJECUTANDO"}, "PAUSADA"),
+            "REANUDAR": ({"PAUSADA", "ERROR"}, "EJECUTANDO"),
+        }
+        try:
+            current = self.db.simulaciones.find_one({"_id": simulation_id})
+            if current is None:
+                raise DomainError(404, "SIMULATION_NOT_FOUND", "La simulación no existe")
+            changes = {"actualizadoEn": now}
+            if action == "VELOCIDAD":
+                changes["velocidad"] = float(speed)
+                expected = current["estado"]
+            else:
+                accepted, next_state = allowed[action]
+                if current["estado"] not in accepted:
+                    raise DomainError(409, "INVALID_SIMULATION_STATE", "La acción no es válida para el estado actual")
+                expected = current["estado"]
+                changes.update({"estado": next_state, "ultimoTickEn": now if next_state == "EJECUTANDO" else None})
+            result = self.db.simulaciones.find_one_and_update(
+                {"_id": simulation_id, "estado": expected},
+                {"$set": changes},
+                return_document=ReturnDocument.AFTER,
+            )
+            if result is None:
+                raise DomainError(409, "SIMULATION_CONFLICT", "La simulación cambió concurrentemente")
+            return self._simulation_response(result)
+        except DomainError:
+            raise
+        except PyMongoError as error:
+            raise DomainError(503, "OFFICIAL_STORE_UNAVAILABLE", "MongoDB no pudo controlar la simulación") from error
+
     def validate_match_teams(self, partido_id, team_ids):
         try:
             match = self.db.partidos.find_one(
@@ -146,7 +297,7 @@ class MongoRepository:
                         "partidoId": partido_id,
                         "secuencia": {"$gt": desde_secuencia},
                     },
-                    {"eventoId": 1, "secuencia": 1, "tipo": 1, "ocurridoEn": 1},
+                    {"eventoId": 1, "secuencia": 1, "tipo": 1, "ocurridoEn": 1, "datos": 1},
                 )
                 .sort([("secuencia", ASCENDING)])
                 .limit(limite + 1)
@@ -167,6 +318,7 @@ class MongoRepository:
                     "secuencia": int(item["secuencia"]),
                     "tipo": item["tipo"],
                     "ocurridoEn": _iso(item["ocurridoEn"]),
+                    "datos": item.get("datos", {}),
                 }
                 for item in page
             ],
@@ -177,11 +329,11 @@ class MongoRepository:
 
     def _player_teams(self, payload, session):
         player_ids = set()
-        for key in ("jugadorId", "saleJugadorId", "entraJugadorId"):
+        for key in ("jugadorId", "asistenteJugadorId", "saleJugadorId", "entraJugadorId"):
             if payload.get(key):
                 player_ids.add(payload[key])
         replacement = payload.get("reemplazo") or {}
-        for key in ("jugadorId", "saleJugadorId", "entraJugadorId"):
+        for key in ("jugadorId", "asistenteJugadorId", "saleJugadorId", "entraJugadorId"):
             if replacement.get(key):
                 player_ids.add(replacement[key])
         if not player_ids:
@@ -283,6 +435,8 @@ class MongoRepository:
             }
             if "inicioReal" in updated:
                 match_fields["inicioReal"] = occurred_at
+            if "finReal" in updated:
+                match_fields["finReal"] = occurred_at
 
             update_result = self.db.partidos.update_one(
                 {"_id": partido_id, "version": match["version"]},
@@ -342,7 +496,14 @@ class MongoRepository:
                     "partidoId": partido_id,
                     "tipo": payload["tipo"],
                     "secuencia": Int64(sequence),
-                    "payload": {"evento": payload, "resultado": response},
+                    "payload": {
+                        "evento": payload,
+                        "resultado": response,
+                        "partido": {
+                            "localId": match["equipos"]["localId"],
+                            "visitanteId": match["equipos"]["visitanteId"],
+                        },
+                    },
                     "versionContrato": 1,
                     "estado": "PENDIENTE",
                     "intentos": 0,

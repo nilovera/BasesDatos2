@@ -122,6 +122,47 @@ class InfluxTelemetryService:
             "base": self.detail_database,
         }
 
+    def write_ball_positions(self, match_id, samples):
+        seen = set()
+        lines = []
+        for sample in samples:
+            identity = _iso(sample.capturado_en)
+            if identity in seen:
+                raise DomainError(422, "DUPLICATE_TELEMETRY_SAMPLE", "El lote contiene dos posiciones de pelota para el mismo timestamp")
+            seen.add(identity)
+            possession = sample.equipo_posesion_id or "NINGUNO"
+            event_id = sample.evento_id or "NINGUNO"
+            lines.append(
+                "posiciones_pelota,"
+                f"partido_id={_tag(match_id)},equipo_posesion_id={_tag(possession)} "
+                f"x={_number(sample.x)},y={_number(sample.y)},"
+                f"periodo={sample.periodo}i,segundo_partido={sample.segundo_partido}i,"
+                f"evento_id=\"{event_id}\" "
+                f"{_timestamp_ns(sample.capturado_en)}"
+            )
+        self.client.write_lines(self.detail_database, lines)
+        return {"partidoId": match_id, "muestrasAceptadas": len(lines), "repetible": True, "base": self.detail_database}
+
+    def list_ball_positions(self, match_id, from_time=None, to_time=None, limit=250):
+        filters = [f"partido_id = '{match_id}'"]
+        if from_time:
+            filters.append(f"time >= '{_iso(from_time)}'")
+        if to_time:
+            filters.append(f"time < '{_iso(to_time)}'")
+        rows = self.client.query(
+            self.detail_database,
+            "SELECT time, x, y, periodo, segundo_partido, equipo_posesion_id, evento_id "
+            "FROM posiciones_pelota WHERE " + " AND ".join(filters)
+            + f" ORDER BY time DESC LIMIT {limit}",
+        )
+        return {"items": [{
+            "partidoId": match_id, "x": float(row["x"]), "y": float(row["y"]),
+            "periodo": int(row["periodo"]), "segundoPartido": int(row["segundo_partido"]),
+            "equipoPosesionId": None if row.get("equipo_posesion_id") == "NINGUNO" else row.get("equipo_posesion_id"),
+            "eventoId": None if row.get("evento_id") == "NINGUNO" else row.get("evento_id"),
+            "capturadoEn": _iso(_parse_time(row["time"])),
+        } for row in rows]}
+
     def write_team_statistics(self, match_id, samples):
         seen = set()
         lines = []

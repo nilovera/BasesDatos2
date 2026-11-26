@@ -21,6 +21,9 @@ usuarios; iniciar y cerrar sesión no pierde el perfil durable.
   participando en el minuto del evento.
 - Proyectar la asistencia a estadísticas y relaciones sin duplicarla al reintentar.
 
+**Estado:** contrato, validación básica y proyección Neo4j implementados. Queda
+aplicar la validación histórica de participación a escrituras manuales externas.
+
 **Aceptación:** un gol con asistencia válida converge en MongoDB, Redis,
 InfluxDB y Neo4j; una asistencia inválida se rechaza sin escritura parcial.
 
@@ -30,8 +33,8 @@ InfluxDB y Neo4j; una asistencia inválida se rechaza sin escritura parcial.
 - Generar muestras solamente durante la participación del jugador.
 - Persistencia en InfluxDB con timestamp y etiquetas controladas: implementada.
 - Cursor estable para timestamps compartidos y mapa de calor: implementados.
-- Falta unir alineaciones y sustituciones para rechazar muestras fuera de la
-  participación real; el catálogo actual solo permite validar plantel/equipo.
+- El simulador une alineaciones y sustituciones y genera muestras únicamente
+  para los once activos; la API manual conserva validación de plantel/equipo.
 
 **Aceptación:** sustituciones delimitan las muestras del titular y suplente; el
 mapa de calor se puede reproducir desde los puntos almacenados.
@@ -41,7 +44,14 @@ mapa de calor se puede reproducir desde los puntos almacenados.
 - Usar `DATA_SEED=2030` para el dataset base.
 - Separar la semilla de datos de la semilla del workload.
 - Registrar `runId`, commit, escenario, semillas, duración y concurrencia.
-- Enviar operaciones por la API; solamente el bootstrap puede cargar directo.
+- El motor deportivo crea un partido nuevo, usa reloj lógico y conserva estado
+  en MongoDB. Comparte las mismas capas de dominio que la API; no modifica las
+  bases mediante scripts de bootstrap.
+- Genera comentarios Cassandra, telemetría InfluxDB y eventos oficiales que
+  Outbox proyecta a Redis y Neo4j.
+
+**Estado:** implementado para una instancia local; falta construir el front de
+espectador y probar una ejecución Docker completa.
 
 **Aceptación:** repetir escenario y semillas conserva datos y secuencia lógica;
 los resultados medidos pueden compararse entre commits.

@@ -36,7 +36,7 @@ function Invoke-InfluxSql {
 }
 
 $detailTables = Invoke-InfluxSql -Database "fixture2030-detalle" -Sql "SHOW TABLES"
-foreach ($table in ("posiciones_jugador", "estadisticas_equipo")) {
+foreach ($table in ("posiciones_jugador", "posiciones_pelota", "estadisticas_equipo")) {
     if ($detailTables -notmatch [regex]::Escape($table)) { throw "Falta la tabla $table." }
 }
 
@@ -53,6 +53,6 @@ if ($apiMetrics -notmatch 'fixture2030_dependency_up\{dependency="influxdb"\} 1'
     throw "La API no expone la metrica de dependencia de InfluxDB."
 }
 
-Write-Host "OK: InfluxDB UP, dos bases, tres tablas, API y target Prometheus operativos."
+Write-Host "OK: InfluxDB UP, dos bases, cuatro tablas, API y target Prometheus operativos."
 Write-Host "NOTA: las retenciones 7d/365d se fijan al crear las bases; este chequeo no las vuelve a inferir por nombre."
 Write-Host "NOTA: el token se leyo como secreto y no se imprimio en esta verificacion."

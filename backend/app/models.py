@@ -29,6 +29,11 @@ class GolFields(ApiModel):
     minuto: int = Field(ge=0, le=150)
     equipo_id: str = Field(alias="equipoId", pattern=r"^EQ-[0-9]{2}$")
     jugador_id: str = Field(alias="jugadorId", pattern=r"^JUG-[0-9]{4}$")
+    asistente_jugador_id: str | None = Field(
+        None, alias="asistenteJugadorId", pattern=r"^JUG-[0-9]{4}$"
+    )
+    x: float | None = Field(None, ge=0, le=100, allow_inf_nan=False)
+    y: float | None = Field(None, ge=0, le=100, allow_inf_nan=False)
 
 
 class GolCommand(EventTimestamp, GolFields):
@@ -52,6 +57,33 @@ class SustitucionCommand(EventTimestamp, SustitucionFields):
     pass
 
 
+class TarjetaCommand(EventTimestamp):
+    tipo: Literal["TARJETA"]
+    periodo: int = Field(ge=1, le=5)
+    minuto: int = Field(ge=0, le=150)
+    equipo_id: str = Field(alias="equipoId", pattern=r"^EQ-[0-9]{2}$")
+    jugador_id: str = Field(alias="jugadorId", pattern=r"^JUG-[0-9]{4}$")
+    color: Literal["AMARILLA", "ROJA"]
+    motivo: str = Field(min_length=3, max_length=160)
+
+
+class GolAnuladoVarCommand(EventTimestamp):
+    tipo: Literal["GOL_ANULADO_VAR"]
+    periodo: int = Field(ge=1, le=5)
+    minuto: int = Field(ge=0, le=150)
+    equipo_id: str = Field(alias="equipoId", pattern=r"^EQ-[0-9]{2}$")
+    jugador_id: str = Field(alias="jugadorId", pattern=r"^JUG-[0-9]{4}$")
+    motivo: Literal["OFFSIDE", "FALTA_PREVIA", "MANO"]
+    x: float = Field(ge=0, le=100, allow_inf_nan=False)
+    y: float = Field(ge=0, le=100, allow_inf_nan=False)
+
+
+class FinPartidoCommand(EventTimestamp):
+    tipo: Literal["FIN_PARTIDO"]
+    periodo: Literal[2] = 2
+    minuto: int = Field(ge=90, le=150)
+
+
 Replacement = Annotated[
     Union[GolFields, SustitucionFields], Field(discriminator="tipo")
 ]
@@ -71,6 +103,9 @@ EventoCommand = Annotated[
         InicioPartidoCommand,
         GolCommand,
         SustitucionCommand,
+        TarjetaCommand,
+        GolAnuladoVarCommand,
+        FinPartidoCommand,
         CorreccionEventoCommand,
     ],
     Field(discriminator="tipo"),
@@ -108,6 +143,7 @@ class EventoResumen(ApiModel):
     secuencia: int
     tipo: str
     ocurrido_en: datetime = Field(alias="ocurridoEn")
+    datos: dict
 
 
 class PaginaEventos(ApiModel):
@@ -257,6 +293,59 @@ class TelemetryWriteResponse(ApiModel):
     muestras_aceptadas: int = Field(alias="muestrasAceptadas", ge=1)
     repetible: bool
     base: str
+
+
+class PelotaMuestra(TelemetryTimestamp):
+    x: float = Field(ge=0, le=100, allow_inf_nan=False)
+    y: float = Field(ge=0, le=100, allow_inf_nan=False)
+    periodo: int = Field(ge=1, le=5)
+    segundo_partido: int = Field(alias="segundoPartido", ge=0, le=10800)
+    equipo_posesion_id: str | None = Field(
+        None, alias="equipoPosesionId", pattern=r"^EQ-[0-9]{2}$"
+    )
+    evento_id: str | None = Field(None, alias="eventoId", max_length=64)
+
+
+class PelotaBatch(ApiModel):
+    muestras: list[PelotaMuestra] = Field(min_length=1, max_length=250)
+
+
+class PelotaResponse(PelotaMuestra):
+    partido_id: str = Field(alias="partidoId")
+
+
+class PaginaPelota(ApiModel):
+    items: list[PelotaResponse]
+
+
+class SimulacionCrear(ApiModel):
+    partido_base_id: str = Field(
+        "PAR-0001", alias="partidoBaseId", pattern=r"^PAR-[0-9]{4}$"
+    )
+    semilla: int = Field(2030, ge=0, le=2147483647)
+    velocidad: float = Field(
+        30.0,
+        ge=1,
+        le=120,
+        description="Segundos de partido simulados por cada segundo real",
+    )
+
+
+class SimulacionVelocidad(ApiModel):
+    velocidad: float = Field(ge=1, le=120)
+
+
+class SimulacionEstado(ApiModel):
+    simulacion_id: str = Field(alias="simulacionId")
+    partido_id: str = Field(alias="partidoId")
+    partido_base_id: str = Field(alias="partidoBaseId")
+    semilla: int
+    velocidad: float
+    estado: Literal["LISTA", "EJECUTANDO", "PAUSADA", "FINALIZADA", "ERROR"]
+    segundo_partido: int = Field(alias="segundoPartido", ge=0, le=5400)
+    minuto_partido: float = Field(alias="minutoPartido", ge=0, le=90)
+    progreso_pct: float = Field(alias="progresoPct", ge=0, le=100)
+    error: str | None = None
 
 
 class PosicionResponse(PosicionMuestra):

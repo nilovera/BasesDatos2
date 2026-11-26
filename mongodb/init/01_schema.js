@@ -156,7 +156,7 @@ ensureCollection("eventos_oficiales", {
       eventoId: { bsonType: "string", pattern: idPatterns.evento },
       partidoId: { bsonType: "string", pattern: idPatterns.partido },
       secuencia: { bsonType: "long", minimum: 1 },
-      tipo: { enum: ["INICIO_PARTIDO", "GOL", "SUSTITUCION", "CORRECCION_EVENTO"] },
+      tipo: { enum: ["INICIO_PARTIDO", "GOL", "TARJETA", "SUSTITUCION", "GOL_ANULADO_VAR", "FIN_PARTIDO", "CORRECCION_EVENTO"] },
       datos: { bsonType: "object" },
       referencia: {
         bsonType: "object",
@@ -203,7 +203,7 @@ ensureCollection("outbox", {
       outboxId: { bsonType: "string", minLength: 1, maxLength: 128 },
       eventoId: { bsonType: "string", pattern: idPatterns.evento },
       partidoId: { bsonType: "string", pattern: idPatterns.partido },
-      tipo: { enum: ["INICIO_PARTIDO", "GOL", "SUSTITUCION", "CORRECCION_EVENTO"] },
+      tipo: { enum: ["INICIO_PARTIDO", "GOL", "TARJETA", "SUSTITUCION", "GOL_ANULADO_VAR", "FIN_PARTIDO", "CORRECCION_EVENTO"] },
       secuencia: { bsonType: "long", minimum: 1 },
       payload: { bsonType: "object" },
       versionContrato: { bsonType: "int", minimum: 1 },
@@ -233,8 +233,38 @@ ensureCollection("contadores", {
     additionalProperties: false,
     required: ["_id", "valor"],
     properties: {
-      _id: { enum: ["eventos"] },
+      _id: { enum: ["eventos", "partidos_simulados"] },
       valor: { bsonType: ["int", "long"], minimum: 0 }
+    }
+  }
+});
+
+ensureCollection("simulaciones", {
+  $jsonSchema: {
+    bsonType: "object",
+    additionalProperties: false,
+    required: [
+      "_id", "simulacionId", "partidoId", "partidoBaseId", "semilla",
+      "velocidad", "estado", "segundoPartido", "ultimoSegundoTelemetria",
+      "siguienteEvento", "siguienteComentario", "plan", "creadoEn", "actualizadoEn"
+    ],
+    properties: {
+      _id: { bsonType: "string", pattern: "^SIM-" },
+      simulacionId: { bsonType: "string", pattern: "^SIM-" },
+      partidoId: { bsonType: "string", pattern: idPatterns.partido },
+      partidoBaseId: { bsonType: "string", pattern: idPatterns.partido },
+      semilla: { bsonType: ["int", "long"], minimum: 0 },
+      velocidad: { bsonType: ["double", "int"], minimum: 1, maximum: 120 },
+      estado: { enum: ["LISTA", "EJECUTANDO", "PAUSADA", "FINALIZADA", "ERROR"] },
+      segundoPartido: { bsonType: ["double", "int"], minimum: 0, maximum: 5400 },
+      ultimoSegundoTelemetria: { bsonType: ["int", "long"], minimum: -15 },
+      siguienteEvento: { bsonType: ["int", "long"], minimum: 0 },
+      siguienteComentario: { bsonType: ["int", "long"], minimum: 0 },
+      plan: { bsonType: "array" },
+      error: { bsonType: ["string", "null"], maxLength: 500 },
+      ultimoTickEn: { bsonType: ["date", "null"] },
+      creadoEn: { bsonType: "date" },
+      actualizadoEn: { bsonType: "date" }
     }
   }
 });
@@ -298,6 +328,11 @@ db.outbox.createIndex({ eventoId: 1 }, { unique: true, name: "uq_outbox_eventoId
 db.outbox.createIndex(
   { estado: 1, proximoIntentoEn: 1, creadoEn: 1 },
   { name: "ix_outbox_pendientes" }
+);
+db.simulaciones.createIndex({ simulacionId: 1 }, { unique: true, name: "uq_simulaciones_id" });
+db.simulaciones.createIndex(
+  { estado: 1, creadoEn: 1 },
+  { name: "ix_simulaciones_estado_creacion" }
 );
 db.outbox.createIndex(
   { "bloqueo.hasta": 1 },

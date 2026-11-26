@@ -41,6 +41,14 @@ class FakeRedis:
         return self.result
 
 
+class FakeGraph:
+    def __init__(self):
+        self.messages = []
+
+    def project_official_event(self, value):
+        self.messages.append(value)
+
+
 def message(attempts=1):
     return {
         "_id": "OUT-1",
@@ -81,11 +89,18 @@ class OutboxWorkerTests(unittest.TestCase):
         self.assertIn("XADD", args[0])
         self.assertIn("HSET", PROJECT_EVENT_LUA)
         self.assertEqual("outbox:procesados", args[2])
-        self.assertEqual("EVE-000001", args[5])
+        self.assertEqual("marcador:partido:PAR-0001", args[5])
+        self.assertEqual("EVE-000001", args[6])
 
     def test_replay_does_not_create_a_second_projection(self):
         worker = OutboxWorker(FakeCollection(), FakeRedis(result=0), worker_id="worker-test")
         self.assertEqual(0, worker.project(message()))
+
+    def test_graph_projection_uses_same_idempotent_event(self):
+        graph = FakeGraph()
+        worker = OutboxWorker(FakeCollection(), FakeRedis(), graph, worker_id="worker-test")
+        worker.project_graph(message())
+        self.assertEqual("EVE-000001", graph.messages[0]["eventoId"])
 
     def test_complete_marks_message_published_and_releases_lease(self):
         collection = FakeCollection()

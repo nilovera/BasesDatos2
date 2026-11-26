@@ -23,6 +23,8 @@ from .metrics import (
     OUTBOX_RETRIES,
 )
 from .redis_client import close_redis_client, get_redis_client
+from .neo4j_client import close_neo4j_client, get_neo4j_client
+from .neo4j_service import Neo4jGraphService
 
 
 LOGGER = logging.getLogger("fixture2030.outbox")
@@ -33,6 +35,15 @@ if redis.call('HEXISTS', KEYS[1], ARGV[1]) == 1 then
     return 0
 end
 local invalidated = redis.call('DEL', KEYS[2])
+local result = cjson.decode(ARGV[5])['resultado']
+redis.call(
+    'HSET', KEYS[4],
+    'estado', result['estadoPartido'],
+    'local', tostring(result['marcador']['local']),
+    'visitante', tostring(result['marcador']['visitante']),
+    'ultimaSecuencia', ARGV[4],
+    'actualizadoEn', ARGV[6]
+)
 redis.call(
     'XADD', KEYS[3], 'MAXLEN', '~', 1000, '*',
     'eventoId', ARGV[1],
@@ -54,9 +65,10 @@ def _as_utc(value):
 
 
 class OutboxWorker:
-    def __init__(self, collection, redis_client, worker_id=None):
+    def __init__(self, collection, redis_client, graph_service=None, worker_id=None):
         self.collection = collection
         self.redis = redis_client
+        self.graph = graph_service
         self.worker_id = worker_id or f"{socket.gethostname()}-{id(self):x}"
 
     def claim(self):
@@ -86,10 +98,11 @@ class OutboxWorker:
         return int(
             self.redis.eval(
                 PROJECT_EVENT_LUA,
-                3,
+                4,
                 "outbox:procesados",
                 f"cache:partido:{message['partidoId']}",
                 f"eventos:partido:{message['partidoId']}",
+                f"marcador:partido:{message['partidoId']}",
                 message["eventoId"],
                 message["partidoId"],
                 message["tipo"],
@@ -98,6 +111,10 @@ class OutboxWorker:
                 published_at,
             )
         )
+
+    def project_graph(self, message):
+        if self.graph is not None:
+            self.graph.project_official_event(message)
 
     def complete(self, message):
         now = datetime.now(timezone.utc)
@@ -168,6 +185,7 @@ class OutboxWorker:
             return False
         try:
             projection = self.project(message)
+            self.project_graph(message)
             self.complete(message)
             OUTBOX_PUBLISHED.labels("REPLAY" if projection == 0 else "NEW").inc()
             if projection > 0:
@@ -201,12 +219,17 @@ def main():
     signal.signal(signal.SIGINT, _stop)
     start_http_server(settings.outbox_metrics_port)
     collection = get_client()[settings.mongodb_database].outbox
-    worker = OutboxWorker(collection, get_redis_client())
+    worker = OutboxWorker(
+        collection,
+        get_redis_client(),
+        Neo4jGraphService(get_neo4j_client()),
+    )
     LOGGER.info("worker=%s iniciado", worker.worker_id)
     try:
         worker.run_forever()
     finally:
         close_redis_client()
+        close_neo4j_client()
         close_client()
 
 

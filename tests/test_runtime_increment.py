@@ -37,9 +37,14 @@ class RuntimeIncrementTests(unittest.TestCase):
 
     def test_seed_does_not_reset_operational_matches(self):
         seed = (ROOT / "mongodb" / "init" / "02_seed_catalogo.js").read_text(encoding="utf-8")
+        verification = (ROOT / "mongodb" / "init" / "03_verify.js").read_text(
+            encoding="utf-8"
+        )
         match_section = seed.split("db.partidos.bulkWrite", 1)[1]
         self.assertIn("$setOnInsert", match_section)
         self.assertNotIn("$set:", match_section)
+        self.assertIn('countDocuments({ _id: "PAR-0001" })', verification)
+        self.assertNotIn("db.partidos.countDocuments({}), 1", verification)
 
     def test_prometheus_scrapes_the_api(self):
         config = (ROOT / "infra" / "prometheus" / "prometheus.yml").read_text(encoding="utf-8")
@@ -306,6 +311,30 @@ class RuntimeIncrementTests(unittest.TestCase):
         self.assertIn("resultado.json", script)
         self.assertNotIn("down -v", script.lower())
 
+    def test_match_simulator_is_deterministic_and_projects_all_stores(self):
+        engine = (ROOT / "backend" / "app" / "simulator_engine.py").read_text(encoding="utf-8")
+        worker = (ROOT / "backend" / "app" / "simulation_worker.py").read_text(encoding="utf-8")
+        script = (ROOT / "scripts" / "probar_simulador_partido.ps1").read_text(encoding="utf-8")
+        compose = (ROOT / "docker-compose.yml").read_text(encoding="utf-8")
+        self.assertIn("MATCH_SECONDS = 90 * 60", engine)
+        self.assertIn("TELEMETRY_STEP_SECONDS = 5", engine)
+        self.assertIn('"GOL_ANULADO_VAR"', engine)
+        self.assertIn("position_samples", worker)
+        self.assertIn("write_ball_positions", worker)
+        self.assertIn("comments.publish", worker)
+        self.assertIn("COMMENT_RETRY_ATTEMPTS = 4", worker)
+        self.assertIn('error.code != "CASSANDRA_UNAVAILABLE"', worker)
+        self.assertIn("time.sleep(delay)", worker)
+        self.assertIn("AddSeconds(300)", script)
+        self.assertNotIn("AddSeconds(90)", script)
+        self.assertIn('"simulador-$stamp"', script)
+        self.assertIn('"resultado.json"', script)
+        self.assertIn('scenario = "simulador-partido-reproducible"', script)
+        self.assertIn("marcador:partido:", (ROOT / "backend" / "app" / "outbox_worker.py").read_text(encoding="utf-8"))
+        self.assertIn("project_official_event", (ROOT / "backend" / "app" / "neo4j_service.py").read_text(encoding="utf-8"))
+        self.assertIn("ensure_table fixture2030-detalle posiciones_pelota", compose)
+        self.assertIn("verificar_outbox.ps1", script)
+
     def test_influxdb_is_pinned_persistent_authenticated_and_observable(self):
         compose = (ROOT / "docker-compose.yml").read_text(encoding="utf-8")
         prometheus = (ROOT / "infra" / "prometheus" / "prometheus.yml").read_text(
@@ -398,6 +427,7 @@ class RuntimeIncrementTests(unittest.TestCase):
         self.assertIn("CREATE CONSTRAINT fixture2030_equipo_id IF NOT EXISTS", seed)
         self.assertIn("MERGE (j:Jugador", seed)
         self.assertIn("jugadoresHuerfanos", seed)
+        self.assertIn("MATCH (p:Partido {alcance: 'DEMOSTRACION'})", seed)
         self.assertIn("fixture2030_graph_operations", metrics)
 
     def test_neo4j_scripts_are_safe_idempotent_and_recoverable(self):
@@ -412,6 +442,11 @@ class RuntimeIncrementTests(unittest.TestCase):
         self.assertIn("camino/EQ-33", graph_test)
         self.assertIn('$health.neo4j -eq "UP"', platform_check)
         self.assertIn('$health.neo4j -ne "UP"', platform_check)
+        graph_check = (ROOT / "scripts" / "verificar_neo4j.ps1").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("$summary.partidos -lt 1", graph_check)
+        self.assertIn("$summary.relaciones -lt 1097", graph_check)
         for name in (
             "preparar_neo4j.ps1",
             "verificar_neo4j.ps1",

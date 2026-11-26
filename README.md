@@ -273,6 +273,22 @@ powershell -ExecutionPolicy Bypass -File scripts\probar_carga.ps1 -Perfil estres
 Los perfiles, SLI, SLO iniciales y limitaciones están en
 [`pruebas_carga_sla_slo.md`](docs/rendimiento/pruebas_carga_sla_slo.md).
 
+## Incremento 11 — partido reproducible en vivo
+
+El simulador deportivo es distinto de los perfiles de carga. Crea un partido
+nuevo, conserva MongoDB como fuente oficial y reproduce 90 minutos con semilla,
+pausa y velocidad ajustable. Genera eventos, posiciones de jugadores y pelota,
+comentarios, marcador Redis y relaciones Neo4j coherentes:
+
+```text
+powershell -ExecutionPolicy Bypass -File scripts\iniciar_plataforma.ps1
+powershell -ExecutionPolicy Bypass -File scripts\probar_simulador_partido.ps1
+```
+
+La demo visual usa semilla `2030` y velocidad `30x` (aproximadamente tres
+minutos). La prueba automática usa `120x`. Ver
+[`09_simulador_partido_reproducible.md`](docs/diseno/09_simulador_partido_reproducible.md).
+
 Ver el [plan de incorporación](docs/plan_incorporacion.md), el
 [registro de los 17 puntos](docs/pendientes.md) y las
 [fuentes inspeccionadas](docs/fuentes.md). Las tareas de usuarios, asistencias,

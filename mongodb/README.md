@@ -51,6 +51,7 @@ mongodb://mongo:27017/fixture2030?replicaSet=rs0
 - `eventos_oficiales` conserva la historia ordenada por partido.
 - `partidos` mantiene la vista vigente y su versión de concurrencia.
 - `outbox` propaga hechos confirmados a vistas derivadas.
+- `outbox-worker` reclama con lease, reintenta y proyecta idempotentemente a Redis.
 - `contadores` asigna IDs secuenciales `EVE-xxxxxx` dentro de la transacción.
 - El esquema y los índices no contienen componentes de IRIS.
 

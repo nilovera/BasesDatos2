@@ -5,7 +5,8 @@ base pendiente o presente solamente en un diagrama no se declara monitoreada.
 
 | Componente | Modelo y función en Fixture2030 | Puerto o endpoint | Mecanismo | Métricas seleccionadas | Riesgo observado | Limitación actual |
 |---|---|---|---|---|---|---|
-| API FastAPI | integración de los subsistemas y contrato HTTP | `8000`, `/health`, `/metrics` | instrumentación directa con `prometheus-client` | disponibilidad, requests, p95, 5xx, eventos, comentarios y Outbox | indisponibilidad, errores y aumento de latencia | un worker; todavía sin escenario de capacidad |
+| API FastAPI | integración de los subsistemas y contrato HTTP | `8000`, `/health`, `/metrics` | instrumentación directa con `prometheus-client` | disponibilidad, requests, p95, 5xx, eventos y operaciones de dominio | indisponibilidad, errores y aumento de latencia | un proceso HTTP local; sin alta disponibilidad |
+| Worker Outbox | propagación eventual de eventos oficiales hacia Redis | `9101`, `/metrics` dentro de la red Docker | instrumentación directa con `prometheus-client` | disponibilidad, pendientes, edad máxima, reintentos, replay y fallidos | acumulación, lease vencido o proyección atrasada | un consumidor; Redis es el único destino derivado de este incremento |
 | MongoDB | documentos autoritativos de catálogo, partidos, eventos y Outbox | `27017`; salud funcional desde `/health` | inferencia de la API mediante `hello` y métrica `fixture2030_dependency_up` | PRIMARY disponible y pendientes de Outbox | no poder confirmar eventos oficiales o acumular propagaciones | un miembro; sin exporter ni alta disponibilidad real |
 | Redis | clave-valor para Cache-Aside, sesiones, TTL, contadores y ranking | `6379`; exporter `9121` | Redis Exporter directo y salud funcional de la API | `redis_up`, memoria, hit/miss, evictions, persistencia y conexiones | pérdida anticipada de temporales, saturación o sesiones no disponibles | standalone; RDB/AOF no equivalen a replicación |
 | Cassandra | wide-column para comentarios y vistas por consulta | `9042`; salud funcional desde `/health` | inferencia de la API y contadores de dominio | disponibilidad, publicaciones, replays, lecturas, moderaciones y errores | módulo social degradado, partición caliente o divergencia de vistas | RF=1 local; JMX, compactions y tombstones pendientes para RF=3 |
@@ -15,7 +16,7 @@ base pendiente o presente solamente en un diagrama no se declara monitoreada.
 | Neo4j | proyección de relaciones entre jugadores, equipos, confederaciones, partidos y torneo | `7474`, `7687`; salud funcional desde `/health` | inferencia de la API y contadores de dominio | disponibilidad, resumen, rivales, recomendaciones, caminos y errores | recorridos y recomendaciones degradados | Community de un nodo; sin exporter interno ni alta disponibilidad |
 | PostgreSQL Data Mart | estrella analítica de eventos y resúmenes por equipo/15m | `5433`; salud funcional desde `/health` | inferencia de la API y contadores de ETL/consulta | disponibilidad, refresh, consultas y errores | analítica atrasada o no disponible sin bloquear el núcleo | un nodo; ETL batch y sin réplica |
 
-Prometheus posee cuatro targets directos: Prometheus, API, Redis Exporter e InfluxDB. La
+Prometheus posee cinco targets directos: Prometheus, API, worker Outbox, Redis Exporter e InfluxDB. La
 disponibilidad de MongoDB, Cassandra, Neo4j y Data Mart se mide funcionalmente desde la API. El
 dashboard debe indicar esta diferencia para no presentar una inferencia como
 métrica interna de la base.

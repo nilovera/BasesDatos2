@@ -372,6 +372,43 @@ services:
       start_period: 10s
     restart: unless-stopped
 
+  outbox-worker:
+    image: fixture2030-api
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: fixture2030-outbox-worker
+    command: ["python", "-m", "app.outbox_worker"]
+    environment:
+      MONGODB_URI: mongodb://mongo:27017/?replicaSet=rs0
+      MONGODB_DATABASE: fixture2030
+      MONGODB_TIMEOUT_MS: "3000"
+      REDIS_URL: redis://redis:6379/0
+      REDIS_TIMEOUT_SECONDS: "1.0"
+      OUTBOX_POLL_SECONDS: "1.0"
+      OUTBOX_LEASE_SECONDS: "30"
+      OUTBOX_MAX_ATTEMPTS: "8"
+      OUTBOX_RETENTION_DAYS: "30"
+      OUTBOX_METRICS_PORT: "9101"
+    networks:
+      - fixture2030
+    depends_on:
+      mongo-init:
+        condition: service_completed_successfully
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - >-
+          python -c "import urllib.request;
+          urllib.request.urlopen('http://localhost:9101/metrics', timeout=2)"
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 5s
+    restart: unless-stopped
+
   prometheus:
     image: prom/prometheus:v3.16.0
     container_name: fixture2030-prometheus
@@ -391,6 +428,8 @@ services:
       - fixture2030
     depends_on:
       api:
+        condition: service_healthy
+      outbox-worker:
         condition: service_healthy
     restart: unless-stopped
 

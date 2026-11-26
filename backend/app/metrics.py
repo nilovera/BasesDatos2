@@ -24,6 +24,26 @@ IDEMPOTENCY_REPLAYS = Counter(
 OUTBOX_PENDING = Gauge(
     "fixture2030_outbox_pending",
     "Mensajes pendientes en la Outbox de MongoDB",
+    ["consumer"],
+)
+OUTBOX_OLDEST_SECONDS = Gauge(
+    "fixture2030_outbox_oldest_pending_seconds",
+    "Edad del mensaje pendiente mas antiguo de la Outbox",
+    ["consumer"],
+)
+OUTBOX_PUBLISHED = Counter(
+    "fixture2030_outbox_published",
+    "Mensajes publicados por el worker de Outbox",
+    ["result"],
+)
+OUTBOX_RETRIES = Counter(
+    "fixture2030_outbox_retries",
+    "Reintentos programados por el worker de Outbox",
+)
+OUTBOX_FAILED = Gauge(
+    "fixture2030_outbox_failed",
+    "Mensajes de Outbox en estado FALLIDO",
+    ["consumer"],
 )
 CACHE_READS = Counter(
     "fixture2030_cache_reads",

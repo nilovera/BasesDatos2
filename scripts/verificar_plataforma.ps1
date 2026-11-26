@@ -43,6 +43,10 @@ $metrics = (Invoke-WebRequest -UseBasicParsing -Uri "http://localhost:8000/metri
 if ($metrics -notmatch "fixture2030_http_requests_total") {
     throw "La API no expone las metricas esperadas."
 }
+$outboxServices = @(docker compose ps --status running --services)
+if ($LASTEXITCODE -ne 0 -or $outboxServices -notcontains "outbox-worker") {
+    throw "El worker de Outbox no esta operativo."
+}
 
 $prometheus = $null
 $grafana = $null
@@ -66,6 +70,7 @@ Write-Host "OK: Cassandra" $health.cassandra
 Write-Host "OK: InfluxDB" $health.influxdb
 Write-Host "OK: Neo4j" $health.neo4j
 Write-Host "OK: Data Mart" $health.datamart
+Write-Host "OK: Outbox worker UP"
 Write-Host "OK: partido" $match.partidoId "estado" $match.estado "version" $match.version
 Write-Host "OK: Prometheus" $prometheus
 Write-Host "OK: Grafana" $grafana.database

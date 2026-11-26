@@ -12,6 +12,7 @@ powershell -ExecutionPolicy Bypass -File scripts\probar_falla_cassandra.ps1
 powershell -ExecutionPolicy Bypass -File scripts\probar_falla_influxdb.ps1
 powershell -ExecutionPolicy Bypass -File scripts\probar_falla_neo4j.ps1
 powershell -ExecutionPolicy Bypass -File scripts\probar_falla_datamart.ps1
+powershell -ExecutionPolicy Bypass -File scripts\probar_outbox.ps1
 powershell -ExecutionPolicy Bypass -File scripts\probar_carga.ps1 -Perfil humo
 powershell -ExecutionPolicy Bypass -File scripts\probar_carga.ps1 -Perfil normal
 powershell -ExecutionPolicy Bypass -File scripts\probar_carga.ps1 -Perfil estres

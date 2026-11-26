@@ -80,6 +80,9 @@ Save-JsonResponse -Uri "http://localhost:3000/api/health" -Path (Join-Path $outp
 Save-JsonResponse -Uri "http://localhost:9090/api/v1/targets" -Path (Join-Path $outputDir "prometheus-targets.json")
 Save-JsonResponse -Uri "http://localhost:9090/api/v1/rules" -Path (Join-Path $outputDir "prometheus-rules.json")
 Save-PrometheusQuery -Query 'up{job="fixture2030-api"}' -Path (Join-Path $outputDir "prometheus-api-up.json")
+Save-PrometheusQuery -Query 'up{job="fixture2030-outbox"}' -Path (Join-Path $outputDir "prometheus-outbox-up.json")
+Save-PrometheusQuery -Query 'fixture2030_outbox_pending{consumer="redis"}' -Path (Join-Path $outputDir "prometheus-outbox-pending.json")
+Save-PrometheusQuery -Query 'fixture2030_outbox_oldest_pending_seconds{consumer="redis"}' -Path (Join-Path $outputDir "prometheus-outbox-lag.json")
 Save-PrometheusQuery -Query 'fixture2030_dependency_up' -Path (Join-Path $outputDir "prometheus-dependencias.json")
 Save-PrometheusQuery -Query 'up{job="fixture2030-influxdb"}' -Path (Join-Path $outputDir "prometheus-influxdb-up.json")
 Save-PrometheusQuery -Query 'fixture2030_dependency_up{dependency="neo4j"}' -Path (Join-Path $outputDir "prometheus-neo4j-up.json")
@@ -117,6 +120,10 @@ Invoke-CapturedProcess -FilePath "powershell" `
     -ArgumentList ($powershellPrefix + @("scripts\verificar_datamart.ps1")) `
     -OutputPath (Join-Path $outputDir "datamart-verificacion.txt") `
     -FailureMessage "Fallo la verificacion del Data Mart"
+Invoke-CapturedProcess -FilePath "powershell" `
+    -ArgumentList ($powershellPrefix + @("scripts\verificar_outbox.ps1")) `
+    -OutputPath (Join-Path $outputDir "outbox-verificacion.txt") `
+    -FailureMessage "Fallo la verificacion de Outbox"
 Invoke-CapturedProcess -FilePath "python" `
     -ArgumentList @("-m", "unittest", "discover", "-s", "tests", "-v") `
     -OutputPath (Join-Path $outputDir "pruebas-unitarias.txt") `

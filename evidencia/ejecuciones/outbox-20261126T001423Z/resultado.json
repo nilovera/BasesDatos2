@@ -1,0 +1,13 @@
+﻿{
+    "scenario":  "outbox-at-least-once",
+    "result":  "OK",
+    "sourceCommit":  "c5e99d1a4f950b13115c17d20b7bfcdc393c86fe",
+    "capturedAtUtc":  "2026-11-26T00:14:24.0785793Z",
+    "eventId":  "EVE-000006",
+    "alertDuring":  "firing",
+    "stateWhileStopped":  "PENDIENTE",
+    "stateAfterRecovery":  "PUBLICADO",
+    "attemptsAfterReplay":  2,
+    "redisCopiesAfterReplay":  1,
+    "converged":  true
+}

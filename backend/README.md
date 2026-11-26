@@ -48,6 +48,15 @@ Cada evento se confirma en una transacción MongoDB con tres efectos:
 2. inserta el hecho en `eventos_oficiales`;
 3. inserta el mensaje pendiente en `outbox`.
 
+El servicio `outbox-worker` reclama mensajes con lease, invalida el cache del
+partido y agrega el evento a un Redis Stream. Un Hash por `eventoId` hace que el
+script Lua sea idempotente aun si Redis confirmó la proyección y el acuse en
+MongoDB falló. Los reintentos usan backoff exponencial con jitter; al agotar el
+límite el mensaje pasa a `FALLIDO` sin eliminarse.
+
+La API ya no invalida Redis directamente después del commit: esa escritura
+derivada pertenece al worker y por eso la consistencia del cache es eventual.
+
 Si una operación falla, ninguno de los tres cambios queda visible. La API usa
 write concern `majority` sobre el replica set de laboratorio.
 

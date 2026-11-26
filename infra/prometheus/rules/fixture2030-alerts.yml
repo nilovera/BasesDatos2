@@ -26,7 +26,7 @@ groups:
           description: Mas del 5 por ciento de las solicitudes de la API termina en 5xx durante 2 minutos.
 
       - alert: Fixture2030OutboxBacklog
-        expr: fixture2030_outbox_pending > 100
+        expr: fixture2030_outbox_pending{consumer="redis"} > 100
         for: 5m
         labels:
           severity: warning
@@ -34,6 +34,36 @@ groups:
         annotations:
           summary: Acumulacion de eventos pendientes en la Outbox
           description: Hay mas de 100 eventos sin proyectar durante al menos 5 minutos.
+
+      - alert: Fixture2030OutboxWorkerDown
+        expr: up{job="fixture2030-outbox"} == 0
+        for: 30s
+        labels:
+          severity: critical
+          owner: integracion
+        annotations:
+          summary: El worker de Outbox no esta disponible
+          description: Los eventos oficiales siguen confirmandose, pero sus proyecciones quedan pendientes.
+
+      - alert: Fixture2030OutboxDelayed
+        expr: fixture2030_outbox_oldest_pending_seconds{consumer="redis"} > 30
+        for: 1m
+        labels:
+          severity: warning
+          owner: integracion
+        annotations:
+          summary: La propagacion de Outbox supera 30 segundos
+          description: El mensaje pendiente mas antiguo excede el objetivo local de convergencia.
+
+      - alert: Fixture2030OutboxFailed
+        expr: fixture2030_outbox_failed{consumer="redis"} > 0
+        for: 1m
+        labels:
+          severity: warning
+          owner: integracion
+        annotations:
+          summary: Hay mensajes de Outbox agotados
+          description: Al menos un mensaje alcanzo el maximo de reintentos y requiere diagnostico.
 
   - name: fixture2030-redis
     rules:

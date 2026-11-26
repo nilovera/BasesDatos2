@@ -38,6 +38,9 @@ local.
 - El Data Mart usa salud funcional y contadores de API; falta exporter de PostgreSQL
   y una medición con volumen suficiente para cerrar Hito 12.
 - Redis es standalone: RDB/AOF permiten recuperacion local, no alta disponibilidad.
+- La Outbox tiene un solo worker y proyecta solamente a Redis. La deduplicación
+  es durable dentro del mismo Redis mediante AOF/RDB, pero no reemplaza una
+  réplica ni un broker distribuido.
 - No hay resultados de capacidad, SLO, RPO ni RTO.
 - Las alertas no tienen todavia un canal externo de notificacion.
 - Un replica set MongoDB de un miembro no demuestra alta disponibilidad.

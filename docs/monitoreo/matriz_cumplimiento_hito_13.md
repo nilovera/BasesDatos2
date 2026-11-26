@@ -7,14 +7,14 @@ objetivo no se presenta como resultado.
 | Requisito de la consigna | Estado | Implementación o evidencia | Pendiente para cerrarlo |
 |---|---|---|---|
 | Prometheus y Grafana reproducibles | Implementado | Servicios versionados en `docker-compose.yml`, provisioning y dashboard en `infra/` | Captura final sobre el commit de entrega |
-| Monitorear al menos tres componentes | Implementado | API y los cinco motores; Redis usa exporter, InfluxDB target directo y las otras dependencias salud funcional | Exporters internos de MongoDB/Cassandra/Neo4j son una mejora, no se simulan métricas que no existen |
+| Monitorear al menos tres componentes | Implementado | API, worker Outbox y los cinco motores; Redis usa exporter, InfluxDB target directo y las otras dependencias salud funcional | Exporters internos de MongoDB/Cassandra/Neo4j son una mejora, no se simulan métricas que no existen |
 | Disponibilidad | Implementado | `up`, `redis_up` y `fixture2030_dependency_up` | Conservar evidencia de estado normal y fallas |
 | Latencia | Medido | Histograma HTTP, panel p95 y p50/p95/p99 de humo, normal, estrés y recuperación | Incorporar los resultados finales al guion de defensa |
 | Volumen o throughput | Medido | 20 req/s en normal y 79,932 req/s en estrés, sin pérdida significativa | El límite máximo de capacidad no fue determinado |
 | Errores | Medido | HTTP 5xx, errores por dominio y 0 errores en 8.460 requests medidos después de la corrección | Conservar captura final de la ventana de carga |
 | Comparación entre componentes | Implementado | Panel temporal conjunto MongoDB/Redis/Cassandra/InfluxDB/Neo4j/Data Mart | Conservar captura final de la misma ventana temporal |
 | Dos o más consultas PromQL útiles | Implementado | Consultas documentadas en `metricas_y_consultas.md` y capturadas por script | Guardar sus resultados en la ejecución final |
-| Dos o más alertas justificadas | Implementado | Reglas de API, latencia, errores y cinco dependencias con umbral, duración, severidad y responsable | Verificar las alertas de Neo4j en el runtime final |
+| Dos o más alertas justificadas | Implementado | Reglas de API, dependencias y Outbox: worker caído, backlog, demora y mensajes fallidos | Ejecutar y versionar la falla controlada del worker |
 | Falla controlada y recuperación | Implementado | Scripts aislados para API, cinco motores y Data Mart con `finally`, alerta y recuperación; resultados versionados | Conservar capturas finales de Grafana de las mismas ventanas temporales |
 | Inventario técnico | Implementado | `inventario_componentes.md` registra modelo, función, endpoint, mecanismo, métricas, riesgo y limitación de los cinco motores | Revisarlo ante cambios del runtime final |
 | Reproducibilidad y trazabilidad | Implementado | Compose, versiones fijadas, `sourceCommit`, rama, escenario, estado de servicios y manifiesto SHA-256 | Ejecutar la captura final y revisar secretos antes del commit |

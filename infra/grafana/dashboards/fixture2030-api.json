@@ -62,7 +62,7 @@
       "gridPos": {"h": 8, "w": 8, "x": 16, "y": 8},
       "id": 6,
       "options": {"colorMode": "background", "graphMode": "area", "justifyMode": "auto", "orientation": "auto", "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": false}, "showPercentChange": false, "textMode": "auto", "wideLayout": true},
-      "targets": [{"expr": "fixture2030_outbox_pending", "legendFormat": "Pendientes", "refId": "A"}],
+      "targets": [{"expr": "fixture2030_outbox_pending{consumer=\"redis\"}", "legendFormat": "Pendientes", "refId": "A"}, {"expr": "fixture2030_outbox_failed{consumer=\"redis\"}", "legendFormat": "Fallidos", "refId": "B"}],
       "title": "Outbox pendiente",
       "type": "stat"
     },

@@ -3,7 +3,7 @@
 Integración final del trabajo de Ingeniería de Datos II dentro del repositorio
 `nilovera/BasesDatos2`, rama `trabajo-final`.
 
-**Estado:** MongoDB autoritativo, API transaccional, Redis para datos calientes,
+**Estado:** MongoDB autoritativo, API transaccional, worker Outbox, Redis para datos calientes,
 Cassandra para comentarios, InfluxDB para series temporales, Neo4j para
 relaciones, un Data Mart analítico en PostgreSQL y observabilidad con Prometheus y Grafana.
 
@@ -54,7 +54,7 @@ python -m scripts.catalogo --check
 | `tests/` | Pruebas del catálogo, contratos, dominio, API e infraestructura | Ejecutadas estáticamente |
 | `docs/antecedentes/` | Siete documentos de diseño previos | Conservados como antecedentes |
 | `docs/diseno/` | Convenciones y decisiones de la rama final | Base inicial documentada |
-| `backend/` | FastAPI, contrato OpenAPI, transacción e idempotencia | Implementado con los cinco motores |
+| `backend/` | FastAPI, contrato OpenAPI, transacción, idempotencia y worker Outbox | Implementado con proyección idempotente a Redis |
 | `mongodb/` | Replica set, validadores, índices, carga y verificación | Implementado y validado en Docker |
 | `redis/` | Cache-Aside, sesiones, TTL, LFU, RDB y AOF | Implementado y validado en Docker; evidencia final pendiente |
 | `cassandra/` | Esquema por consulta, buckets, shards e idempotencia | Implementado y validado en Docker; evidencia final pendiente |
@@ -98,8 +98,8 @@ sus consecuencias están documentadas en
 
 1. Conservar la validación de API, transacciones, idempotencia y los cinco motores, además de Prometheus y Grafana.
 2. Ejecutar y conservar la evidencia reproducible del Data Mart en Docker.
-3. Procesar la Outbox y actualizar las proyecciones idempotentes.
-4. Completar usuarios, asistencias, telemetría y simulador sintético.
+3. Procesar la Outbox y actualizar las proyecciones idempotentes. **Implementado para Redis.**
+4. Completar usuarios, asistencias y participación real de jugadores.
 5. Agregar exporters, alertas y dashboards de los cinco motores.
 6. Ejecutar humo, tráfico normal, estrés y recuperación.
 7. Preparar la demostración y defensa final.
@@ -110,6 +110,14 @@ Con la plataforma operativa, capturar el estado reproducible:
 
 ```text
 powershell -ExecutionPolicy Bypass -File scripts\capturar_evidencia.ps1 -Scenario verificacion-integrada
+```
+
+La convergencia de la Outbox se valida deteniendo solo el consumidor, creando
+un evento oficial y simulando un replay posterior a la publicación:
+
+```text
+powershell -ExecutionPolicy Bypass -File scripts\verificar_outbox.ps1
+powershell -ExecutionPolicy Bypass -File scripts\probar_outbox.ps1
 ```
 
 Luego ejecutar la falla controlada de la API. El script detiene solamente ese

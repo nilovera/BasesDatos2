@@ -20,7 +20,6 @@ from .errors import DomainError
 from .influx_client import close_influx_client, get_influx_client
 from .influx_service import InfluxTelemetryService
 from .metrics import (
-    CACHE_INVALIDATIONS,
     CACHE_READS,
     COMMENT_OPERATIONS,
     DEPENDENCY_UP,
@@ -30,7 +29,6 @@ from .metrics import (
     HTTP_DURATION,
     HTTP_REQUESTS,
     IDEMPOTENCY_REPLAYS,
-    OUTBOX_PENDING,
     SESSION_OPERATIONS,
     TELEMETRY_OPERATIONS,
 )
@@ -82,12 +80,6 @@ SESSION_ID = re.compile(
 
 @asynccontextmanager
 async def lifespan(_app):
-    try:
-        OUTBOX_PENDING.set(MongoRepository(get_client()).pending_outbox())
-    except Exception:
-        # El healthcheck informará la indisponibilidad sin impedir que el
-        # proceso arranque y exponga diagnóstico.
-        pass
     yield
     close_neo4j_client()
     close_datamart_pool()
@@ -336,12 +328,6 @@ def post_event(
         IDEMPOTENCY_REPLAYS.inc()
     else:
         EVENTS_CONFIRMED.labels(payload["tipo"]).inc()
-    try:
-        OUTBOX_PENDING.set(repository().pending_outbox())
-    except Exception:
-        pass
-    invalidated = redis_service().invalidate_match(partidoId)
-    CACHE_INVALIDATIONS.labels("DELETED" if invalidated else "ABSENT_OR_UNAVAILABLE").inc()
     return result.body
 
 

@@ -69,6 +69,24 @@ redis_up{job="fixture2030-redis"}
 - Periodo: ultimo scrape, cada 5 segundos.
 - Uso: distinguir una clave ausente de una dependencia Redis caida.
 
+## Convergencia de Outbox
+
+```promql
+up{job="fixture2030-outbox"}
+```
+
+Informa si Prometheus puede recolectar al consumidor separado de la API.
+
+```promql
+fixture2030_outbox_pending{consumer="redis"}
+fixture2030_outbox_oldest_pending_seconds{consumer="redis"}
+fixture2030_outbox_failed{consumer="redis"}
+```
+
+Estas consultas separan profundidad, edad y agotamiento de reintentos. Una cola
+temporalmente mayor que cero es válida; el riesgo aparece cuando no converge o
+el mensaje más antiguo supera el objetivo local de 30 segundos.
+
 ## Presion de memoria Redis
 
 ```promql

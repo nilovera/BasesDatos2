@@ -1,5 +1,5 @@
 $ErrorActionPreference = "Stop"
-$baseUrl = "http://localhost:8000"
+$baseUrl = "http://127.0.0.1:8000"
 
 Write-Host "1/7 Limpiando solamente la clave de cache de PAR-0001..."
 & docker compose exec -T redis redis-cli DEL cache:partido:PAR-0001 | Out-Null
@@ -52,6 +52,15 @@ $idempotencyKey = "redis-demo-" + [guid]::NewGuid().ToString()
 Invoke-RestMethod -Method Post -Uri "$baseUrl/api/v1/partidos/PAR-0001/eventos" `
     -Headers @{ "Idempotency-Key" = $idempotencyKey } `
     -ContentType "application/json" -Body $eventBody -TimeoutSec 10 | Out-Null
+
+$invalidated = $false
+for ($attempt = 1; $attempt -le 15; $attempt++) {
+    $exists = (& docker compose exec -T redis redis-cli EXISTS cache:partido:PAR-0001).Trim()
+    if ($LASTEXITCODE -ne 0) { throw "No se pudo consultar la clave de cache." }
+    if ($exists -eq "0") { $invalidated = $true; break }
+    Start-Sleep -Seconds 1
+}
+if (-not $invalidated) { throw "El worker de Outbox no invalido el cache." }
 
 $afterWrite = Invoke-WebRequest -UseBasicParsing -Uri "$baseUrl/api/v1/partidos/PAR-0001" -TimeoutSec 5
 if ($afterWrite.Headers["X-Cache"] -ne "MISS") {

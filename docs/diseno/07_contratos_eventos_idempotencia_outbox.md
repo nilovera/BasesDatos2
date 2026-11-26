@@ -1,7 +1,7 @@
 # Paso 7 — Contratos de eventos, idempotencia y Outbox
 
-Estado: contrato inicial para el primer flujo vertical. La descripción HTTP
-ejecutable está en `backend/openapi.json`.
+Estado: contrato y worker ejecutables para el primer flujo vertical. La
+descripción HTTP está en `backend/openapi.json`.
 
 ## Principios
 
@@ -157,6 +157,25 @@ hecho oficial fue confirmado y sus vistas derivadas aún pueden estar en tránsi
 Cada consumidor guarda un checkpoint o deduplica por `eventoId`. Procesar dos
 veces el mismo mensaje no debe duplicar estadísticas, relaciones ni caché.
 
+## Implementación del consumidor
+
+`outbox-worker` es un servicio separado de la API. En este incremento proyecta
+los eventos confirmados a Redis porque ese motor mantiene el estado caliente y
+los eventos recientes; MongoDB sigue siendo la única fuente oficial.
+
+1. Reclama un mensaje `PENDIENTE`, o uno `PROCESANDO` cuyo lease venció, mediante
+   `findOneAndUpdate` atómico.
+2. Incrementa `intentos` y registra `bloqueo.workerId` y `bloqueo.hasta`.
+3. Ejecuta un script Lua en Redis que, atómicamente, deduplica por `eventoId`,
+   invalida `cache:partido:*` y agrega el sobre al Stream acotado del partido.
+4. Marca el mensaje `PUBLICADO`, libera el lease y fija la retención.
+5. Si falla, vuelve a `PENDIENTE` con backoff exponencial y jitter; al agotar
+   ocho intentos pasa a `FALLIDO` para diagnóstico.
+
+La entrega es **al menos una vez** y el efecto observable es idempotente. La
+prueba controlada fuerza un segundo procesamiento después de publicar y exige
+una sola copia en el Stream.
+
 ## Reintentos
 
 - Backoff exponencial con jitter y máximo documentado.
@@ -178,7 +197,7 @@ veces el mismo mensaje no debe duplicar estadísticas, relaciones ni caché.
 | 422 | `DOMAIN_VALIDATION_ERROR` | Jugador ajeno al equipo |
 | 503 | `OFFICIAL_STORE_UNAVAILABLE` | MongoDB no confirma la operación |
 
-## Trazabilidad y métricas futuras
+## Trazabilidad y métricas
 
 Logs y métricas deben incluir `requestId`, `partidoId`, `tipo`, resultado y
 latencia, pero nunca credenciales ni el body completo si pudiera contener datos
@@ -188,7 +207,9 @@ sensibles. Métricas previstas:
 - latencia HTTP;
 - eventos confirmados por tipo;
 - repeticiones idempotentes y conflictos;
-- profundidad y antigüedad máxima de Outbox;
-- reintentos y mensajes fallidos.
-
-Estos nombres son objetivos de instrumentación, no mediciones actuales.
+- `fixture2030_outbox_pending{consumer="redis"}`;
+- `fixture2030_outbox_oldest_pending_seconds{consumer="redis"}`;
+- `fixture2030_outbox_published_total{result="NEW|REPLAY"}`;
+- `fixture2030_outbox_retries_total`;
+- `fixture2030_outbox_failed{consumer="redis"}`;
+- `up{job="fixture2030-outbox"}`.

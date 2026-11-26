@@ -275,6 +275,37 @@ class RuntimeIncrementTests(unittest.TestCase):
         self.assertIn("finally {", mongo_failure)
         self.assertNotIn("down -v", mongo_failure.lower())
 
+    def test_outbox_worker_is_leased_idempotent_and_observable(self):
+        compose = (ROOT / "docker-compose.yml").read_text(encoding="utf-8")
+        worker = (ROOT / "backend" / "app" / "outbox_worker.py").read_text(
+            encoding="utf-8"
+        )
+        prometheus = (ROOT / "infra" / "prometheus" / "prometheus.yml").read_text(
+            encoding="utf-8"
+        )
+        rules = (ROOT / "infra" / "prometheus" / "rules" / "fixture2030-alerts.yml").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("  outbox-worker:", compose)
+        self.assertIn('command: ["python", "-m", "app.outbox_worker"]', compose)
+        self.assertIn('job_name: fixture2030-outbox', prometheus)
+        self.assertIn("find_one_and_update", worker)
+        self.assertIn('"bloqueo.hasta"', worker)
+        self.assertIn("PROJECT_EVENT_LUA", worker)
+        self.assertIn("HEXISTS", worker)
+        self.assertIn("XADD", worker)
+        self.assertIn("Fixture2030OutboxWorkerDown", rules)
+        self.assertIn("fixture2030_outbox_oldest_pending_seconds", rules)
+
+    def test_outbox_failure_script_recovers_worker_and_preserves_evidence(self):
+        script = (ROOT / "scripts" / "probar_outbox.ps1").read_text(encoding="utf-8")
+        self.assertIn("docker compose stop outbox-worker", script)
+        self.assertIn("docker compose start outbox-worker", script)
+        self.assertIn("finally {", script)
+        self.assertIn("Fixture2030OutboxWorkerDown", script)
+        self.assertIn("resultado.json", script)
+        self.assertNotIn("down -v", script.lower())
+
     def test_influxdb_is_pinned_persistent_authenticated_and_observable(self):
         compose = (ROOT / "docker-compose.yml").read_text(encoding="utf-8")
         prometheus = (ROOT / "infra" / "prometheus" / "prometheus.yml").read_text(

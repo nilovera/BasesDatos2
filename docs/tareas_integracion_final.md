@@ -98,3 +98,14 @@ servicios, pruebas, métricas, alertas y recuperación, sin secretos.
 
 **Aceptación:** una ejecución versionada demuestra o refuta cuantitativamente la
 mejora; la línea base de un solo partido no se presenta como conclusión.
+
+## T09 — Convergencia de Outbox
+
+- Worker separado de la API con lease recuperable: implementado.
+- Proyección Redis mediante Lua y deduplicación por `eventoId`: implementada.
+- Backoff, máximo de intentos y cola `FALLIDO`: implementados.
+- Métricas de profundidad, edad, reintentos, replay y fallidos: implementadas.
+- Falla controlada de worker y replay posterior a la publicación: implementados.
+
+**Aceptación:** detener el worker no impide confirmar el evento; al recuperarlo
+la cola converge a cero y un replay no crea una segunda copia en Redis.

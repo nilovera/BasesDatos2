@@ -49,5 +49,6 @@ productivo.
 - MongoDB tiene un solo miembro: transacciones sin tolerancia a caída del nodo.
 - La API usa un worker; el escalado se decidirá después de medir.
 - La participación se valida por plantel activo, todavía no por intervalo exacto.
-- La Outbox se escribe pero aún no tiene consumidores.
+- La Outbox posee un consumidor Redis con lease, reintentos y deduplicación;
+  otros destinos solo se agregarán cuando exista una vista derivada justificada.
 - El dashboard no demuestra por sí solo un SLO.

@@ -8,6 +8,7 @@ Prometheus y Grafana. Todos los puertos se publican solamente sobre `127.0.0.1`.
 | Servicio | Puerto local | Función |
 |---|---:|---|
 | API | 8000 | Contrato deportivo y `/metrics` |
+| Worker Outbox | 9101 interno | Propagación idempotente y métricas de convergencia |
 | MongoDB | 27017 | Fuente oficial y Outbox |
 | Redis | 6379 | Caché, sesiones y datos temporales |
 | Redis Exporter | 9121 | Memoria, hits, misses, evictions y persistencia |
@@ -25,7 +26,7 @@ No es una configuración productiva.
 
 Prometheus carga las reglas versionadas de `infra/prometheus/rules/`. Incluyen
 indisponibilidad de la API, cinco motores y Data Mart, tasa de HTTP 5xx,
-presión Redis y acumulación de Outbox. Los umbrales y responsables están documentados en
+presión Redis, disponibilidad del worker, retraso y acumulación de Outbox. Los umbrales y responsables están documentados en
 `docs/monitoreo/alertas_y_umbrales.md`.
 
 ## Ejecución
@@ -54,6 +55,8 @@ powershell -ExecutionPolicy Bypass -File scripts\probar_datamart.ps1
 powershell -ExecutionPolicy Bypass -File scripts\comparar_rendimiento_datamart.ps1 -Iteraciones 100
 powershell -ExecutionPolicy Bypass -File scripts\probar_persistencia_datamart.ps1
 powershell -ExecutionPolicy Bypass -File scripts\probar_falla_datamart.ps1
+powershell -ExecutionPolicy Bypass -File scripts\verificar_outbox.ps1
+powershell -ExecutionPolicy Bypass -File scripts\probar_outbox.ps1
 powershell -ExecutionPolicy Bypass -File scripts\capturar_evidencia.ps1 -Scenario verificacion-integrada
 powershell -ExecutionPolicy Bypass -File scripts\probar_falla_api.ps1
 powershell -ExecutionPolicy Bypass -File scripts\probar_falla_mongodb.ps1
@@ -72,7 +75,7 @@ todos los volúmenes del laboratorio.
 ## Límites
 
 MongoDB, Redis, Cassandra, InfluxDB, Neo4j y PostgreSQL tienen un único miembro: permiten demostrar los
-patrones, pero no alta disponibilidad. Redis Exporter aporta un tercer target
-directo a Prometheus; Cassandra se observa funcionalmente mediante la API y
+patrones, pero no alta disponibilidad. Redis Exporter y el worker Outbox aportan
+targets directos a Prometheus; Cassandra se observa funcionalmente mediante la API y
 requiere JMX para métricas internas en RF=3. El dashboard sigue siendo una
 línea base y no evidencia aún un SLO alcanzado.

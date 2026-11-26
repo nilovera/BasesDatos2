@@ -3,11 +3,13 @@ import time
 from contextlib import asynccontextmanager
 from datetime import datetime, timezone
 from uuid import uuid4
+from pathlib import Path
 
 from fastapi import FastAPI, Header, Query, Request, Response
 from fastapi.encoders import jsonable_encoder
 from fastapi.exceptions import RequestValidationError
-from fastapi.responses import JSONResponse
+from fastapi.responses import FileResponse, JSONResponse
+from fastapi.staticfiles import StaticFiles
 from prometheus_client import make_asgi_app
 
 from .cassandra_client import close_cassandra_client, get_cassandra_session
@@ -73,6 +75,7 @@ from .redis_service import RedisService
 from .repository import MongoRepository
 from .simulation_worker import start_simulation_worker, stop_simulation_worker
 from .simulator_engine import build_plan, select_lineup
+from .live_view import router as live_router
 
 
 PARTIDO_ID = re.compile(r"^PAR-[0-9]{4}$")
@@ -105,6 +108,17 @@ app = FastAPI(
     lifespan=lifespan,
 )
 app.mount("/metrics", make_asgi_app())
+app.include_router(live_router)
+FRONTEND = next((root / "frontend" for root in (
+    Path(__file__).resolve().parents[1], Path(__file__).resolve().parents[2]
+) if (root / "frontend").is_dir()), Path(__file__).resolve().parents[2] / "frontend")
+if FRONTEND.is_dir():
+    app.mount("/directo/assets", StaticFiles(directory=FRONTEND / "assets"), name="directo-assets")
+
+
+@app.get("/directo", include_in_schema=False)
+def live_frontend():
+    return FileResponse(FRONTEND / "index.html", headers={"Cache-Control": "no-cache"})
 
 
 def repository():

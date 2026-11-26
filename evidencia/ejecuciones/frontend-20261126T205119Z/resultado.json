@@ -1,0 +1,14 @@
+﻿{
+    "scenario":  "frontend-transmision",
+    "result":  "OK",
+    "sourceCommit":  "e51b652e4ae8d001faff54759d6dedf967d6ae47",
+    "capturedAtUtc":  "2026-11-26T20:51:19.1405206Z",
+    "simulationId":  "SIM-03d79157-7e12-4bbc-939f-a885caae8ca0",
+    "matchId":  "PAR-1004",
+    "matchState":  "FINALIZADA",
+    "positions":  22,
+    "teamHeatmapCells":  103,
+    "playerHeatmapCells":  8,
+    "comments":  80,
+    "note":  "Verifica HTTP y datos; la comprobacion visual se realiza en el navegador."
+}

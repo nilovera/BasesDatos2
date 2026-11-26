@@ -11,6 +11,7 @@ RUN pip install --no-cache-dir --upgrade -r requirements.txt \
     && adduser --system --ingroup fixture2030 fixture2030
 
 COPY backend/app ./app
+COPY frontend ./frontend
 
 USER fixture2030
 EXPOSE 8000

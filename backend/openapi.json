@@ -6,6 +6,165 @@
     "version": "0.9.0"
   },
   "paths": {
+    "/api/v1/directo": {
+      "get": {
+        "tags": [
+          "Transmisión"
+        ],
+        "summary": "Transmission",
+        "operationId": "transmission_api_v1_directo_get",
+        "parameters": [
+          {
+            "name": "simulacionId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Simulacionid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/directo/comentarios": {
+      "get": {
+        "tags": [
+          "Transmisión"
+        ],
+        "summary": "Transmission Comments",
+        "operationId": "transmission_comments_api_v1_directo_comentarios_get",
+        "parameters": [
+          {
+            "name": "simulacionId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Simulacionid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/directo/cancha": {
+      "get": {
+        "tags": [
+          "Transmisión"
+        ],
+        "summary": "Transmission Pitch",
+        "operationId": "transmission_pitch_api_v1_directo_cancha_get",
+        "parameters": [
+          {
+            "name": "simulacionId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Simulacionid"
+            }
+          },
+          {
+            "name": "jugadorId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Jugadorid"
+            }
+          },
+          {
+            "name": "equipoId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Equipoid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/health": {
       "get": {
         "summary": "Health",

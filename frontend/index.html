@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#101817">
+  <title>Fixture 2030 · En la cancha</title>
+  <link rel="stylesheet" href="/directo/assets/style.css">
+  <script type="module" src="/directo/assets/app.js"></script>
+</head>
+<body>
+  <header class="masthead"><a class="brand" href="/directo" aria-label="Fixture 2030"><span class="brand-icon">F<span>•</span></span><span>FIXTURE<span class="brand-year">2030</span></span></a><div class="masthead-right"><span class="edition">EL PARTIDO, DESDE ADENTRO</span><span class="live-badge" id="live-badge">CONECTANDO</span></div></header>
+  <main>
+    <section class="match-head" aria-label="Marcador del partido">
+      <div class="eyebrow"><span>TRANSMISIÓN DEL PARTIDO</span><span id="match-id">—</span></div>
+      <div class="scoreboard"><div class="team home"><span class="team-crest" id="home-crest">L</span><div><span class="team-caption">LOCAL</span><h1 id="home-name">Esperando partido</h1></div></div><div class="score-center"><div class="score" aria-live="polite"><span id="home-score">–</span><span class="score-separator">:</span><span id="away-score">–</span></div><span class="clock" id="clock">00:00</span><span class="period" id="period">POR COMENZAR</span></div><div class="team away"><div><span class="team-caption">VISITANTE</span><h2 id="away-name">—</h2></div><span class="team-crest" id="away-crest">V</span></div></div>
+      <div class="match-bottom"><span id="match-description">Conectando con la transmisión…</span><label class="speed-control" for="speed">VELOCIDAD <select id="speed" disabled><option value="15">15× · 6 min</option><option value="25" selected>25× · 3,6 min</option><option value="30">30× · 3 min</option><option value="60">60× · 1,5 min</option><option value="120">120× · 45 s</option></select></label></div>
+      <div class="match-progress"><span id="progress"></span></div>
+    </section>
+    <p id="notice" class="notice" role="status" hidden></p>
+    <div class="broadcast-grid">
+      <section class="pitch-panel" aria-labelledby="pitch-title"><div class="section-heading"><div><span class="eyebrow">LECTURA DEL JUEGO</span><h2 id="pitch-title">Dentro de la cancha</h2></div><span class="sample-time" id="sample-time">Sin muestras todavía</span></div>
+        <div class="pitch-toolbar"><div class="segmented" aria-label="Vista de cancha"><button type="button" class="active" data-mode="positions" aria-pressed="true">Posiciones</button><button type="button" data-mode="heatmap" aria-pressed="false">Mapa de calor</button></div><label class="sr-only" for="subject">Equipo o jugador</label><select id="subject"><option value="all">Todos los jugadores</option></select></div>
+        <div class="field-wrap"><div class="field-top"><span>VISTA TÁCTICA</span><span>90 MINUTOS / 2 TIEMPOS</span></div>
+          <svg id="pitch" viewBox="0 0 1000 600" role="img" aria-label="Cancha con posiciones reales, pelota y goles del partido"><defs><pattern id="grass" width="184" height="540" patternUnits="userSpaceOnUse"><rect width="92" height="540" fill="#204e3e"/><rect x="92" width="92" height="540" fill="#245442"/></pattern><clipPath id="pitch-clip"><rect x="40" y="30" width="920" height="540" rx="2"/></clipPath></defs><rect x="10" y="0" width="980" height="600" rx="10" fill="#173c30"/><rect x="40" y="30" width="920" height="540" fill="url(#grass)"/><g id="heat-layer" clip-path="url(#pitch-clip)"></g><g class="field-lines"><rect x="40" y="30" width="920" height="540"/><path d="M500 30V570"/><circle cx="500" cy="300" r="72"/><circle cx="500" cy="300" r="3" class="field-dot"/><path d="M40 162H188V438H40M960 162H812V438H960M40 237H93V363H40M960 237H907V363H960M40 270H22V330H40M960 270H978V330H960"/><path d="M188 245A72 72 0 0 1 188 355M812 245A72 72 0 0 0 812 355"/><circle cx="140" cy="300" r="3" class="field-dot"/><circle cx="860" cy="300" r="3" class="field-dot"/></g><g id="player-layer"></g><g id="goal-layer"></g><g id="ball-layer"></g></svg>
+          <div class="field-bottom"><span><i class="legend-dot home-dot"></i><span id="legend-home">Local</span></span><span><i class="legend-dot away-dot"></i><span id="legend-away">Visitante</span></span><span><i class="legend-dot ball-dot"></i>Pelota</span><span class="goal-legend">✦ Gol confirmado</span></div>
+        </div><div class="pitch-footnote"><span id="pitch-summary">Las posiciones aparecerán cuando el partido genere telemetría.</span><span class="heat-scale" id="heat-scale" hidden>Menor <i></i> Mayor</span></div>
+        <div class="moments"><div><span class="eyebrow">MOMENTOS DEL PARTIDO</span><h3>Los goles dejan su marca.</h3><p>Seleccioná un jugador o un equipo para explorar su recorrido. Las estrellas señalan dónde se convirtieron los goles.</p></div><div class="match-stat"><strong id="goals-count">0</strong><span>GOLES</span></div><div class="match-stat"><strong id="events-count">0</strong><span>EVENTOS</span></div></div>
+      </section>
+      <aside class="feed-column"><section class="feed-panel timeline-panel" aria-labelledby="events-title"><div class="feed-heading"><h2 id="events-title">El minuto a minuto</h2><span class="small-counter" id="event-counter">0</span></div><div id="events" class="events-list"><p class="empty">El primer silbatazo está por llegar.</p></div></section><section class="feed-panel comments-panel" aria-labelledby="comments-title"><div class="feed-heading"><h2 id="comments-title">La tribuna</h2><span class="comment-label"><i></i> EN VIVO</span></div><div id="comments" class="comments-list" aria-live="off"><p class="empty">Los comentarios de la tribuna aparecerán acá.</p></div><div class="comments-footer">Comentarios generados por la simulación</div></section></aside>
+    </div>
+    <footer class="footer"><span>FIXTURE 2030 <span class="footer-divider">/</span> UNA NUEVA FORMA DE VIVIR EL PARTIDO</span><span>Simulación deportiva · <span id="seed">Semilla —</span></span></footer>
+  </main>
+</body>
+</html>

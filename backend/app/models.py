@@ -319,6 +319,8 @@ class PaginaPelota(ApiModel):
 
 
 class SimulacionCrear(ApiModel):
+    local_id: str | None = Field(None, alias="localId", pattern=r"^EQ-[0-9]{2}$")
+    visitante_id: str | None = Field(None, alias="visitanteId", pattern=r"^EQ-[0-9]{2}$")
     partido_base_id: str = Field(
         "PAR-0001", alias="partidoBaseId", pattern=r"^PAR-[0-9]{4}$"
     )

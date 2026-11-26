@@ -10,7 +10,7 @@ from fastapi.encoders import jsonable_encoder
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
-from prometheus_client import make_asgi_app
+from prometheus_client import REGISTRY, make_asgi_app
 
 from .cassandra_client import close_cassandra_client, get_cassandra_session
 from .cassandra_service import CassandraCommentService
@@ -22,6 +22,7 @@ from .errors import DomainError
 from .influx_client import close_influx_client, get_influx_client
 from .influx_service import InfluxTelemetryService
 from .metrics import (
+    application_request,
     CACHE_READS,
     COMMENT_OPERATIONS,
     DEPENDENCY_UP,
@@ -76,6 +77,7 @@ from .repository import MongoRepository
 from .simulation_worker import start_simulation_worker, stop_simulation_worker
 from .simulator_engine import build_plan, select_lineup
 from .live_view import router as live_router
+from .mongo_monitoring import MongoMonitoringCollector
 
 
 PARTIDO_ID = re.compile(r"^PAR-[0-9]{4}$")
@@ -107,6 +109,7 @@ app = FastAPI(
     description="Plataforma operacional políglota y Data Mart analítico PostgreSQL para Fixture 2030.",
     lifespan=lifespan,
 )
+REGISTRY.register(MongoMonitoringCollector(get_client, settings.mongodb_database))
 app.mount("/metrics", make_asgi_app())
 app.include_router(live_router)
 FRONTEND = next((root / "frontend" for root in (
@@ -192,16 +195,19 @@ async def observability_middleware(request: Request, call_next):
     incoming_id = request.headers.get("X-Request-ID", "")
     request.state.request_id = incoming_id if 8 <= len(incoming_id) <= 128 else str(uuid4())
     started = time.perf_counter()
-    response = await call_next(request)
-    response.headers["X-Request-ID"] = request.state.request_id
-    if not request.url.path.startswith("/metrics"):
-        route = request.scope.get("route")
-        route_name = getattr(route, "path", "unmatched")
-        HTTP_REQUESTS.labels(request.method, route_name, response.status_code).inc()
-        HTTP_DURATION.labels(request.method, route_name).observe(
-            time.perf_counter() - started
-        )
-    return response
+    response = None
+    try:
+        with application_request(request.url.path):
+            response = await call_next(request)
+        response.headers["X-Request-ID"] = request.state.request_id
+        return response
+    finally:
+        if not request.url.path.startswith("/metrics"):
+            route = request.scope.get("route")
+            route_name = getattr(route, "path", "unmatched")
+            status = response.status_code if response is not None else 500
+            HTTP_REQUESTS.labels(request.method, route_name, status).inc()
+            HTTP_DURATION.labels(request.method, route_name).observe(time.perf_counter() - started)
 
 
 @app.exception_handler(DomainError)
@@ -361,7 +367,10 @@ def post_event(
     responses={404: {"description": "Partido base inexistente"}, 503: {"description": "MongoDB no disponible"}},
 )
 def create_simulation(command: SimulacionCrear):
-    context = repository().simulation_context(command.partido_base_id)
+    selected_teams = None
+    if command.local_id is not None or command.visitante_id is not None:
+        selected_teams = [command.local_id, command.visitante_id]
+    context = repository().simulation_context(command.partido_base_id, selected_teams)
     rosters = {
         team: [player for player in context["jugadores"] if player["equipoId"] == team]
         for team in (context["localId"], context["visitanteId"])
@@ -386,7 +395,8 @@ def create_simulation(command: SimulacionCrear):
         },
     }
     return repository().create_simulation(
-        command.partido_base_id, command.semilla, command.velocidad, plan, lineups
+        command.partido_base_id, command.semilla, command.velocidad, plan, lineups,
+        {"localId": context["localId"], "visitanteId": context["visitanteId"]},
     )
 
 

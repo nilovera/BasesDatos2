@@ -1,4 +1,21 @@
+from contextlib import contextmanager
+
 from prometheus_client import Counter, Gauge, Histogram
+
+
+HTTP_IN_FLIGHT = Gauge(
+    "fixture2030_http_in_flight",
+    "Solicitudes de aplicacion /api/ actualmente en proceso; no representa usuarios",
+)
+
+
+@contextmanager
+def application_request(path):
+    if path.startswith("/api/"):
+        with HTTP_IN_FLIGHT.track_inprogress():
+            yield
+    else:
+        yield
 
 
 HTTP_REQUESTS = Counter(

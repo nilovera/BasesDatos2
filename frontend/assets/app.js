@@ -7,7 +7,7 @@ let speedBusy = false;
 async function api(path, options = {}) {
   const response = await fetch(path, {...options, cache:'no-store', signal:AbortSignal.timeout(12000), headers:{'Content-Type':'application/json', ...options.headers}});
   const data = await response.json();
-  if (!response.ok) throw new Error(data.mensaje || data.message || data.error?.message || (typeof data.detail==='string'?data.detail:null) || `No se pudo actualizar (${response.status})`);
+  if (!response.ok) {const error=new Error(data.mensaje || data.message || data.error?.message || (typeof data.detail==='string'?data.detail:null) || `No se pudo actualizar (${response.status})`);error.status=response.status;error.code=data.codigo;throw error;}
   return data;
 }
 function message(scope, text) {
@@ -43,13 +43,15 @@ function renderSnapshot(snapshot) {
   state.snapshot=snapshot;
   const s=snapshot.simulacion;
   state.id=s.simulacionId;
+  const pinnedUrl=new URL(location.href);
+  if(pinnedUrl.searchParams.get('simulacion')!==state.id){pinnedUrl.searchParams.set('simulacion',state.id);history.replaceState(null,'',pinnedUrl);}
   const [home,away]=snapshot.equipos;
   $('home-name').textContent=home.nombre; $('away-name').textContent=away.nombre;
   $('legend-home').textContent=home.nombre; $('legend-away').textContent=away.nombre;
   $('home-crest').textContent=(home.codigoExterno || home.nombre).slice(0,3).toUpperCase();
   $('away-crest').textContent=(away.codigoExterno || away.nombre).slice(0,3).toUpperCase();
   $('home-score').textContent=snapshot.marcador.local; $('away-score').textContent=snapshot.marcador.visitante;
-  $('clock').textContent=clock(s.segundoPartido);
+  $('clock').textContent=`${Math.floor(Math.max(0,s.segundoPartido)/60)} min`;
   $('period').textContent=s.estado==='FINALIZADA'?'FINAL DEL PARTIDO':s.estado==='PAUSADA'?'PARTIDO EN PAUSA':s.estado==='ERROR'?'TRANSMISIÓN INTERRUMPIDA':s.estado==='LISTA'?'POR COMENZAR':s.segundoPartido<2700?'PRIMER TIEMPO':'SEGUNDO TIEMPO';
   $('live-badge').textContent=({FINALIZADA:'FINALIZADO',PAUSADA:'EN PAUSA',LISTA:'POR COMENZAR',ERROR:'INTERRUMPIDO'})[s.estado] || 'EN VIVO';
   $('live-badge').classList.toggle('running',s.estado==='EJECUTANDO');
@@ -98,12 +100,35 @@ function renderPitch() {
   $('sample-time').textContent=sample!==null?`Última muestra · ${clock(sample)}`:'Sin muestras todavía';
   $('pitch-summary').textContent=state.mode==='heatmap'?`${cells.reduce((n,c)=>n+Number(c.muestras),0).toLocaleString('es-AR')} posiciones acumuladas · ${$('subject').selectedOptions[0]?.textContent || ''}`:points.length?`${points.length} jugadores en cancha · Coordenadas registradas durante el partido`:'Las posiciones aparecerán cuando el partido genere telemetría.';
 }
+function clearMatch() {
+  state.id=null;state.snapshot=null;state.pitch=null;state.subject='all';state.selection++;
+  state.eventSignature='';state.commentSignature='';state.messages.clear();
+  const url=new URL(location.href);url.searchParams.delete('simulacion');history.replaceState(null,'',url);
+  $('home-name').textContent='Elegí un partido';$('away-name').textContent='-';
+  for(const id of ['home-score','away-score','home-crest','away-crest','match-id'])$(id).textContent='-';
+  $('clock').textContent='0 min';$('period').textContent='SIN PARTIDO';$('progress').style.width='0%';
+  $('speed').disabled=true;$('seed').textContent='Semilla -';
+  for(const id of ['events-count','event-counter','goals-count'])$(id).textContent='0';
+  $('events').innerHTML='<p class="empty">Elegí un partido para ver los eventos.</p>';
+  $('comments').innerHTML='<p class="empty">Elegí un partido para ver los comentarios.</p>';
+  for(const id of ['player-layer','ball-layer','goal-layer','heat-layer'])$(id).innerHTML='';
+  $('subject').innerHTML='<option value="all">Todos los jugadores</option>';delete $('subject').dataset.teams;
+  $('sample-time').textContent='Sin muestras';$('pitch-summary').textContent='Elegí un partido para ver la cancha.';
+  $('match-description').textContent='Prepará el próximo cruce o abrí el partido en curso.';
+  $('legend-home').textContent='Local';$('legend-away').textContent='Visitante';$('heat-scale').hidden=true;
+}
 async function pollSnapshot() {
   if(document.hidden) {setTimeout(pollSnapshot,2000);return;}
   try {
     renderSnapshot(await api(`/api/v1/directo${state.id?'?simulacionId='+encodeURIComponent(state.id):''}`));
     message('snapshot',null);
   } catch(error) {
+    if(error.status===404){
+      clearMatch();
+      message('snapshot','El partido anterior ya no está en el historial. Elegí un cruce de la lista; si hay uno en curso se abrirá en la próxima actualización.');
+      $('live-badge').textContent='SIN PARTIDO';$('live-badge').classList.remove('running');
+      setTimeout(pollSnapshot,2000);return;
+    }
     message('snapshot',`No se pudo actualizar la transmisión. ${error.message}`);
     $('live-badge').textContent='SIN SEÑAL'; $('live-badge').classList.remove('running');
   }
@@ -125,8 +150,10 @@ async function pollPitch() {
 }
 async function pollComments() {
   if(state.id&&!document.hidden) {
+    const id=state.id;
     try {
-      const data=await api(`/api/v1/directo/comentarios?simulacionId=${encodeURIComponent(state.id)}`);
+      const data=await api(`/api/v1/directo/comentarios?simulacionId=${encodeURIComponent(id)}`);
+      if(id!==state.id){setTimeout(pollComments,5000);return;}
       const signature=data.items.map(c=>c.comentarioId).join(',');
       if(signature!==state.commentSignature){
         state.commentSignature=signature;
@@ -146,7 +173,7 @@ $('speed').addEventListener('change',async event=>{
     const simulation=await api(`/api/v1/simulaciones/${encodeURIComponent(state.id)}/velocidad`,{method:'PATCH',body:JSON.stringify({velocidad:Number(event.target.value)})});
     state.snapshot.simulacion=simulation;message('speed',null);
   }catch(error){message('speed',`No se pudo cambiar la velocidad. ${error.message}`);}
-  finally{speedBusy=false;renderSnapshot(state.snapshot);}
+  finally{speedBusy=false;if(state.snapshot)renderSnapshot(state.snapshot);}
 });
 $('subject').addEventListener('change',event=>{state.subject=event.target.value;state.selection++;if(state.pitch)state.pitch.celdas=[];renderPitch();});
 document.querySelectorAll('[data-mode]').forEach(button=>button.addEventListener('click',()=>{

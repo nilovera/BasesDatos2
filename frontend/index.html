@@ -6,13 +6,23 @@
   <title>Fixture 2030 · En la cancha</title>
   <link rel="stylesheet" href="/directo/assets/style.css">
   <script type="module" src="/directo/assets/app.js"></script>
+  <script type="module" src="/directo/assets/matches.js"></script>
 </head>
 <body>
   <header class="masthead"><a class="brand" href="/directo" aria-label="Fixture 2030"><span class="brand-icon">F<span>•</span></span><span>FIXTURE<span class="brand-year">2030</span></span></a><div class="masthead-right"><span class="edition">EL PARTIDO, DESDE ADENTRO</span><span class="live-badge" id="live-badge">CONECTANDO</span></div></header>
   <main>
+    <section class="match-browser" aria-labelledby="matches-title">
+      <div class="browser-heading"><div><span class="eyebrow">ELEGÍ QUÉ PARTIDO VER</span><h2 id="matches-title">La próxima fecha</h2></div><button class="match-button primary" id="next-match" type="button" disabled>Jugar siguiente partido</button></div>
+      <p class="browser-help">Prepará los cruces que querés jugar y pasá de un partido a otro. Agenda de demostración.</p>
+      <div class="browser-toolbar"><div class="segmented" role="group" aria-label="Lista de partidos"><button class="active" type="button" data-group="proximos" aria-pressed="true">Por jugar</button><button type="button" data-group="en-curso" aria-pressed="false">En curso</button><button type="button" data-group="finalizados" aria-pressed="false">Finalizados</button></div><button class="match-button" id="refresh-matches" type="button">Actualizar lista</button></div>
+      <p id="matches-status" class="browser-help" role="status"></p>
+      <div id="matches-list" class="matches-list"><p class="empty">Buscando partidos…</p></div>
+      <nav class="matches-pagination" aria-label="Páginas de partidos"><button class="match-button" id="matches-prev" type="button" disabled>Anterior</button><span id="matches-page">Página 1</span><button class="match-button" id="matches-next" type="button" disabled>Siguiente</button></nav>
+      <details class="prepare-match"><summary>+ Agregar un partido a los próximos cruces</summary><form id="prepare-match-form"><label>Local<select id="new-home" required disabled><option value="">Cargando equipos…</option></select></label><label>Visitante<select id="new-away" required disabled><option value="">Cargando equipos…</option></select></label><label>Velocidad<select id="new-speed"><option value="25">25×</option><option value="60">60×</option><option value="120">120×</option></select></label><button class="match-button primary" id="prepare-match" type="submit" disabled>Agregar a próximos</button></form><p id="prepare-status" class="browser-help" role="status">Los cruces quedan guardados hasta que decidas jugarlos.</p></details>
+    </section>
     <section class="match-head" aria-label="Marcador del partido">
       <div class="eyebrow"><span>TRANSMISIÓN DEL PARTIDO</span><span id="match-id">—</span></div>
-      <div class="scoreboard"><div class="team home"><span class="team-crest" id="home-crest">L</span><div><span class="team-caption">LOCAL</span><h1 id="home-name">Esperando partido</h1></div></div><div class="score-center"><div class="score" aria-live="polite"><span id="home-score">–</span><span class="score-separator">:</span><span id="away-score">–</span></div><span class="clock" id="clock">00:00</span><span class="period" id="period">POR COMENZAR</span></div><div class="team away"><div><span class="team-caption">VISITANTE</span><h2 id="away-name">—</h2></div><span class="team-crest" id="away-crest">V</span></div></div>
+      <div class="scoreboard"><div class="team home"><span class="team-crest" id="home-crest">L</span><div><span class="team-caption">LOCAL</span><h1 id="home-name">Esperando partido</h1></div></div><div class="score-center"><div class="score" aria-live="polite"><span id="home-score">–</span><span class="score-separator">:</span><span id="away-score">–</span></div><span class="clock" id="clock">0 min</span><span class="period" id="period">POR COMENZAR</span></div><div class="team away"><div><span class="team-caption">VISITANTE</span><h2 id="away-name">—</h2></div><span class="team-crest" id="away-crest">V</span></div></div>
       <div class="match-bottom"><span id="match-description">Conectando con la transmisión…</span><label class="speed-control" for="speed">VELOCIDAD <select id="speed" disabled><option value="15">15× · 6 min</option><option value="25" selected>25× · 3,6 min</option><option value="30">30× · 3 min</option><option value="60">60× · 1,5 min</option><option value="120">120× · 45 s</option></select></label></div>
       <div class="match-progress"><span id="progress"></span></div>
     </section>

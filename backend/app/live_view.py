@@ -11,8 +11,25 @@ from .influx_client import get_influx_client
 from .redis_client import RedisError, get_redis_client
 from .repository import MongoRepository
 from . import live_service
+from .match_listing import match_listing, team_catalog
 
 router = APIRouter(prefix="/api/v1/directo", tags=["Transmisión"])
+
+
+@router.get("/partidos")
+def transmission_matches(grupo: str = "proximos", pagina: int = Query(0, ge=0, le=1000)):
+    try:
+        return match_listing(get_client()[settings.mongodb_database], grupo, pagina)
+    except PyMongoError as error:
+        raise DomainError(503, "OFFICIAL_STORE_UNAVAILABLE", "No se pudieron consultar los partidos") from error
+
+
+@router.get("/equipos")
+def transmission_teams():
+    try:
+        return {"items": team_catalog(get_client()[settings.mongodb_database])}
+    except PyMongoError as error:
+        raise DomainError(503, "OFFICIAL_STORE_UNAVAILABLE", "No se pudieron consultar los equipos") from error
 
 
 @router.get("")

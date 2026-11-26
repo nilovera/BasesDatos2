@@ -9,8 +9,12 @@ from .errors import DomainError
 def simulation_document(db, simulation_id):
     if simulation_id and not re.fullmatch(r"SIM-[0-9a-f-]{36}", simulation_id):
         raise DomainError(400, "INVALID_SIMULATION_ID", "Simulación inválida")
-    filters = {"_id": simulation_id} if simulation_id else {}
-    document = db.simulaciones.find_one(filters, sort=[("creadoEn", -1)])
+    if simulation_id:
+        document = db.simulaciones.find_one({"_id": simulation_id})
+    else:
+        document = db.simulaciones.find_one(
+            {"estado": {"$in": ["EJECUTANDO", "PAUSADA"]}}, sort=[("creadoEn", -1)]
+        ) or db.simulaciones.find_one({}, sort=[("creadoEn", -1)])
     if document is None:
         raise DomainError(404, "SIMULATION_NOT_FOUND", "Todavía no hay un partido para transmitir")
     return document

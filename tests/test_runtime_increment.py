@@ -141,12 +141,16 @@ class RuntimeIncrementTests(unittest.TestCase):
         }
         self.assertIn('fixture2030_dependency_up{dependency="mongodb"}', expressions)
         self.assertIn(
-            'fixture2030_dependency_up{dependency=~"mongodb|redis|cassandra|influxdb|neo4j|datamart"}',
+            'fixture2030_dependency_up{dependency=~"mongodb|redis|cassandra|influxdb|neo4j"}',
             expressions,
         )
         self.assertIn('fixture2030_dependency_up{dependency="influxdb"}', expressions)
         self.assertIn('fixture2030_dependency_up{dependency="neo4j"}', expressions)
-        self.assertIn('fixture2030_dependency_up{dependency="datamart"}', expressions)
+        self.assertFalse(any("datamart" in expression or "outbox" in expression for expression in expressions))
+        self.assertIn('sum(fixture2030_http_in_flight{job="fixture2030-api"})', expressions)
+        self.assertIn("fixture2030_mongodb_connections", expressions)
+        for quantile in ("0.5", "0.95", "0.99"):
+            self.assertTrue(any(f"histogram_quantile({quantile}," in expression for expression in expressions))
         self.assertTrue(
             any("fixture2030_telemetry_operations_total" in expression for expression in expressions)
         )

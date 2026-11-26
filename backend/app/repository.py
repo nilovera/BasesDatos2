@@ -72,13 +72,17 @@ class MongoRepository:
             raise DomainError(404, "MATCH_NOT_FOUND", "El partido no existe")
         return _match_response(document)
 
-    def simulation_context(self, base_match_id):
+    def simulation_context(self, base_match_id, team_ids=None):
         """Devuelve equipos y planteles activos para preparar una simulación."""
         try:
             match = self.db.partidos.find_one({"_id": base_match_id})
             if match is None:
                 raise DomainError(404, "MATCH_NOT_FOUND", "El partido base no existe")
-            team_ids = [match["equipos"]["localId"], match["equipos"]["visitanteId"]]
+            team_ids = team_ids or [match["equipos"]["localId"], match["equipos"]["visitanteId"]]
+            if len(team_ids) != 2 or not all(team_ids) or team_ids[0] == team_ids[1]:
+                raise DomainError(400, "INVALID_MATCH_TEAMS", "Elegí dos equipos distintos")
+            if self.db.equipos.count_documents({"equipoId": {"$in": team_ids}}) != 2:
+                raise DomainError(404, "TEAM_NOT_FOUND", "Uno de los equipos no existe")
             players = list(
                 self.db.jugadores.find(
                     {"equipoId": {"$in": team_ids}, "activo": True},
@@ -96,7 +100,7 @@ class MongoRepository:
             "jugadores": players,
         }
 
-    def create_simulation(self, base_match_id, seed, speed, plan, lineups):
+    def create_simulation(self, base_match_id, seed, speed, plan, lineups, teams=None):
         """Crea un agregado nuevo; nunca reinicia ni borra un partido oficial."""
         now = datetime.now(timezone.utc)
         simulation_id = f"SIM-{uuid4()}"
@@ -119,7 +123,7 @@ class MongoRepository:
             self.db.partidos.insert_one({
                 "_id": match_id,
                 "partidoId": match_id,
-                "equipos": dict(base["equipos"]),
+                "equipos": dict(teams or base["equipos"]),
                 "inicioProgramado": now,
                 "inicioReal": None,
                 "finReal": None,
@@ -210,6 +214,13 @@ class MongoRepository:
                     raise DomainError(409, "INVALID_SIMULATION_STATE", "La acción no es válida para el estado actual")
                 expected = current["estado"]
                 changes.update({"estado": next_state, "ultimoTickEn": now if next_state == "EJECUTANDO" else None})
+                if next_state == "EJECUTANDO":
+                    # El índice también serializa inicios desde dos pestañas/API.
+                    self.db.simulaciones.create_index(
+                        [("estado", ASCENDING)], unique=True,
+                        partialFilterExpression={"estado": "EJECUTANDO"},
+                        name="uq_simulacion_ejecutando",
+                    )
             result = self.db.simulaciones.find_one_and_update(
                 {"_id": simulation_id, "estado": expected},
                 {"$set": changes},
@@ -220,6 +231,8 @@ class MongoRepository:
             return self._simulation_response(result)
         except DomainError:
             raise
+        except DuplicateKeyError as error:
+            raise DomainError(409, "SIMULATION_ALREADY_RUNNING", "Ya hay un partido en curso. Podés abrirlo o esperar a que termine.") from error
         except PyMongoError as error:
             raise DomainError(503, "OFFICIAL_STORE_UNAVAILABLE", "MongoDB no pudo controlar la simulación") from error
 

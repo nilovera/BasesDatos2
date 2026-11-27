@@ -1,0 +1,12 @@
+{
+  "resultado": "OK",
+  "baseCommit": "f4cb9be15f996d2710b41c36b18b09eed7e07da2",
+  "markdownRevisados": 50,
+  "enlacesRelativosVerificados": 115,
+  "enlacesRotos": [],
+  "formatoInvalido": [],
+  "estadosObsoletosOReferenciasConversacionales": [],
+  "cambiosServiciosRespectoAuditoriaOriginal": [],
+  "nombresSinRespaldoEnEsquema": [],
+  "alcance": "Enlaces comprobados contra archivos locales y árbol del repositorio base; revisión documental sin ejecución Docker nueva"
+}

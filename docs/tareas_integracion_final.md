@@ -1,121 +1,38 @@
-# Tareas posteriores a la integración de las bases
+# Integración final: resultados y extensiones
 
-MongoDB, Cassandra, Redis, InfluxDB, Neo4j y el Data Mart ya poseen incrementos
-integrados. Las siguientes tareas forman parte de la validación final y no deben
-omitirse.
+Revisión: 27 de noviembre de 2026. Los identificadores T01–T09 conservan la
+trazabilidad del plan. Los resultados se enlazan en el
+[estado de validación](estado_validacion.md).
 
-## T01 — Usuarios sintéticos durables
+| ID | Área | Resultado vigente | Extensión delimitada |
+|---|---|---|---|
+| T01 | Usuarios sintéticos | Sesiones Redis y autores sintéticos disponibles | Perfiles durables, credenciales verificadas y autorización de producción no implementados |
+| T02 | Asistencias | Contrato opcional, validación básica y relación ASISTIO en Neo4j implementados | Validación histórica de participación en comandos manuales; no se afirma escritura automática de estadísticas InfluxDB por cada gol |
+| T03 | Telemetría | Lotes, cursor compuesto, posiciones y mapas de calor implementados; muestras integradas verificadas | Control histórico de participación en cargas manuales y escala de ingesta |
+| T04 | Simulador y front | Partido completo y respuestas del front verificados; 17 eventos y marcador final 1–2 en la ejecución registrada | Una instancia local; el control de ejecución no equivale a orquestación distribuida |
+| T05 | Escenarios de carga | Humo, normal, estrés y recuperación ejecutados con semillas 2029, 2030 y 2031 según perfil | Escrituras masivas, 10M+ puntos y búsqueda del punto de saturación no acreditados |
+| T06 | SLI, SLO y SLA | Latencia, errores y throughput medidos; humo y normal cumplen objetivos locales | Sin SLA contractual ni disponibilidad anual medida |
+| T07 | Evidencia | Verificaciones Docker, fallas de los motores y Outbox, carga, simulación y front registradas | La captura HTTP del front no sustituye una validación visual de todas las pantallas |
+| T08 | Data Mart | Comparaciones sin/con pool y consultas bajo carga mixta ejecutadas | Volumen representativo, comparación repetida controlada y reconciliación de cambios históricos |
+| T09 | Outbox | Lease, reintentos, deduplicación Redis y proyección Neo4j; convergencia registrada | Sin garantía de orden causal estricto por partido para todas las proyecciones |
 
-- Agregar colección `usuarios` en MongoDB.
-- Generar identidades sintéticas reproducibles, sin datos personales reales.
-- Mantener perfiles durables en MongoDB y sesiones con TTL en Redis.
-- Validar referencias de comentarios y acciones.
+## Auditoría incorporada en el incremento 15
 
-**Aceptación:** recrear el laboratorio con la misma semilla produce los mismos
-usuarios; iniciar y cerrar sesión no pierde el perfil durable.
+El historial de acciones se conserva en Cassandra. Las escrituras oficiales
+agregan su entrega durable en la transacción MongoDB. Comentarios y moderación
+incluyen el registro en un batch acotado. La validación local comprende 170
+pruebas, incluidas 25 específicas de auditoría. La comprobación HTTP integrada
+se ejecutó en Docker con resultado OK el 27 de noviembre de 2026. El
+[resultado original](../evidencia/ejecuciones/auditoria-20261127T040527Z/resultado.json)
+confirma historial, cero duplicados, acceso restringido y entrega de la creación
+de una simulación a Cassandra. El procedimiento permanece disponible para
+reproducir ese escenario.
 
-## T02 — Asistencias en goles
+## Criterios para nuevas mediciones
 
-- Agregar `asistenteJugadorId` opcional al evento `GOL`.
-- Validar que goleador y asistente sean distintos, pertenezcan al equipo y estén
-  participando en el minuto del evento.
-- Proyectar la asistencia a estadísticas y relaciones sin duplicarla al reintentar.
-
-**Estado:** contrato, validación básica y proyección Neo4j implementados. Queda
-aplicar la validación histórica de participación a escrituras manuales externas.
-
-**Aceptación:** un gol con asistencia válida converge en MongoDB, Redis,
-InfluxDB y Neo4j; una asistencia inválida se rechaza sin escritura parcial.
-
-## T03 — Telemetría y mapas de calor
-
-- Endpoint de carga por lotes para posiciones `x/y`: implementado.
-- Generar muestras solamente durante la participación del jugador.
-- Persistencia en InfluxDB con timestamp y etiquetas controladas: implementada.
-- Cursor estable para timestamps compartidos y mapa de calor: implementados.
-- El simulador une alineaciones y sustituciones y genera muestras únicamente
-  para los once activos; la API manual conserva validación de plantel/equipo.
-
-**Aceptación:** sustituciones delimitan las muestras del titular y suplente; el
-mapa de calor se puede reproducir desde los puntos almacenados.
-
-## T04 — Simulador reproducible
-
-- Usar `DATA_SEED=2030` para el dataset base.
-- Separar la semilla de datos de la semilla del workload.
-- Registrar `runId`, commit, escenario, semillas, duración y concurrencia.
-- El motor deportivo crea un partido nuevo, usa reloj lógico y conserva estado
-  en MongoDB. Comparte las mismas capas de dominio que la API; no modifica las
-  bases mediante scripts de bootstrap.
-- Genera comentarios Cassandra, telemetría InfluxDB y eventos oficiales que
-  Outbox proyecta a Redis y Neo4j.
-
-**Estado:** implementado para una instancia local; falta construir el front de
-espectador y probar una ejecución Docker completa.
-
-**Aceptación:** repetir escenario y semillas conserva datos y secuencia lógica;
-los resultados medidos pueden compararse entre commits.
-
-## T05 — Escenarios de carga
-
-| Escenario | Workload seed | Propósito |
-|---|---:|---|
-| Humo | `203001` | Confirmar flujos críticos con carga mínima y cero errores |
-| Tráfico normal | `203002` | Comprobar SLO con carga esperada y estable |
-| Estrés | `203003` | Aumentar carga hasta encontrar degradación y recuperación |
-
-La intensidad depende de usuarios virtuales, tasa, duración y mezcla de
-operaciones; la semilla solo hace reproducible la selección pseudoaleatoria.
-
-El escenario de estrés debe incluir una ejecución específica de InfluxDB hacia
-el objetivo académico de 10M+ puntos, sin confundir la prueba funcional de
-1.080 puntos con una prueba de escala. Debe medir batching, ingesta, consultas
-acotadas, cardinalidad, recursos y efecto de la retención.
-
-**Aceptación:** cada ejecución conserva configuración y resultados sin secretos,
-expone p50/p95/p99, throughput, errores, concurrencia y retraso de Outbox.
-
-## T06 — SLI, SLO y SLA propuesto
-
-- Definir SLI antes de fijar umbrales.
-- Validar SLO de latencia, errores, disponibilidad y propagación bajo tráfico normal.
-- Presentar el SLA como compromiso propuesto, no como resultado medido.
-- Documentar qué umbral se rompe durante estrés y cómo se recupera el sistema.
-
-**Aceptación:** Grafana y la evidencia distinguen objetivo, medición, estimación y
-compromiso; ninguna capacidad se presenta como observada sin ejecución.
-
-## T07 — Evidencia automática y saneamiento de ejecuciones
-
-- `capturar_evidencia.ps1` ya separa stdout/stderr, exige commit limpio y
-  genera manifiesto SHA-256.
-- Las fallas de MongoDB, Redis y Cassandra ya generan resultados persistentes
-  con valores antes/durante/después y recuperación. El mismo mecanismo quedó
-  implementado para InfluxDB y Neo4j; Neo4j requiere ejecución/versionado en el equipo.
-- Conservar y revisar la evidencia válida de la falla controlada de API.
-- Excluir o reemplazar la captura incompleta `20261123T192234Z`.
-- Adjuntar capturas de Grafana con la misma ventana temporal y commit.
-
-**Aceptación:** cada escenario crea una carpeta autocontenida con commit,
-servicios, pruebas, métricas, alertas y recuperación, sin secretos.
-
-## T08 — Cierre cuantitativo del Hito 12
-
-- Usar el simulador de T04/T05 para cargar un volumen analítico representativo.
-- Ejecutar exactamente la misma consulta operacional y de Data Mart.
-- Conservar p50/p95/p99, throughput, errores, concurrencia, CPU y memoria.
-- Explicar el cuello de botella, la mejora aplicada y el costo de frescura eventual.
-
-**Aceptación:** una ejecución versionada demuestra o refuta cuantitativamente la
-mejora; la línea base de un solo partido no se presenta como conclusión.
-
-## T09 — Convergencia de Outbox
-
-- Worker separado de la API con lease recuperable: implementado.
-- Proyección Redis mediante Lua y deduplicación por `eventoId`: implementada.
-- Backoff, máximo de intentos y cola `FALLIDO`: implementados.
-- Métricas de profundidad, edad, reintentos, replay y fallidos: implementadas.
-- Falla controlada de worker y replay posterior a la publicación: implementados.
-
-**Aceptación:** detener el worker no impide confirmar el evento; al recuperarlo
-la cola converge a cero y un replay no crea una segunda copia en Redis.
+Las pruebas posteriores deben indicar commit, escenario, semilla, duración,
+mezcla, datos iniciales, tasa lograda, errores y percentiles. La capacidad de
+escritura debe medirse con confirmación durable, distribución sesgada y
+reintentos. La capacidad analítica debe compararse con resultados equivalentes,
+frescura explícita y suficiente volumen. La recuperación debe distinguir
+reinicio con volumen conservado de restauración ante pérdida de almacenamiento.

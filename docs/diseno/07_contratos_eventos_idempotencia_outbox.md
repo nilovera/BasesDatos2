@@ -1,215 +1,82 @@
-# Paso 7 — Contratos de eventos, idempotencia y Outbox
+# Contratos de eventos, idempotencia y Outbox
 
-Estado: contrato y worker ejecutables para el primer flujo vertical. La
-descripción HTTP está en `backend/openapi.json`.
+## Identidades y alcance
 
-## Principios
+El contrato HTTP concreto está en `backend/openapi.json`. `eventoId` identifica
+el hecho, `secuencia` lo ordena dentro del partido y `versionPartido` protege
+el agregado frente a concurrencia. `X-Request-ID` correlaciona una solicitud;
+no reemplaza la identidad del comando ni deduplica una escritura.
 
-- El hecho deportivo se confirma primero en MongoDB.
-- Todo evento tiene identidad, secuencia por partido y versión de contrato.
-- Toda escritura exige `Idempotency-Key`.
-- La misma clave con el mismo contenido produce el mismo resultado.
-- La misma clave con contenido distinto es un conflicto.
-- Las proyecciones pueden demorarse, pero no inventar ni reemplazar el hecho oficial.
-- Una corrección es un nuevo hecho auditable.
-
-## Identidad
-
-| Dato | Formato | Uso |
+| Operación | Idempotency-Key | Comportamiento |
 |---|---|---|
-| `eventoId` | `EVE-000001` | Identidad durable del hecho |
-| `partidoId` | `PAR-0001` | Agregado afectado |
-| `secuencia` | entero positivo | Orden total dentro del partido |
-| `Idempotency-Key` | cadena opaca de 16 a 128 caracteres | Identidad del intento lógico del cliente |
-| `X-Request-ID` | cadena de trazabilidad | Correlación de logs; no deduplica |
-| `outboxId` | UUID o identificador opaco | Identidad del mensaje de propagación |
+| Registrar evento oficial | Obligatoria, de 16 a 128 caracteres | Mismo contenido devuelve la respuesta conservada; otro contenido genera conflicto |
+| Publicar comentario | Obligatoria | Identidad estable y reserva Cassandra |
+| Moderar comentario | Opcional en el incremento 15 | Con clave, replay sin reaplicar un estado antiguo; sin clave, cada llamada es una acción distinta |
+| Crear/controlar simulación | No exige esa cabecera | La auditoría utiliza una identidad interna por operación confirmada |
+| Ingresar telemetría | Identidad natural de la muestra | Tabla, tags y timestamp; no identidad de comando HTTP |
 
-`eventoId`, `Idempotency-Key` y `X-Request-ID` no son intercambiables.
+## Evento deportivo
 
-## Hash de solicitud
+`POST /api/v1/partidos/{partidoId}/eventos` admite `INICIO_PARTIDO`, `GOL`,
+`TARJETA`, `SUSTITUCION`, `GOL_ANULADO_VAR`, `FIN_PARTIDO` y
+`CORRECCION_EVENTO`. Las referencias y el estado deben satisfacer el dominio.
+El gol puede incluir `asistenteJugadorId`; una corrección referencia un evento
+del mismo partido, agrega otro hecho y recalcula el agregado.
 
-La API normaliza método, ruta, partido y body JSON, y calcula un hash SHA-256.
-Se almacena junto con la clave idempotente.
+El hash SHA-256 se calcula sobre el comando normalizado. La clave, el hash y
+la respuesta se conservan en el evento MongoDB. Una creación devuelve `201`;
+un replay confirmado devuelve `200` e `Idempotency-Replayed: true`.
+La reutilización incompatible devuelve `409 IDEMPOTENCY_KEY_REUSED`.
+No se promete un código especial de operación en curso que el servicio no expone.
 
-| Situación | Respuesta |
-|---|---|
-| Clave nueva | Ejecutar transacción y responder `201` |
-| Misma clave y mismo hash | Devolver resultado original con `200` y `Idempotency-Replayed: true` |
-| Misma clave y hash diferente | `409 IDEMPOTENCY_KEY_REUSED` |
-| Operación en curso | Espera acotada o `409 IDEMPOTENCY_IN_PROGRESS` |
+El simulador controla alineaciones y sustituciones. Los comandos manuales
+validan referencias y reglas básicas; no se declara validación completa de
+participación histórica por minuto para cada entrada externa.
 
-La clave se conserva al menos durante la ventana definida para reintentos de la
-demostración. Su TTL definitivo debe medirse contra volumen y necesidades de
-auditoría.
+## Transacción y mensaje de entrega
 
-## Comando de evento
+La transacción MongoDB actualiza el partido, inserta el evento y agrega Outbox.
+El incremento 15 agrega la entrega de auditoría. La respuesta oficial puede
+indicar `propagacion: PENDIENTE`: el hecho ya está confirmado y sus vistas
+todavía pueden estar en tránsito.
 
-Endpoint inicial:
+Outbox conserva `outboxId`, `eventoId`, `partidoId`, `tipo`, `secuencia`,
+`versionContrato`, `payload`, estado, intentos y marcas de gestión. El payload
+contiene el comando de evento, el resultado oficial y las referencias del
+partido que necesita la proyección. Los nombres y tipos persistidos se definen
+en `mongodb/init/01_schema.js`; no se confunden con un sobre teórico diferente.
 
-`POST /api/v1/partidos/{partidoId}/eventos`
+## Consumidor y recuperación
 
-Headers:
+1. `outbox-worker` reclama un mensaje disponible con `findOneAndUpdate` y lease.
+2. El script Lua Redis deduplica por evento, invalida caché y proyecta la vista
+   caliente y el Stream acotado.
+3. El servicio Neo4j proyecta el evento mediante `MERGE` identificado por evento.
+4. Solo después de ambos destinos se marca el mensaje `PUBLICADO`.
+5. Un fallo reprograma el mensaje con backoff y jitter; al agotar ocho intentos
+   pasa a `FALLIDO` para diagnóstico.
 
-- `Idempotency-Key`: obligatorio;
-- `X-Request-ID`: recomendado;
-- `Content-Type: application/json`.
+La entrega es al menos una vez. La idempotencia protege el efecto observable
+si el destino confirma y luego falla el acuse MongoDB. Un lease vencido permite
+retomar trabajo. El worker no implementa una barrera estricta n/n+1 por partido;
+no se afirma orden causal total de las vistas derivadas.
 
-Tipos de body:
+La prueba registrada de Outbox conservó dos intentos y una sola copia Redis.
+La simulación comprobó además relaciones deportivas Neo4j. Esto acredita esos
+casos, sin demostrar reconciliación de toda corrección histórica en cada destino.
 
-### Inicio
+## Auditoría y logs
 
-```json
-{
-  "tipo": "INICIO_PARTIDO",
-  "ocurridoEn": "2030-06-13T20:00:00Z"
-}
-```
+La entrega de auditoría usa otra cola MongoDB y un relay en la API. Su destino
+consultable es Cassandra. No reemplaza Outbox deportiva ni transporta textos
+de comentarios o series temporales hacia MongoDB.
 
-Solo se admite desde `PROGRAMADO`. Pasa el partido a `EN_CURSO`.
+Los logs HTTP incluyen correlación, ruta normalizada, método, código y duración,
+sin cuerpos ni secretos. Las dependencias indicadas son las previstas por el
+flujo, no spans medidos. Las métricas usan etiquetas acotadas, evitando IDs
+de usuario, request o partido como dimensiones de cardinalidad abierta.
 
-### Gol
-
-```json
-{
-  "tipo": "GOL",
-  "ocurridoEn": "2030-06-13T20:23:00Z",
-  "periodo": 1,
-  "minuto": 23,
-  "equipoId": "EQ-01",
-  "jugadorId": "JUG-0001"
-}
-```
-
-El partido debe estar `EN_CURSO`; equipo y jugador deben participar del partido.
-
-### Sustitución
-
-```json
-{
-  "tipo": "SUSTITUCION",
-  "ocurridoEn": "2030-06-13T21:05:00Z",
-  "periodo": 2,
-  "minuto": 60,
-  "equipoId": "EQ-01",
-  "saleJugadorId": "JUG-0001",
-  "entraJugadorId": "JUG-0009"
-}
-```
-
-Los jugadores deben pertenecer al mismo equipo y la participación debe permitir
-la transición. Este evento delimita qué muestras acepta InfluxDB para cada uno.
-
-### Corrección
-
-```json
-{
-  "tipo": "CORRECCION_EVENTO",
-  "ocurridoEn": "2030-06-13T20:25:00Z",
-  "eventoOriginalId": "EVE-000001",
-  "motivo": "Jugador informado incorrectamente",
-  "reemplazo": {
-    "tipo": "GOL",
-    "periodo": 1,
-    "minuto": 23,
-    "equipoId": "EQ-01",
-    "jugadorId": "JUG-0002"
-  }
-}
-```
-
-La corrección referencia un evento del mismo partido y recalcula el agregado.
-No elimina el evento original.
-
-## Respuesta confirmada
-
-```json
-{
-  "eventoId": "EVE-000001",
-  "partidoId": "PAR-0001",
-  "secuencia": 1,
-  "tipo": "INICIO_PARTIDO",
-  "estadoPartido": "EN_CURSO",
-  "marcador": {"local": 0, "visitante": 0},
-  "versionPartido": 2,
-  "propagacion": "PENDIENTE"
-}
-```
-
-`propagacion: PENDIENTE` no significa que falló la escritura. Significa que el
-hecho oficial fue confirmado y sus vistas derivadas aún pueden estar en tránsito.
-
-## Sobre de Outbox
-
-```json
-{
-  "versionContrato": 1,
-  "outboxId": "8b18e8f7-2cde-4b75-85ff-035b55cc2fd0",
-  "eventoId": "EVE-000001",
-  "tipo": "INICIO_PARTIDO",
-  "partidoId": "PAR-0001",
-  "secuencia": 1,
-  "ocurridoEn": "2030-06-13T20:00:00Z",
-  "registradoEn": "2030-06-13T20:00:00.150Z",
-  "payload": {}
-}
-```
-
-Cada consumidor guarda un checkpoint o deduplica por `eventoId`. Procesar dos
-veces el mismo mensaje no debe duplicar estadísticas, relaciones ni caché.
-
-## Implementación del consumidor
-
-`outbox-worker` es un servicio separado de la API. En este incremento proyecta
-los eventos confirmados a Redis porque ese motor mantiene el estado caliente y
-los eventos recientes; MongoDB sigue siendo la única fuente oficial.
-
-1. Reclama un mensaje `PENDIENTE`, o uno `PROCESANDO` cuyo lease venció, mediante
-   `findOneAndUpdate` atómico.
-2. Incrementa `intentos` y registra `bloqueo.workerId` y `bloqueo.hasta`.
-3. Ejecuta un script Lua en Redis que, atómicamente, deduplica por `eventoId`,
-   invalida `cache:partido:*` y agrega el sobre al Stream acotado del partido.
-4. Marca el mensaje `PUBLICADO`, libera el lease y fija la retención.
-5. Si falla, vuelve a `PENDIENTE` con backoff exponencial y jitter; al agotar
-   ocho intentos pasa a `FALLIDO` para diagnóstico.
-
-La entrega es **al menos una vez** y el efecto observable es idempotente. La
-prueba controlada fuerza un segundo procesamiento después de publicar y exige
-una sola copia en el Stream.
-
-## Reintentos
-
-- Backoff exponencial con jitter y máximo documentado.
-- Errores transitorios vuelven a `PENDIENTE` con `proximoIntentoEn`.
-- Errores permanentes pasan a `FALLIDO` y requieren diagnóstico.
-- Un lock vencido permite que otro worker retome el mensaje.
-- Publicar y guardar el checkpoint puede fallar entre pasos; por eso cada destino
-  debe ser idempotente.
-
-## Errores HTTP iniciales
-
-| Código | Código de dominio | Ejemplo |
-|---|---|---|
-| 400 | `INVALID_REQUEST` | JSON o header inválido |
-| 404 | `MATCH_NOT_FOUND` | Partido inexistente |
-| 409 | `INVALID_MATCH_STATE` | Gol antes del inicio |
-| 409 | `IDEMPOTENCY_KEY_REUSED` | Misma clave con otro body |
-| 409 | `VERSION_CONFLICT` | Escritura concurrente perdió la versión |
-| 422 | `DOMAIN_VALIDATION_ERROR` | Jugador ajeno al equipo |
-| 503 | `OFFICIAL_STORE_UNAVAILABLE` | MongoDB no confirma la operación |
-
-## Trazabilidad y métricas
-
-Logs y métricas deben incluir `requestId`, `partidoId`, `tipo`, resultado y
-latencia, pero nunca credenciales ni el body completo si pudiera contener datos
-sensibles. Métricas previstas:
-
-- requests y errores por endpoint;
-- latencia HTTP;
-- eventos confirmados por tipo;
-- repeticiones idempotentes y conflictos;
-- `fixture2030_outbox_pending{consumer="redis"}`;
-- `fixture2030_outbox_oldest_pending_seconds{consumer="redis"}`;
-- `fixture2030_outbox_published_total{result="NEW|REPLAY"}`;
-- `fixture2030_outbox_retries_total`;
-- `fixture2030_outbox_failed{consumer="redis"}`;
-- `up{job="fixture2030-outbox"}`.
+La etiqueta histórica `consumer="redis"` de las métricas Outbox se conserva en
+el código y las reglas; no significa que Neo4j haya dejado de ser destino.
+Profundidad, edad, reintentos y fallidos se evalúan junto con la disponibilidad
+del worker. Evidencias: [estado de validación](../estado_validacion.md).

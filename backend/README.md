@@ -42,28 +42,30 @@ valores para el mismo jugador/equipo y timestamp.
 
 ## Atomicidad
 
-Cada evento se confirma en una transacción MongoDB con tres efectos:
+Cada evento se confirma en una transacción MongoDB con estos efectos:
 
 1. actualiza el agregado `partidos` con control de versión;
 2. inserta el hecho en `eventos_oficiales`;
-3. inserta el mensaje pendiente en `outbox`.
+3. inserta el mensaje pendiente en `outbox`;
+4. agrega la entrega de auditoría en `auditoria_pendiente`.
 
 El servicio `outbox-worker` reclama mensajes con lease, invalida el cache del
 partido y agrega el evento a un Redis Stream. Un Hash por `eventoId` hace que el
 script Lua sea idempotente aun si Redis confirmó la proyección y el acuse en
-MongoDB falló. Los reintentos usan backoff exponencial con jitter; al agotar el
+MongoDB falló. Luego proyecta el evento a Neo4j mediante `MERGE`; solo después
+confirma el mensaje. Los reintentos usan backoff exponencial con jitter; al agotar el
 límite el mensaje pasa a `FALLIDO` sin eliminarse.
 
 La API ya no invalida Redis directamente después del commit: esa escritura
 derivada pertenece al worker y por eso la consistencia del cache es eventual.
 
-Si una operación falla, ninguno de los tres cambios queda visible. La API usa
+Si la transacción falla, ninguno de esos cambios queda confirmado. La API usa
 write concern `majority` sobre el replica set de laboratorio.
 
 ## Redis
 
 La lectura de partidos usa Cache-Aside y expone `X-Cache: HIT`, `MISS` o
-`BYPASS`. Después de una escritura oficial se invalida la clave. Las sesiones
+`BYPASS`. El worker invalida la clave después de una escritura oficial. Las sesiones
 se guardan como Hash con TTL; un GET no renueva el tiempo y el endpoint de
 renovación ejecuta la actualización de manera explícita y atómica.
 
@@ -84,7 +86,7 @@ resúmenes de 15 minutos se guardan en una base de mayor retención.
 
 ## Neo4j
 
-El grafo es una proyección del catálogo autoritativo. Permite recorrer partidos,
+El grafo proyecta el catálogo común y eventos oficiales mediante Outbox. Permite recorrer partidos,
 recomendar jugadores con el mismo puesto y confederación, y explicar caminos
 entre equipos. La carga repetida converge mediante `MERGE`.
 
@@ -116,4 +118,18 @@ los once jugadores activos. Para escrituras manuales externas todavía se valida
 plantel/equipo, no la participación histórica completa.
 
 La API corre con un worker para mantener simples las métricas de proceso. La
-prueba de carga definirá luego la estrategia de múltiples workers.
+carga ya tiene mediciones locales; una estrategia de múltiples workers
+requiere validar además la coordinación del simulador y las métricas.
+
+## Auditoría del incremento 15
+
+La API 0.10.0 expone actividad por actor/día y recurso/día, y consulta de
+entregas pendientes. Las rutas están en `openapi.json`; requieren una sesión
+ADMIN de laboratorio mediante `X-Session-ID`. Los comentarios incorporan
+auditoría en su batch Cassandra; las acciones MongoDB usan un relay durable.
+Los logs HTTP incluyen request ID, ruta, método, resultado y duración sin
+cuerpos ni credenciales.
+
+Diseño y límites: [auditoría](../docs/diseno/10_auditoria_actividad.md).
+Pruebas unitarias y ejecución HTTP integrada de auditoría con resultado OK:
+[estado de validación](../docs/estado_validacion.md).

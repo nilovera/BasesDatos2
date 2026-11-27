@@ -14,6 +14,8 @@ class MatchNavigationTests(unittest.TestCase):
         self.client = MagicMock()
         self.repo = MongoRepository(self.client)
         self.db = self.repo.db
+        session = self.client.start_session.return_value.__enter__.return_value
+        session.with_transaction.side_effect = lambda callback, **kwargs: callback(session)
 
     def test_selected_teams_determine_rosters(self):
         self.db.partidos.find_one.return_value = {"equipos": {"localId": "EQ-01", "visitanteId": "EQ-33"}}

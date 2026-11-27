@@ -1,0 +1,31 @@
+{
+  "prueba": "auditoria-20261127T040527Z",
+  "fechaResultadoUtc": "2026-11-27T04:05:31.8002928Z",
+  "estado": "OK",
+  "resultadoOriginalSha256": "d0f73ea05106d8ed4f23cb230c310b86507cd640e88e63db2522896223fe6f76",
+  "fuente": "resultado.json conservado en el proyecto y salida de PowerShell aportada por el equipo",
+  "transcripcion": "Texto pegado(20261127-040628).txt",
+  "transcripcionLibraryFileId": "libfile_9b46bc6db55c819187a8118864feb500",
+  "apiVersionEnTranscripcion": "0.10.0",
+  "headObservadoDuranteRevision": "f4cb9be15f996d2710b41c36b18b09eed7e07da2",
+  "limitacionCommit": "El script original no capturo SHA ni estado del arbol al ejecutar. HEAD y hashes se observaron despues; no identifican de forma retrospectiva una ejecucion desde un commit limpio.",
+  "huellasArchivosObservadasDuranteRevisionSha256": {
+    "scripts/probar_auditoria.ps1": "8c6bfdda7f93f9baa5e91421759ef3892f667cf7be3fe5b0ed73b2d61e884911",
+    "backend/app/main.py": "66d75a6831def4c5437dbd9c7b7670346748a47ab83fa8cbdbe388dcb8b86ec3",
+    "backend/app/audit_context.py": "e7005288604f299a08b042583d85ccaf6b9305729eea69060f4dc4b41cf1a8f5",
+    "backend/app/audit_service.py": "f4831c6364919ff547b807bc9019f3e533d83e632fb4ce004ef68c2f732a6b8e",
+    "backend/app/audit_routes.py": "61ead2c77d0a5688acf62b2a1e5c0d28b6f37e5fb747392d98d0f12cb6fa39ea",
+    "backend/app/audit_worker.py": "329d88bd63981eb52526dea79e75186a8295a390e127c844189e9c59c36bbad6",
+    "backend/app/cassandra_service.py": "08fdc22c943c245694be9fc65fa39986b4ccc803948e0e3c418b6d1a656ff0db",
+    "backend/app/repository.py": "69a4885e0f5cc48c3282b85d30a67346b7efba58dce0f9ede3021275d100b64b",
+    "cassandra/init/03_audit_schema.cql": "27ec2aea763dc6c14f1552a3c0438ddcbbeec48267f52d9a6b9ffc6980ebd13b",
+    "mongodb/init/04_audit_schema.js": "e99628087de22ded4e717b7192bbab908e0a24459f174c1b327d9d45794b2870"
+  },
+  "cobertura": "Publicacion, replay, dos moderaciones, replay antiguo, paginacion, actor, rechazo 403 y entrega de creacion de simulacion",
+  "limites": [
+    "No mide capacidad ni replicacion",
+    "No comprueba todas las acciones auditables",
+    "No registra una prueba nueva de falla de Cassandra",
+    "Los logs tecnicos HTTP no se almacenan en Cassandra"
+  ]
+}

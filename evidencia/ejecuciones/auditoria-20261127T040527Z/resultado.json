@@ -1,0 +1,67 @@
+﻿{
+    "comentarioId":  "91d2ad72-c06a-5941-bc2b-53a4cdeedaea",
+    "simulacionId":  "SIM-3bfee882-2ea1-48d6-b45e-49f6998f4a04",
+    "fechaUtc":  "2026-11-27T04:05:31.8002928Z",
+    "reenvioMongoCassandra":  "OK",
+    "consultaPublica":  "403",
+    "duplicados":  0,
+    "operacionesComentario":  [
+                                  {
+                                      "auditoriaId":  "fc689432-000b-5546-88ec-e37bf45ce2fc",
+                                      "operacionId":  "moderar:3d635a5a958f133be2bd927861801fee569f282ed3644dea60c18121fcbd4852",
+                                      "actorId":  "USR-0900",
+                                      "actorTipo":  "SESION_LAB",
+                                      "fecha":  "2026-11-27T04:05:30.478000Z",
+                                      "accion":  "MODERAR_COMENTARIO",
+                                      "recursoTipo":  "COMENTARIO",
+                                      "recursoId":  "91d2ad72-c06a-5941-bc2b-53a4cdeedaea",
+                                      "resultado":  "OK",
+                                      "requestId":  "audit-6d80e2b4-5286-48eb-b9ad-0fbf31001d44",
+                                      "metodo":  "PATCH",
+                                      "ruta":  "/api/v1/comentarios/91d2ad72-c06a-5941-bc2b-53a4cdeedaea/moderacion",
+                                      "detalle":  {
+                                                      "estado":  "VISIBLE",
+                                                      "motivoHash":  "f65f5c958f4530519558a59edd97cbaa0359640d3d7972e4692638236e5877dd",
+                                                      "partidoId":  "PAR-0001"
+                                                  }
+                                  },
+                                  {
+                                      "auditoriaId":  "00465b86-27ea-5fb0-b38b-498859b0f69f",
+                                      "operacionId":  "moderar:347a2da9d046074aaed58a5fd3998884fddd273d95f19ca55830d4c6adb5360d",
+                                      "actorId":  "USR-0900",
+                                      "actorTipo":  "SESION_LAB",
+                                      "fecha":  "2026-11-27T04:05:30.445000Z",
+                                      "accion":  "MODERAR_COMENTARIO",
+                                      "recursoTipo":  "COMENTARIO",
+                                      "recursoId":  "91d2ad72-c06a-5941-bc2b-53a4cdeedaea",
+                                      "resultado":  "OK",
+                                      "requestId":  "audit-6d80e2b4-5286-48eb-b9ad-0fbf31001d44",
+                                      "metodo":  "PATCH",
+                                      "ruta":  "/api/v1/comentarios/91d2ad72-c06a-5941-bc2b-53a4cdeedaea/moderacion",
+                                      "detalle":  {
+                                                      "estado":  "OCULTO",
+                                                      "motivoHash":  "4f9dd06ae61b1aa268640f75cc3e561eee4713bb01a914093da823282f074972",
+                                                      "partidoId":  "PAR-0001"
+                                                  }
+                                  },
+                                  {
+                                      "auditoriaId":  "e7c307a6-4aad-59cb-a5bb-b48d2b8bb48c",
+                                      "operacionId":  "publicar:91d2ad72-c06a-5941-bc2b-53a4cdeedaea",
+                                      "actorId":  "USR-0900",
+                                      "actorTipo":  "SESION_LAB",
+                                      "fecha":  "2026-11-27T04:05:30.162000Z",
+                                      "accion":  "PUBLICAR_COMENTARIO",
+                                      "recursoTipo":  "COMENTARIO",
+                                      "recursoId":  "91d2ad72-c06a-5941-bc2b-53a4cdeedaea",
+                                      "resultado":  "OK",
+                                      "requestId":  "audit-6d80e2b4-5286-48eb-b9ad-0fbf31001d44",
+                                      "metodo":  "POST",
+                                      "ruta":  "/api/v1/partidos/PAR-0001/comentarios",
+                                      "detalle":  {
+                                                      "autorComentario":  "USR-0900",
+                                                      "partidoId":  "PAR-0001"
+                                                  }
+                                  }
+                              ],
+    "estado":  "OK"
+}

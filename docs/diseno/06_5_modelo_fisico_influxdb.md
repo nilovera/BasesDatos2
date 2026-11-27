@@ -8,9 +8,10 @@ jugadores, estado, marcador y eventos; InfluxDB responde recorridos, mapas de
 calor, evolución estadística y resúmenes por ventana.
 
 Se revisó la rama histórica `InfluxDB`, commit
-`1668d8382d4e57ff4c458798ffa384f7c923922f`. Se conservaron su separación
-detalle/histórico, la muestra cada diez segundos y la agregación de quince
-minutos. Se reemplazaron `ARG/MEX` por `EQ-01/EQ-33`, el tag flotante, el bind
+`1668d8382d4e57ff4c458798ffa384f7c923922f`. Se conservaron la separación
+detalle/histórico y la agregación de quince minutos. La prueba estadística usa
+intervalos de diez segundos; el simulador actual genera posiciones cada cinco
+segundos lógicos. Se reemplazaron `ARG/MEX` por `EQ-01/EQ-33`, el tag flotante, el bind
 mount de WSL y el token manual. La rama mal escrita `InlfuxDB` no se usa.
 
 ## Bases y retención
@@ -120,6 +121,13 @@ La API exige acotar la ventana si supera 10.000 puntos.
 - salud funcional `fixture2030_dependency_up{dependency="influxdb"}`;
 - operaciones de dominio `fixture2030_telemetry_operations_total`;
 - alerta y falla controlada que no detienen MongoDB, Redis ni Cassandra.
+
+## Evidencia y límites
+
+La instancia, el acceso autenticado y la falla/recuperación tienen evidencia
+Docker. La simulación y el front verificaron muestras, posiciones y mapas.
+Ver [estado de validación](../estado_validacion.md). No se copian las series
+a MongoDB; el Data Mart recibe resúmenes mediante refresh explícito.
 
 ## Límites declarados
 

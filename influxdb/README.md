@@ -46,3 +46,14 @@ falla lo detiene temporalmente, exige estado degradado, `503` en telemetría,
 continuidad del partido oficial, alerta `firing` y recuperación en `finally`.
 
 No ejecutar `docker compose down -v`: eliminaría el volumen de laboratorio.
+
+
+## Evidencia y propiedad del dato
+
+La verificación Docker, falla/recuperación y consultas de telemetría tienen
+evidencia registrada. La simulación genera posiciones y pelota cada cinco
+segundos lógicos. Las estadísticas de equipo y las agregaciones de 15 minutos
+usan sus propias rutas; no se poblaron automáticamente por cada simulación.
+
+Las series permanecen en InfluxDB. El Data Mart extrae resúmenes al refrescarse,
+sin mover las fuentes a MongoDB. Ver [estado de validación](../docs/estado_validacion.md).

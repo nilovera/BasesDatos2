@@ -27,3 +27,17 @@ presentar el laboratorio como una prueba de quórum.
 Los buckets limitan el crecimiento de cada partición y los shards evitan que
 una final concentre todas las escrituras en una sola partición.
 
+
+
+## Auditoría y validación
+
+El incremento 15 agrega historial por actor/día y recurso/día, con reserva
+idempotente de operación y sin TTL configurado. Las acciones de comentarios
+se conservan en su batch; las oficiales llegan desde una cola MongoDB. El
+modelo exacto se describe en [auditoría](../docs/diseno/10_auditoria_actividad.md).
+
+Los comentarios, el nodo local y la auditoría tienen evidencia Docker. La
+auditoría cuenta además con pruebas unitarias; su resultado HTTP integrado
+registra historial, cero duplicados y entrega MongoDB → Cassandra confirmada. El número de shards
+no se presenta como óptimo sin un benchmark representativo de escritura.
+Ver [estado de validación](../docs/estado_validacion.md).

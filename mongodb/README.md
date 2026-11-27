@@ -1,6 +1,7 @@
 # MongoDB — núcleo deportivo
 
-Este directorio contiene el primer artefacto ejecutable del diseño físico.
+Este directorio contiene el esquema, los índices, la carga y la verificación
+del núcleo documental integrado.
 
 ## Contenido
 
@@ -8,6 +9,7 @@ Este directorio contiene el primer artefacto ejecutable del diseño físico.
 - `init/01_schema.js`: colecciones, validadores e índices idempotentes.
 - `init/02_seed_catalogo.js`: carga reproducible de 64 equipos, 1.024 jugadores y el partido de demostración.
 - `init/03_verify.js`: comprobación de réplica, conteos, referencias e índices.
+- `init/04_audit_schema.js`: cola e índices de entrega de auditoría.
 
 El Compose configura un replica set de un nodo para habilitar transacciones en
 laboratorio. Esto no representa alta disponibilidad: una réplica de un miembro
@@ -51,7 +53,7 @@ mongodb://mongo:27017/fixture2030?replicaSet=rs0
 - `eventos_oficiales` conserva la historia ordenada por partido.
 - `partidos` mantiene la vista vigente y su versión de concurrencia.
 - `outbox` propaga hechos confirmados a vistas derivadas.
-- `outbox-worker` reclama con lease, reintenta y proyecta idempotentemente a Redis.
+- `outbox-worker` reclama con lease, reintenta y proyecta idempotentemente a Redis y Neo4j.
 - `contadores` asigna IDs secuenciales `EVE-xxxxxx` dentro de la transacción.
 - El esquema y los índices no contienen componentes de IRIS.
 
@@ -61,8 +63,9 @@ El puerto se publica solamente en `127.0.0.1`. Esta configuración de laboratori
 no habilita autenticación y no debe exponerse a otra red. Las credenciales y el
 keyfile se incorporarán antes de considerar un despliegue fuera del equipo local.
 
-Ver `docs/diseno/06_2_modelo_fisico_mongodb.md` y
-`docs/diseno/07_contratos_eventos_idempotencia_outbox.md`.
+Diseño: [modelo MongoDB](../docs/diseno/06_2_modelo_fisico_mongodb.md) y
+[contratos y Outbox](../docs/diseno/07_contratos_eventos_idempotencia_outbox.md).
+Ejecución y límites: [estado de validación](../docs/estado_validacion.md).
 
 Referencia del procedimiento de replica set para desarrollo y pruebas:
 https://www.mongodb.com/docs/manual/tutorial/deploy-replica-set-for-testing/

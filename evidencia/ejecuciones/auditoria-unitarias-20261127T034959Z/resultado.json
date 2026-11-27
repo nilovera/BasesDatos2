@@ -1,0 +1,10 @@
+{
+  "fechaUtc": "2026-11-27T03:49:59.081763+00:00",
+  "baseCommit": "f4cb9be15f996d2710b41c36b18b09eed7e07da2",
+  "resultado": "OK",
+  "pruebas": 170,
+  "pruebasAuditoria": 25,
+  "tipo": "Unitarias y regresion con dobles de driver; no son pruebas de Cassandra ni HTTP reales",
+  "docker": "Extension de auditoria sin resultado adjunto de ejecucion HTTP real; la plataforma previa posee sus registros Docker",
+  "comprobacionDisponible": "scripts/probar_auditoria.ps1"
+}

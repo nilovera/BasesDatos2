@@ -5,7 +5,7 @@
 El simulador genera un partido completo de 90 minutos sin usar el perfil de
 carga. Cada ejecución crea un agregado `PAR-xxxx` nuevo a partir de `PAR-0001`;
 no reinicia ni borra la historia oficial. La semilla deportiva predeterminada
-es `2030` y la velocidad `30x`, equivalente a tres minutos reales.
+es `2030` y la velocidad `30x`, con duración nominal de tres minutos reales, más el costo de procesamiento.
 
 ## Reloj lógico
 
@@ -26,8 +26,10 @@ plan ni omitir eventos.
   puesto. El equipo con posesión adelanta sus líneas.
 - En goles y VAR, la pelota adopta las mismas coordenadas que el evento oficial.
 
-Con 90 minutos se producen 1.080 instantes, 23.760 posiciones de jugadores y
-1.080 posiciones de pelota: unas 24.840 muestras por ejecución.
+Para 90 minutos, el cálculo nominal a intervalos de cinco segundos es de
+1.080 instantes, 23.760 posiciones de jugadores y 1.080 posiciones de pelota:
+24.840 muestras. Es una estimación del plan, no un conteo exhaustivo medido.
+La prueba registrada verificó 20 muestras de posiciones y 20 de pelota.
 
 ## Autoridad y proyecciones
 
@@ -52,7 +54,8 @@ duplica el marcador, Stream ni relaciones.
 - `PATCH /api/v1/simulaciones/{id}/velocidad`
 - `GET /api/v1/simulaciones/{id}`
 
-Para la prueba automática se usa `120x` y termina en unos 45 segundos. La demo
+Para la prueba automática se usa `120x`, con duración nominal de 45 segundos
+más el costo de las escrituras y consultas. La demo
 visual debe usar `30x` para durar aproximadamente tres minutos.
 
 ## Limitaciones declaradas
@@ -61,4 +64,12 @@ El laboratorio ejecuta una sola instancia de API y un hilo simulador. El estado
 de control vive en MongoDB y puede retomarse tras una pausa, pero este incremento
 no implementa elección distribuida de líder entre múltiples réplicas HTTP. Los
 usuarios de comentarios siguen siendo identificadores sintéticos; la colección
-durable de perfiles y autorización continúa en T01.
+durable de perfiles y la autenticación de producción no están implementadas.
+Un fallo de dependencia puede llevar la ejecución a estado `ERROR`; no se
+promete continuidad del simulador durante toda caída remota.
+
+La [ejecución integrada](../estado_validacion.md) registró semilla 2030,
+5.400 segundos lógicos, 17 eventos, marcador final 1–2, 156 comentarios y
+convergencia de Outbox. Las posiciones de jugadores y pelota se escriben
+directamente en InfluxDB. Las estadísticas de equipo y sus resúmenes de
+15 minutos requieren su propio flujo de ingesta/agregación.

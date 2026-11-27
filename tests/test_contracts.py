@@ -144,7 +144,7 @@ class ContractTests(unittest.TestCase):
             if parameter["name"] == "cursor"
         )
         self.assertIn("null", {item.get("type") for item in cursor["schema"]["anyOf"]})
-        self.assertEqual("0.9.0", self.openapi["info"]["version"])
+        self.assertEqual("0.10.0", self.openapi["info"]["version"])
 
     def test_simulator_contract_exposes_controls_and_ball(self):
         paths = self.openapi["paths"]
@@ -173,7 +173,7 @@ class ContractTests(unittest.TestCase):
         for path in expected:
             self.assertIn(path, paths)
             self.assertIn("get", paths[path])
-        self.assertEqual("0.9.0", self.openapi["info"]["version"])
+        self.assertEqual("0.10.0", self.openapi["info"]["version"])
 
     def test_match_read_documents_cache_result_header(self):
         response = self.openapi["paths"]["/api/v1/partidos/{partidoId}"]["get"][

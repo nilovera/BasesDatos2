@@ -126,7 +126,7 @@ class RuntimeIncrementTests(unittest.TestCase):
         self.assertIn("Implementado no equivale", matrix.replace("**", ""))
         self.assertIn("Pruebas de humo, tráfico normal y estrés", matrix)
         self.assertIn("Defensa de 20 minutos", matrix)
-        self.assertIn("no se declara completamente cerrado", matrix)
+        self.assertIn("estado de validación", matrix)
 
     def test_grafana_dashboard_is_valid_and_provisioned(self):
         dashboard = json.loads(

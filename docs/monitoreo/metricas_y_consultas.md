@@ -30,7 +30,8 @@ histogram_quantile(0.95, sum by (le) (rate(fixture2030_http_request_duration_sec
 - Unidad: segundos.
 - Periodo: ventana movil de 5 minutos.
 - Uso: observar la latencia del 95 % de las solicitudes sin confundirla con un
-  promedio. Solo sera un resultado medido despues de ejecutar un escenario.
+  promedio. Las ejecuciones de carga ya registran latencia; esta consulta estima el
+  percentil del histograma en su ventana, sin sustituir los percentiles del cliente.
 
 ## Volumen de solicitudes
 
@@ -64,7 +65,7 @@ fixture2030_dependency_up{dependency="mongodb"}
 - Unidad: booleano (`1` existe PRIMARY, `0` no está disponible).
 - Periodo: último chequeo de `/health`, ejecutado también por el healthcheck.
 - Uso: diferenciar una API viva de la imposibilidad de confirmar eventos
-  oficiales. No reemplaza las métricas internas de un MongoDB Exporter.
+  oficiales. Se complementa con el collector nativo de la API descrito más abajo.
 
 ## Disponibilidad de Redis
 
@@ -92,7 +93,8 @@ fixture2030_outbox_failed{consumer="redis"}
 
 Estas consultas separan profundidad, edad y agotamiento de reintentos. Una cola
 temporalmente mayor que cero es válida; el riesgo aparece cuando no converge o
-el mensaje más antiguo supera el objetivo local de 30 segundos.
+el mensaje más antiguo supera el objetivo local de 30 segundos. La etiqueta histórica `consumer="redis"`
+se conserva, aunque el worker también proyecta Neo4j.
 
 ## Presion de memoria Redis
 
@@ -210,3 +212,24 @@ métricas internas de PostgreSQL; CPU, buffers y locks requieren un exporter.
 Prometheus conserva siete días en el laboratorio. Esa retención permite revisar
 la demostración local, pero no representa una política productiva ni sustituye
 la evidencia versionada por ejecución.
+
+
+## Métricas nativas de MongoDB
+
+El collector de la API consulta `serverStatus` y `dbStats` durante el scrape.
+No expone documentos ni credenciales y no requiere un exporter separado.
+
+```promql
+fixture2030_mongodb_metrics_up
+fixture2030_mongodb_connections
+sum by (operation) (rate(fixture2030_mongodb_operations_total[5m]))
+fixture2030_mongodb_data_bytes
+fixture2030_mongodb_storage_bytes
+fixture2030_mongodb_index_bytes
+```
+
+La disponibilidad del collector se interpreta por separado de la de la API.
+Los tamaños son valores instantáneos, no tasas. Los IDs de usuario o solicitud
+no se agregan como etiquetas de estas métricas.
+
+Resultados de ejecución y límites: [estado de validación](../estado_validacion.md).

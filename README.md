@@ -1,48 +1,46 @@
 # Fixture 2030 — trabajo final
 
+## Incremento 15 — Auditoría y revisión documental
+
+Se incorpora un historial en Cassandra por actor/día y recurso/día para comentarios,
+moderación, eventos oficiales y simulaciones. Los cambios oficiales dejan un envío
+pendiente en su misma transacción MongoDB hasta que Cassandra lo confirme.
+Consultar [instrucciones de aplicación y prueba](INSTRUCCIONES_AUDITORIA_15.md) y
+[diseño y límites](docs/diseno/10_auditoria_actividad.md). La API pasa a versión 0.10.0.
+Se revisan los Markdown de fundamentación, diseño, monitoreo y rendimiento;
+el [registro de validación](docs/estado_validacion.md) vincula sus estados con
+las ejecuciones existentes.
+Las identidades y sesiones siguen siendo de laboratorio; no se afirma autenticación real.
+
 Integración final del trabajo de Ingeniería de Datos II dentro del repositorio
 `nilovera/BasesDatos2`, rama `trabajo-final`.
 
 **Estado:** MongoDB autoritativo, API transaccional, worker Outbox, Redis para datos calientes,
-Cassandra para comentarios, InfluxDB para series temporales, Neo4j para
+Cassandra para comentarios y auditoría, InfluxDB para series temporales, Neo4j para
 relaciones, un Data Mart analítico en PostgreSQL y observabilidad con Prometheus y Grafana.
 
-## Preparar la rama limpia
+## Preparar y comprobar el proyecto
 
-La rama `trabajo-final` debe comenzar sin heredar el contenido de `monitoreo` ni
-de otra rama histórica. Las implementaciones anteriores se conservan como
-antecedentes y se recuperan archivo por archivo después de su revisión.
-
-Desde una copia limpia del repositorio:
+La rama de integración ya existe. Desde una copia nueva del repositorio:
 
 ```text
-git clone https://github.com/nilovera/BasesDatos2.git
+git clone --branch trabajo-final https://github.com/nilovera/BasesDatos2.git
 cd BasesDatos2
-git switch --orphan trabajo-final
 ```
 
-Copiar entonces el contenido de este paquete en la raíz del repositorio, revisar
-`git status` y crear el primer commit. No realizar un merge completo de las ramas
-anteriores.
-
-## Verificar el commit inicial
-
-Instalar Python 3.10 o superior. Desde CMD o PowerShell:
+Aplicar el paquete sobre esa rama según
+[las instrucciones del incremento 15](INSTRUCCIONES_AUDITORIA_15.md).
+Para comprobar el catálogo y ejecutar las pruebas locales:
 
 ```text
 python -m scripts.catalogo --check
 python -m unittest discover -s tests -v
 ```
 
-Si Windows utiliza el lanzador de Python, reemplazar `python` por `py`. Esta
-primera entrega no requiere paquetes externos.
-
-Para regenerar los JSON del catálogo:
-
-```text
-python -m scripts.catalogo
-python -m scripts.catalogo --check
-```
+Para regenerar el catálogo, ejecutar `python -m scripts.catalogo` y volver a
+comprobarlo. Las verificaciones integradas utilizan Docker y los scripts de
+cada componente. El [registro de validación](docs/estado_validacion.md) identifica
+las ejecuciones existentes, sus resultados y sus límites.
 
 ## Contenido y estado
 
@@ -51,27 +49,27 @@ python -m scripts.catalogo --check
 | `data/fuentes/` | Definición reproducible del dataset | Implementado |
 | `data/catalogo/` | 64 equipos, 1.024 jugadores, equivalencias, partido de demostración y eventos iniciales vacíos | Generado y verificado |
 | `scripts/` | Generación y comprobación de integridad | Implementado |
-| `tests/` | Pruebas del catálogo, contratos, dominio, API e infraestructura | Ejecutadas estáticamente |
-| `docs/antecedentes/` | Siete documentos de diseño previos | Conservados como antecedentes |
-| `docs/diseno/` | Convenciones y decisiones de la rama final | Base inicial documentada |
-| `backend/` | FastAPI, contrato OpenAPI, transacción, idempotencia y worker Outbox | Implementado con proyección idempotente a Redis |
+| `tests/` | Pruebas del catálogo, contratos, dominio, API e infraestructura | 170 pruebas unitarias y de regresión ejecutadas en el incremento 15 |
+| `docs/antecedentes/` | Fundamentación, alcance y arquitectura de referencia | Revisados y armonizados con la implementación |
+| `docs/diseno/` | Convenciones y decisiones de la rama final | Diseño físico y contratos actualizados |
+| `backend/` | FastAPI, contrato OpenAPI, transacción, idempotencia y worker Outbox | Implementado; proyección idempotente a Redis y Neo4j |
 | `mongodb/` | Replica set, validadores, índices, carga y verificación | Implementado y validado en Docker |
-| `redis/` | Cache-Aside, sesiones, TTL, LFU, RDB y AOF | Implementado y validado en Docker; evidencia final pendiente |
-| `cassandra/` | Esquema por consulta, buckets, shards e idempotencia | Implementado y validado en Docker; evidencia final pendiente |
+| `redis/` | Cache-Aside, sesiones, TTL, LFU, RDB y AOF | Implementado y validado en Docker; evidencia registrada |
+| `cassandra/` | Esquema por consulta, buckets, shards e idempotencia | Implementado y validado en Docker; evidencia registrada |
 | `influxdb/` | Retención, telemetría, cursores, mapas de calor y resúmenes | Implementado y validado |
-| `neo4j/` | Proyección, restricciones, CRUD, recomendaciones y caminos | Implementado; ejecución Docker pendiente |
-| `datamart/` | Esquema estrella, hechos de eventos y resúmenes de 15 minutos | Implementado; ejecución Docker pendiente |
+| `neo4j/` | Proyección, restricciones, CRUD, recomendaciones y caminos | Implementado y validado en Docker; evidencia registrada |
+| `datamart/` | Esquema estrella, hechos de eventos y resúmenes de 15 minutos | Implementado y validado en Docker; evidencia registrada |
 | `infra/` | Prometheus, reglas de alerta, Grafana y dashboard inicial | Implementado y ejecutado en Docker |
-| `evidencia/` | Resultados trazables por commit y prueba de falla controlada | Estructura y captura automatizadas; ejecuciones pendientes de versionar |
+| `evidencia/` | Resultados trazables por commit y prueba de falla controlada | Ejecuciones integradas, fallas, carga y simulación registradas |
 
-## Arquitectura objetivo
+## Arquitectura implementada
 
 La solución final utiliza cinco motores operacionales y un destino analítico separado:
 
 | Motor | Responsabilidad principal |
 |---|---|
 | MongoDB | Fuente oficial de equipos, jugadores, partidos, alineaciones y eventos deportivos |
-| Cassandra | Comentarios, moderación y vistas por partido/usuario con buckets y shards |
+| Cassandra | Comentarios y moderación por partido/usuario; auditoría por actor/recurso y día |
 | Redis | Sesiones, caché, concurrencia y datos temporales |
 | InfluxDB | Estadísticas, posiciones y series temporales |
 | Neo4j | Relaciones y recorridos entre jugadores, equipos y partidos |
@@ -82,7 +80,7 @@ La decisión, las alternativas consideradas, las responsabilidades reasignadas y
 sus consecuencias están documentadas en
 [`ADR-001`](docs/diseno/ADR-001-exclusion-iris.md).
 
-## Decisiones iniciales
+## Decisiones de integración
 
 - La integración se construye en la rama limpia `trabajo-final`.
 - Las ramas anteriores permanecen como evidencia; no se fusionan completas.
@@ -135,7 +133,7 @@ temporal. Las consultas, umbrales, responsables y limitaciones están en
 [`docs/monitoreo`](docs/monitoreo/).
 
 La correspondencia entre la consigna de monitoreo, lo implementado y la
-evidencia todavía pendiente está en la
+evidencia registrada y sus límites está en la
 [`matriz de cumplimiento`](docs/monitoreo/matriz_cumplimiento_hito_13.md).
 
 La captura exige por defecto un commit limpio. Las fallas de MongoDB, Redis,
@@ -254,13 +252,13 @@ powershell -ExecutionPolicy Bypass -File scripts\probar_persistencia_datamart.ps
 powershell -ExecutionPolicy Bypass -File scripts\probar_falla_datamart.ps1
 ```
 
-El diseño y el protocolo honesto del Hito 12 están en
+El diseño y el protocolo de medición del Hito 12 están en
 [`06_7_modelo_fisico_datamart.md`](docs/diseno/06_7_modelo_fisico_datamart.md) y
 [`hito_12_datamart.md`](docs/rendimiento/hito_12_datamart.md).
 
 ## Incremento 09 — carga y SLO de laboratorio
 
-El simulador recorre la cadena completa con perfiles reproducibles de humo,
+El generador de carga de lectura recorre la API con perfiles reproducibles de humo,
 tráfico normal y estrés. Conserva percentiles, throughput, errores y muestras
 de CPU/memoria por contenedor sin modificar el partido oficial:
 
@@ -297,10 +295,14 @@ telemetría, simulación y carga están registradas en
 
 ## Alcance de las verificaciones actuales
 
-MongoDB fue ejecutado en el equipo del grupo con 64 equipos, 1.024 jugadores,
-un partido, replica set PRIMARY e idempotencia de la carga. La API, Redis,
-Cassandra, Prometheus y Grafana también fueron iniciados y verificados. Las
-pruebas funcionales incluyen persistencia Redis, comentarios Cassandra y
-degradación controlada de los servicios. Todavía deben versionarse las
-ejecuciones finales y no existen mediciones de capacidad, SLO ni convergencia
-completa.
+La plataforma cuenta con evidencia de ejecución Docker de todos sus motores,
+pruebas de degradación y recuperación, replay idempotente de Outbox, comparación
+analítica, perfiles de lectura y simulación integrada. La carga corregida y de
+recuperación suma 8.460 solicitudes sin errores; el perfil de estrés alcanzó
+79,932 req/s. Son resultados del laboratorio, sin extrapolación a producción.
+
+El [registro de validación](docs/estado_validacion.md) enlaza resultados y commits.
+La auditoría del incremento 15 cuenta con validación unitaria y una prueba
+HTTP integrada exitosa en Docker, registrada el 27 de noviembre de 2026.
+El [resultado de auditoría](evidencia/ejecuciones/auditoria-20261127T040527Z/resultado.json)
+confirma historial, reintentos sin duplicados y envío MongoDB → Cassandra.

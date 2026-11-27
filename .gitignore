@@ -16,3 +16,6 @@ volumes/
 *.log
 .DS_Store
 Thumbs.db
+
+/evidencia/respaldos/
+/MANIFIESTO_AUDITORIA_15.json

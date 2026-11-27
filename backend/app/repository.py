@@ -12,6 +12,7 @@ from pymongo.write_concern import WriteConcern
 from .config import settings
 from .domain import apply_event, canonical_request_hash
 from .errors import DomainError
+from .audit_context import enqueue_audit, make_audit_event
 
 
 @dataclass(frozen=True)
@@ -153,6 +154,10 @@ class MongoRepository:
                 "creadoEn": now,
                 "actualizadoEn": now,
             }, session=session)
+            enqueue_audit(self.db, make_audit_event(
+                "CREAR_SIMULACION", "SIMULACION", simulation_id,
+                operation_id="crear:" + simulation_id, occurred_at=now,
+                detail={"partidoId": match_id, "velocidad": float(speed)}), session)
 
         try:
             with self.client.start_session() as session:
@@ -195,6 +200,7 @@ class MongoRepository:
 
     def control_simulation(self, simulation_id, action, speed=None):
         now = datetime.now(timezone.utc)
+        operation_id = str(uuid4())
         allowed = {
             "INICIAR": ({"LISTA", "PAUSADA"}, "EJECUTANDO"),
             "PAUSAR": ({"EJECUTANDO"}, "PAUSADA"),
@@ -221,14 +227,25 @@ class MongoRepository:
                         partialFilterExpression={"estado": "EJECUTANDO"},
                         name="uq_simulacion_ejecutando",
                     )
-            result = self.db.simulaciones.find_one_and_update(
-                {"_id": simulation_id, "estado": expected},
-                {"$set": changes},
-                return_document=ReturnDocument.AFTER,
-            )
-            if result is None:
-                raise DomainError(409, "SIMULATION_CONFLICT", "La simulación cambió concurrentemente")
-            return self._simulation_response(result)
+            def transaction(session):
+                result = self.db.simulaciones.find_one_and_update(
+                    {"_id": simulation_id, "estado": expected},
+                    {"$set": changes}, return_document=ReturnDocument.AFTER, session=session,
+                )
+                if result is None:
+                    raise DomainError(409, "SIMULATION_CONFLICT", "La simulación cambió concurrentemente")
+                enqueue_audit(self.db, make_audit_event(
+                    action + "_SIMULACION", "SIMULACION", simulation_id,
+                    operation_id=operation_id, occurred_at=now,
+                    detail={"partidoId": result["partidoId"], "estadoAnterior": expected,
+                            "estadoNuevo": result["estado"], "velocidad": result["velocidad"]}), session)
+                return self._simulation_response(result)
+
+            with self.client.start_session() as session:
+                return session.with_transaction(
+                    transaction, read_concern=ReadConcern("snapshot"),
+                    write_concern=WriteConcern("majority", wtimeout=5000),
+                    read_preference=ReadPreference.PRIMARY)
         except DomainError:
             raise
         except DuplicateKeyError as error:
@@ -529,6 +546,12 @@ class MongoRepository:
                 },
                 session=session,
             )
+            enqueue_audit(self.db, make_audit_event(
+                "CORREGIR_EVENTO" if payload["tipo"] == "CORRECCION_EVENTO" else "REGISTRAR_EVENTO",
+                "EVENTO", original_document["eventoId"] if original_document else event_id,
+                operation_id="evento:" + event_id, occurred_at=now,
+                detail={"partidoId": partido_id, "tipoEvento": payload["tipo"], "eventoId": event_id,
+                        **({"eventoOriginalId": original_document["eventoId"]} if original_document else {})}), session)
             return EventWriteResult(body=response, replayed=False, status=201)
 
         try:

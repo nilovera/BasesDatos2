@@ -1,27 +1,30 @@
-# Registro de los 17 puntos de la segunda revisión
+# Registro de trazabilidad de los 17 puntos de revisión
 
-Fecha de actualización: 23 de noviembre de 2026. La evidencia histórica comenzó
-como revisión estática y luego se complementó con ejecuciones locales de MongoDB,
-Redis y Cassandra. Solo se considera evidencia final la que quede versionada y
-vinculada a su commit; crear este repositorio no cierra por sí solo los pendientes.
+Actualización: 27 de noviembre de 2026. Se conserva la identificación H01–H17
+para permitir el seguimiento de decisiones anteriores. La columna de límites
+describe el alcance real; no reabre ejecuciones que ya poseen resultados.
+Evidencia de referencia: [estado de validación](estado_validacion.md).
 
-| ID | Punto | Evidencia | Estado actual | Aceptación |
-|---|---|---|---|---|
-| H01 | Equipos | EQ-xx frente a ARG/MEX y contratos distintos. | Catálogo y dos equivalencias definidos; propagación pendiente. | Consultar un mismo equipo en todos los motores con correspondencia explícita. |
-| H02 | Jugadores | 1.024 IDs, nombres, posiciones y equipos coinciden entre generador MongoDB y carga Neo4j. | Proyección idempotente y control de huérfanos implementados; ejecución local pendiente. | Comparación sobre los motores reales sin jugadores huérfanos. |
-| H03 | Partidos | PAR-0001 representa rivales distintos en semillas históricas. | Catálogo de demostración unificado; migraciones pendientes. | Mismos rivales y fecha en todos los endpoints. |
-| H04 | IRIS | La implementación histórica mantiene dependencias en código, configuración, arranque y diagnóstico. | API, Docker y métricas actuales no contienen dependencias de IRIS; se controla con pruebas. | Los cinco motores y pruebas integradas funcionan sin servicios, variables ni adaptadores de IRIS. |
-| H05 | Versión base | monitoreo contiene mejoras posteriores a API. | Diagnóstico, aislamiento y métricas se recuperaron selectivamente; falta evidencia final. | Conservar diagnóstico, aislamiento de fallos y métricas aplicables. |
-| H06 | Ubicación Neo4j | Neo contiene MongoDB antiguo y no un módulo de grafo reutilizable. | Adaptador nuevo incorporado desde el catálogo común, con secretos, restricciones y consultas. | Ejecutar dos cargas y conservar cantidades idénticas. |
-| H07 | Semillas MongoDB | El entorno consolidado histórico conserva nombres genéricos. | Carga idempotente validada; la recarga ya no pisa el estado operativo de partidos. | Preparar el entorno no sobrescribe catálogo ni agregados con eventos. |
-| H08 | Eventos oficiales | Las semillas históricas asignan eventos contradictorios a PAR-0001, incluido un gol minuto 23 en IRIS. | Flujo oficial y worker Outbox con proyección Redis idempotente implementados; queda extender destinos solo cuando exista una vista derivada justificada. | Un único evento oficial y proyección Redis convergente, sin depender de IRIS. |
-| H09 | Pruebas Cassandra | Prueba consulta 203006131800; muestra carga 203006132000. | Flujo reproducible de publicación, replay, conflicto, vistas y moderación implementado. | Ejecutar carga `1x`, `5x`, `10x` y elegir 4, 8 o 16 shards. |
-| H10 | Escrituras API | Faltan inicio, goles, correcciones, sustituciones y publicación de comentarios. | Flujo deportivo y publicación idempotente de comentarios implementados. | Incorporar usuarios durables y autorización administrativa. |
-| H11 | Moderación | Lectura actual no distingue estados visibles, pendientes y ocultos. | Estado visible/oculto y vista administrativa implementados. | Agregar roles durables y auditoría completa. |
-| H12 | Comentarios duplicados | CRUD escribe proyecciones por partido y por usuario en pasos separados. | Batch acotado e idempotencia evitan duplicación en el flujo normal. | Incorporar reparación de convergencia y probar una falla intermedia. |
-| H13 | Caché real | Script Redis simula las lecturas y cambios de MongoDB. | Cache-Aside, invalidación, persistencia y falla controlada validados en Docker; evidencia final pendiente. | Evidencia reproducible de miss, carga real, hit, escritura e invalidación. |
-| H14 | Estadística individual | Generadores históricos producían estadísticas de equipo. | Posiciones y mapas implementados; falta validar participación minuto a minuto porque las alineaciones siguen vacías. | Participaciones y sustituciones delimitan puntos y mapas de calor. |
-| H15 | Paginación temporal | Estadísticas informaba hay_mas sin cursor de continuación. | Cursor opaco `(timestamp, jugadorId)` implementado y probado unitariamente; ejecución Docker pendiente. | Recorrer puntos con timestamp compartido sin omisiones ni repetición. |
-| H16 | Validación documental | Las implementaciones históricas tenían reglas de almacenamiento más amplias que las de API. | OpenAPI, modelos Pydantic y validadores MongoDB usan el mismo vocabulario inicial. | Ejecutar rechazos incompatibles en API y almacenamiento. |
-| H17 | Entorno y distribución | Los laboratorios históricos repiten nombres/puertos, usan volúmenes distintos y Cassandra RF1. | Los cinco motores, API, Prometheus y Grafana comparten red y volúmenes; RF1 y nodos únicos se declaran laboratorio. | Ejecutar Neo4j integrado y demostrar Cassandra RF3 por separado. |
+| ID | Tema | Resolución vigente | Límite o comprobación adicional |
+|---|---|---|---|
+| H01 | Identidad de equipos | IDs comunes en el catálogo y las integraciones; ARG/EQ-01 y MEX/EQ-33 explícitos | No extender equivalencias de alias sin una fuente validada |
+| H02 | Jugadores | MongoDB y Neo4j verifican el catálogo de 1.024 jugadores; MongoDB registra cero huérfanos | Los conteos no sustituyen una comparación exhaustiva de todos los atributos proyectados |
+| H03 | Partidos | PAR-0001 representa el escenario sintético común; nuevas simulaciones crean otros IDs | No importar la agenda histórica como fixture oficial |
+| H04 | IRIS | Excluido de código ejecutable, Compose y monitoreo; controlado por pruebas | Cualquier reincorporación requiere una responsabilidad diferenciada |
+| H05 | Base de integración | Diagnóstico, aislamiento y métricas incorporados selectivamente | Las ramas históricas conservan su propia procedencia |
+| H06 | Neo4j | Módulo nuevo con restricciones, MERGE, consultas y ejecución Docker registrada | La idempotencia de carga no equivale a una prueba exhaustiva de reconciliación de cambios |
+| H07 | Semillas MongoDB | Carga idempotente; el bootstrap no reinicia el partido operativo | Respaldar datos antes de una migración de esquema |
+| H08 | Eventos oficiales | Una autoridad MongoDB; Outbox proyecta Redis y Neo4j; replay y convergencia registrados | No existe una barrera estricta de orden de todas las proyecciones por partido |
+| H09 | Cassandra y distribución | Publicación, lecturas y moderación integradas; lectura mixta y falla registradas | No hay comparación representativa de escritura con 4, 8 y 16 shards ni RF=3 |
+| H10 | Escrituras API | Inicio, goles, tarjetas, VAR, correcciones, sustituciones y comentarios implementados | Perfiles durables y autenticación de producción son extensiones |
+| H11 | Moderación y auditoría | Visibilidad implementada; incremento 15 conserva historial por actor/recurso | Auditoría con prueba HTTP integrada OK; control ADMIN basado en sesiones de laboratorio, sin autenticación productiva |
+| H12 | Vistas de comentarios | Batch logged acotado e idempotencia; prueba unitaria de recuperación del nuevo historial | Sin worker general de reparación de todas las vistas ni aislamiento entre particiones |
+| H13 | Caché real | Cache-Aside, persistencia, bypass y replay de proyección con evidencia Docker | Standalone; LFU puede expulsar temporales antes del TTL |
+| H14 | Participación y mapas | Nuevas simulaciones generan alineaciones y sustituciones; front y mapas verificados | La entrada manual valida plantel/equipo, sin reconstrucción histórica completa por instante |
+| H15 | Paginación temporal | Cursor compuesto implementado y validado unitariamente; telemetría integrada operativa | La muestra de una simulación no demuestra recorrido exhaustivo de todo cursor a gran volumen |
+| H16 | Contratos y almacenamiento | Vocabulario compartido, validadores y pruebas de contratos | Toda ampliación debe actualizar OpenAPI, modelos y esquema afectado |
+| H17 | Entorno distribuido | Motores y observabilidad ejecutados en una red Docker con volúmenes | RF=1 y nodos únicos; sin demostración de alta disponibilidad o failover regional |
 
+La nueva auditoría mantiene su procedimiento de integración en
+`scripts/probar_auditoria.ps1`. Las limitaciones de producción y de escala no se
+confunden con ausencia de ejecución Docker de la plataforma existente.

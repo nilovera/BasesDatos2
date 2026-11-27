@@ -15,9 +15,11 @@ recuperación operativa, pero no modifica esa responsabilidad.
 MongoDB, serializa la respuesta y la guarda durante 60 segundos. Si Redis está
 caído, la lectura usa MongoDB y responde con `X-Cache: BYPASS`.
 
-Después de confirmar un evento en MongoDB se elimina la clave. El TTL limita la
-vida máxima, pero la invalidación explícita evita servir una versión vieja
-durante todo ese intervalo.
+Después de confirmar un evento en MongoDB, el worker Outbox invalida la clave
+y actualiza las vistas Redis. Es una entrega eventual, no una escritura Redis
+sincrónica dentro de la transacción oficial. El TTL de 60 segundos acota la
+vida de una entrada; la consulta del marcador verifica la secuencia proyectada
+y puede recurrir a la fuente oficial cuando no coincide.
 
 ### Sesiones y renovación explícita
 
@@ -26,8 +28,8 @@ no renueva la sesión. La renovación tiene un endpoint explícito y ejecuta en
 Redis, de forma atómica, la actualización del último acceso, el contador de
 renovaciones y `EXPIRE`. La operación no recrea una clave que ya expiró.
 
-La colección durable de usuarios en MongoDB continúa pendiente; por eso estas
-sesiones usan identificadores sintéticos `USR-0001` y no prueban autenticación.
+No existe una colección durable de perfiles de usuarios en esta implementación.
+Las sesiones usan identificadores sintéticos `USR-0001` y no prueban autenticación.
 
 ### Operaciones atómicas y Sorted Set
 

@@ -12,12 +12,12 @@ Prometheus y Grafana. Todos los puertos se publican solamente sobre `127.0.0.1`.
 | MongoDB | 27017 | Fuente oficial y Outbox |
 | Redis | 6379 | Caché, sesiones y datos temporales |
 | Redis Exporter | 9121 | Memoria, hits, misses, evictions y persistencia |
-| Cassandra | 9042 | Comentarios y moderación por consulta |
+| Cassandra | 9042 | Comentarios, moderación y auditoría por consulta |
 | InfluxDB | 8181 | Series deportivas; API autenticada, sin UI web |
 | Neo4j | 7474/7687 | Browser, relaciones y recorridos Bolt |
 | PostgreSQL Data Mart | 5433 | Esquema estrella y consultas analíticas |
 | Prometheus | 9090 | Recolección de métricas técnicas |
-| Grafana | 3000 | Dashboard `Fixture2030 — plataforma operacional y Data Mart` |
+| Grafana | 3000 | Dashboard `Fixture2030 · rendimiento y bases de datos` |
 
 Grafana se aprovisiona automáticamente con Prometheus como fuente. Usuario
 local: `admin`. La contraseña de laboratorio por defecto es `fixture2030` y
@@ -77,5 +77,6 @@ todos los volúmenes del laboratorio.
 MongoDB, Redis, Cassandra, InfluxDB, Neo4j y PostgreSQL tienen un único miembro: permiten demostrar los
 patrones, pero no alta disponibilidad. Redis Exporter y el worker Outbox aportan
 targets directos a Prometheus; Cassandra se observa funcionalmente mediante la API y
-requiere JMX para métricas internas en RF=3. El dashboard sigue siendo una
-línea base y no evidencia aún un SLO alcanzado.
+requiere JMX para métricas internas en RF=3. Las pruebas de lectura ya midieron SLO locales y recursos. El dashboard ayuda
+a observarlos; el resultado se acredita con escenario, configuración y registros
+de solicitudes. Ver [estado de validación](../docs/estado_validacion.md).

@@ -24,3 +24,13 @@ separarse en instancias con políticas distintas.
 RDB y AOF están activos simultáneamente. RDB toma snapshots (`save 60 1`) y AOF
 registra escrituras con `appendfsync everysec`. Esto permite demostrar ambos
 mecanismos, pero no convierte a Redis en fuente de verdad.
+
+
+## Proyección y evidencia
+
+El worker Outbox invalida la caché y proyecta marcador y Stream después de la
+confirmación MongoDB. El destino sigue siendo eventual y reconstruible; una
+sesión perdida debe recrearse y no se reconstruye como identidad autenticada.
+
+La verificación Docker, bypass durante falla y replay sin duplicación están
+registrados en [estado de validación](../docs/estado_validacion.md).

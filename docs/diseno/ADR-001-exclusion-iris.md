@@ -41,13 +41,15 @@ concentrar la evidencia en cinco modelos con responsabilidades no equivalentes.
 |---|---|---|
 | Partidos, eventos, árbitros y estado oficial | MongoDB | Agregados documentales y escrituras transaccionales del núcleo deportivo |
 | Resultado y estado de consulta frecuente | Redis | Copia temporal reconstruible; baja latencia |
-| Comentarios y moderación | Cassandra | Escrituras distribuidas y consultas definidas por partición |
+| Comentarios, moderación y auditoría | Cassandra | Escrituras distribuidas y consultas definidas por partición |
 | Estadísticas y posiciones por tiempo | InfluxDB | Series temporales, ventanas y agregaciones |
 | Relaciones entre jugadores, equipos y partidos | Neo4j | Recorridos y consultas multisalto |
 
-MongoDB es la única autoridad del hecho deportivo. Redis, InfluxDB y Neo4j son
-proyecciones reconstruibles. Cassandra es autoridad de comentarios, no de goles
-ni resultados.
+MongoDB es la única autoridad del hecho deportivo. Redis y Neo4j mantienen
+vistas derivadas; InfluxDB conserva telemetría sintética ingresada por su
+flujo propio, sin una copia exhaustiva en MongoDB. Cassandra es autoridad de
+comentarios y del historial de auditoría. El Data Mart PostgreSQL es un destino
+analítico separado, no otra autoridad deportiva.
 
 ## Fundamentos
 
@@ -85,7 +87,11 @@ La exclusión se considera aplicada cuando:
 4. partidos y eventos se recuperan desde MongoDB;
 5. no quedan variables de entorno ni rutas ejecutables que apunten a IRIS;
 6. las pruebas integradas funcionan con los cinco motores definidos;
-7. la defensa explica beneficios, costos y responsabilidades reasignadas.
+7. la documentación explica beneficios, costos y responsabilidades reasignadas.
+
+La implementación y las ejecuciones se relacionan en el
+[estado de validación](../estado_validacion.md); este registro no acredita una
+exposición oral ni una aprobación externa.
 
 ## Revisión futura
 

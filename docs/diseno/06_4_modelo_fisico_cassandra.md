@@ -1,63 +1,67 @@
 # 6.4 Modelo físico de Cassandra
 
-## Responsabilidad
+## Responsabilidad y consultas
 
-Cassandra es la fuente durable de comentarios y su estado de moderación. No
-almacena el fixture oficial, sesiones ni telemetría. Los identificadores de
-partidos y usuarios siguen las convenciones comunes (`PAR-0001`, `USR-0003`).
+Cassandra conserva comentarios, su visibilidad actual y el historial de
+auditoría incorporado en el incremento 15. El diseño parte de consultas
+conocidas: comentarios recientes de un partido, comentarios de un usuario y
+acciones de un actor o recurso durante un día.
 
-## Patrones de acceso
+| Tabla | Consulta o control |
+|---|---|
+| comments_by_match_bucket_shard | Comentarios por partido, bucket temporal y shard |
+| comments_by_user_day | Comentarios de un usuario y día |
+| comment_write_requests | Identidad y hash idempotente de publicación |
+| comment_locator_by_id | Localizador por ID para actualizar las dos vistas de comentarios |
+| audit_by_actor_day | Historial por actor y día UTC |
+| audit_by_resource_day | Historial por recurso y día UTC |
+| audit_operations | Reserva de operación y metadatos originales del historial |
 
-| Consulta | Tabla | Clave de partición | Clustering |
-|---|---|---|---|
-| Feed reciente de un partido | `comments_by_match_bucket_shard` | `(match_id, bucket, shard)` | `created_at DESC, comment_id ASC` |
-| Historial de un usuario | `comments_by_user_day` | `(user_id, day_bucket)` | `created_at DESC, comment_id ASC` |
-| Localizar para moderar | `comment_locator_by_id` | `comment_id` | — |
-| Detectar replay/conflicto | `comment_write_requests` | `idempotency_key` | — |
+Los nombres, columnas y claves exactas se definen en `cassandra/init/`.
+El estado actual de moderación se conserva en ambas vistas del comentario.
+Las vistas duplicadas evitan escaneos globales y responden a accesos distintos;
+no constituyen replicación física ni tablas normalizadas con joins.
 
-Se acepta duplicación entre las dos vistas porque responden consultas
-distintas. No se usan joins, índices secundarios ni `ALLOW FILTERING`.
+## Particiones, orden y paginación
 
-## Hotspots, buckets y shards
+Los comentarios por partido combinan bucket temporal y cuatro shards
+deterministas. El bucket limita el crecimiento de cada partición y el shard
+distribuye escrituras del mismo partido. La lectura combina particiones
+acotadas y aplica un orden estable. La vista por usuario utiliza bucket diario.
 
-El feed usa buckets de un minuto UTC y cuatro shards estables calculados desde
-`usuarioId`. Así una final no concentra toda la escritura en una partición y
-la lectura hace fan-out solamente sobre cuatro particiones conocidas. La API
-fusiona los resultados y pagina mediante `antesDe`, un cursor opaco que incluye
-`created_at` y `comment_id`. El segundo componente evita omisiones cuando dos
-comentarios comparten timestamp. La lectura pública continúa recorriendo una
-partición hasta reunir comentarios visibles, por lo que una secuencia de
-comentarios ocultos no produce un falso fin de página.
+La auditoría usa particiones actor/día y recurso/día, ordenadas por fecha e ID.
+El cursor incorpora las claves de consulta y ambos valores de orden para
+resolver acciones con igual marca temporal. No hay consulta global de todas
+las acciones ni búsqueda por filtros arbitrarios.
 
-El historial por usuario usa un bucket diario porque el volumen individual es
-mucho menor. La cantidad de shards deberá validarse con los escenarios `1x`,
-`5x` y `10x`; cuatro es una decisión inicial, no un resultado de capacidad.
+## Escritura e idempotencia
 
-## Consistencia e idempotencia
+La publicación conserva la identidad del comando y escribe sus vistas con un
+batch logged acotado. El incremento 15 agrega las vistas del historial al batch.
+La moderación actualiza visibilidad y agrega una acción; no reemplaza acciones
+anteriores. Un replay confirmado devuelve su respuesta sin volver a aplicar un
+estado antiguo. En moderación, `Idempotency-Key` es opcional.
 
-La publicación registra primero la clave idempotente con `INSERT IF NOT
-EXISTS`. Repetir clave y body devuelve el mismo comentario; reutilizar la
-clave con otro body devuelve `409`.
+El batch no da aislamiento de lectura entre particiones. La reserva previa de
+operación puede existir antes de completarse las vistas; los reintentos deben
+conservar sus metadatos originales. No se implementa un worker general de
+reparación de todas las vistas sociales.
 
-El laboratorio usa RF=1 y `LOCAL_ONE`. La arquitectura objetivo usa RF=3,
-`LOCAL_QUORUM` para confirmar publicaciones y `LOCAL_ONE` para el feed público.
-Un batch logged contiene únicamente las tres escrituras acotadas del mismo
-comentario; no se usa como mecanismo de carga masiva.
+## Consistencia, conservación y validación
 
-## Moderación
+El laboratorio usa RF=1 y `LOCAL_ONE`. El nodo fue verificado UN y se registró
+su falla y recuperación. Los comentarios participan en la carga mixta de
+lectura; no hay un benchmark de escritura que determine el número óptimo de
+shards ni una demostración con RF=3.
 
-El localizador permite conocer todas las claves primarias sin escanear. La
-moderación actualiza las vistas por partido y por usuario. El feed público
-omite `OCULTO`; la vista administrativa puede recuperarlo sin mostrar el
-contenido.
+El historial de auditoría no configura TTL y es append-only desde la API. No
+es WORM: un administrador con acceso a las tablas puede modificarlo. Para una
+escala mayor se requieren política de conservación, permisos reales y medición
+de particiones, especialmente del actor de servicio del simulador.
 
-## Límites demostrados
-
-- Un nodo demuestra persistencia y modelo CQL, no quórum.
-- No se realizaron todavía pruebas de carga para elegir 4, 8 o 16 shards.
-- La autenticación/autorización administrativa es simulada.
-- La convergencia se ejecuta sin worker de reparación; se agregará junto con
-  el procesamiento completo de Outbox.
-- El filtrado de ocultos se realiza en la API sobre particiones acotadas. Si la
-  tasa de moderación o el volumen crecen, se evaluará una vista pública separada.
-
+La auditoría tiene validación unitaria y una comprobación HTTP integrada
+exitosa en Docker. Su resultado propio verifica tres acciones de un comentario
+sin duplicados y la entrega de la creación de una simulación desde MongoDB.
+No representa una prueba de capacidad ni de replicación.
+Ver [diseño de auditoría](10_auditoria_actividad.md) y
+[estado de validación](../estado_validacion.md).

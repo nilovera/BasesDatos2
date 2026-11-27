@@ -4,9 +4,11 @@ import hashlib
 import json
 import zlib
 from datetime import datetime, timezone
-from uuid import NAMESPACE_URL, UUID, uuid5
+from uuid import NAMESPACE_URL, UUID, uuid4, uuid5
 
 from .errors import DomainError
+from .audit_context import make_audit_event
+from .audit_service import CassandraAuditService, _date
 
 
 MATCH_INSERT = """
@@ -161,6 +163,12 @@ class CassandraCommentService:
                             "shard": shard,
                             "repetido": True,
                         }
+            audit = CassandraAuditService(self.session)
+            reserved = audit.reserve(make_audit_event(
+                "PUBLICAR_COMENTARIO", "COMENTARIO", str(comment_id),
+                operation_id="publicar:" + str(comment_id), occurred_at=created_at,
+                declared_actor=user_id,
+                detail={"partidoId": match_id, "autorComentario": user_id}))
             batch = BatchStatement(
                 batch_type=BatchType.LOGGED,
                 consistency_level=ConsistencyLevel.LOCAL_ONE,
@@ -187,6 +195,7 @@ class CassandraCommentService:
                 self.session.prepare(LOCATOR_INSERT),
                 (comment_id, match_id, match_bucket, shard, user_id, user_bucket, created_at),
             )
+            audit.add_to_batch(batch, reserved)
             self.session.execute(batch)
             return {
                 "comentarioId": str(comment_id),
@@ -319,7 +328,7 @@ class CassandraCommentService:
             raise DomainError(503, "CASSANDRA_UNAVAILABLE", "Cassandra no está disponible") from error
         return self._page(rows, limit, include_hidden)
 
-    def moderate(self, comment_id, status, moderator_id, reason):
+    def moderate(self, comment_id, status, moderator_id, reason, idempotency_key=None):
         from cassandra import ConsistencyLevel
         from cassandra.query import BatchStatement, BatchType
 
@@ -330,7 +339,20 @@ class CassandraCommentService:
             ).one()
             if locator is None:
                 raise DomainError(404, "COMMENT_NOT_FOUND", "Comentario inexistente")
-            moderated_at = utc_now()
+            audit = CassandraAuditService(self.session)
+            # La clave opcional no se almacena en texto; cada accion nueva tiene otra identidad.
+            operation_id = ("moderar:" + hashlib.sha256(idempotency_key.encode()).hexdigest()
+                            if idempotency_key else "moderar:" + str(uuid4()))
+            reserved = audit.reserve(make_audit_event(
+                "MODERAR_COMENTARIO", "COMENTARIO", comment_id,
+                operation_id=operation_id, declared_actor=moderator_id,
+                detail={"partidoId": locator.match_id, "estado": status,
+                        "motivoHash": hashlib.sha256(reason.encode()).hexdigest()}))
+            moderated_at = _date(reserved.event["fecha"])
+            if reserved.projected:
+                # Un replay antiguo nunca revierte una moderacion posterior.
+                return {"comentarioId": comment_id, "estado": status, "moderadoEn": moderated_at,
+                        "moderadorId": moderator_id, "motivo": reason}
             batch = BatchStatement(
                 batch_type=BatchType.LOGGED,
                 consistency_level=ConsistencyLevel.LOCAL_ONE,
@@ -376,6 +398,7 @@ class CassandraCommentService:
                     locator.comment_id,
                 ),
             )
+            audit.add_to_batch(batch, reserved)
             self.session.execute(batch)
             return {
                 "comentarioId": comment_id,

@@ -1,16 +1,19 @@
 import re
 import time
+import json
+import logging
 from contextlib import asynccontextmanager
 from datetime import datetime, timezone
 from uuid import uuid4
 from pathlib import Path
 
-from fastapi import FastAPI, Header, Query, Request, Response
+from fastapi import Depends, FastAPI, Header, Query, Request, Response
 from fastapi.encoders import jsonable_encoder
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from prometheus_client import REGISTRY, make_asgi_app
+from starlette.concurrency import run_in_threadpool
 
 from .cassandra_client import close_cassandra_client, get_cassandra_session
 from .cassandra_service import CassandraCommentService
@@ -78,6 +81,9 @@ from .simulation_worker import start_simulation_worker, stop_simulation_worker
 from .simulator_engine import build_plan, select_lineup
 from .live_view import router as live_router
 from .mongo_monitoring import MongoMonitoringCollector
+from .audit_context import audit_scope, actor_from_session, request_dependencies
+from .audit_worker import start_audit_worker, stop_audit_worker
+from .audit_routes import router as audit_router, document_lab_session
 
 
 PARTIDO_ID = re.compile(r"^PAR-[0-9]{4}$")
@@ -92,9 +98,11 @@ SESSION_ID = re.compile(
 
 @asynccontextmanager
 async def lifespan(_app):
+    start_audit_worker()
     start_simulation_worker()
     yield
     stop_simulation_worker()
+    stop_audit_worker()
     close_neo4j_client()
     close_datamart_pool()
     close_influx_client()
@@ -105,13 +113,15 @@ async def lifespan(_app):
 
 app = FastAPI(
     title="Fixture 2030 API",
-    version="0.9.0",
+    version="0.10.0",
+    dependencies=[Depends(document_lab_session)],
     description="Plataforma operacional políglota y Data Mart analítico PostgreSQL para Fixture 2030.",
     lifespan=lifespan,
 )
 REGISTRY.register(MongoMonitoringCollector(get_client, settings.mongodb_database))
 app.mount("/metrics", make_asgi_app())
 app.include_router(live_router)
+app.include_router(audit_router)
 FRONTEND = next((root / "frontend" for root in (
     Path(__file__).resolve().parents[1], Path(__file__).resolve().parents[2]
 ) if (root / "frontend").is_dir()), Path(__file__).resolve().parents[2] / "frontend")
@@ -193,12 +203,25 @@ def validate_comment_id(comment_id):
 @app.middleware("http")
 async def observability_middleware(request: Request, call_next):
     incoming_id = request.headers.get("X-Request-ID", "")
-    request.state.request_id = incoming_id if 8 <= len(incoming_id) <= 128 else str(uuid4())
+    request.state.request_id = incoming_id if re.fullmatch(r"[A-Za-z0-9:_-]{8,128}", incoming_id) else str(uuid4())
     started = time.perf_counter()
     response = None
     try:
-        with application_request(request.url.path):
-            response = await call_next(request)
+        actor = {"actor_id": "anonimo", "actor_type": "ANONIMO"}
+        session_id = request.headers.get("X-Session-ID")
+        if session_id:
+            try:
+                validate_session_id(session_id)
+                session = await run_in_threadpool(redis_service().get_session, session_id)
+                actor = actor_from_session(session)
+            except DomainError as error:
+                response = await domain_error_handler(request, error)
+                response.headers["X-Request-ID"] = request.state.request_id
+                return response
+        with audit_scope(**actor, request_id=request.state.request_id,
+                         method=request.method, route=request.url.path):
+            with application_request(request.url.path):
+                response = await call_next(request)
         response.headers["X-Request-ID"] = request.state.request_id
         return response
     finally:
@@ -208,6 +231,16 @@ async def observability_middleware(request: Request, call_next):
             status = response.status_code if response is not None else 500
             HTTP_REQUESTS.labels(request.method, route_name, status).inc()
             HTTP_DURATION.labels(request.method, route_name).observe(time.perf_counter() - started)
+            if request.url.path.startswith("/api/"):
+                dependencies = request_dependencies(route_name, request.method)
+                if request.headers.get("X-Session-ID") and "redis" not in dependencies:
+                    dependencies.append("redis")
+                logging.getLogger("uvicorn.error").info(json.dumps({
+                    "evento": "http_request", "ruta": route_name, "metodo": request.method,
+                    "requestId": request.state.request_id,
+                    "dependencias": dependencies,
+                    "resultado": status, "duracionMs": round((time.perf_counter() - started) * 1000, 2),
+                }, separators=(",", ":")))
 
 
 @app.exception_handler(DomainError)
@@ -528,6 +561,7 @@ def delete_session(sesionId: str):
         },
         404: {"description": "Partido inexistente"},
         409: {"description": "Conflicto de idempotencia"},
+        403: {"description": "El autor declarado no coincide con la sesion"},
         503: {"description": "MongoDB o Cassandra no disponible"},
     },
 )
@@ -614,14 +648,17 @@ def list_user_comments(
     response_model=ModeracionResponse,
     responses={
         404: {"description": "Comentario inexistente"},
+        403: {"description": "El moderador declarado no coincide con la sesion"},
+        409: {"description": "Conflicto de idempotencia de moderacion"},
         503: {"description": "Cassandra no disponible"},
     },
 )
-def moderate_comment(comentarioId: str, command: ModeracionComentario):
+def moderate_comment(comentarioId: str, command: ModeracionComentario,
+                     idempotency_key: str | None = Header(None, alias="Idempotency-Key", min_length=16, max_length=128)):
     validate_comment_id(comentarioId)
     try:
         result = comment_service().moderate(
-            comentarioId, command.estado, command.moderador_id, command.motivo
+            comentarioId, command.estado, command.moderador_id, command.motivo, idempotency_key
         )
         COMMENT_OPERATIONS.labels("moderate", "OK").inc()
         return result

@@ -2,14 +2,14 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Fixture 2030 API",
-    "description": "Plataforma operacional políglota y Data Mart analítico PostgreSQL para Fixture 2030.",
-    "version": "0.9.0"
+    "description": "Plataforma operacional polÃ­glota y Data Mart analÃ­tico PostgreSQL para Fixture 2030.",
+    "version": "0.10.0"
   },
   "paths": {
     "/api/v1/directo": {
       "get": {
         "tags": [
-          "Transmisión"
+          "TransmisiÃ³n"
         ],
         "summary": "Transmission",
         "operationId": "transmission_api_v1_directo_get",
@@ -28,6 +28,22 @@
                 }
               ],
               "title": "Simulacionid"
+            }
+          },
+          {
+            "name": "X-Session-ID",
+            "in": "header",
+            "required": false,
+            "description": "Sesion de laboratorio en Redis. No es autenticacion de produccion.",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
             }
           }
         ],
@@ -56,7 +72,7 @@
     "/api/v1/directo/comentarios": {
       "get": {
         "tags": [
-          "Transmisión"
+          "TransmisiÃ³n"
         ],
         "summary": "Transmission Comments",
         "operationId": "transmission_comments_api_v1_directo_comentarios_get",
@@ -68,6 +84,22 @@
             "schema": {
               "type": "string",
               "title": "Simulacionid"
+            }
+          },
+          {
+            "name": "X-Session-ID",
+            "in": "header",
+            "required": false,
+            "description": "Sesion de laboratorio en Redis. No es autenticacion de produccion.",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
             }
           }
         ],
@@ -96,7 +128,7 @@
     "/api/v1/directo/cancha": {
       "get": {
         "tags": [
-          "Transmisión"
+          "TransmisiÃ³n"
         ],
         "summary": "Transmission Pitch",
         "operationId": "transmission_pitch_api_v1_directo_cancha_get",
@@ -141,6 +173,22 @@
               ],
               "title": "Equipoid"
             }
+          },
+          {
+            "name": "X-Session-ID",
+            "in": "header",
+            "required": false,
+            "description": "Sesion de laboratorio en Redis. No es autenticacion de produccion.",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
           }
         ],
         "responses": {
@@ -180,7 +228,25 @@
               }
             }
           }
-        }
+        },
+        "parameters": [
+          {
+            "name": "X-Session-ID",
+            "in": "header",
+            "required": false,
+            "description": "Sesion de laboratorio en Redis. No es autenticacion de produccion.",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
+        ]
       }
     },
     "/api/v1/partidos/{partidoId}": {
@@ -195,6 +261,22 @@
             "schema": {
               "type": "string",
               "title": "Partidoid"
+            }
+          },
+          {
+            "name": "X-Session-ID",
+            "in": "header",
+            "required": false,
+            "description": "Sesion de laboratorio en Redis. No es autenticacion de produccion.",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
             }
           }
         ],
@@ -223,13 +305,10 @@
             }
           },
           "400": {
-            "description": "Identificador inválido"
+            "description": "Identificador invÃ¡lido"
           },
           "404": {
             "description": "Partido inexistente"
-          },
-          "503": {
-            "description": "MongoDB no disponible"
           },
           "422": {
             "description": "Validation Error",
@@ -240,6 +319,9 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "MongoDB no disponible"
           }
         }
       }
@@ -279,6 +361,22 @@
               "minimum": 1,
               "default": 50,
               "title": "Limite"
+            }
+          },
+          {
+            "name": "X-Session-ID",
+            "in": "header",
+            "required": false,
+            "description": "Sesion de laboratorio en Redis. No es autenticacion de produccion.",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
             }
           }
         ],
@@ -328,6 +426,22 @@
               "maxLength": 128,
               "title": "Idempotency-Key"
             }
+          },
+          {
+            "name": "X-Session-ID",
+            "in": "header",
+            "required": false,
+            "description": "Sesion de laboratorio en Redis. No es autenticacion de produccion.",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
           }
         ],
         "requestBody": {
@@ -376,16 +490,6 @@
           }
         },
         "responses": {
-          "201": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/EventoConfirmado"
-                }
-              }
-            }
-          },
           "200": {
             "headers": {
               "Idempotency-Replayed": {
@@ -404,17 +508,27 @@
             },
             "description": "OK"
           },
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventoConfirmado"
+                }
+              }
+            }
+          },
           "400": {
-            "description": "Comando inválido"
+            "description": "Comando invÃ¡lido"
           },
           "404": {
             "description": "Partido o evento inexistente"
           },
           "409": {
-            "description": "Conflicto de idempotencia, versión o estado"
+            "description": "Conflicto de idempotencia, versiÃ³n o estado"
           },
           "422": {
-            "description": "Contrato inválido"
+            "description": "Contrato invÃ¡lido"
           },
           "503": {
             "description": "MongoDB no disponible"
@@ -450,9 +564,6 @@
           "404": {
             "description": "Partido base inexistente"
           },
-          "503": {
-            "description": "MongoDB no disponible"
-          },
           "422": {
             "description": "Validation Error",
             "content": {
@@ -462,8 +573,29 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "MongoDB no disponible"
           }
-        }
+        },
+        "parameters": [
+          {
+            "name": "X-Session-ID",
+            "in": "header",
+            "required": false,
+            "description": "Sesion de laboratorio en Redis. No es autenticacion de produccion.",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
+        ]
       }
     },
     "/api/v1/simulaciones/{simulacionId}": {
@@ -478,6 +610,22 @@
             "schema": {
               "type": "string",
               "title": "Simulacionid"
+            }
+          },
+          {
+            "name": "X-Session-ID",
+            "in": "header",
+            "required": false,
+            "description": "Sesion de laboratorio en Redis. No es autenticacion de produccion.",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
             }
           }
         ],
@@ -518,6 +666,22 @@
               "type": "string",
               "title": "Simulacionid"
             }
+          },
+          {
+            "name": "X-Session-ID",
+            "in": "header",
+            "required": false,
+            "description": "Sesion de laboratorio en Redis. No es autenticacion de produccion.",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
           }
         ],
         "responses": {
@@ -556,6 +720,22 @@
             "schema": {
               "type": "string",
               "title": "Simulacionid"
+            }
+          },
+          {
+            "name": "X-Session-ID",
+            "in": "header",
+            "required": false,
+            "description": "Sesion de laboratorio en Redis. No es autenticacion de produccion.",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
             }
           }
         ],
@@ -596,6 +776,22 @@
               "type": "string",
               "title": "Simulacionid"
             }
+          },
+          {
+            "name": "X-Session-ID",
+            "in": "header",
+            "required": false,
+            "description": "Sesion de laboratorio en Redis. No es autenticacion de produccion.",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
           }
         ],
         "responses": {
@@ -634,6 +830,22 @@
             "schema": {
               "type": "string",
               "title": "Simulacionid"
+            }
+          },
+          {
+            "name": "X-Session-ID",
+            "in": "header",
+            "required": false,
+            "description": "Sesion de laboratorio en Redis. No es autenticacion de produccion.",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
             }
           }
         ],
@@ -696,9 +908,6 @@
               }
             }
           },
-          "503": {
-            "description": "Redis no disponible"
-          },
           "422": {
             "description": "Validation Error",
             "content": {
@@ -708,8 +917,29 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "Redis no disponible"
           }
-        }
+        },
+        "parameters": [
+          {
+            "name": "X-Session-ID",
+            "in": "header",
+            "required": false,
+            "description": "Sesion de laboratorio en Redis. No es autenticacion de produccion.",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
+        ]
       }
     },
     "/api/v1/sesiones/{sesionId}": {
@@ -725,6 +955,22 @@
               "type": "string",
               "title": "Sesionid"
             }
+          },
+          {
+            "name": "X-Session-ID",
+            "in": "header",
+            "required": false,
+            "description": "Sesion de laboratorio en Redis. No es autenticacion de produccion.",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
           }
         ],
         "responses": {
@@ -739,10 +985,7 @@
             }
           },
           "404": {
-            "description": "Sesión inexistente o expirada"
-          },
-          "503": {
-            "description": "Redis no disponible"
+            "description": "SesiÃ³n inexistente o expirada"
           },
           "422": {
             "description": "Validation Error",
@@ -753,6 +996,9 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "Redis no disponible"
           }
         }
       },
@@ -768,6 +1014,22 @@
               "type": "string",
               "title": "Sesionid"
             }
+          },
+          {
+            "name": "X-Session-ID",
+            "in": "header",
+            "required": false,
+            "description": "Sesion de laboratorio en Redis. No es autenticacion de produccion.",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
           }
         ],
         "responses": {
@@ -775,10 +1037,7 @@
             "description": "Successful Response"
           },
           "404": {
-            "description": "Sesión inexistente o expirada"
-          },
-          "503": {
-            "description": "Redis no disponible"
+            "description": "SesiÃ³n inexistente o expirada"
           },
           "422": {
             "description": "Validation Error",
@@ -789,6 +1048,9 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "Redis no disponible"
           }
         }
       }
@@ -805,6 +1067,22 @@
             "schema": {
               "type": "string",
               "title": "Sesionid"
+            }
+          },
+          {
+            "name": "X-Session-ID",
+            "in": "header",
+            "required": false,
+            "description": "Sesion de laboratorio en Redis. No es autenticacion de produccion.",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
             }
           }
         ],
@@ -830,10 +1108,7 @@
             }
           },
           "404": {
-            "description": "Sesión inexistente o expirada"
-          },
-          "503": {
-            "description": "Redis no disponible"
+            "description": "SesiÃ³n inexistente o expirada"
           },
           "422": {
             "description": "Validation Error",
@@ -844,6 +1119,9 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "Redis no disponible"
           }
         }
       }
@@ -872,6 +1150,22 @@
               "maxLength": 128,
               "title": "Idempotency-Key"
             }
+          },
+          {
+            "name": "X-Session-ID",
+            "in": "header",
+            "required": false,
+            "description": "Sesion de laboratorio en Redis. No es autenticacion de produccion.",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
           }
         ],
         "requestBody": {
@@ -885,16 +1179,6 @@
           }
         },
         "responses": {
-          "201": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ComentarioCreado"
-                }
-              }
-            }
-          },
           "200": {
             "headers": {
               "Idempotency-Replayed": {
@@ -912,14 +1196,21 @@
             },
             "description": "OK"
           },
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ComentarioCreado"
+                }
+              }
+            }
+          },
           "404": {
             "description": "Partido inexistente"
           },
           "409": {
             "description": "Conflicto de idempotencia"
-          },
-          "503": {
-            "description": "MongoDB o Cassandra no disponible"
           },
           "422": {
             "description": "Validation Error",
@@ -930,6 +1221,12 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "MongoDB o Cassandra no disponible"
+          },
+          "403": {
+            "description": "El autor declarado no coincide con la sesion"
           }
         }
       },
@@ -995,6 +1292,22 @@
               "default": false,
               "title": "Incluirocultos"
             }
+          },
+          {
+            "name": "X-Session-ID",
+            "in": "header",
+            "required": false,
+            "description": "Sesion de laboratorio en Redis. No es autenticacion de produccion.",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
           }
         ],
         "responses": {
@@ -1008,9 +1321,6 @@
               }
             }
           },
-          "503": {
-            "description": "Cassandra no disponible"
-          },
           "422": {
             "description": "Validation Error",
             "content": {
@@ -1020,6 +1330,9 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "Cassandra no disponible"
           }
         }
       }
@@ -1087,6 +1400,22 @@
               "default": false,
               "title": "Incluirocultos"
             }
+          },
+          {
+            "name": "X-Session-ID",
+            "in": "header",
+            "required": false,
+            "description": "Sesion de laboratorio en Redis. No es autenticacion de produccion.",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
           }
         ],
         "responses": {
@@ -1100,9 +1429,6 @@
               }
             }
           },
-          "503": {
-            "description": "Cassandra no disponible"
-          },
           "422": {
             "description": "Validation Error",
             "content": {
@@ -1112,6 +1438,9 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "Cassandra no disponible"
           }
         }
       }
@@ -1128,6 +1457,39 @@
             "schema": {
               "type": "string",
               "title": "Comentarioid"
+            }
+          },
+          {
+            "name": "X-Session-ID",
+            "in": "header",
+            "required": false,
+            "description": "Sesion de laboratorio en Redis. No es autenticacion de produccion.",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 16,
+                  "maxLength": 128
+                },
+                {
+                  "type": "null"
+                }
+              ]
             }
           }
         ],
@@ -1155,9 +1517,6 @@
           "404": {
             "description": "Comentario inexistente"
           },
-          "503": {
-            "description": "Cassandra no disponible"
-          },
           "422": {
             "description": "Validation Error",
             "content": {
@@ -1167,6 +1526,15 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "Cassandra no disponible"
+          },
+          "403": {
+            "description": "El moderador declarado no coincide con la sesion"
+          },
+          "409": {
+            "description": "Conflicto de idempotencia de moderacion"
           }
         }
       }
@@ -1183,6 +1551,22 @@
             "schema": {
               "type": "string",
               "title": "Partidoid"
+            }
+          },
+          {
+            "name": "X-Session-ID",
+            "in": "header",
+            "required": false,
+            "description": "Sesion de laboratorio en Redis. No es autenticacion de produccion.",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
             }
           }
         ],
@@ -1211,7 +1595,7 @@
             "description": "Partido inexistente"
           },
           "422": {
-            "description": "Referencia o muestra inválida"
+            "description": "Referencia o muestra invÃ¡lida"
           },
           "503": {
             "description": "MongoDB o InfluxDB no disponible"
@@ -1311,6 +1695,22 @@
               "default": 100,
               "title": "Limite"
             }
+          },
+          {
+            "name": "X-Session-ID",
+            "in": "header",
+            "required": false,
+            "description": "Sesion de laboratorio en Redis. No es autenticacion de produccion.",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
           }
         ],
         "responses": {
@@ -1325,10 +1725,7 @@
             }
           },
           "400": {
-            "description": "Identificador, fecha o cursor inválido"
-          },
-          "503": {
-            "description": "InfluxDB no disponible"
+            "description": "Identificador, fecha o cursor invÃ¡lido"
           },
           "422": {
             "description": "Validation Error",
@@ -1339,6 +1736,9 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "InfluxDB no disponible"
           }
         }
       }
@@ -1355,6 +1755,22 @@
             "schema": {
               "type": "string",
               "title": "Partidoid"
+            }
+          },
+          {
+            "name": "X-Session-ID",
+            "in": "header",
+            "required": false,
+            "description": "Sesion de laboratorio en Redis. No es autenticacion de produccion.",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
             }
           }
         ],
@@ -1448,6 +1864,22 @@
               "minimum": 1,
               "default": 250,
               "title": "Limite"
+            }
+          },
+          {
+            "name": "X-Session-ID",
+            "in": "header",
+            "required": false,
+            "description": "Sesion de laboratorio en Redis. No es autenticacion de produccion.",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
             }
           }
         ],
@@ -1543,6 +1975,22 @@
               ],
               "title": "Hasta"
             }
+          },
+          {
+            "name": "X-Session-ID",
+            "in": "header",
+            "required": false,
+            "description": "Sesion de laboratorio en Redis. No es autenticacion de produccion.",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
           }
         ],
         "responses": {
@@ -1557,13 +2005,10 @@
             }
           },
           "400": {
-            "description": "Identificador o fecha inválida"
+            "description": "Identificador o fecha invÃ¡lida"
           },
           "413": {
             "description": "Ventana temporal demasiado amplia"
-          },
-          "503": {
-            "description": "InfluxDB no disponible"
           },
           "422": {
             "description": "Validation Error",
@@ -1574,6 +2019,9 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "InfluxDB no disponible"
           }
         }
       }
@@ -1590,6 +2038,22 @@
             "schema": {
               "type": "string",
               "title": "Partidoid"
+            }
+          },
+          {
+            "name": "X-Session-ID",
+            "in": "header",
+            "required": false,
+            "description": "Sesion de laboratorio en Redis. No es autenticacion de produccion.",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
             }
           }
         ],
@@ -1618,7 +2082,7 @@
             "description": "Partido inexistente"
           },
           "422": {
-            "description": "Equipo o muestra inválida"
+            "description": "Equipo o muestra invÃ¡lida"
           },
           "503": {
             "description": "MongoDB o InfluxDB no disponible"
@@ -1639,6 +2103,22 @@
               "type": "string",
               "title": "Partidoid"
             }
+          },
+          {
+            "name": "X-Session-ID",
+            "in": "header",
+            "required": false,
+            "description": "Sesion de laboratorio en Redis. No es autenticacion de produccion.",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
           }
         ],
         "responses": {
@@ -1652,9 +2132,6 @@
               }
             }
           },
-          "503": {
-            "description": "InfluxDB no disponible"
-          },
           "422": {
             "description": "Validation Error",
             "content": {
@@ -1664,6 +2141,9 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "InfluxDB no disponible"
           }
         }
       }
@@ -1681,6 +2161,22 @@
               "type": "string",
               "title": "Partidoid"
             }
+          },
+          {
+            "name": "X-Session-ID",
+            "in": "header",
+            "required": false,
+            "description": "Sesion de laboratorio en Redis. No es autenticacion de produccion.",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
           }
         ],
         "responses": {
@@ -1694,9 +2190,6 @@
               }
             }
           },
-          "503": {
-            "description": "InfluxDB no disponible"
-          },
           "422": {
             "description": "Validation Error",
             "content": {
@@ -1706,6 +2199,9 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "InfluxDB no disponible"
           }
         }
       }
@@ -1728,7 +2224,25 @@
           "503": {
             "description": "Neo4j no disponible"
           }
-        }
+        },
+        "parameters": [
+          {
+            "name": "X-Session-ID",
+            "in": "header",
+            "required": false,
+            "description": "Sesion de laboratorio en Redis. No es autenticacion de produccion.",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
+        ]
       }
     },
     "/api/v1/grafo/equipos/{equipoId}/rivales": {
@@ -1744,6 +2258,22 @@
               "type": "string",
               "title": "Equipoid"
             }
+          },
+          {
+            "name": "X-Session-ID",
+            "in": "header",
+            "required": false,
+            "description": "Sesion de laboratorio en Redis. No es autenticacion de produccion.",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
           }
         ],
         "responses": {
@@ -1758,13 +2288,10 @@
             }
           },
           "400": {
-            "description": "Identificador inválido"
+            "description": "Identificador invÃ¡lido"
           },
           "404": {
             "description": "Equipo inexistente"
-          },
-          "503": {
-            "description": "Neo4j no disponible"
           },
           "422": {
             "description": "Validation Error",
@@ -1775,6 +2302,9 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "Neo4j no disponible"
           }
         }
       }
@@ -1804,6 +2334,22 @@
               "default": 10,
               "title": "Limite"
             }
+          },
+          {
+            "name": "X-Session-ID",
+            "in": "header",
+            "required": false,
+            "description": "Sesion de laboratorio en Redis. No es autenticacion de produccion.",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
           }
         ],
         "responses": {
@@ -1818,13 +2364,10 @@
             }
           },
           "400": {
-            "description": "Identificador inválido"
+            "description": "Identificador invÃ¡lido"
           },
           "404": {
             "description": "Jugador inexistente"
-          },
-          "503": {
-            "description": "Neo4j no disponible"
           },
           "422": {
             "description": "Validation Error",
@@ -1835,6 +2378,9 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "Neo4j no disponible"
           }
         }
       }
@@ -1861,6 +2407,22 @@
               "type": "string",
               "title": "Destinoid"
             }
+          },
+          {
+            "name": "X-Session-ID",
+            "in": "header",
+            "required": false,
+            "description": "Sesion de laboratorio en Redis. No es autenticacion de produccion.",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
           }
         ],
         "responses": {
@@ -1875,13 +2437,10 @@
             }
           },
           "400": {
-            "description": "Identificador inválido"
+            "description": "Identificador invÃ¡lido"
           },
           "404": {
             "description": "Equipo o camino inexistente"
-          },
-          "503": {
-            "description": "Neo4j no disponible"
           },
           "422": {
             "description": "Validation Error",
@@ -1892,6 +2451,9 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "Neo4j no disponible"
           }
         }
       }
@@ -1914,7 +2476,25 @@
           "503": {
             "description": "MongoDB, InfluxDB o Data Mart no disponible"
           }
-        }
+        },
+        "parameters": [
+          {
+            "name": "X-Session-ID",
+            "in": "header",
+            "required": false,
+            "description": "Sesion de laboratorio en Redis. No es autenticacion de produccion.",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
+        ]
       }
     },
     "/api/v1/analitica/datamart/resumen": {
@@ -1935,7 +2515,25 @@
           "503": {
             "description": "Data Mart no disponible"
           }
-        }
+        },
+        "parameters": [
+          {
+            "name": "X-Session-ID",
+            "in": "header",
+            "required": false,
+            "description": "Sesion de laboratorio en Redis. No es autenticacion de produccion.",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
+        ]
       }
     },
     "/api/v1/analitica/datamart/goles-por-equipo": {
@@ -1956,7 +2554,25 @@
           "503": {
             "description": "Data Mart no disponible"
           }
-        }
+        },
+        "parameters": [
+          {
+            "name": "X-Session-ID",
+            "in": "header",
+            "required": false,
+            "description": "Sesion de laboratorio en Redis. No es autenticacion de produccion.",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
+        ]
       }
     },
     "/api/v1/analitica/operacional/goles-por-equipo": {
@@ -1977,13 +2593,31 @@
           "503": {
             "description": "MongoDB no disponible"
           }
-        }
+        },
+        "parameters": [
+          {
+            "name": "X-Session-ID",
+            "in": "header",
+            "required": false,
+            "description": "Sesion de laboratorio en Redis. No es autenticacion de produccion.",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
+        ]
       }
     },
     "/api/v1/directo/partidos": {
       "get": {
         "tags": [
-          "Transmisión"
+          "TransmisiÃ³n"
         ],
         "summary": "Partidos preparados, en curso y finalizados",
         "parameters": [
@@ -2009,6 +2643,22 @@
               "maximum": 1000,
               "default": 0
             }
+          },
+          {
+            "name": "X-Session-ID",
+            "in": "header",
+            "required": false,
+            "description": "Sesion de laboratorio en Redis. No es autenticacion de produccion.",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
           }
         ],
         "responses": {
@@ -2016,7 +2666,7 @@
             "description": "Cartelera paginada sin plan deportivo futuro"
           },
           "400": {
-            "description": "Grupo inválido"
+            "description": "Grupo invÃ¡lido"
           },
           "503": {
             "description": "MongoDB no disponible"
@@ -2027,15 +2677,312 @@
     "/api/v1/directo/equipos": {
       "get": {
         "tags": [
-          "Transmisión"
+          "TransmisiÃ³n"
         ],
         "summary": "Equipos disponibles para preparar cruces",
         "responses": {
           "200": {
-            "description": "Catálogo de equipos ordenado por nombre"
+            "description": "CatÃ¡logo de equipos ordenado por nombre"
           },
           "503": {
             "description": "MongoDB no disponible"
+          }
+        },
+        "parameters": [
+          {
+            "name": "X-Session-ID",
+            "in": "header",
+            "required": false,
+            "description": "Sesion de laboratorio en Redis. No es autenticacion de produccion.",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "/api/v1/auditoria/actores/{actorId}": {
+      "get": {
+        "tags": [
+          "Auditoria"
+        ],
+        "summary": "Audit By Actor",
+        "operationId": "audit_by_actor",
+        "parameters": [
+          {
+            "name": "actorId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "dia",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9]{8}$"
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 2048
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          {
+            "name": "limite",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 50
+            }
+          },
+          {
+            "name": "X-Session-ID",
+            "in": "header",
+            "required": false,
+            "description": "Sesion de laboratorio en Redis. No es autenticacion de produccion.",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuditPageResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Dia, recurso o cursor invalido"
+          },
+          "403": {
+            "description": "Requiere sesion ADMIN del laboratorio"
+          },
+          "404": {
+            "description": "Sesion inexistente o expirada"
+          },
+          "503": {
+            "description": "Dependencia de auditoria no disponible"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auditoria/recursos/{tipo}/{recursoId}": {
+      "get": {
+        "tags": [
+          "Auditoria"
+        ],
+        "summary": "Audit By Resource",
+        "operationId": "audit_by_resource",
+        "parameters": [
+          {
+            "name": "tipo",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "recursoId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "dia",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9]{8}$"
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 2048
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          {
+            "name": "limite",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 50
+            }
+          },
+          {
+            "name": "X-Session-ID",
+            "in": "header",
+            "required": false,
+            "description": "Sesion de laboratorio en Redis. No es autenticacion de produccion.",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuditPageResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Dia, recurso o cursor invalido"
+          },
+          "403": {
+            "description": "Requiere sesion ADMIN del laboratorio"
+          },
+          "404": {
+            "description": "Sesion inexistente o expirada"
+          },
+          "503": {
+            "description": "Dependencia de auditoria no disponible"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auditoria/pendientes": {
+      "get": {
+        "tags": [
+          "Auditoria"
+        ],
+        "summary": "Audit Pending",
+        "operationId": "audit_pending",
+        "parameters": [
+          {
+            "name": "X-Session-ID",
+            "in": "header",
+            "required": false,
+            "description": "Sesion de laboratorio en Redis. No es autenticacion de produccion.",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuditPendingResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Dia, recurso o cursor invalido"
+          },
+          "403": {
+            "description": "Requiere sesion ADMIN del laboratorio"
+          },
+          "404": {
+            "description": "Sesion inexistente o expirada"
+          },
+          "503": {
+            "description": "Dependencia de auditoria no disponible"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
           }
         }
       }
@@ -2051,7 +2998,7 @@
           },
           "resumenesGenerados": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Resumenesgenerados"
           },
           "ventanaMinutos": {
@@ -2124,8 +3071,8 @@
           },
           "saltos": {
             "type": "integer",
-            "maximum": 4.0,
-            "minimum": 0.0,
+            "maximum": 4,
+            "minimum": 0,
             "title": "Saltos"
           }
         },
@@ -2144,41 +3091,41 @@
         "properties": {
           "celdaX": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Celdax"
           },
           "celdaY": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Celday"
           },
           "xDesde": {
             "type": "number",
-            "maximum": 100.0,
-            "minimum": 0.0,
+            "maximum": 100,
+            "minimum": 0,
             "title": "Xdesde"
           },
           "xHasta": {
             "type": "number",
-            "maximum": 100.0,
-            "minimum": 0.0,
+            "maximum": 100,
+            "minimum": 0,
             "title": "Xhasta"
           },
           "yDesde": {
             "type": "number",
-            "maximum": 100.0,
-            "minimum": 0.0,
+            "maximum": 100,
+            "minimum": 0,
             "title": "Ydesde"
           },
           "yHasta": {
             "type": "number",
-            "maximum": 100.0,
-            "minimum": 0.0,
+            "maximum": 100,
+            "minimum": 0,
             "title": "Yhasta"
           },
           "muestras": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Muestras"
           }
         },
@@ -2240,8 +3187,8 @@
           },
           "shard": {
             "type": "integer",
-            "maximum": 15.0,
-            "minimum": 0.0,
+            "maximum": 15,
+            "minimum": 0,
             "title": "Shard"
           },
           "repetido": {
@@ -2403,12 +3350,12 @@
           },
           "eventosCargados": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Eventoscargados"
           },
           "resumenesCargados": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Resumenescargados"
           }
         },
@@ -2426,27 +3373,27 @@
         "properties": {
           "equipos": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Equipos"
           },
           "jugadores": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Jugadores"
           },
           "partidos": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Partidos"
           },
           "eventos": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Eventos"
           },
           "resumenes": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Resumenes"
           }
         },
@@ -2475,38 +3422,38 @@
           },
           "posesionPct": {
             "type": "number",
-            "maximum": 100.0,
-            "minimum": 0.0,
+            "maximum": 100,
+            "minimum": 0,
             "title": "Posesionpct"
           },
           "pasesIntervalo": {
             "type": "integer",
-            "maximum": 1000.0,
-            "minimum": 0.0,
+            "maximum": 1000,
+            "minimum": 0,
             "title": "Pasesintervalo"
           },
           "tirosAcumulados": {
             "type": "integer",
-            "maximum": 1000.0,
-            "minimum": 0.0,
+            "maximum": 1000,
+            "minimum": 0,
             "title": "Tirosacumulados"
           },
           "golesAcumulados": {
             "type": "integer",
-            "maximum": 100.0,
-            "minimum": 0.0,
+            "maximum": 100,
+            "minimum": 0,
             "title": "Golesacumulados"
           },
           "periodo": {
             "type": "integer",
-            "maximum": 5.0,
-            "minimum": 1.0,
+            "maximum": 5,
+            "minimum": 1,
             "title": "Periodo"
           },
           "segundoPartido": {
             "type": "integer",
-            "maximum": 10800.0,
-            "minimum": 0.0,
+            "maximum": 10800,
+            "minimum": 0,
             "title": "Segundopartido"
           }
         },
@@ -2651,8 +3598,8 @@
           },
           "minuto": {
             "type": "integer",
-            "maximum": 150.0,
-            "minimum": 90.0,
+            "maximum": 150,
+            "minimum": 90,
             "title": "Minuto"
           }
         },
@@ -2677,7 +3624,7 @@
           },
           "goles": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Goles"
           }
         },
@@ -2730,14 +3677,14 @@
           },
           "periodo": {
             "type": "integer",
-            "maximum": 5.0,
-            "minimum": 1.0,
+            "maximum": 5,
+            "minimum": 1,
             "title": "Periodo"
           },
           "minuto": {
             "type": "integer",
-            "maximum": 150.0,
-            "minimum": 0.0,
+            "maximum": 150,
+            "minimum": 0,
             "title": "Minuto"
           },
           "equipoId": {
@@ -2761,14 +3708,14 @@
           },
           "x": {
             "type": "number",
-            "maximum": 100.0,
-            "minimum": 0.0,
+            "maximum": 100,
+            "minimum": 0,
             "title": "X"
           },
           "y": {
             "type": "number",
-            "maximum": 100.0,
-            "minimum": 0.0,
+            "maximum": 100,
+            "minimum": 0,
             "title": "Y"
           }
         },
@@ -2796,14 +3743,14 @@
           },
           "periodo": {
             "type": "integer",
-            "maximum": 5.0,
-            "minimum": 1.0,
+            "maximum": 5,
+            "minimum": 1,
             "title": "Periodo"
           },
           "minuto": {
             "type": "integer",
-            "maximum": 150.0,
-            "minimum": 0.0,
+            "maximum": 150,
+            "minimum": 0,
             "title": "Minuto"
           },
           "equipoId": {
@@ -2832,8 +3779,8 @@
             "anyOf": [
               {
                 "type": "number",
-                "maximum": 100.0,
-                "minimum": 0.0
+                "maximum": 100,
+                "minimum": 0
               },
               {
                 "type": "null"
@@ -2845,8 +3792,8 @@
             "anyOf": [
               {
                 "type": "number",
-                "maximum": 100.0,
-                "minimum": 0.0
+                "maximum": 100,
+                "minimum": 0
               },
               {
                 "type": "null"
@@ -2881,14 +3828,14 @@
           },
           "periodo": {
             "type": "integer",
-            "maximum": 5.0,
-            "minimum": 1.0,
+            "maximum": 5,
+            "minimum": 1,
             "title": "Periodo"
           },
           "minuto": {
             "type": "integer",
-            "maximum": 150.0,
-            "minimum": 0.0,
+            "maximum": 150,
+            "minimum": 0,
             "title": "Minuto"
           },
           "equipoId": {
@@ -2917,8 +3864,8 @@
             "anyOf": [
               {
                 "type": "number",
-                "maximum": 100.0,
-                "minimum": 0.0
+                "maximum": 100,
+                "minimum": 0
               },
               {
                 "type": "null"
@@ -2930,8 +3877,8 @@
             "anyOf": [
               {
                 "type": "number",
-                "maximum": 100.0,
-                "minimum": 0.0
+                "maximum": 100,
+                "minimum": 0
               },
               {
                 "type": "null"
@@ -2955,27 +3902,27 @@
         "properties": {
           "equipos": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Equipos"
           },
           "jugadores": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Jugadores"
           },
           "partidos": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Partidos"
           },
           "confederaciones": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Confederaciones"
           },
           "relaciones": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Relaciones"
           }
         },
@@ -3102,7 +4049,7 @@
           },
           "diferenciaRanking": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Diferenciaranking"
           },
           "criterio": {
@@ -3135,13 +4082,13 @@
           },
           "resolucion": {
             "type": "integer",
-            "maximum": 25.0,
-            "minimum": 5.0,
+            "maximum": 25,
+            "minimum": 5,
             "title": "Resolucion"
           },
           "totalMuestras": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Totalmuestras"
           },
           "celdas": {
@@ -3167,12 +4114,12 @@
         "properties": {
           "local": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Local"
           },
           "visitante": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Visitante"
           }
         },
@@ -3273,7 +4220,7 @@
               }
             ],
             "title": "Siguientecursor",
-            "description": "Cursor opaco para solicitar la página siguiente"
+            "description": "Cursor opaco para solicitar la pÃ¡gina siguiente"
           }
         },
         "additionalProperties": false,
@@ -3449,26 +4396,26 @@
           },
           "x": {
             "type": "number",
-            "maximum": 100.0,
-            "minimum": 0.0,
+            "maximum": 100,
+            "minimum": 0,
             "title": "X"
           },
           "y": {
             "type": "number",
-            "maximum": 100.0,
-            "minimum": 0.0,
+            "maximum": 100,
+            "minimum": 0,
             "title": "Y"
           },
           "periodo": {
             "type": "integer",
-            "maximum": 5.0,
-            "minimum": 1.0,
+            "maximum": 5,
+            "minimum": 1,
             "title": "Periodo"
           },
           "segundoPartido": {
             "type": "integer",
-            "maximum": 10800.0,
-            "minimum": 0.0,
+            "maximum": 10800,
+            "minimum": 0,
             "title": "Segundopartido"
           },
           "equipoPosesionId": {
@@ -3516,26 +4463,26 @@
           },
           "x": {
             "type": "number",
-            "maximum": 100.0,
-            "minimum": 0.0,
+            "maximum": 100,
+            "minimum": 0,
             "title": "X"
           },
           "y": {
             "type": "number",
-            "maximum": 100.0,
-            "minimum": 0.0,
+            "maximum": 100,
+            "minimum": 0,
             "title": "Y"
           },
           "periodo": {
             "type": "integer",
-            "maximum": 5.0,
-            "minimum": 1.0,
+            "maximum": 5,
+            "minimum": 1,
             "title": "Periodo"
           },
           "segundoPartido": {
             "type": "integer",
-            "maximum": 10800.0,
-            "minimum": 0.0,
+            "maximum": 10800,
+            "minimum": 0,
             "title": "Segundopartido"
           },
           "equipoPosesionId": {
@@ -3598,26 +4545,26 @@
           },
           "x": {
             "type": "number",
-            "maximum": 100.0,
-            "minimum": 0.0,
+            "maximum": 100,
+            "minimum": 0,
             "title": "X"
           },
           "y": {
             "type": "number",
-            "maximum": 100.0,
-            "minimum": 0.0,
+            "maximum": 100,
+            "minimum": 0,
             "title": "Y"
           },
           "periodo": {
             "type": "integer",
-            "maximum": 5.0,
-            "minimum": 1.0,
+            "maximum": 5,
+            "minimum": 1,
             "title": "Periodo"
           },
           "segundoPartido": {
             "type": "integer",
-            "maximum": 10800.0,
-            "minimum": 0.0,
+            "maximum": 10800,
+            "minimum": 0,
             "title": "Segundopartido"
           }
         },
@@ -3653,26 +4600,26 @@
           },
           "x": {
             "type": "number",
-            "maximum": 100.0,
-            "minimum": 0.0,
+            "maximum": 100,
+            "minimum": 0,
             "title": "X"
           },
           "y": {
             "type": "number",
-            "maximum": 100.0,
-            "minimum": 0.0,
+            "maximum": 100,
+            "minimum": 0,
             "title": "Y"
           },
           "periodo": {
             "type": "integer",
-            "maximum": 5.0,
-            "minimum": 1.0,
+            "maximum": 5,
+            "minimum": 1,
             "title": "Periodo"
           },
           "segundoPartido": {
             "type": "integer",
-            "maximum": 10800.0,
-            "minimum": 0.0,
+            "maximum": 10800,
+            "minimum": 0,
             "title": "Segundopartido"
           },
           "partidoId": {
@@ -3758,28 +4705,28 @@
           },
           "posesionPromedio": {
             "type": "number",
-            "maximum": 100.0,
-            "minimum": 0.0,
+            "maximum": 100,
+            "minimum": 0,
             "title": "Posesionpromedio"
           },
           "pasesTotal": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Pasestotal"
           },
           "tirosFinales": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Tirosfinales"
           },
           "golesFinales": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Golesfinales"
           },
           "muestras": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Muestras"
           }
         },
@@ -3867,8 +4814,8 @@
           },
           "ttlSegundos": {
             "type": "integer",
-            "maximum": 3600.0,
-            "minimum": 60.0,
+            "maximum": 3600,
+            "minimum": 60,
             "title": "Ttlsegundos",
             "default": 1800
           }
@@ -3884,8 +4831,8 @@
         "properties": {
           "ttlSegundos": {
             "type": "integer",
-            "maximum": 3600.0,
-            "minimum": 60.0,
+            "maximum": 3600,
+            "minimum": 60,
             "title": "Ttlsegundos"
           }
         },
@@ -3922,12 +4869,12 @@
           },
           "renovaciones": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Renovaciones"
           },
           "ttlSegundos": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Ttlsegundos"
           }
         },
@@ -3954,18 +4901,18 @@
           },
           "semilla": {
             "type": "integer",
-            "maximum": 2147483647.0,
-            "minimum": 0.0,
+            "maximum": 2147483647,
+            "minimum": 0,
             "title": "Semilla",
             "default": 2030
           },
           "velocidad": {
             "type": "number",
-            "maximum": 120.0,
-            "minimum": 1.0,
+            "maximum": 120,
+            "minimum": 1,
             "title": "Velocidad",
             "description": "Segundos de partido simulados por cada segundo real",
-            "default": 30.0
+            "default": 30
           },
           "localId": {
             "anyOf": [
@@ -4031,20 +4978,20 @@
           },
           "segundoPartido": {
             "type": "integer",
-            "maximum": 5400.0,
-            "minimum": 0.0,
+            "maximum": 5400,
+            "minimum": 0,
             "title": "Segundopartido"
           },
           "minutoPartido": {
             "type": "number",
-            "maximum": 90.0,
-            "minimum": 0.0,
+            "maximum": 90,
+            "minimum": 0,
             "title": "Minutopartido"
           },
           "progresoPct": {
             "type": "number",
-            "maximum": 100.0,
-            "minimum": 0.0,
+            "maximum": 100,
+            "minimum": 0,
             "title": "Progresopct"
           },
           "error": {
@@ -4078,8 +5025,8 @@
         "properties": {
           "velocidad": {
             "type": "number",
-            "maximum": 120.0,
-            "minimum": 1.0,
+            "maximum": 120,
+            "minimum": 1,
             "title": "Velocidad"
           }
         },
@@ -4099,14 +5046,14 @@
           },
           "periodo": {
             "type": "integer",
-            "maximum": 5.0,
-            "minimum": 1.0,
+            "maximum": 5,
+            "minimum": 1,
             "title": "Periodo"
           },
           "minuto": {
             "type": "integer",
-            "maximum": 150.0,
-            "minimum": 0.0,
+            "maximum": 150,
+            "minimum": 0,
             "title": "Minuto"
           },
           "equipoId": {
@@ -4152,14 +5099,14 @@
           },
           "periodo": {
             "type": "integer",
-            "maximum": 5.0,
-            "minimum": 1.0,
+            "maximum": 5,
+            "minimum": 1,
             "title": "Periodo"
           },
           "minuto": {
             "type": "integer",
-            "maximum": 150.0,
-            "minimum": 0.0,
+            "maximum": 150,
+            "minimum": 0,
             "title": "Minuto"
           },
           "equipoId": {
@@ -4204,14 +5151,14 @@
           },
           "periodo": {
             "type": "integer",
-            "maximum": 5.0,
-            "minimum": 1.0,
+            "maximum": 5,
+            "minimum": 1,
             "title": "Periodo"
           },
           "minuto": {
             "type": "integer",
-            "maximum": 150.0,
-            "minimum": 0.0,
+            "maximum": 150,
+            "minimum": 0,
             "title": "Minuto"
           },
           "equipoId": {
@@ -4261,7 +5208,7 @@
           },
           "muestrasAceptadas": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Muestrasaceptadas"
           },
           "repetible": {
@@ -4322,6 +5269,146 @@
           "type"
         ],
         "title": "ValidationError"
+      },
+      "AuditEventResponse": {
+        "type": "object",
+        "properties": {
+          "auditoriaId": {
+            "type": "string",
+            "title": "auditoriaId"
+          },
+          "operacionId": {
+            "type": "string",
+            "title": "operacionId"
+          },
+          "actorId": {
+            "type": "string",
+            "title": "actorId"
+          },
+          "actorTipo": {
+            "type": "string",
+            "enum": [
+              "SESION_LAB",
+              "DECLARADO",
+              "ANONIMO",
+              "SERVICIO"
+            ],
+            "title": "Actortipo"
+          },
+          "fecha": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Fecha"
+          },
+          "accion": {
+            "type": "string",
+            "title": "accion"
+          },
+          "recursoTipo": {
+            "type": "string",
+            "title": "recursoTipo"
+          },
+          "recursoId": {
+            "type": "string",
+            "title": "recursoId"
+          },
+          "resultado": {
+            "type": "string",
+            "title": "resultado"
+          },
+          "requestId": {
+            "type": "string",
+            "title": "requestId"
+          },
+          "metodo": {
+            "type": "string",
+            "title": "metodo"
+          },
+          "ruta": {
+            "type": "string",
+            "title": "ruta"
+          },
+          "detalle": {
+            "type": "object",
+            "additionalProperties": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "boolean"
+                }
+              ]
+            },
+            "title": "Detalle"
+          }
+        },
+        "required": [
+          "auditoriaId",
+          "operacionId",
+          "actorId",
+          "actorTipo",
+          "fecha",
+          "accion",
+          "recursoTipo",
+          "recursoId",
+          "resultado",
+          "requestId",
+          "metodo",
+          "ruta",
+          "detalle"
+        ],
+        "title": "AuditEventResponse"
+      },
+      "AuditPageResponse": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AuditEventResponse"
+            }
+          },
+          "siguienteCursor": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "items",
+          "siguienteCursor"
+        ],
+        "title": "AuditPageResponse"
+      },
+      "AuditPendingResponse": {
+        "type": "object",
+        "properties": {
+          "pendientes": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "destino": {
+            "type": "string",
+            "const": "Cassandra"
+          }
+        },
+        "required": [
+          "pendientes",
+          "destino"
+        ],
+        "title": "AuditPendingResponse"
       }
     }
   }

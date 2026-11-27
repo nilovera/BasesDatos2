@@ -33,3 +33,14 @@ un bloque `finally`.
 Las carpetas `carga-*` agregan resultados por perfil, solicitudes individuales
 y muestras de recursos. Deben ejecutarse desde un commit limpio y sus CSV no
 deben editarse antes de calcular los resultados.
+
+
+## Resultados ya registrados
+
+El [estado de validación](../docs/estado_validacion.md) relaciona las ejecuciones
+Docker, fallas, Outbox, perfiles de lectura, Data Mart, simulación y front con
+sus versiones y resultados. La evidencia unitaria del incremento 15 se conserva
+en las carpetas `auditoria-unitarias-*`. La ejecución HTTP real también está
+registrada en `auditoria-20261127T040527Z/resultado.json`, con resultado OK.
+Su archivo `procedencia.json` conserva la limitación de SHA no capturado
+por el script original y los hashes observados al revisar la evidencia.

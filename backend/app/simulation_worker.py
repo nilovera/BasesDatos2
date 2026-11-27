@@ -10,6 +10,7 @@ from .cassandra_service import CassandraCommentService
 from .config import settings
 from .database import get_client
 from .errors import DomainError
+from .audit_context import audit_scope
 from .influx_client import get_influx_client
 from .influx_service import InfluxTelemetryService
 from .models import PelotaMuestra, PosicionMuestra
@@ -249,7 +250,8 @@ class SimulationWorker:
 
     def run_forever(self):
         while not self.stop_event.is_set():
-            processed = self.run_once()
+            with audit_scope(actor_id="simulador", actor_type="SERVICIO"):
+                processed = self.run_once()
             self.stop_event.wait(0.05 if processed else self.poll_seconds)
 
 

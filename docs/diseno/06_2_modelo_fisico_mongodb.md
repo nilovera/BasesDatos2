@@ -1,187 +1,54 @@
-# Paso 6.2 — Modelo físico de MongoDB
+# 6.2 Modelo físico de MongoDB
 
-Estado: diseño aprobado para implementación incremental. El script
-`mongodb/init/01_schema.js` materializa validadores e índices; su ejecución
-contra un contenedor se verificará en el incremento de Docker.
+## Responsabilidad y despliegue
 
-## Responsabilidad
+MongoDB es autoridad del catálogo y del núcleo deportivo. El laboratorio
+despliega un replica set `rs0` de un miembro para habilitar transacciones. La
+verificación Docker registra PRIMARY, 64 equipos, 1.024 jugadores y cero
+jugadores huérfanos. Un miembro no proporciona alta disponibilidad.
 
-MongoDB es la fuente autoritativa del núcleo deportivo:
+## Colecciones y accesos
 
-- equipos y jugadores;
-- partidos, estado y marcador vigente;
-- alineaciones y participaciones;
-- eventos oficiales;
-- mensajes de Outbox asociados a esos eventos.
+| Colección | Propósito y acceso |
+|---|---|
+| equipos | Catálogo por identificador de equipo |
+| jugadores | Catálogo por identificador y pertenencia a equipo |
+| partidos | Estado, marcador, alineaciones, versión y secuencia del agregado |
+| eventos_oficiales | Hechos por partido y secuencia; identidad de evento única |
+| contadores | Asignación secuencial de identificadores de eventos y partidos simulados |
+| outbox | Entrega de eventos a Redis y Neo4j, con estado, lease y reintentos |
+| simulaciones | Configuración, semilla, reloj y estado de ejecuciones deportivas |
+| auditoria_pendiente | Entrega durable de acciones MongoDB hacia el historial Cassandra |
 
-No almacena comentarios, sesiones ni muestras temporales de posición. Esos
-datos corresponden a Cassandra, Redis e InfluxDB. Neo4j recibe relaciones
-derivadas y reconstruibles.
+Los esquemas e índices de `mongodb/init/` definen las restricciones efectivas.
+La clave, el hash y la respuesta idempotente del comando deportivo se conservan
+en `eventos_oficiales`, no en una colección de idempotencia separada.
+La colección de entrega de auditoría se incorpora mediante
+`04_audit_schema.js`. Su contenido se elimina después de confirmar el destino;
+el historial consultable permanece en Cassandra.
 
-## Decisiones de modelado
+## Transacción y concurrencia
 
-| Necesidad | Decisión | Motivo y costo |
-|---|---|---|
-| Catálogo de equipos | Colección `equipos` | Cambia poco y se consulta por ID; evita repetir planteles completos |
-| Jugadores | Colección `jugadores` con referencia `equipoId` | Permite búsquedas individuales y por equipo; exige validar la referencia en la aplicación |
-| Partido vigente | Colección `partidos` como agregado | Lectura de estado, marcador y alineaciones en una operación; el documento puede crecer y debe limitarse |
-| Historial oficial | Colección `eventos_oficiales` separada | Evita un arreglo ilimitado dentro del partido y permite paginar por secuencia |
-| Propagación | Colección `outbox` | La transacción confirma el dato y su intención de publicación de forma atómica |
-| Duplicados | Clave idempotente única en el evento | Un mismo request no genera dos hechos; requiere conservar respuesta suficiente para reintentos |
+Registrar un evento valida las referencias, el estado permitido y el comando.
+La transacción comprueba la versión, actualiza el partido, inserta el evento,
+conserva la respuesta idempotente y agrega Outbox. El incremento 15 incluye el
+envío de auditoría en esa transacción. Un conflicto de versión o un error no
+debe dejar un evento confirmado con el agregado sin actualizar.
 
-## Colecciones
+El identificador del evento y la secuencia por partido evitan confundir
+reintentos con hechos distintos. La lectura incremental de eventos usa la
+secuencia del partido como referencia. Una corrección inserta otro evento que
+referencia el original y recalcula el agregado; no borra el historial original.
 
-### `equipos`
+## Semillas y límites
 
-Documento canónico de una selección.
+La generación de catálogo es reproducible. La carga del partido usa una
+inserción condicionada para conservar el estado operativo al reiniciar el
+entorno. El partido base parte sin eventos y las nuevas simulaciones crean
+partidos propios. Los números de una captura no representan conteos permanentes.
 
-Campos principales:
+El despliegue local no acredita autenticación MongoDB de producción, réplica
+redundante, sharding o restauración de backups. La carga HTTP mide el conjunto
+de la API; no aísla la capacidad máxima del motor documental.
 
-- `equipoId`: `EQ-01`, único e inmutable;
-- `nombre`: nombre visible;
-- `codigoExterno`: alias como `ARG`, cuando exista una equivalencia validada;
-- `activo`: permite retirar una selección sin reutilizar el ID;
-- `creadoEn` y `actualizadoEn`: timestamps UTC.
-
-Índices:
-
-- único por `equipoId`;
-- único y parcial por `codigoExterno`.
-
-### `jugadores`
-
-Campos principales:
-
-- `jugadorId`: único e inmutable;
-- `equipoId`: referencia lógica a `equipos`;
-- `nombre`, `posicion` y `fechaNacimiento`;
-- `activo`, `creadoEn` y `actualizadoEn`.
-
-Índices:
-
-- único por `jugadorId`;
-- compuesto por `equipoId`, `activo`, `jugadorId`.
-
-MongoDB no aplica claves foráneas. La carga y la API deben rechazar jugadores
-huérfanos; el catálogo común ya verifica esa invariante.
-
-### `partidos`
-
-Es el agregado de lectura y control de concurrencia. Incluye:
-
-- `partidoId`;
-- `equipos.localId` y `equipos.visitanteId`;
-- `inicioProgramado`;
-- `estado`;
-- `marcador.local` y `marcador.visitante`;
-- `alineaciones.local` y `alineaciones.visitante`;
-- `ultimaSecuencia`;
-- `version` para actualización optimista;
-- timestamps de creación y actualización.
-
-El historial completo no se embebe. `ultimaSecuencia` asigna un orden estable a
-eventos del mismo partido y `version` evita sobrescrituras silenciosas.
-
-Índices:
-
-- único por `partidoId`;
-- por `estado`, `inicioProgramado` y `partidoId`;
-- por cada equipo e `inicioProgramado` para consultar su calendario.
-
-### `eventos_oficiales`
-
-Registro durable ordenado por partido. Tipos iniciales:
-
-- `INICIO_PARTIDO`;
-- `GOL`;
-- `SUSTITUCION`;
-- `CORRECCION_EVENTO`.
-
-Cada documento contiene:
-
-- `eventoId`;
-- `partidoId` y `secuencia`;
-- `tipo` y `datos` específicos;
-- `idempotencia.clave` y `idempotencia.hashSolicitud`;
-- `ocurridoEn` y `recibidoEn`;
-- `versionContrato`;
-- `respuestaHttp` mínima para devolver el mismo resultado ante una repetición.
-
-Una corrección crea un evento nuevo que referencia el original. No se reescribe
-la historia como si el error nunca hubiera ocurrido. El agregado `partidos` se
-actualiza con el resultado vigente dentro de la misma transacción.
-
-Índices:
-
-- único por `eventoId`;
-- único por `partidoId` y `secuencia`;
-- único por `idempotencia.clave`;
-- por `partidoId`, `recibidoEn` y `eventoId`.
-
-### `outbox`
-
-Un documento por evento confirmado:
-
-- `outboxId` y `eventoId`;
-- `tipo`, `partidoId` y `payload` versionado;
-- `estado`: `PENDIENTE`, `PROCESANDO`, `PUBLICADO` o `FALLIDO`;
-- `intentos`, `proximoIntentoEn` y `ultimoError` sanitizado;
-- `bloqueo.hasta` y `bloqueo.workerId` para reclamo temporal;
-- `creadoEn`, `actualizadoEn`, `publicadoEn` y `expiraEn`.
-
-`expiraEn` solo se completa al publicar. El índice TTL nunca debe borrar un
-mensaje pendiente o fallido antes de su resolución.
-
-## Escritura atómica
-
-Registrar un evento requiere una transacción MongoDB:
-
-1. reservar la clave idempotente mediante índice único;
-2. leer el partido y validar su estado/version;
-3. asignar `ultimaSecuencia + 1`;
-4. insertar `eventos_oficiales`;
-5. actualizar el agregado `partidos`;
-6. insertar el mensaje `outbox`;
-7. confirmar la transacción.
-
-El entorno local deberá iniciar MongoDB como replica set de un nodo, porque las
-transacciones multidocumento no funcionan en un servidor standalone.
-
-## Consistencia y CAP
-
-- Dentro de MongoDB: consistencia fuerte del agregado mediante transacción y
-  `writeConcern: majority` en el entorno que permita réplica.
-- Respuesta de la API: confirma únicamente después del commit.
-- Redis, InfluxDB y Neo4j: consistencia eventual a través de Outbox.
-- Si una proyección falla, el dato oficial permanece confirmado y el mensaje se
-  reintenta.
-- Cassandra conserva su propia autoridad para comentarios y no participa en la
-  transacción deportiva.
-
-## Límites explícitos
-
-- El diseño no demuestra rendimiento hasta ejecutarse y medirse.
-- La réplica de un nodo habilita transacciones, pero no alta disponibilidad.
-- Las alineaciones deben tener límites validados para impedir documentos sin
-  crecimiento controlado.
-- La paginación de eventos usa `(secuencia, eventoId)`, no `skip` para recorridos
-  grandes.
-- Los errores de Outbox no guardan secretos ni payloads de credenciales.
-
-## Criterios de aceptación
-
-1. Los validadores rechazan IDs, estados y tipos fuera del contrato.
-2. Los índices únicos impiden duplicar evento, secuencia y clave idempotente.
-3. Un gol crea evento, actualiza marcador y crea Outbox en una transacción.
-4. Repetir la misma clave y body devuelve la respuesta previa sin nuevo evento.
-5. Reutilizar la clave con otro body devuelve conflicto.
-6. Una caída del consumidor no revierte el evento oficial y la Outbox converge al recuperarse.
-7. Ningún archivo ejecutable contiene dependencias de IRIS.
-
-## Referencias técnicas
-
-- MongoDB, validación con operadores y combinación con JSON Schema: https://www.mongodb.com/docs/manual/core/schema-validation/specify-query-expression-rules/
-- MongoDB, transacciones multidocumento: https://www.mongodb.com/docs/manual/core/transactions/
-- MongoDB, consideraciones de transacciones y requisito de replica set: https://www.mongodb.com/docs/manual/core/transactions-production-consideration/
-- MongoDB, índices parciales: https://www.mongodb.com/docs/manual/core/index-partial/
-- MongoDB, índices TTL: https://www.mongodb.com/docs/manual/core/index-ttl/
+Pruebas y resultados: [estado de validación](../estado_validacion.md).

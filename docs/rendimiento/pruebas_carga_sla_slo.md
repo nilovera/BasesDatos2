@@ -63,10 +63,13 @@ recuperación.
 
 Esta primera mezcla no genera goles, asistencias ni comentarios nuevos. Es una
 decisión deliberada para no modificar el partido oficial durante una medición
-comparativa. Las escrituras sintéticas se incorporarán como escenario separado,
+comparativa. Una prueba futura de escrituras sintéticas requiere un escenario separado,
 con IDs e idempotencia reproducibles.
 
-## Resultados medidos — commit `3f7e488`
+## Resultados medidos
+
+El diagnóstico inicial corresponde a `8a67292066d4d31fb8f2d4fd754a59aa1722b2ee`; los perfiles corregidos y de
+recuperación corresponden a `3f7e4880a5a2d1f5af934be115340b73225543c6`. Los SHA completos están en cada resultado.
 
 Las ejecuciones del 25 de noviembre de 2026 produjeron los siguientes valores:
 
@@ -78,14 +81,16 @@ Las ejecuciones del 25 de noviembre de 2026 produjeron los siguientes valores:
 | Estrés | 4.800 | 0 | 22,305 ms | 55,110 ms | 78,080 ms | 79,932 req/s | Informativo |
 | Humo posterior | 30 | 0 | 18,491 ms | 38,819 ms | 45,311 ms | 2,062 req/s | Cumple |
 
-La primera prueba permitió aislar una demora de resolución de `localhost` en el
-cliente Python sobre Windows. Cambiar únicamente el destino a `127.0.0.1`
-redujo p95 un 97,71 % y elevó el throughput un 116,25 % con la misma carga.
+El diagnóstico inicial y la ejecución posterior con `127.0.0.1` mostraron una
+reducción de p95 de 97,71 % y un aumento de throughput de 116,25 %. La hipótesis
+de demora de resolución de `localhost` es compatible con el cambio observado,
+pero estos registros no aíslan por sí solos todos los factores del cliente.
 
 En tráfico normal las tres repeticiones sostuvieron 20 req/s. Un máximo aislado
 de 1.690,769 ms correspondió a una recomendación de Neo4j durante la primera
-repetición; las dos siguientes obtuvieron p99 de 42,273 y 46,189 ms. Se registra
-como calentamiento o pausa transitoria, no como degradación sostenida.
+repetición; las dos siguientes obtuvieron p99 de 42,273 y 46,189 ms. Se conserva
+como máximo aislado; su causa no se atribuye con certeza a calentamiento o
+pausa del proceso.
 
 Estrés multiplicó por cuatro la tasa normal. La API y Neo4j fueron los puntos de
 mayor presión: ambos promediaron alrededor de 64,6 % de CPU y Neo4j alcanzó un
@@ -93,9 +98,9 @@ pico multihilo de 210,89 %. `grafo_recomendaciones` tuvo el mayor p95 por
 operación, 72,527 ms. Redis y PostgreSQL conservaron bajo consumo; Cassandra
 mantuvo aproximadamente 1,1 GiB de memoria, esperable para su JVM local.
 
-No hubo errores, pérdida de throughput ni saturación a 80 req/s. Por lo tanto,
-la capacidad **demostrada** del laboratorio es al menos 80 req/s, pero su límite
-máximo no fue determinado. El humo posterior cumplió todos los SLO y todas las
+El estrés registró cero errores y 79,932 req/s frente a un objetivo de
+80 req/s. Es la tasa observada durante ese escenario; no determina capacidad
+máxima ni constituye una garantía de al menos 80 req/s sostenidos. El humo posterior cumplió todos los SLO y todas las
 dependencias quedaron `UP`, demostrando recuperación después del estrés.
 
 Evidencias relacionadas:

@@ -39,3 +39,14 @@ powershell -ExecutionPolicy Bypass -File scripts\probar_falla_neo4j.ps1
 
 Las consultas manuales de CRUD y recorridos están en `neo4j/queries/`.
 No usar `docker compose down -v`: eliminaría los volúmenes persistentes.
+
+
+## Proyección deportiva y ejecución
+
+Outbox incorpora nodos `EventoOficial` y relaciones de gol, asistencia, tarjeta,
+VAR y sustitución, identificadas por evento. El worker actualiza Redis y Neo4j
+antes de confirmar la publicación. El grafo no constituye la autoridad del
+marcador ni una reconciliación completa de todas las correcciones históricas.
+
+La ejecución Docker y la falla controlada están registradas. La simulación
+integrada verificó relaciones deportivas. Ver [estado de validación](../docs/estado_validacion.md).

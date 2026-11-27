@@ -1,6 +1,9 @@
 # Fuentes y procedencia
 
-Fecha de revisión de referencia: 20 de noviembre de 2026.
+Revisión de procedencia histórica: 20 de noviembre de 2026.
+Revisión documental de la integración: 27 de noviembre de 2026.
+Base inspeccionada: `f4cb9be15f996d2710b41c36b18b09eed7e07da2`
+en la rama `trabajo-final`.
 
 | Componente | Repositorio / rama | Commit inspeccionado |
 |---|---|---|
@@ -20,7 +23,12 @@ como referencia.
 
 `data/fuentes/catalogo_base.json` conserva selecciones, perfiles de nombres y posiciones del generador MongoDB del commit indicado. `scripts/catalogo.py` reproduce sus IDs, nombres, fechas y pertenencias. La demostración de partido y sus equivalencias se agregan como decisión explícita de la rama limpia `trabajo-final`.
 
-Los siete Markdown de `docs/antecedentes` proceden de los documentos preparados en el proyecto. Conservan evidencia y resultados históricos; las decisiones vigentes de implementación están en `docs/diseno` y el README. Los antecedentes no representan por sí solos pruebas de la arquitectura final.
+Los siete documentos de `docs/antecedentes` proceden del análisis previo del
+proyecto. Se revisaron para armonizar fundamentación, alcance y decisiones con
+la integración actual. Las versiones históricas permanecen en Git. Los diseños
+físicos están en `docs/diseno`; el [estado de validación](estado_validacion.md)
+identifica los resultados ejecutados y sus commits. La explicación teórica no
+se utiliza como prueba de una configuración distribuida que no está desplegada.
 
 No se incorporan credenciales, archivos internos de bases ni CSV masivos. Los datos personales de jugadores son sintéticos.
 
@@ -71,4 +79,3 @@ los volúmenes del contenedor histórico.
 Se fija `postgres:18.7-alpine3.24`, `psycopg[binary]==3.3.9` y
 `psycopg-pool==3.3.3`. PostgreSQL es una
 proyección analítica reconstruible y no participa de la transacción oficial.
-

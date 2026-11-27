@@ -14,3 +14,14 @@ confirmación de un evento oficial.
 La contraseña se genera localmente en `.secretos/datamart-password.txt`, no se versiona y
 se monta como secreto de Docker.
 
+
+
+## Ejecución y límites
+
+Existen registros Docker, falla controlada, comparación sin/con pool y carga
+mixta. La comparación usa un partido y no prueba una ventaja general de escala.
+El UPSERT no elimina de forma general hechos ausentes en un snapshot posterior;
+la reconciliación de correcciones ya materializadas requiere tratamiento específico.
+
+Ver [modelo físico](../docs/diseno/06_7_modelo_fisico_datamart.md) y
+[estado de validación](../docs/estado_validacion.md).

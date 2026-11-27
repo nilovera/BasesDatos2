@@ -1,54 +1,53 @@
-# Paso 8 — API y observabilidad inicial
+# API y observabilidad de la integración
 
-## Decisión
+## Responsabilidad
 
-El primer recorrido ejecutable usa FastAPI y PyMongo. MongoDB sigue siendo la
-fuente oficial: una única transacción actualiza el partido, inserta el evento e
-inserta la Outbox. Cassandra, Redis, InfluxDB y Neo4j serán proyecciones o
-servicios especializados y no confirmarán el hecho deportivo.
+FastAPI coordina contratos HTTP y servicios especializados. MongoDB confirma
+el hecho deportivo; Cassandra conserva comentarios y auditoría; InfluxDB,
+telemetría; Redis, temporales; Neo4j, recorridos; Data Mart, analítica batch.
+El contrato de la API del incremento 15 tiene versión 0.10.0.
 
-## Idempotencia
+La escritura de eventos confirma agregado, hecho y Outbox en una transacción.
+La entrega de auditoría oficial se agrega en esa misma transacción. Outbox
+actualiza Redis y Neo4j de manera eventual. Los comentarios y la telemetría
+no se presentan como copias oficiales del resultado deportivo.
 
-La API calcula SHA-256 sobre método, ruta, partido y JSON canónico. La clave y
-el hash quedan almacenados dentro del evento.
+## Salud y métricas
 
-| Caso | Resultado |
-|---|---|
-| Clave nueva | `201`, evento y Outbox creados |
-| Misma clave y body | `200`, respuesta original, sin nueva escritura |
-| Misma clave y otro body | `409 IDEMPOTENCY_KEY_REUSED` |
-| Conflicto concurrente | reintento transaccional o `409 VERSION_CONFLICT` |
+`/health` informa disponibilidad por dependencia y estado degradado cuando
+corresponde. Una API viva puede no estar en condiciones de confirmar un evento.
+Prometheus recolecta la API, el worker Outbox, Redis Exporter, InfluxDB y sus
+propias métricas. MongoDB también aporta métricas nativas mediante un collector
+de la API que consulta `serverStatus` y `dbStats`.
 
-El contador global produce IDs `EVE-000001`. La secuencia por partido y la
-versión del agregado se incrementan dentro de la misma transacción.
+Grafana utiliza provisioning versionado. El panel vigente prioriza API y los
+cinco motores operacionales; las métricas de Outbox y Data Mart continúan
+disponibles aunque no todas tengan un panel visible. El dashboard usa
+Prometheus; no se afirma que consulte directamente InfluxDB.
 
-## Observabilidad
+Los indicadores incluyen latencia, errores, volumen, operaciones de dominio,
+disponibilidad y convergencia. La latencia de Prometheus es una estimación del
+histograma en una ventana; los percentiles del generador de carga se calculan
+sobre sus solicitudes. No son muestras intercambiables.
 
-Prometheus consulta `/metrics` cada cinco segundos. Grafana recibe la fuente y
-el dashboard mediante provisioning versionado. La primera vista incluye:
+## Logs y auditoría
 
-- disponibilidad de la API;
-- solicitudes por segundo;
-- latencia HTTP p95;
-- errores 5xx;
-- eventos confirmados por tipo;
-- profundidad pendiente de Outbox.
+El incremento 15 añade logs HTTP estructurados y un historial de acciones
+confirmadas por actor/recurso y día. Los rechazos quedan en los logs técnicos;
+no se atribuye a la auditoría una cobertura universal de accesos o fallos.
+Las sesiones siguen siendo de laboratorio, con consulta de historial limitada
+a una sesión ADMIN de ese entorno.
 
-InfluxDB no reemplazará a Prometheus: InfluxDB guardará telemetría deportiva;
-Prometheus, indicadores técnicos del sistema. Grafana podrá consultar ambos.
+## Evidencia y límites
 
-## Seguridad de laboratorio
+La plataforma posee verificaciones Docker, fallas controladas y pruebas de
+lectura. Humo y normal cumplieron sus SLO locales; estrés alcanzó 79,932 req/s.
+La auditoría tiene pruebas unitarias y una ejecución HTTP real con resultado OK.
+Los logs técnicos HTTP se observan en Docker; el historial de acciones se
+consulta en Cassandra. Son registros con finalidades y almacenamiento diferentes.
+Ver [estado de validación](../estado_validacion.md).
 
-Los puertos se enlazan a `127.0.0.1`. No hay autenticación MongoDB ni TLS en
-este incremento. Grafana utiliza una credencial local reemplazable. Estas
-decisiones reducen fricción para la demostración y no representan un despliegue
-productivo.
-
-## Limitaciones declaradas
-
-- MongoDB tiene un solo miembro: transacciones sin tolerancia a caída del nodo.
-- La API usa un worker; el escalado se decidirá después de medir.
-- La participación se valida por plantel activo, todavía no por intervalo exacto.
-- La Outbox posee un consumidor Redis con lease, reintentos y deduplicación;
-  otros destinos solo se agregarán cuando exista una vista derivada justificada.
-- El dashboard no demuestra por sí solo un SLO.
+La API usa una instancia local. Los puertos se publican en loopback; no hay
+autenticación MongoDB de producción ni TLS en esta configuración. La validación
+manual de participación no reconstruye todos los intervalos históricos. Estos
+límites no se confunden con ausencia de ejecución de la integración existente.

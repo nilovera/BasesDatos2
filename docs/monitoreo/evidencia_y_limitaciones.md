@@ -1,48 +1,56 @@
 # Evidencia, trazabilidad y limitaciones
 
-Cada ejecucion debe registrar como minimo: fecha, commit, rama, escenario,
-estado de contenedores, resultado de pruebas y consultas relevantes. Las
-capturas deben indicar la misma ventana temporal que los archivos de la
-ejecucion.
+Cada ejecución conserva fecha, commit, rama, escenario, estado de servicios y
+resultados pertinentes. `capturar_evidencia.ps1` exige por defecto árbol Git
+limpio, separa stdout/stderr y genera un manifiesto SHA-256. Las capturas
+visuales, cuando existen, deben corresponder a la misma ventana de medición.
 
-`capturar_evidencia.ps1` exige por defecto un árbol Git limpio, ejecuta las
-verificaciones mediante procesos con stdout y stderr separados y genera un
-manifiesto SHA-256. Esto evita que la salida informativa de `unittest` sea
-interpretada como error por Windows PowerShell 5.1.
+## Interpretación de estados
 
-## Clasificacion obligatoria
+- Implementado: existe código o configuración revisable.
+- Ejecutado: hay registro de la ejecución identificada.
+- Medido: se obtuvo un indicador con método y escenario conocidos.
+- Objetivo: valor deseado; no constituye un resultado observado.
+- Limitación: condición que restringe el alcance de una conclusión.
 
-- **Implementado:** existe configuracion o codigo versionado.
-- **Medido:** una ejecucion identificada produjo el valor observado.
-- **Objetivo:** valor que se pretende alcanzar; no es un resultado.
-- **Estimado:** aproximacion que requiere validacion.
-- **No obtenido:** la medicion fallo o el componente todavia no existe.
+Las verificaciones Docker, fallas, carga, comparación analítica y simulación
+están registradas en el [estado de validación](../estado_validacion.md).
+No corresponde mantenerlas como ejecuciones futuras. Cada evidencia se
+interpreta con el commit que identifica, sin transferirla automáticamente a
+modificaciones posteriores.
 
-## Seguridad de la evidencia
+## Cobertura del monitoreo
 
-No se versionan variables de entorno completas, tokens, contraseñas, cadenas
-de conexion con credenciales ni archivos `.env`. Antes del commit se revisan
-los JSON, TXT y capturas generados. La contraseña local predeterminada de
-Grafana es solo de laboratorio y debe cambiarse si el entorno deja de ser
-local.
+MongoDB aporta salud funcional y métricas nativas `serverStatus`/`dbStats`
+mediante un collector en la API. Redis tiene exporter; InfluxDB, target directo.
+Cassandra, Neo4j y Data Mart tienen salud y contadores funcionales, sin colección
+completa de métricas internas. Prometheus conserva siete días en el laboratorio.
 
-## Limitaciones actuales
+Outbox proyecta Redis y Neo4j. Sus métricas conservan la etiqueta histórica
+`consumer="redis"`. La auditoría nueva usa una cola y un relay independientes;
+no se afirma que las reglas Outbox midan su retraso.
 
-- MongoDB se observa indirectamente mediante la API; falta su exporter. La
-  caída controlada verifica estado degradado, métrica y alerta específicas.
-- Cassandra forma parte del entorno y expone salud funcional desde la API; las métricas JMX internas quedan pendientes para el escenario RF=3.
-- InfluxDB ya forma parte del entorno, con target directo y falla controlada;
-  todavía falta ejecutar y versionar su evidencia sobre el equipo del grupo.
-- Neo4j forma parte del entorno mediante salud funcional y contadores de API;
-  no expone métricas internas ni clustering en Community Edition.
-- El Data Mart usa salud funcional y contadores de API; falta exporter de PostgreSQL
-  y una medición con volumen suficiente para cerrar Hito 12.
-- Redis es standalone: RDB/AOF permiten recuperacion local, no alta disponibilidad.
-- La Outbox tiene un solo worker y proyecta solamente a Redis. La deduplicación
-  es durable dentro del mismo Redis mediante AOF/RDB, pero no reemplaza una
-  réplica ni un broker distribuido.
-- No hay resultados de capacidad, SLO, RPO ni RTO.
-- Las alertas no tienen todavia un canal externo de notificacion.
-- Un replica set MongoDB de un miembro no demuestra alta disponibilidad.
-- Las ejecuciones finales y capturas de Grafana todavía deben generarse sobre
-  un commit limpio y luego versionarse sin secretos.
+## Límites comprobables
+
+- MongoDB de un miembro, Cassandra RF=1 y demás motores de un nodo: sin HA real.
+- Redis RDB/AOF permite persistencia local, sin sustituir réplica o backup externo.
+- Existen mediciones de lectura y cumplimiento de SLO locales; no hay capacidad
+  máxima determinada, SLA contractual ni disponibilidad anual medida.
+- No hay RPO/RTO medido ni restauración integral ante pérdida del host.
+- Data Mart tiene comparaciones pequeñas y carga mixta; no una conclusión de
+  ventaja a gran volumen ni reconciliación completa de correcciones ya cargadas.
+- Las alertas locales se activaron en fallas controladas; no existe un canal
+  externo de notificación configurado.
+- No se conserva una captura de Grafana para cada ventana y cada prueba.
+- El front tiene evidencia de respuestas; no una validación visual automatizada integral.
+- La auditoría tiene resultado HTTP integrado OK, además de validación
+  unitaria. El JSON original no capturó el SHA de ejecución; la procedencia
+  complementaria identifica la base y los hashes observados posteriormente.
+  La prueba no mide capacidad ni replicación.
+
+## Protección de la evidencia
+
+No se versionan tokens, sesiones, contraseñas, archivos `.env` ni volcados del
+entorno. Se revisan JSON, textos y capturas antes de incorporarlos. Los logs no
+incluyen cuerpos completos. El historial distingue identidad declarada de una
+sesión de laboratorio y no se presenta como autenticación real o almacenamiento WORM.

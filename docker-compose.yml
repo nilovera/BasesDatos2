@@ -50,7 +50,8 @@ services:
         mongosh --quiet 'mongodb://mongo:27017/?directConnection=true' /opt/fixture2030/init/00_replica_init.js &&
         mongosh --quiet 'mongodb://mongo:27017/?replicaSet=rs0' /opt/fixture2030/init/01_schema.js &&
         mongosh --quiet 'mongodb://mongo:27017/?replicaSet=rs0' /opt/fixture2030/init/02_seed_catalogo.js &&
-        mongosh --quiet 'mongodb://mongo:27017/?replicaSet=rs0' /opt/fixture2030/init/03_verify.js
+        mongosh --quiet 'mongodb://mongo:27017/?replicaSet=rs0' /opt/fixture2030/init/03_verify.js &&
+        mongosh --quiet 'mongodb://mongo:27017/?replicaSet=rs0' /opt/fixture2030/init/04_audit_schema.js
     restart: "no"
 
   redis:
@@ -124,7 +125,8 @@ services:
     command:
       - |
         /opt/cassandra/bin/cqlsh cassandra 9042 -f /opt/fixture2030/init/01_schema.cql &&
-        /opt/cassandra/bin/cqlsh cassandra 9042 -f /opt/fixture2030/init/02_verify.cql
+        /opt/cassandra/bin/cqlsh cassandra 9042 -f /opt/fixture2030/init/02_verify.cql &&
+        /opt/cassandra/bin/cqlsh cassandra 9042 -f /opt/fixture2030/init/03_audit_schema.cql
     restart: "no"
 
   influxdb-permissions:
